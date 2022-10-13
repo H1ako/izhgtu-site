@@ -1,0 +1,23 @@
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: var(--heightHeader);
+  background: var(--colorBgAccent);
+  padding-inline: 1rem;
+  z-index: var(--zIndexHeader);
+
+  .content {
+    width: var(--widthContent);
+    margin-inline: auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .search {
+      margin-left: auto;
+    }
+  }
+}

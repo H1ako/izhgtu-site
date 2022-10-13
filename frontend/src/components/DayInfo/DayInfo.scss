@@ -1,0 +1,33 @@
+.day-info {
+  $gap: 2rem;
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: $gap;
+  height: 100%;
+
+  &__part {
+    height: 100%;
+    font-weight: bold;
+    display: grid;
+    place-content: center;
+    text-align: center;
+    width: 8rem;
+    text-transform: uppercase;
+
+    &:not(:last-child) {
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        right: calc($gap / 2 * -1);
+        top: 10%;
+        height: 80%;
+        width: 1px;
+        background: var(--colorText);
+      }
+    }
+  }
+}

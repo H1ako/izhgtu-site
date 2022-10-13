@@ -1,0 +1,29 @@
+@mixin clearedInput {
+  outline: none;
+  border: none;
+  color: var(--colorText);
+}
+
+@mixin btn($bgColor: var(--colorBgAccentLight)) {
+  outline: none;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .5rem;
+  padding: var(--paddingBtn);
+  border-radius: var(--bdrsBtn);
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: var(--fontSize4);
+  background: $bgColor;
+  color: var(--colorText);
+}
+
+@mixin btnMain {
+  @include btn(var(--colorMain));
+}
+
+@mixin btnAccent {
+  @include btn(var(--colorAccent));
+}

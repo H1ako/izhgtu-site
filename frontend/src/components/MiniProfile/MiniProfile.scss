@@ -1,0 +1,8 @@
+@import "../../mixins";
+
+.mini-profile {
+
+  &__btn {
+    @include btnAccent;
+  }
+}
