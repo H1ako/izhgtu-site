@@ -1,0 +1,31 @@
+@import "../../mixins";
+
+.accessibility-menu {
+
+  &__btn {
+
+  }
+
+  &__menu {
+
+    .menu__header {
+      .header__close-btn {
+
+      }
+
+      .header__heading {
+
+      }
+
+      .header__btns {
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+
+        .btns__btn {
+          @include btnAccent;
+        }
+      }
+    }
+  }
+}

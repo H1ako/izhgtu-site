@@ -17,6 +17,21 @@
     place-content: center;
     background: var(--colorWindowAreaBg) ;
 
+    .area__close-btn {
+      $margin: 1rem;
+
+      @include clearedBtn;
+
+      position: absolute;
+      top: $margin;
+      right: $margin;
+      text-transform: uppercase;
+      font-weight: bold;
+      color: var(--colorAccent);
+      background: none;
+      font-size: var(--fontSize3);
+    }
+
     .area__input {
       @include clearedInput;
 

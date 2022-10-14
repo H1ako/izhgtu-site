@@ -10,9 +10,15 @@
   font-size: var(--fontSize4);
 }
 
-@mixin btn($bgColor: var(--colorBgAccentLight)) {
+@mixin clearedBtn {
   outline: none;
   border: none;
+  cursor: pointer;
+}
+
+@mixin btn($bgColor: var(--colorBgAccentLight)) {
+  @include clearedBtn;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,7 +30,12 @@
   font-size: var(--fontSize4);
   background: $bgColor;
   color: var(--colorText);
-  cursor: pointer;
+  transition: var(--transitionDefault);
+
+  &:hover,
+  &:focus-within {
+    filter: brightness(1.125);
+  }
 }
 
 @mixin btnMain {

@@ -23,7 +23,7 @@ function Search() {
       </button>
       { isActive &&
         <div className="search__area">
-          <button className='area__close-btn'>close</button>
+          <button className='area__close-btn' onClick={() => setIsActive(false)}>close</button>
           <input
             autoFocus={true}
             value={query}

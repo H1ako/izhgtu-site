@@ -5,6 +5,7 @@ import './PageLayout.scss';
 // components
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
+import AccessibilityMenu from "../../components/AccessibilityMenu/AccessibilityMenu";
 
 interface Props {
     children: React.ReactNode
@@ -12,11 +13,12 @@ interface Props {
 
 function PageLayout({ children }: Props) {
   return (
-      <>
-          <Header />
-          {children}
-          <Footer />
-      </>
+    <>
+      <Header />
+      {children}
+      <AccessibilityMenu />
+      <Footer />
+    </>
   )
 }
 

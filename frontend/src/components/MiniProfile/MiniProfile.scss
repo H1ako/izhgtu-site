@@ -22,7 +22,8 @@
     transition: var(--transitionDefault);
     cursor: pointer;
 
-    &:hover {
+    &:hover,
+    &:focus-within {
       background-color: var(--colorBgAccentLight);
     }
 
@@ -142,7 +143,8 @@
           transition: var(--transitionDefault);
           border-radius: var(--bdrsBtn);
 
-          &:hover {
+          &:hover,
+          &:focus-within {
             background-color: var(--colorBgAccentLight);
 
             a {
