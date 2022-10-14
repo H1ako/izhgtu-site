@@ -4,6 +4,12 @@
   color: var(--colorText);
 }
 
+@mixin clearedLink {
+  text-decoration: none;
+  color: var(--colorText);
+  font-size: var(--fontSize4);
+}
+
 @mixin btn($bgColor: var(--colorBgAccentLight)) {
   outline: none;
   border: none;
@@ -18,6 +24,7 @@
   font-size: var(--fontSize4);
   background: $bgColor;
   color: var(--colorText);
+  cursor: pointer;
 }
 
 @mixin btnMain {
@@ -26,4 +33,27 @@
 
 @mixin btnAccent {
   @include btn(var(--colorAccent));
+}
+
+@mixin image($borderColor: var(--colorText)) {
+  border-radius: 50%;
+  border: 2px solid $borderColor;
+  aspect-ratio: 1;
+  background-color: var(--colorText);
+  object-fit: cover;
+  object-position: center;
+}
+
+@mixin separator($gap: 1rem, $color: var(--colorText)) {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: calc(100% + $gap / 2);
+    height: 1px;
+    background: $color;
+    width: 110%;
+    left: -5%;
+  }
 }

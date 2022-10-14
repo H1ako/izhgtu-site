@@ -9,25 +9,32 @@ function Search() {
   const [ isActive, setIsActive ] = React.useState<boolean>(false)
   const [ query, setQuery ] = React.useState<string>('')
 
+  const closeWindow = (e: React.KeyboardEvent) => {
+    if (!isActive || e.key !== 'Escape') return
+
+    setIsActive(false)
+  }
+
   return (
-      <div className="search">
-        <button className="search__btn" onClick={() => setIsActive(state => !state)}>
-          <FontAwesomeIcon icon={faMagnifyingGlass} />
-          Search
-        </button>
-        { isActive &&
-          <div className="search__area" onKeyUp={console.log}>
-            <input
-                autoFocus={true}
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                type="search"
-                className="area__input"
-                placeholder="Введите запрос..."
-            />
-          </div>
-        }
-      </div>
+    <div className="search" onKeyUp={closeWindow}>
+      <button className="search__btn" onClick={() => setIsActive(state => !state)}>
+        <FontAwesomeIcon icon={faMagnifyingGlass} />
+        Search
+      </button>
+      { isActive &&
+        <div className="search__area">
+          <button className='area__close-btn'>close</button>
+          <input
+            autoFocus={true}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            type="search"
+            className="area__input"
+            placeholder="Введите запрос..."
+          />
+        </div>
+      }
+    </div>
   )
 }
 

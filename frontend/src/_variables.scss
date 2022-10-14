@@ -6,6 +6,10 @@
   --fontSize2: clamp(1.5rem, 4vw, 2rem);
   --fontSize1: clamp(2rem, 5vw, 2.75rem);
 
+  // transition
+  --transitionDefault: 150ms;
+  --transitionBig: 300ms;
+
   // color
   --colorText: #E8E6E3;
   --colorTextDark: #BDB7AF;
