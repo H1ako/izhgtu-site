@@ -16,14 +16,14 @@ function MiniProfile() {
             <h4 className="info__part info__name">Соболев Никита</h4>
             <h5 className="info__part info__group">Д22-021-1</h5>
           </div>
-          <img src="/static/ava.png" alt="" className="user__picture"/>
+          <img src="/assets/ava.png" alt="" className="user__picture"/>
           <FontAwesomeIcon icon={faChevronDown} className={`arrow-icon ${isWindowVisible && 'active'}`} />
         </div>
         { isWindowVisible &&
           <div className="mini-profile__window">
             <div className="window__profile-bg">
-              <img src="/static/ava.png" alt="" className="profile-bg__user-picture"/>
-              <img src="/static/user-bg.jpg" alt="" className="profile-bg__user-bg"/>
+              <img src="/assets/ava.png" alt="" className="profile-bg__user-picture"/>
+              <img src="/assets/user-bg.jpg" alt="" className="profile-bg__user-bg"/>
               <ul className="profile-bg__roles">
                 <li className="roles__role">Д22-021-1</li>
                 <li className="roles__role">Отличник</li>

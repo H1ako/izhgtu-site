@@ -4,9 +4,21 @@ import React from 'react'
 import './AccessibilityMenu.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGear, faXmark, faRepeat, faEyeSlash} from "@fortawesome/free-solid-svg-icons";
+import Select, {ISelectOption} from "../Select/Select";
+import languages from '../../languages.json'
+
 
 function AccessibilityMenu() {
   const [ isMenuVisible, setIsMenuVisible ] = React.useState<boolean>(false)
+  const languagesOption = languages.filter(language => language.active).map(language => {
+    const option: ISelectOption = {
+      value: language.code,
+      text: language.name,
+      icon: language.icon
+    }
+    return option
+  })
+  console.log(languagesOption)
   
   return (
     <div className="accessibility-menu">
@@ -37,12 +49,7 @@ function AccessibilityMenu() {
           <div className="settings__setting">
             <span className="setting__name">Язык: </span>
             <span className="setting__value">
-              <select name="language" id="" className="value__selector">
-                <option value="russian">
-                  <img src="/static/svg/flags/ru.svg" alt=""/>
-                  Русский
-                </option>
-              </select>
+              <Select options={languagesOption} defaultValue="ru" name="language" />
             </span>
           </div>
         </div>

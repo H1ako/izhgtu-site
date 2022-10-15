@@ -1,0 +1,46 @@
+@import "../../mixins";
+
+.select-container {
+
+  &__native-select {
+    display: block;
+
+    @media (hover: hover) {
+      display: none;
+    }
+  }
+
+  &__select {
+    display: none;
+    
+    @media (hover: hover) {
+      display: flex;
+    }
+
+    .select__value {
+      @include clearedBtn;
+
+      background: none;
+    }
+
+    .select__options {
+      
+      .options__option {
+
+        .option__btn {
+          @include clearedBtn;
+
+          //background: none;
+
+          .btn__icon {
+
+          }
+
+          .btn__text {
+
+          }
+        }
+      }
+    }
+  }
+}
