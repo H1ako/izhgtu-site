@@ -2,29 +2,35 @@
 import React from 'react'
 // styles and icons
 import './Select.scss';
+import ModalLayout from "../../containers/ModalLayout/ModalLayout";
 
-export type SelectOptionValue = number | string
+export type SelectOptionValueType = number | string
 
 export interface ISelectOption {
   icon?: string,
   text?: string,
-  value: SelectOptionValue,
+  value: SelectOptionValueType,
 }
 
 interface Props {
   options: ISelectOption[],
-  defaultValue?: SelectOptionValue,
+  defaultValue?: SelectOptionValueType,
   name: string,
 }
 
 function Select({options, defaultValue, name}: Props) {
-  const [ currentValue, setCurrentValue ] = React.useState<SelectOptionValue | undefined>(defaultValue)
+  const [ currentValue, setCurrentValue ] = React.useState<SelectOptionValueType | undefined>(defaultValue)
   const [ currentOption, setCurrentOption ] = React.useState<ISelectOption | undefined>(undefined)
   const [ areOptionsVisible, setAreOptionsVisible ] = React.useState<boolean>(false)
   
   React.useEffect(() => {
     setCurrentOption(options.find(option => option.value === currentValue))
   }, [currentValue])
+  
+  const updateValue = (value: SelectOptionValueType) => {
+    setCurrentValue(value)
+    setAreOptionsVisible(false)
+  }
   
   return (
     <div className="select-container">
@@ -34,21 +40,28 @@ function Select({options, defaultValue, name}: Props) {
         ))}
       </select>
       <div className="select-container__select">
-        <button className="select__value" id="select-label" onClick={() => setAreOptionsVisible(state => !state)}>{currentOption?.text}</button>
-        <ul className="select__options" aria-hidden="true">
-          {options.map(option => (
-            <li key={option.value} aria-selected={defaultValue === option.value} className="options__option">
-              <button className="option__btn" onClick={() => setCurrentValue(option.value)}>
-                {option.icon &&
-                  <img src={option.icon} alt="" className="option__icon"/>
-                }
-                {option.text &&
-                  <span className="option__text">{option.text}</span>
-                }
-              </button>
-            </li>
-          ))}
-        </ul>
+        <button className="select__value" id="select-label" onClick={() => setAreOptionsVisible(state => !state)}>
+          <img src={currentOption?.icon} alt="" className="select__icon value__icon"/>
+          <span className="value__text">{currentOption?.text}</span>
+        </button>
+        { areOptionsVisible &&
+          <ModalLayout onClose={() => setAreOptionsVisible(false)}>
+            <ul className="select-modal__options" aria-hidden="true">
+              {options.map(option => (
+                <li key={option.value} aria-selected={defaultValue === option.value} className="options__option">
+                  <button disabled={option.value === currentValue} className="option__btn" onClick={() => updateValue(option.value)}>
+                    {option.icon &&
+                      <img src={option.icon} alt="" className="select__icon btn__icon"/>
+                    }
+                    {option.text &&
+                      <span className="btn__text">{option.text}</span>
+                    }
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </ModalLayout>
+        }
       </div>
     </div>
   )

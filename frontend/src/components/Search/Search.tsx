@@ -4,6 +4,8 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import './Search.scss';
+// components
+import ModalAreaLayout from "../../containers/ModalAreaLayout/ModalAreaLayout";
 
 function Search() {
   const [ isActive, setIsActive ] = React.useState<boolean>(false)
@@ -22,17 +24,16 @@ function Search() {
         Search
       </button>
       { isActive &&
-        <div className="search__area">
-          <button className='area__close-btn' onClick={() => setIsActive(false)}>close</button>
+        <ModalAreaLayout onClose={() => setIsActive(false)}>
           <input
             autoFocus={true}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             type="search"
-            className="area__input"
+            className="search__input"
             placeholder="Введите запрос..."
           />
-        </div>
+        </ModalAreaLayout>
       }
     </div>
   )

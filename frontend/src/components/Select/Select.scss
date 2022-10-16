@@ -12,32 +12,50 @@
 
   &__select {
     display: none;
-    
+
     @media (hover: hover) {
       display: flex;
     }
 
-    .select__value {
-      @include clearedBtn;
+    .select__icon {
+      @include icon;
 
-      background: none;
     }
 
-    .select__options {
-      
+    .select__value {
+      @include btn;
+
+      background: var(--colorBgAccentLight);
+
+      .value__text {
+
+      }
+
+      .value__icon {
+
+      }
+    }
+
+    .select-modal__options {
+      width: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+
       .options__option {
 
         .option__btn {
-          @include clearedBtn;
+          @include btn;
+
+          width: 100%;
 
           //background: none;
 
           .btn__icon {
-
           }
 
           .btn__text {
-
           }
         }
       }

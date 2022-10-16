@@ -1,29 +1,104 @@
 @import "../../mixins";
 
 .accessibility-menu {
+  $margin: 1rem;
+
+  position: fixed;
+  bottom: $margin;
+  right: $margin;
+
+  &.hidden {
+    display: none;
+  }
 
   &__btn {
+    @include iconBtn(var(--fontSize3-4));
 
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: var(--colorMain);
+    border: 2px solid var(--colorBgAccentLight);
+    border-radius: var(--bdrsBtnRounded);
+    padding: .8em;
   }
 
   &__menu {
+    $padding: 1rem 2rem;
+
+    background: var(--colorBgAccent);
+    border-radius: var(--bdrsWindow);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: min(450px, calc(100vw - $margin * 2));
+    height: min(700px, 95vh);
+    border: 2px solid var(--colorMain);
 
     .menu__header {
-      .header__close-btn {
+      position: relative;
+      padding: $padding;
+      background: var(--colorMain);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
 
+      .header__close-btn {
+        $headerMargin: .5rem;
+        @include clearedBtn($fontSize: var(--fontSize2));
+
+        position: absolute;
+        top: $headerMargin;
+        right: $headerMargin;
+        align-self: flex-end;
+        background: none;
+        color: var(--colorAccent)
       }
 
       .header__heading {
-
+        @include textWithIcon;
       }
 
       .header__btns {
-        display: flex;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         align-items: center;
         gap: .5rem;
 
         .btns__btn {
           @include btnAccent;
+        }
+      }
+    }
+
+    .menu__settings {
+      $gap: 1.5rem;
+
+      display: flex;
+      flex-direction: column;
+      padding: $padding;
+      gap: $gap;
+      height: 100%;
+      overflow-y: auto;
+
+      .settings__setting {
+        display: grid;
+        align-items: center;
+        grid-template-columns: max-content 1fr;
+        gap: 1rem;
+
+        &:not(:last-child) {
+          @include separator($gap);
+        }
+
+        .setting__name {
+          font-size: var(--fontSize3-4);
+        }
+
+        .setting__value {
+          display: flex;
+          justify-content: flex-end;
         }
       }
     }

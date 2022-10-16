@@ -2,19 +2,19 @@
   {
     "name": "Русский",
     "code": "ru",
-    "icon": "/static/svg/flags/ru.svg",
+    "icon": "/assets/svg/flags/ru.svg",
     "active": true
   },
   {
     "name": "English",
     "code": "en",
-    "icon": "/static/svg/flags/en.svg",
+    "icon": "/assets/svg/flags/gb.svg",
     "active": true
   },
   {
     "name": "English US",
     "code": "us",
-    "icon": "/static/svg/flags/us.svg",
+    "icon": "/assets/svg/flags/us.svg",
     "active": false
   }
 ]

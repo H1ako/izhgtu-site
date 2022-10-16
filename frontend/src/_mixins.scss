@@ -10,32 +10,57 @@
   font-size: var(--fontSize4);
 }
 
-@mixin clearedBtn {
+@mixin clearedBtn($fontSize: var(--fontSize4)) {
   outline: none;
   border: none;
   cursor: pointer;
+  color: var(--colorText);
+  font-size: $fontSize;
+
+  &:not(:disabled) {
+    &:hover,
+    &:focus-within {
+      filter: brightness(1.125);
+    }
+  }
 }
 
-@mixin btn($bgColor: var(--colorBgAccentLight)) {
+@mixin iconBtn($fontSize: var(--fontSize4)) {
+  @include clearedBtn($fontSize);
+
+  display: grid;
+  place-content: center;
+}
+
+@mixin btn($bgColor: var(--colorBgAccentLight), $padding: var(--paddingBtn)) {
   @include clearedBtn;
 
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: .5rem;
-  padding: var(--paddingBtn);
+  gap: .5em;
+  padding: $padding;
   border-radius: var(--bdrsBtn);
   font-weight: bold;
   text-transform: uppercase;
-  font-size: var(--fontSize4);
   background: $bgColor;
-  color: var(--colorText);
   transition: var(--transitionDefault);
 
-  &:hover,
-  &:focus-within {
-    filter: brightness(1.125);
+  &:disabled {
+    background: var(--colorMainDark);
   }
+}
+
+@mixin textWithIcon($gap: .5rem) {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  text-align: center;
+}
+
+@mixin icon {
+  width: 2rem;
+  border-radius: var(--bdrsBtn);
 }
 
 @mixin btnMain {

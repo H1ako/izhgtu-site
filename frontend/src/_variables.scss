@@ -2,6 +2,7 @@
   // font-size
   --fontSize5: clamp(.6rem, 1.5vw, .8rem);
   --fontSize4: clamp(.8rem, 2vw, 1.1rem);
+  --fontSize3-4: clamp(1rem, 2.5vw, 1.35rem);
   --fontSize3: clamp(1.1rem, 3vw, 1.5rem);
   --fontSize2: clamp(1.5rem, 4vw, 2rem);
   --fontSize1: clamp(2rem, 5vw, 2.75rem);
@@ -25,16 +26,17 @@
 
   // border-radius
   --bdrsBtn: 5px;
+  --bdrsBtnRounded: 15px;
   --bdrsWindow: 10px;
 
   // width
-  --widthContent: 1200px;
+  --widthContent: min(1200px, 98vw);
 
   // height
   --heightHeader: 3rem;
 
   // padding
-  --paddingBtn: .5rem 3rem;
+  --paddingBtn: .5em 3em;
 
   // z-index
   --zIndexHeader: 999;

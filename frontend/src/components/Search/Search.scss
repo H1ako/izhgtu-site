@@ -9,37 +9,13 @@
     }
   }
 
-  &__area {
-    position: fixed;
-    inset: 0;
-    z-index: var(--zIndexWindow);
-    display: grid;
-    place-content: center;
-    background: var(--colorWindowAreaBg) ;
+  .search__input {
+    @include clearedInput;
 
-    .area__close-btn {
-      $margin: 1rem;
-
-      @include clearedBtn;
-
-      position: absolute;
-      top: $margin;
-      right: $margin;
-      text-transform: uppercase;
-      font-weight: bold;
-      color: var(--colorAccent);
-      background: none;
-      font-size: var(--fontSize3);
-    }
-
-    .area__input {
-      @include clearedInput;
-
-      width: 90vw;
-      height: 5rem;
-      text-align: center;
-      font-size: var(--fontSize1);
-      background: none;
-    }
+    width: 90vw;
+    height: 5rem;
+    text-align: center;
+    font-size: var(--fontSize1);
+    background: none;
   }
 }
