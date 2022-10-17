@@ -4,14 +4,21 @@ import React from 'react'
 import './AccessibilityMenu.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGear, faXmark, faRepeat, faEyeSlash} from "@fortawesome/free-solid-svg-icons";
+// consts
+import {
+  ANIMATIONS_STOPPED_CLASS,
+  IMAGES_HIDDEN_CLASS,
+  HIGHLITED_FOCUS_CLASS,
+  HIGHLITED_LINKS_CLASS,
+  STANDART_FONT_CLASS,
+  REMOVED_TRANSITIONS_CLASS
+} from "./consts";
+// components
 import Select, {ISelectOption} from "../Select/Select";
-import languages from '../../languages.json'
 import Range from "../Range/Range";
 import Checkbox from "../Checkbox/Checkbox";
-
-const defaultValues = {
-
-}
+// additional
+import languages from '../../languages.json'
 
 
 function AccessibilityMenu() {
@@ -41,49 +48,57 @@ function AccessibilityMenu() {
     const htmlElement = document.querySelector('html')
     if (!htmlElement) return
 
+    
     htmlElement.style.setProperty('--saturation', `${saturation}%`)
   }, [saturation])
   
   React.useEffect(() => {
     const htmlElement = document.querySelector('html')
     if (!htmlElement) return
-
-    htmlElement.style.setProperty('--saturation', `${saturation}%`)
+    
+    if (areLinksHighlighted) htmlElement.classList.add(HIGHLITED_LINKS_CLASS)
+    else htmlElement.classList.remove(HIGHLITED_LINKS_CLASS)
+    
   }, [areLinksHighlighted])
   
   React.useEffect(() => {
     const htmlElement = document.querySelector('html')
     if (!htmlElement) return
 
-    htmlElement.style.setProperty('--saturation', `${saturation}%`)
+    if (isFocusHighlited) htmlElement.classList.add(HIGHLITED_FOCUS_CLASS)
+    else htmlElement.classList.remove(HIGHLITED_FOCUS_CLASS)
   }, [isFocusHighlited])
   
   React.useEffect(() => {
     const htmlElement = document.querySelector('html')
     if (!htmlElement) return
 
-    htmlElement.style.setProperty('--saturation', `${saturation}%`)
+    if (isStandartFont) htmlElement.classList.add(STANDART_FONT_CLASS)
+    else htmlElement.classList.remove(STANDART_FONT_CLASS)
   }, [isStandartFont])
   
   React.useEffect(() => {
     const htmlElement = document.querySelector('html')
     if (!htmlElement) return
 
-    htmlElement.style.setProperty('--saturation', `${saturation}%`)
+    if (areImagesHidden) htmlElement.classList.add(IMAGES_HIDDEN_CLASS)
+    else htmlElement.classList.remove(IMAGES_HIDDEN_CLASS)
   }, [areImagesHidden])
   
   React.useEffect(() => {
     const htmlElement = document.querySelector('html')
     if (!htmlElement) return
 
-    htmlElement.style.setProperty('--saturation', `${saturation}%`)
+    if (areAnimationStopped) htmlElement.classList.add(ANIMATIONS_STOPPED_CLASS)
+    else htmlElement.classList.remove(ANIMATIONS_STOPPED_CLASS)
   }, [areAnimationStopped])
   
   React.useEffect(() => {
     const htmlElement = document.querySelector('html')
     if (!htmlElement) return
 
-    htmlElement.style.setProperty('--saturation', `${saturation}%`)
+    if (areTransitionRemoved) htmlElement.classList.add(REMOVED_TRANSITIONS_CLASS)
+    else htmlElement.classList.remove(REMOVED_TRANSITIONS_CLASS)
   }, [areTransitionRemoved])
   
   return (

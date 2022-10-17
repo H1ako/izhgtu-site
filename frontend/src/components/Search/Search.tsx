@@ -21,7 +21,7 @@ function Search() {
     <div className="search" onKeyUp={closeWindow}>
       <button className="search__btn" onClick={() => setIsActive(state => !state)}>
         <FontAwesomeIcon icon={faMagnifyingGlass} />
-        Search
+        Поиск
       </button>
       { isActive &&
         <ModalAreaLayout onClose={() => setIsActive(false)}>

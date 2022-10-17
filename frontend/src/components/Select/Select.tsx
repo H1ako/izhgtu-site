@@ -25,7 +25,7 @@ function Select({options, value, setValue, name}: Props) {
   
   React.useEffect(() => {
     setCurrentOption(options.find(option => option.value === value))
-  }, [value])
+  }, [value, options])
   
   const updateValue = (value: SelectOptionValueType) => {
     setValue(value)
@@ -48,8 +48,8 @@ function Select({options, value, setValue, name}: Props) {
           <ModalLayout onClose={() => setOptionsVisibility(false)}>
             <ul className="select-modal__options" aria-hidden="true">
               {options.map((option, key) => (
-                <li key={option.value} aria-selected={value === option.value} className="options__option">
-                  <button autoFocus={key == 0} disabled={option.value === value} className="option__btn" onClick={() => updateValue(option.value)}>
+                <li key={option.value} className="options__option">
+                  <button autoFocus={key === 0} disabled={option.value === value} className="option__btn" onClick={() => updateValue(option.value)}>
                     {option.icon &&
                       <img src={option.icon} alt="" className="select__icon btn__icon"/>
                     }

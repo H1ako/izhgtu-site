@@ -6,6 +6,7 @@ function HomePage() {
   return (
       <PageLayout>
         <h5>hello</h5>
+        <a href="">adasda</a>
       </PageLayout>
   )
 }

@@ -22,6 +22,10 @@
   }
 
   &__user {
+    outline: none;
+    border: none;
+    color: var(--colorText);
+    background: none;
     display: flex;
     justify-content: center;
     align-items: center;

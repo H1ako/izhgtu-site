@@ -14,14 +14,14 @@ function MiniProfile() {
       { logged ?
         <div className="mini-profile__logged">
           <button className="mini-profile__btn">Оплата</button>
-          <div className="mini-profile__user" onClick={() => setIsWindowVisible(state => !state)}>
+          <button className="mini-profile__user" onClick={() => setIsWindowVisible(state => !state)}>
             <div className="user__info">
               <h4 className="info__part info__name">Соболев Никита</h4>
               <h5 className="info__part info__group">Д22-021-1</h5>
             </div>
             <img src="/assets/ava.png" alt="" className="user__picture"/>
             <FontAwesomeIcon icon={faChevronDown} className={`arrow-icon ${isWindowVisible && 'active'}`} />
-          </div>
+          </button>
           { isWindowVisible &&
             <div className="mini-profile__window">
               <div className="window__profile-bg">
