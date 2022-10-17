@@ -2,6 +2,7 @@
   outline: none;
   border: none;
   color: var(--colorText);
+  font-size: var(--fontSize4);
 }
 
 @mixin clearedLink {
@@ -20,7 +21,7 @@
   &:not(:disabled) {
     &:hover,
     &:focus-within {
-      filter: brightness(1.125);
+      filter: brightness(var(--brightnessDefault));
     }
   }
 }

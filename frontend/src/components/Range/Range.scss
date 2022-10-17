@@ -21,7 +21,7 @@
     &:focus-within {
       &::-webkit-slider-thumb,
       &::-moz-range-thumb {
-        filter: brightness(1.1);
+        filter: brightness(var(--brightnessDefault));
       }
     }
 
@@ -35,6 +35,7 @@
 
     &::-webkit-slider-thumb,
     &::-moz-range-thumb {
+      transition: var(--transitionDefault);
       width: $thumbSize;
       height: $thumbSize;
       background: var(--colorMain);
@@ -51,6 +52,7 @@
     padding: .25rem;
     height: 100%;
     width: 100%;
+    min-width: 5ch;
     text-align: center;
     -moz-appearance:textfield;
 

@@ -55,6 +55,7 @@ html {
 
       .header__close-btn {
         $headerMargin: .5rem;
+
         @include clearedBtn($fontSize: var(--fontSize2));
 
         position: absolute;
@@ -62,7 +63,8 @@ html {
         right: $headerMargin;
         align-self: flex-end;
         background: none;
-        color: var(--colorAccent)
+        color: var(--colorAccent);
+        transition: var(--transitionDefault);
       }
 
       .header__heading {
@@ -94,7 +96,7 @@ html {
       .settings__setting {
         display: grid;
         align-items: center;
-        grid-template-columns: max-content 1fr;
+        grid-template-columns: 8rem 1fr;
         gap: 1rem;
 
         &:not(:last-child) {
