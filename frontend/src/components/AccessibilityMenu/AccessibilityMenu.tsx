@@ -15,6 +15,7 @@ const defaultValues = {
 function AccessibilityMenu() {
   const [ isMenuVisible, setIsMenuVisible ] = React.useState<boolean>(false)
   const [ isHidden, setIsHidden ] = React.useState<boolean>(false)
+  const [ currentLanguage, setCurrentLanguage ] = React.useState<string>('ru')
   const languagesOption = languages.filter(language => language.active).map(language => {
     const option: ISelectOption = {
       value: language.code,
@@ -56,13 +57,13 @@ function AccessibilityMenu() {
             <div className="settings__setting">
               <span className="setting__name">Язык: </span>
               <span className="setting__value">
-                <Select options={languagesOption} defaultValue="ru" name="language" />
+                <Select options={languagesOption} value={currentLanguage} setValue={setCurrentLanguage} name="language" />
               </span>
             </div>
             <div className="settings__setting">
               <span className="setting__name">Насыщенность: </span>
               <span className="setting__value">
-                <Select options={languagesOption} defaultValue="ru" name="language" />
+                <Select options={languagesOption} value={currentLanguage} setValue={setCurrentLanguage} name="language" />
               </span>
             </div>
           </div>

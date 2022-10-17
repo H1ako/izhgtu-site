@@ -4,7 +4,7 @@ import React from 'react'
 import './Select.scss';
 import ModalLayout from "../../containers/ModalLayout/ModalLayout";
 
-export type SelectOptionValueType = number | string
+export type SelectOptionValueType = string
 
 export interface ISelectOption {
   icon?: string,
@@ -14,27 +14,27 @@ export interface ISelectOption {
 
 interface Props {
   options: ISelectOption[],
-  defaultValue?: SelectOptionValueType,
+  value: SelectOptionValueType,
+  setValue: (newValue: SelectOptionValueType) => void,
   name: string,
 }
 
-function Select({options, defaultValue, name}: Props) {
-  const [ currentValue, setCurrentValue ] = React.useState<SelectOptionValueType | undefined>(defaultValue)
+function Select({options, value, setValue, name}: Props) {
   const [ currentOption, setCurrentOption ] = React.useState<ISelectOption | undefined>(undefined)
   const [ areOptionsVisible, setAreOptionsVisible ] = React.useState<boolean>(false)
   
   React.useEffect(() => {
-    setCurrentOption(options.find(option => option.value === currentValue))
-  }, [currentValue])
+    setCurrentOption(options.find(option => option.value === value))
+  }, [value])
   
   const updateValue = (value: SelectOptionValueType) => {
-    setCurrentValue(value)
+    setValue(value)
     setAreOptionsVisible(false)
   }
   
   return (
     <div className="select-container">
-      <select className="select-container__native-select" value={currentValue} onChange={e => setCurrentValue(e.target.value)} name={name} id={`${name}-select`}>
+      <select className="select-container__native-select" value={value} onChange={e => setValue(e.target.value)} name={name} id={`${name}-select`}>
         {options.map(option => (
           <option value={option.value} key={option.value}>{option.text}</option>
         ))}
@@ -48,8 +48,8 @@ function Select({options, defaultValue, name}: Props) {
           <ModalLayout onClose={() => setAreOptionsVisible(false)}>
             <ul className="select-modal__options" aria-hidden="true">
               {options.map(option => (
-                <li key={option.value} aria-selected={defaultValue === option.value} className="options__option">
-                  <button disabled={option.value === currentValue} className="option__btn" onClick={() => updateValue(option.value)}>
+                <li key={option.value} aria-selected={value === option.value} className="options__option">
+                  <button disabled={option.value === value} className="option__btn" onClick={() => updateValue(option.value)}>
                     {option.icon &&
                       <img src={option.icon} alt="" className="select__icon btn__icon"/>
                     }
