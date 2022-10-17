@@ -21,7 +21,7 @@ interface Props {
 
 function Select({options, value, setValue, name}: Props) {
   const [ currentOption, setCurrentOption ] = React.useState<ISelectOption | undefined>(undefined)
-  const [ areOptionsVisible, setAreOptionsVisible ] = React.useState<boolean>(false)
+  const [ areOptionsVisible, setOptionsVisibility ] = React.useState<boolean>(false)
   
   React.useEffect(() => {
     setCurrentOption(options.find(option => option.value === value))
@@ -29,27 +29,27 @@ function Select({options, value, setValue, name}: Props) {
   
   const updateValue = (value: SelectOptionValueType) => {
     setValue(value)
-    setAreOptionsVisible(false)
+    setOptionsVisibility(false)
   }
   
   return (
     <div className="select-container">
-      <select className="select-container__native-select" value={value} onChange={e => setValue(e.target.value)} name={name} id={`${name}-select`}>
+      <select className="select-container__native" value={value} onChange={e => setValue(e.target.value)} name={name} id={`${name}-select`}>
         {options.map(option => (
           <option value={option.value} key={option.value}>{option.text}</option>
         ))}
       </select>
       <div className="select-container__select">
-        <button className="select__value" id="select-label" onClick={() => setAreOptionsVisible(state => !state)}>
+        <button className="select__value" id="select-label" onClick={() => setOptionsVisibility(state => !state)}>
           <img src={currentOption?.icon} alt="" className="select__icon value__icon"/>
           <span className="value__text">{currentOption?.text}</span>
         </button>
         { areOptionsVisible &&
-          <ModalLayout onClose={() => setAreOptionsVisible(false)}>
+          <ModalLayout onClose={() => setOptionsVisibility(false)}>
             <ul className="select-modal__options" aria-hidden="true">
-              {options.map(option => (
+              {options.map((option, key) => (
                 <li key={option.value} aria-selected={value === option.value} className="options__option">
-                  <button disabled={option.value === value} className="option__btn" onClick={() => updateValue(option.value)}>
+                  <button autoFocus={key == 0} disabled={option.value === value} className="option__btn" onClick={() => updateValue(option.value)}>
                     {option.icon &&
                       <img src={option.icon} alt="" className="select__icon btn__icon"/>
                     }

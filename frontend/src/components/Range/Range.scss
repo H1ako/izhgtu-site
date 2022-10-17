@@ -1,0 +1,62 @@
+@import "../../mixins";
+
+.range-container {
+  $thumbSize: 1.25rem;
+
+  position: relative;
+  gap: .25rem;
+  width: 100%;
+  display: grid;
+  align-items: center;
+  grid-template-columns: 7fr 3fr;
+  grid-template-rows: $thumbSize;
+
+  &__range {
+    position: relative;
+    height: 50%;
+    background: var(--colorBgAccentLight);
+    border-radius: var(--bdrsBtn);
+
+    &:hover,
+    &:focus-within {
+      &::-webkit-slider-thumb,
+      &::-moz-range-thumb {
+        filter: brightness(1.1);
+      }
+    }
+
+
+    &::-moz-range-progress,
+    &::-webkit-slider-runnable-track {
+      height: 100%;
+      background: var(--colorBg);
+      border-radius: var(--bdrsBtn);
+    }
+
+    &::-webkit-slider-thumb,
+    &::-moz-range-thumb {
+      width: $thumbSize;
+      height: $thumbSize;
+      background: var(--colorMain);
+      border-radius: 50%;
+      border: none;
+    }
+  }
+
+  &__value {
+    @include clearedInput;
+
+    background: var(--colorMain);
+    border-radius: var(--bdrsBtn);
+    padding: .25rem;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    -moz-appearance:textfield;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+    }
+  }
+}

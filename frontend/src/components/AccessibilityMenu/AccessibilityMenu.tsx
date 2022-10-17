@@ -6,6 +6,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGear, faXmark, faRepeat, faEyeSlash} from "@fortawesome/free-solid-svg-icons";
 import Select, {ISelectOption} from "../Select/Select";
 import languages from '../../languages.json'
+import Range from "../Range/Range";
 
 const defaultValues = {
 
@@ -13,9 +14,10 @@ const defaultValues = {
 
 
 function AccessibilityMenu() {
-  const [ isMenuVisible, setIsMenuVisible ] = React.useState<boolean>(false)
+  const [ isMenuVisible, setIsMenuVisible ] = React.useState<boolean>(true)
   const [ isHidden, setIsHidden ] = React.useState<boolean>(false)
   const [ currentLanguage, setCurrentLanguage ] = React.useState<string>('ru')
+  const [ saturation, setSaturation ] = React.useState<number | string>(100)
   const languagesOption = languages.filter(language => language.active).map(language => {
     const option: ISelectOption = {
       value: language.code,
@@ -24,6 +26,13 @@ function AccessibilityMenu() {
     }
     return option
   })
+
+  React.useEffect(() => {
+    const htmlElement = document.querySelector('html')
+    if (!htmlElement) return
+
+    htmlElement.style.setProperty('--saturation', `${saturation}%`)
+  }, [saturation])
   
   return (
     <div className={`accessibility-menu ${isHidden && 'hidden'}`}>
@@ -57,13 +66,23 @@ function AccessibilityMenu() {
             <div className="settings__setting">
               <span className="setting__name">Язык: </span>
               <span className="setting__value">
-                <Select options={languagesOption} value={currentLanguage} setValue={setCurrentLanguage} name="language" />
+                <Select
+                  options={languagesOption}
+                  value={currentLanguage}
+                  setValue={setCurrentLanguage}
+                  name="language"
+                />
               </span>
             </div>
             <div className="settings__setting">
               <span className="setting__name">Насыщенность: </span>
               <span className="setting__value">
-                <Select options={languagesOption} value={currentLanguage} setValue={setCurrentLanguage} name="language" />
+                <Range
+                  value={saturation}
+                  setValue={setSaturation}
+                  name={'saturation'}
+                  maxValue={300}
+                />
               </span>
             </div>
           </div>

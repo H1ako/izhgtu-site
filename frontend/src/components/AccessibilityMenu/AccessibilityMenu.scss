@@ -1,5 +1,13 @@
 @import "../../mixins";
 
+html {
+  @function saturate($options...) {
+    @return #{'saturate(#{$options})'};
+  }
+
+  filter: saturate(var(--saturation, 100%));
+}
+
 .accessibility-menu {
   $margin: 1rem;
 
