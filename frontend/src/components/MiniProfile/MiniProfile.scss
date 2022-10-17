@@ -5,12 +5,20 @@
   $bgHeight: 5rem;
 
   position: relative;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+
+  &__guest,
+  &__logged {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
 
   &__btn {
     @include btnAccent;
+
+    &.main {
+      background: var(--colorMain);
+    }
   }
 
   &__user {
