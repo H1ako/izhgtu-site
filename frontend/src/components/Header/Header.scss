@@ -8,7 +8,7 @@ header {
   padding-inline: 1rem;
   z-index: var(--zIndexHeader);
 
-  .content {
+  .header__content {
     width: var(--widthContent);
     margin-inline: auto;
     height: 100%;

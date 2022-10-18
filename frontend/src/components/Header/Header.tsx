@@ -11,7 +11,7 @@ import DayInfo from "../DayInfo/DayInfo";
 function Header() {
   return (
       <header>
-          <div className="content">
+          <div className="header__content">
               <DayInfo />
               <Search />
               <MiniProfile />

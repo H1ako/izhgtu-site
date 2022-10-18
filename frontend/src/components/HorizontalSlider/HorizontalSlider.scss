@@ -1,0 +1,102 @@
+@import "../../mixins";
+
+.slider-container {
+  position: relative;
+  width: 100%;
+  height: 30rem;
+  //flex-grow: 1;
+  z-index: 1;
+
+  &__arrows {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1;
+    pointer-events: none;
+
+    .arrows__arrow {
+      @include clearedBtn(var(--fontSize1));
+
+      width: 10%;
+      height: 100%;
+      display: grid;
+      place-content: center;
+      background: var(--colorBgTransparent);
+      transition: var(--transitionDefault);
+      pointer-events: all;
+
+      &:hover,
+      &:focus-within {
+        filter: brightness(var(--brightnessDefault));
+      }
+    }
+  }
+
+  &__control {
+    position: absolute;
+    z-index: 2;
+  }
+
+  &__slider {
+    position: relative;
+    height: 30rem;
+    display: flex;
+    justify-content: center;
+
+    .slick-track {
+      height: 100%;
+
+      .slick-slide {
+        position: relative;
+        display: flex !important;
+
+        div {
+          position: relative;
+          height: 100%;
+          width: 100%;
+        }
+
+        img {
+          height: 100%;
+          max-width: 100%;
+          object-fit: fill;
+          object-position: center;
+        }
+      }
+    }
+
+    .slider__dots {
+      display: flex !important;
+      align-items: center;
+      gap: .5rem;
+      position: absolute;
+      bottom: .5rem;
+      z-index: 2;
+      background: var(--colorBgTransparent);
+      padding: .5rem 1.5rem;
+      border-radius: var(--bdrsBtn);
+
+      li {
+        display: grid;
+        place-content: center;
+
+        &.slick-active button {
+          background: var(--colorMain);
+        }
+
+        button {
+          @include clearedBtn;
+
+          background: var(--colorBgAccentLight);
+          aspect-ratio: 1;
+          width: .65rem;
+          padding: 0;
+          border-radius: 50%;
+          color: transparent;
+        }
+      }
+    }
+  }
+}

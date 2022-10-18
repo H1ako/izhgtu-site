@@ -1,0 +1,7 @@
+.content {
+  width: var(--widthContent);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - var(--heightHeader));
+}

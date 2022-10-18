@@ -17,6 +17,7 @@
   cursor: pointer;
   color: var(--colorText);
   font-size: $fontSize;
+  transition: var(--transitionDefault);
 
   &:not(:disabled) {
     &:hover,
@@ -45,7 +46,6 @@
   font-weight: bold;
   text-transform: uppercase;
   background: $bgColor;
-  transition: var(--transitionDefault);
 
   &:disabled {
     background: var(--colorMainDark);

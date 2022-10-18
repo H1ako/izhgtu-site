@@ -23,7 +23,7 @@ import languages from '../../languages.json'
 
 function AccessibilityMenu() {
   // menu settings
-  const [ isMenuVisible, setIsMenuVisible ] = React.useState<boolean>(true)
+  const [ isMenuVisible, setIsMenuVisible ] = React.useState<boolean>(false)
   const [ isHidden, setIsHidden ] = React.useState<boolean>(false)
   // options
   const [ currentLanguage, setCurrentLanguage ] = React.useState<string>(DEFAULT_VALUES.language)
