@@ -1,5 +1,12 @@
 export const DEFAULT_VALUES = {
-
+  language: 'ru',
+  saturation: 100,
+  highlightLinks: false,
+  highlightFocus: false,
+  standartFont: false,
+  imagesHidden: false,
+  animationsStopped: false,
+  transitionRemoved: false
 }
 export const HIGHLITED_LINKS_CLASS = 'highlited-links'
 export const HIGHLITED_FOCUS_CLASS = 'highlited-focus'

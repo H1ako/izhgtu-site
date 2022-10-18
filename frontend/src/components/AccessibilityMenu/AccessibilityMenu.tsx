@@ -11,7 +11,7 @@ import {
   HIGHLITED_FOCUS_CLASS,
   HIGHLITED_LINKS_CLASS,
   STANDART_FONT_CLASS,
-  REMOVED_TRANSITIONS_CLASS
+  REMOVED_TRANSITIONS_CLASS, DEFAULT_VALUES
 } from "./consts";
 // components
 import Select, {ISelectOption} from "../Select/Select";
@@ -26,14 +26,14 @@ function AccessibilityMenu() {
   const [ isMenuVisible, setIsMenuVisible ] = React.useState<boolean>(true)
   const [ isHidden, setIsHidden ] = React.useState<boolean>(false)
   // options
-  const [ currentLanguage, setCurrentLanguage ] = React.useState<string>('ru')
-  const [ saturation, setSaturation ] = React.useState<number | string>(100)
-  const [ areLinksHighlighted, setLinksHighlighting ] = React.useState<boolean>(false)
-  const [ isFocusHighlited , setFocusHighlighting ] = React.useState<boolean>(false)
-  const [ isStandartFont , setIsStandartFont ] = React.useState<boolean>(false)
-  const [ areImagesHidden , setHiddenImages ] = React.useState<boolean>(false)
-  const [ areAnimationStopped , setAnimationStop ] = React.useState<boolean>(false)
-  const [ areTransitionRemoved , setTransitionRemove ] = React.useState<boolean>(false)
+  const [ currentLanguage, setCurrentLanguage ] = React.useState<string>(DEFAULT_VALUES.language)
+  const [ saturation, setSaturation ] = React.useState<number | string>(DEFAULT_VALUES.saturation)
+  const [ areLinksHighlighted, setLinksHighlighting ] = React.useState<boolean>(DEFAULT_VALUES.highlightLinks)
+  const [ isFocusHighlited , setFocusHighlighting ] = React.useState<boolean>(DEFAULT_VALUES.highlightFocus)
+  const [ isStandartFont , setIsStandartFont ] = React.useState<boolean>(DEFAULT_VALUES.standartFont)
+  const [ areImagesHidden , setHiddenImages ] = React.useState<boolean>(DEFAULT_VALUES.imagesHidden)
+  const [ areAnimationStopped , setAnimationStop ] = React.useState<boolean>(DEFAULT_VALUES.animationsStopped)
+  const [ areTransitionRemoved , setTransitionRemove ] = React.useState<boolean>(DEFAULT_VALUES.transitionRemoved)
   
   const languagesOption = languages.filter(language => language.active).map(language => {
     const option: ISelectOption = {
@@ -43,6 +43,17 @@ function AccessibilityMenu() {
     }
     return option
   })
+  
+  const reset = () => {
+    setCurrentLanguage(DEFAULT_VALUES.language)
+    setSaturation(DEFAULT_VALUES.saturation)
+    setLinksHighlighting(DEFAULT_VALUES.highlightLinks)
+    setFocusHighlighting(DEFAULT_VALUES.highlightFocus)
+    setIsStandartFont(DEFAULT_VALUES.standartFont)
+    setHiddenImages(DEFAULT_VALUES.imagesHidden)
+    setAnimationStop(DEFAULT_VALUES.animationsStopped)
+    setTransitionRemove(DEFAULT_VALUES.transitionRemoved)
+  }
 
   React.useEffect(() => {
     const htmlElement = document.querySelector('html')
@@ -119,7 +130,7 @@ function AccessibilityMenu() {
               <span>Настройка сайта</span>
             </h3>
             <div className="header__btns">
-              <button className="btns__btn">
+              <button className="btns__btn" onClick={reset}>
                 <FontAwesomeIcon icon={faRepeat} />
                 Сбросить
               </button>
