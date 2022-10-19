@@ -37,6 +37,10 @@ h5 {
   font-size: var(--fontSize5);
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   background: var(--colorBg);
   color: var(--colorText);

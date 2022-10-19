@@ -15,6 +15,7 @@ interface Props {
 
 function HorizontalSlider({children}: Props) {
   const [ ref, setRef ] = React.useState<Slider | null>(null)
+  const [ isControlVisible, setControlVisibly ] = React.useState<boolean>(false)
   const [ paused, setPaused ] = React.useState<boolean>(false)
   
   const toggleAutoplay = () => {
@@ -29,10 +30,10 @@ function HorizontalSlider({children}: Props) {
   return (
     <div className="slider-container">
       <div className="slider-container__control">
-        <button className="control__toggle-control">
+        <button className="control__toggle">
           <FontAwesomeIcon icon={faScrewdriverWrench} />
         </button>
-        <div className="control__control-menu">
+        <div className="control__menu">
           <button className="control-menu__arrow" onClick={ref?.slickPrev}>
             <FontAwesomeIcon icon={faChevronLeft} />
           </button>
@@ -60,17 +61,17 @@ function HorizontalSlider({children}: Props) {
         ref={setRef}
         infinite
         dots
+        
         speed={500}
         slidesToShow={1}
         slidesToScroll={1}
-        autoplay={true}
+        autoplay
+        pauseOnHover
         autoplaySpeed={3000}
         className="slider-container__slider"
         arrows={false}
         dotsClass="slider__dots"
-        pauseOnDotsHover={true}
-        slide="div"
-        // fade={true}
+        pauseOnDotsHover
       >
         {children}
       </Slider>

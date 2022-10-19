@@ -1,11 +1,12 @@
 @import "../../mixins";
 
 .slider-container {
+  --sliderHeight: clamp(15rem, 40vw, 30rem);
+
   position: relative;
   width: 100%;
-  height: 30rem;
-  //flex-grow: 1;
   z-index: 1;
+  height: var(--sliderHeight);
 
   &__arrows {
     position: absolute;
@@ -19,50 +20,80 @@
     .arrows__arrow {
       @include clearedBtn(var(--fontSize1));
 
-      width: 10%;
+      width: max(5%, 2.5rem);
       height: 100%;
       display: grid;
       place-content: center;
-      background: var(--colorBgTransparent);
+      background: var(--colorBg);
+      opacity: .25;
       transition: var(--transitionDefault);
       pointer-events: all;
 
       &:hover,
       &:focus-within {
         filter: brightness(var(--brightnessDefault));
+        opacity: .75;
       }
     }
   }
 
   &__control {
     position: absolute;
+    left: 50%;
+    translate: -50%;
+    top: .5rem;
     z-index: 2;
+
+    .control__toggle {
+
+    }
+
+    .control__menu {
+      display: flex;
+      gap: .5rem;
+      align-items: center;
+
+    }
   }
 
   &__slider {
-    position: relative;
-    height: 30rem;
-    display: flex;
-    justify-content: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    .slick-list {
+      height: 100%;
+    }
 
     .slick-track {
       height: 100%;
 
       .slick-slide {
         position: relative;
-        display: flex !important;
+        display: flex;
 
-        div {
-          position: relative;
-          height: 100%;
+        & > div {
           width: 100%;
+          height: 100%;
+
+          & > * {
+            position: relative;
+            height: 100%;
+            width: 100%;
+            display: flex !important;
+          }
         }
 
         img {
           height: 100%;
-          max-width: 100%;
-          object-fit: fill;
+          width: 100%;
+          object-fit: cover;
+          background-color: var(--colorBgAccent);
           object-position: center;
+          
+          @media screen and (min-width: 1200px) {
+            object-fit: fill;
+          }
         }
       }
     }
@@ -73,6 +104,8 @@
       gap: .5rem;
       position: absolute;
       bottom: .5rem;
+      left: 50%;
+      translate: -50%;
       z-index: 2;
       background: var(--colorBgTransparent);
       padding: .5rem 1.5rem;
