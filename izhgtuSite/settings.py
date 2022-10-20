@@ -138,6 +138,7 @@ STATIC_URL = 'assets/'
 
 STATICFILES_DIRS = [
     BASE_DIR / 'frontend/build/static/',
+    BASE_DIR / 'frontend/src/static/',
 ]
 
 MEDIA_URL = '/media/'

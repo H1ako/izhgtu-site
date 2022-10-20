@@ -1,32 +1,28 @@
 // global
 import React from 'react'
+import {Link} from "react-router-dom";
 // styles and icons
 import './HomePage.scss';
-import "slick-carousel/slick/slick.css";
 // components
 import PageLayout from "../../containers/PageLayout/PageLayout";
-import HorizontalSlider from "../../components/HorizontalSlider/HorizontalSlider";
-import {Link} from "react-router-dom";
+import MainSlider from "../../components/MainSlider/MainSlider";
+import OrganizationNameBlock from "../../components/OrganizationNameBlock/OrganizationNameBlock";
 
 function HomePage() {
   return (
     <PageLayout>
-      <div className="content">
-        <HorizontalSlider>
-          <Link to='/'>
-            <img src="/assets/s1.jpg" alt="" />
-          </Link>
-          <Link to='/'>
-            <img src="/assets/s2.jpg" alt="" />
-          </Link>
-          <Link to='/'>
-            <img src="/assets/s3.jpg" alt="" />
-          </Link>
-          <Link to='/'>
-            <img src="/assets/ava.png" alt="" />
-          </Link>
-        </HorizontalSlider>
-      </div>
+      <MainSlider>
+        <Link to='/'>
+          <img src="/assets/s1.jpg" alt="" />
+        </Link>
+        <Link to='/'>
+          <img src="/assets/s2.jpg" alt="" />
+        </Link>
+        <Link to='/'>
+          <img src="/assets/s3.jpg" alt="" />
+        </Link>
+      </MainSlider>
+      <OrganizationNameBlock />
     </PageLayout>
   )
 }

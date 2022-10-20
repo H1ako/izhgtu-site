@@ -11,6 +11,11 @@
   font-size: var(--fontSize4);
 }
 
+@mixin contentArea {
+  width: var(--widthContent);
+  margin-inline: auto;
+}
+
 @mixin clearedBtn($fontSize: var(--fontSize4)) {
   outline: none;
   border: none;
