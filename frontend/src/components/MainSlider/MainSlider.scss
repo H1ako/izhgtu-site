@@ -8,10 +8,10 @@
   z-index: 1;
   height: var(--sliderHeight);
 
-  .hide-elements {
+  &.hide-elements {
     .slider-container__arrows,
     .slider__dots {
-      display: none;
+      display: none !important;
     }
   }
 
@@ -56,7 +56,8 @@
     flex-direction: column;
     align-items: center;
 
-    &.active {
+    &.active,
+    &:focus-within {
       .control__menu {
         translate: 0 0;
       }
@@ -79,14 +80,17 @@
       @include controlContainer;
 
       translate: 0 -100%;
-      display: flex;
       gap: .5rem;
+      width: 10rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(1rem, 1fr));
       align-items: center;
       z-index: 2;
       transition: var(--transitionDefault);
 
       .menu__btn {
         @include iconBtn($fontSize);
+        @include scaleOnFocus;
 
         background: none;
       }

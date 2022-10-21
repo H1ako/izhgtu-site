@@ -32,6 +32,14 @@
   }
 }
 
+@mixin scaleOnFocus {
+  &:hover,
+  &:focus-within {
+    //filter: brightness(var(--brightnessDefault));
+    scale: 1.25;
+  }
+}
+
 @mixin iconBtn($fontSize: var(--fontSize4)) {
   @include clearedBtn($fontSize);
 

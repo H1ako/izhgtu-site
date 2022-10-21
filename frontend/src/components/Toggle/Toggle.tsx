@@ -1,7 +1,7 @@
 // global
 import React from 'react'
 // styles and icons
-import './Checkbox.scss';
+import './Toggle.scss';
 
 interface Props {
   value: boolean,
@@ -9,18 +9,18 @@ interface Props {
   name: string,
 }
 
-function Checkbox({value, setValue, name}: Props) {
+function Toggle({value, setValue, name}: Props) {
   return (
-    <div className="checkbox-container">
+    <div className="toggle-container">
       <input
-        className="checkbox-container__checkbox"
+        className="toggle-container__toggle"
         type="checkbox"
-        id={`checkbox-${name}`}
+        id={`toggle-${name}`}
         name={name}
         checked={value}
         onChange={() => setValue(state => !state)}
       />
-      <label className="checkbox-container__label" htmlFor={`checkbox-${name}`}
+      <label className="toggle-container__label" htmlFor={`toggle-${name}`}
       >
         <span className="label__part label__off">Выкл</span>
         <span className="label__part label__on">Вкл</span>
@@ -29,4 +29,4 @@ function Checkbox({value, setValue, name}: Props) {
   )
 }
 
-export default Checkbox
+export default Toggle

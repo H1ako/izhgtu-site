@@ -37,9 +37,7 @@ function MainSlider({children}: Props) {
   
   return (
     <div
-      className={`slider-container
-      ${!areSliderElementsVisible && 'hide-elements'}
-      `}
+      className={`slider-container ${!areSliderElementsVisible && 'hide-elements'}`}
     >
       <div
         className={`slider-container__control ${isControlVisible && 'active'}`}
@@ -83,12 +81,10 @@ function MainSlider({children}: Props) {
         ref={setRef}
         infinite
         dots
-        
         speed={500}
         slidesToShow={1}
         slidesToScroll={1}
         autoplay
-        pauseOnHover
         autoplaySpeed={3000}
         className="slider-container__slider"
         arrows={false}

@@ -2,7 +2,6 @@
 
 .mini-profile {
   $windowWidth: 30rem;
-  $bgHeight: 5rem;
 
   position: relative;
 
@@ -34,6 +33,7 @@
     transition: var(--transitionDefault);
     cursor: pointer;
 
+
     &:hover,
     &:focus-within {
       background-color: var(--colorBgAccentLight);
@@ -57,7 +57,7 @@
     .user__picture {
       @include image(var(--colorBgAccent));
 
-      width: 3rem;
+      width: 2.5rem;
     }
 
     .arrow-icon.active {

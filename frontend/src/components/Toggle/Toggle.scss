@@ -1,7 +1,7 @@
-.checkbox-container {
+.toggle-container {
   &:focus-within,
   &:hover {
-    .checkbox-container__label {
+    .toggle-container__label {
       filter: brightness(var(--brightnessDefault));
     }
   }
@@ -36,7 +36,7 @@
     }
   }
 
-  &__checkbox {
+  &__toggle {
     display: none;
 
     &:checked + .checkbox-container__label::after {

@@ -16,7 +16,7 @@ import {
 // components
 import Select, {ISelectOption} from "../Select/Select";
 import Range from "../Range/Range";
-import Checkbox from "../Checkbox/Checkbox";
+import Toggle from "../Toggle/Toggle";
 // additional
 import languages from '../../languages.json'
 
@@ -166,7 +166,7 @@ function AccessibilityMenu() {
             <div className="settings__setting">
               <span className="setting__name">Подсветка Ссылок: </span>
               <span className="setting__value">
-                <Checkbox
+                <Toggle
                   value={areLinksHighlighted}
                   setValue={setLinksHighlighting}
                   name='links-highlighting'
@@ -176,7 +176,7 @@ function AccessibilityMenu() {
             <div className="settings__setting">
               <span className="setting__name">Подсветка кликабельного: </span>
               <span className="setting__value">
-                <Checkbox
+                <Toggle
                   value={isFocusHighlited}
                   setValue={setFocusHighlighting}
                   name='focus-highlighting'
@@ -186,7 +186,7 @@ function AccessibilityMenu() {
             <div className="settings__setting">
               <span className="setting__name">Стандартный шрифт: </span>
               <span className="setting__value">
-                <Checkbox
+                <Toggle
                   value={isStandartFont}
                   setValue={setIsStandartFont}
                   name='standart-font'
@@ -196,7 +196,7 @@ function AccessibilityMenu() {
             <div className="settings__setting">
               <span className="setting__name">Скрыть картинки: </span>
               <span className="setting__value">
-                <Checkbox
+                <Toggle
                   value={areImagesHidden}
                   setValue={setHiddenImages}
                   name='hidden-images'
@@ -206,7 +206,7 @@ function AccessibilityMenu() {
             <div className="settings__setting">
               <span className="setting__name">Остановить анимации: </span>
               <span className="setting__value">
-                <Checkbox
+                <Toggle
                   value={areAnimationStopped}
                   setValue={setAnimationStop}
                   name='animation-stop'
@@ -216,7 +216,7 @@ function AccessibilityMenu() {
             <div className="settings__setting">
               <span className="setting__name">Убрать плавноть: </span>
               <span className="setting__value">
-                <Checkbox
+                <Toggle
                   value={areTransitionRemoved}
                   setValue={setTransitionRemove}
                   name='transition-remove'

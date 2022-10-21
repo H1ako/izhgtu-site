@@ -9,12 +9,23 @@ function MiniProfile() {
   const [ isWindowVisible, setIsWindowVisible ] = React.useState<boolean>(false)
   const logged = true
   
+  const toggleWindow = () => {
+    setIsWindowVisible(state => !state)
+  }
+  
+  const closeWindow = () => {
+    setIsWindowVisible(false)
+  }
+  
   return (
     <div className="mini-profile">
       { logged ?
         <div className="mini-profile__logged">
           <button className="mini-profile__btn">Оплата</button>
-          <button className="mini-profile__user" onClick={() => setIsWindowVisible(state => !state)}>
+          <button
+            className="mini-profile__user"
+            onClick={toggleWindow}
+          >
             <div className="user__info">
               <h4 className="info__part info__name">Соболев Никита</h4>
               <h5 className="info__part info__group">Д22-021-1</h5>
@@ -57,7 +68,7 @@ function MiniProfile() {
                     <a href="/settings">Настройки</a>
                   </li>
                   <li className="links__link exit-link">
-                    <a href="/auth/log-out">Выход</a>
+                    <a href="/auth/log-out" onBlur={closeWindow}>Выход</a>
                   </li>
                 </ul>
               </div>
