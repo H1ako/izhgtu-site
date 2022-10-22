@@ -6,7 +6,7 @@ import './HomePage.scss';
 // components
 import PageLayout from "../../containers/PageLayout/PageLayout";
 import MainSlider from "../../components/MainSlider/MainSlider";
-import OrganizationNameBlock from "../../components/OrganizationNameBlock/OrganizationNameBlock";
+import Navbar from "../../components/Navbar/Navbar";
 
 function HomePage() {
   return (
@@ -22,7 +22,7 @@ function HomePage() {
           <img src="/assets/s3.jpg" alt="" />
         </Link>
       </MainSlider>
-      <OrganizationNameBlock />
+      <Navbar />
     </PageLayout>
   )
 }

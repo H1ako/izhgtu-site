@@ -1,0 +1,25 @@
+@import '../../mixins';
+
+.navbar {
+  background: var(--colorMain);
+
+  .navbar__links {
+    @include contentArea;
+
+    .navbar__links__link-groups {
+      display: flex;
+
+      .link-groups__group {
+        .group__links-window {
+          .links-window__links {
+
+          }
+        }
+
+        .group__toggle {
+
+        }
+      }
+    }
+  }
+}
