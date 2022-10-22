@@ -94,16 +94,26 @@
   object-position: center;
 }
 
-@mixin separator($gap: 1rem, $color: var(--colorText)) {
+@mixin separator($gap: 1rem, $color: var(--colorText), $vertical: false) {
   position: relative;
 
   &::after {
     content: "";
     position: absolute;
-    top: calc(100% + $gap / 2);
-    height: 1px;
     background: $color;
-    width: 110%;
-    left: -5%;
+    opacity: .1;
+
+    @if($vertical == true) {
+      top: 10%;
+      left: calc(100% + $gap / 2);
+      height: 80%;
+      width: 1px;
+    }
+    @else {
+      top: calc(100% + $gap / 2);
+      left: -5%;
+      width: 110%;
+      height: 1px;
+    }
   }
 }

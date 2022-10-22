@@ -1,3 +1,5 @@
+@import '../../mixins';
+
 .day-info {
   $gap: 2rem;
 
@@ -17,17 +19,7 @@
     text-transform: uppercase;
 
     &:not(:last-child) {
-      position: relative;
-
-      &::after {
-        content: '';
-        position: absolute;
-        right: calc($gap / 2 * -1);
-        top: 10%;
-        height: 80%;
-        width: 1px;
-        background: var(--colorText);
-      }
+      @include separator($vertical: true, $gap: $gap);
     }
   }
 }

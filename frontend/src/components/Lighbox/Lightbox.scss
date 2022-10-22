@@ -8,15 +8,17 @@
 
   &__control {
     position: fixed;
-    top: 1rem;
-    left: 50%;
-    translate: -50%;
+    top: 4rem;
+    right: 1rem;
+    //translate: -50%;
     z-index: var(--zIndexWindow);
 
     .control__btn {
       @include iconBtn(var(--fontSize2));
 
-      background: none;
+      background: var(--colorMain);
+      border-radius: var(--bdrsBtn);
+      padding: .5rem;
     }
   }
 
