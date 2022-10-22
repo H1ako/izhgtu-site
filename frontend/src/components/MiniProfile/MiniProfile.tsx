@@ -1,5 +1,6 @@
 // global
 import React from 'react'
+import {Link} from "react-router-dom";
 // styles and icons
 import './MiniProfile.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -59,16 +60,16 @@ function MiniProfile() {
                 </div>
                 <ul className="content__links">
                   <li className="links__link">
-                    <a href="/profile">Личный Кабинет</a>
+                    <Link to="/profile">Личный Кабинет</Link>
                   </li>
                   <li className="links__link">
-                    <a href="/achievements">Достижения</a>
+                    <Link to="/achievements">Достижения</Link>
                   </li>
                   <li className="links__link">
-                    <a href="/settings">Настройки</a>
+                    <Link to="/settings">Настройки</Link>
                   </li>
                   <li className="links__link exit-link">
-                    <a href="/auth/log-out" onBlur={closeWindow}>Выход</a>
+                    <Link to="/auth/log-out" onBlur={closeWindow}>Выход</Link>
                   </li>
                 </ul>
               </div>

@@ -10,6 +10,16 @@ interface Props {
 }
 
 function Toggle({value, setValue, name}: Props) {
+  const toggle = () => {
+    setValue(state => !state)
+  }
+  
+  const toggleOnEnter = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      toggle()
+    }
+  }
+  
   return (
     <div className="toggle-container">
       <input
@@ -18,7 +28,8 @@ function Toggle({value, setValue, name}: Props) {
         id={`toggle-${name}`}
         name={name}
         checked={value}
-        onChange={() => setValue(state => !state)}
+        onChange={toggle}
+        onKeyUp={toggleOnEnter}
       />
       <label className="toggle-container__label" htmlFor={`toggle-${name}`}
       >
