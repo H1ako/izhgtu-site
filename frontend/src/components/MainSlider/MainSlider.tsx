@@ -1,5 +1,8 @@
 // global
 import React from 'react'
+import { useRecoilState } from 'recoil'
+// recoil atoms
+import {lightboxImageSrcAtom} from "../../recoilAtoms/lightboxAtom";
 // styles and icons
 import './MainSlider.scss';
 import "slick-carousel/slick/slick.css";
@@ -10,7 +13,7 @@ import {
   faEyeSlash,
   faPause,
   faPlay,
-  faScrewdriverWrench
+  faScrewdriverWrench, faUpRightAndDownLeftFromCenter
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 // components
@@ -25,14 +28,45 @@ function MainSlider({children}: Props) {
   const [ isControlVisible, setControlVisibly ] = React.useState<boolean>(false)
   const [ areSliderElementsVisible, setSliderElementsVisibility ] = React.useState<boolean>(true)
   const [ paused, setPaused ] = React.useState<boolean>(false)
+  const [ lightboxImageSrc, setLightboxImageSrc ] = useRecoilState(lightboxImageSrcAtom)
   
-  const toggleAutoplay = () => {
+  const toggleAutoplay = (): void => {
+    if (!ref) return
+    
     if (paused) {
-      ref?.slickPlay()
+      ref.slickPlay()
     } else {
-      ref?.slickPause()
+      ref.slickPause()
     }
     setPaused(state => !state)
+  }
+  
+  const getImageSrc = (image: HTMLImageElement): string => {
+    return image.attributes.getNamedItem('src')?.value ?? ''
+  }
+  
+  const openLightbox = (): void => {
+    const currentSlideImage = document.querySelector<HTMLImageElement>('.slick-current img')
+    if (!currentSlideImage) return
+    
+    const imageSrc = getImageSrc(currentSlideImage)
+    setLightboxImageSrc(imageSrc)
+  }
+  
+  const toggleHidingElements = (): void => {
+    setSliderElementsVisibility(state => !state)
+  }
+  
+  const toggleControl = (): void => {
+    setControlVisibly(state => !state)
+  }
+  
+  const openControl = (): void => {
+    setControlVisibly(true)
+  }
+  
+  const closeControl = (): void => {
+    setControlVisibly(false)
   }
   
   return (
@@ -41,9 +75,9 @@ function MainSlider({children}: Props) {
     >
       <div
         className={`slider-container__control ${isControlVisible && 'active'}`}
-        onMouseLeave={() => setControlVisibly(false)}
+        onMouseLeave={closeControl}
       >
-        <button className="control__toggle" onClick={() => setControlVisibly(state => !state)} onMouseEnter={() => setControlVisibly(true)}>
+        <button className="control__toggle" onClick={toggleControl} onMouseEnter={openControl}>
           <FontAwesomeIcon icon={faScrewdriverWrench} />
         </button>
         <div className="control__menu">
@@ -60,12 +94,15 @@ function MainSlider({children}: Props) {
           <button className="menu__btn menu__arrow" onClick={ref?.slickNext}>
             <FontAwesomeIcon icon={faChevronRight} />
           </button>
-          <button className="menu__btn menu__toggle-hide" onClick={() => setSliderElementsVisibility(state => !state)}>
+          <button className="menu__btn menu__toggle-hide" onClick={toggleHidingElements}>
             { areSliderElementsVisible ?
               <FontAwesomeIcon icon={faEyeSlash} />
               :
               <FontAwesomeIcon icon={faEye} />
             }
+          </button>
+          <button className="menu__btn menu__toggle-lightbox" onClick={openLightbox}>
+            <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
           </button>
         </div>
       </div>

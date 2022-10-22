@@ -5,12 +5,13 @@ import './ModalAreaLayout.scss';
 
 interface Props {
   children: React.ReactNode,
-  onClose: () => void
+  onClose: () => void,
+  className?: string
 }
 
-function ModalAreaLayout({ children, onClose }: Props) {
+function ModalAreaLayout({ children, onClose, className='' }: Props) {
   return (
-    <div className="modal-area">
+    <div className={`modal-area ${className}`}>
       <button className='modal-area__close-btn' onClick={onClose}>Закрыть</button>
       <>
         {children}

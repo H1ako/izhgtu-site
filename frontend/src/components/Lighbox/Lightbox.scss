@@ -1,0 +1,30 @@
+@import '../../mixins';
+
+.lightbox {
+  $padding: 1rem;
+
+  padding: $padding;
+  overflow: hidden;
+
+  &__control {
+    position: fixed;
+    top: 1rem;
+    left: 50%;
+    translate: -50%;
+    z-index: var(--zIndexWindow);
+
+    .control__btn {
+      @include iconBtn(var(--fontSize2));
+
+      background: none;
+    }
+  }
+
+  &__image {
+    rotate: calc(90deg * var(--rotateIndex, 0));
+    max-width: 100%;
+    max-height: 100%;
+    object-position: center;
+    object-fit: contain;
+  }
+}
