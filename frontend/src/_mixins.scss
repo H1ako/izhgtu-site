@@ -35,7 +35,6 @@
 @mixin scaleOnFocus {
   &:hover,
   &:focus-within {
-    //filter: brightness(var(--brightnessDefault));
     scale: 1.25;
   }
 }
@@ -47,8 +46,8 @@
   place-content: center;
 }
 
-@mixin btn($bgColor: var(--colorBgAccentLight), $padding: var(--paddingBtn)) {
-  @include clearedBtn;
+@mixin btn($bgColor: var(--colorBgAccentLight), $padding: var(--paddingBtn), $fontSize: var(--fontSize4)) {
+  @include clearedBtn(fontSize);
 
   display: flex;
   justify-content: center;
@@ -77,12 +76,12 @@
   border-radius: var(--bdrsBtn);
 }
 
-@mixin btnMain {
-  @include btn(var(--colorMain));
+@mixin btnMain($fontSize: var(--fontSize4)) {
+  @include btn(var(--colorMain), $fontSize:$fontSize);
 }
 
-@mixin btnAccent {
-  @include btn(var(--colorAccent));
+@mixin btnAccent($fontSize: var(--fontSize4)) {
+  @include btn(var(--colorAccent), $fontSize:$fontSize);
 }
 
 @mixin image($borderColor: var(--colorText)) {
