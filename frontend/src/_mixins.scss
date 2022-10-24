@@ -39,6 +39,13 @@
   }
 }
 
+@mixin textDecorationOnFocus {
+  &:hover,
+  &:focus-within {
+    text-decoration: underline;
+  }
+}
+
 @mixin iconBtn($fontSize: var(--fontSize4)) {
   @include clearedBtn($fontSize);
 

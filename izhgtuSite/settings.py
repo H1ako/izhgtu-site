@@ -17,8 +17,6 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '127.0.0.1'
 ]
-# django cms
-SITE_ID = 1
 
 LANGUAGES = [
     ('en', 'English'),
@@ -50,13 +48,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'sekizai.context_processors.sekizai',
-    'django.contrib.sites',
-    'cms',
-    'menus',
-    'treebeard',
     'rest_framework',
     'rest_framework.authtoken',
+    # passwordless authentication
     'drfpasswordless',
     'frontend'
 ]
@@ -70,10 +64,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    'cms.middleware.user.CurrentUserMiddleware',
-    'cms.middleware.page.CurrentPageMiddleware',
-    'cms.middleware.toolbar.ToolbarMiddleware',
-    'cms.middleware.language.LanguageCookieMiddleware',
 ]
 
 ROOT_URLCONF = 'izhgtuSite.urls'
@@ -91,9 +81,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.i18n',
-                'sekizai.context_processors.sekizai',
-                'cms.context_processors.cms_settings',
             ],
         },
     },
