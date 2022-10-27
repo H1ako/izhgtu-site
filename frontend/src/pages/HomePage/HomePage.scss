@@ -1,7 +1,11 @@
-.content {
-  width: var(--widthContent);
+.face-wrapper {
+  width: 100%;
   margin-inline: auto;
   display: flex;
   flex-direction: column;
-  //min-height: calc(100vh - var(--heightHeader));
+  //height: calc(100vh - var(--heightHeader));
+  //flex: 1 1 calc(100vh - var(--heightHeader));
+  //height: calc(100vh - var(--heightHeader));
+  flex: 1 1 100%;
+  max-height: 880px;
 }

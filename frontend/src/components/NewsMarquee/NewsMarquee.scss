@@ -1,0 +1,30 @@
+.news-marquee {
+  position: relative;
+  background: var(--colorBgAccent);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 3.75rem;
+
+  &__heading {
+    top: 0;
+    left: 50%;
+    translate: 0 -25%;
+    background: var(--colorAccent);
+    border-radius: var(--bdrsBtn);
+    padding: .25rem 1rem;
+    text-transform: uppercase;
+  }
+
+  &__news {
+    min-width: 100%;
+    display: flex;
+    gap: .5rem;
+    justify-content: center;
+
+    .news-part {
+      font-size: var(--fontSize3-4);
+      white-space: nowrap;
+    }
+  }
+}

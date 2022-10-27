@@ -7,22 +7,28 @@ import './HomePage.scss';
 import PageLayout from "../../containers/PageLayout/PageLayout";
 import MainSlider from "../../components/MainSlider/MainSlider";
 import Navbar from "../../components/Navbar/Navbar";
+import NewsMarquee from "../../components/NewsMarquee/NewsMarquee";
+import StudentNav from "../../components/StudentNav/StudentNav";
 
 function HomePage() {
   return (
     <PageLayout>
-      <MainSlider>
-        <Link to='/'>
-          <img src="/assets/s1.jpg" alt="" />
-        </Link>
-        <Link to='/'>
-          <img src="/assets/s2.jpg" alt="" />
-        </Link>
-        <Link to='/'>
-          <img src="/assets/s3.jpg" alt="" />
-        </Link>
-      </MainSlider>
-      <Navbar />
+      <div className="face-wrapper">
+        <MainSlider>
+          <Link to='/'>
+            <img src="/assets/s1.jpg" alt="" />
+          </Link>
+          <Link to='/'>
+            <img src="/assets/s2.jpg" alt="" />
+          </Link>
+          <Link to='/'>
+            <img src="/assets/s3.jpg" alt="" />
+          </Link>
+        </MainSlider>
+        <Navbar />
+        <NewsMarquee />
+      </div>
+      <StudentNav />
     </PageLayout>
   )
 }

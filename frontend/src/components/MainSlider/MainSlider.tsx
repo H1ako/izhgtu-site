@@ -41,16 +41,16 @@ function MainSlider({children}: Props) {
     setPaused(state => !state)
   }
   
-  const getImageSrc = (image: HTMLImageElement): string => {
-    return image.attributes.getNamedItem('src')?.value ?? ''
-  }
-  
   const openLightbox = (): void => {
     const currentSlideImage = document.querySelector<HTMLImageElement>('.slick-current img')
     if (!currentSlideImage) return
     
     const imageSrc = getImageSrc(currentSlideImage)
     setLightboxImageSrc(imageSrc)
+  }
+  
+  const getImageSrc = (image: HTMLImageElement): string => {
+    return image.attributes.getNamedItem('src')?.value ?? ''
   }
   
   const toggleHidingElements = (): void => {

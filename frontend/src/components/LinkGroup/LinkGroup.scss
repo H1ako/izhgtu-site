@@ -82,7 +82,7 @@
 
   .group__toggle {
     @include clearedLink;
-    @include btnMain($fontSize: var(--fontSize2));
+    @include btnMain($fontSize: var(--fontSize5));
 
     width: 100%;
     height: 100%;

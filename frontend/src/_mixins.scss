@@ -84,7 +84,7 @@
 }
 
 @mixin btnMain($fontSize: var(--fontSize4)) {
-  @include btn(var(--colorMain), $fontSize:$fontSize);
+  @include btn(var(--colorMain), $fontSize);
 }
 
 @mixin btnAccent($fontSize: var(--fontSize4)) {

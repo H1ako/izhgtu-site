@@ -5,28 +5,17 @@ import './LinkGroup.scss';
 // components
 import {Link} from "react-router-dom";
 
-export interface GroupLink {
-  name: string,
-  description: string,
-  href: string
-}
-
-export interface LinkGroup {
-  name: string,
-  links: GroupLink[]
-}
-
-function LinkGroup({name, links}: LinkGroup) {
-  const [ hoveredLink, setHoveredLink ] = React.useState<any | GroupLink>(null)
+function LinkGroup({id, name, links}: LinkCategory) {
+  const [ hoveredLink, setHoveredLink ] = React.useState<any | LinkCategory>(null)
   
   return (
-    <li id={`link-group-${name}`} className="link-group">
+    <li id={`link-group-${id}`} className="link-group">
       <button className="group__toggle">{name}</button>
       <div className="group__links-window">
         <ul className="links-window__links">
           { links.map(link => (
             <li
-              key={link.name}
+              key={`link-${link.id}`}
               onMouseEnter={() => setHoveredLink(link)}
               className={`links__link ${hoveredLink?.name === link.name && 'active'}`}
             >

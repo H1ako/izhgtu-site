@@ -23,7 +23,7 @@ function PageLayout({ children }: Props) {
   }
   
   return (
-    <>
+    <div className="page">
       <Header />
       {children}
       <Footer />
@@ -32,7 +32,7 @@ function PageLayout({ children }: Props) {
       { lightboxImageSrc &&
         <Lightbox imageSrc={lightboxImageSrc} onClose={closeLightbox} />
       }
-    </>
+    </div>
   )
 }
 
