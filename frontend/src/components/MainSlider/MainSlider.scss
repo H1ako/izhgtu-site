@@ -7,8 +7,8 @@
   width: 100%;
   z-index: 1;
   min-height: 15rem;
-  max-height: 40vw;
-  flex: 1 0 40vh;
+  height: 100vh;
+  flex-grow: 1;
 
   &.hide-elements {
     .slider-container__arrows,

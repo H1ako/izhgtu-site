@@ -5,6 +5,7 @@
   flex-direction: column;
   align-items: center;
   height: 3.75rem;
+  flex-shrink: 0;
 
   &__heading {
     top: 0;

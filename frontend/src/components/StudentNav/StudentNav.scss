@@ -11,7 +11,7 @@
 
   &__link-categories {
     display: flex;
-    align-items: center;
+    justify-content: center;
     flex-wrap: wrap;
     border-radius: var(--bdrsBtn);
     overflow: hidden;
