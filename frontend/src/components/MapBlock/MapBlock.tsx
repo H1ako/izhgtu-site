@@ -3,6 +3,7 @@ import React from 'react'
 // styles and icons
 import './MapBlock.scss';
 import BlockHeading from "../BlockHeading/BlockHeading";
+import Switcher from "../Switcher/Switcher";
 // components
 
 function MapBlock() {
@@ -14,37 +15,26 @@ function MapBlock() {
       <BlockHeading>
         Карта
       </BlockHeading>
-      <ul className="map-block__map-types">
-        <li className="map-types__type">
-          <button onClick={() => setCurrentMapIndex(0)}>Карта Яндекс</button>
-        </li>
-        <li className="map-types__type">
-          <button onClick={() => setCurrentMapIndex(1)}>Карта от ИжГТУ</button>
-        </li>
-      </ul>
-      <div className={`map-block__istu-map  ${currentMapIndex === 0 && 'active'}`}>
-        <ul className="istu-map__map-types">
-          <li className="map-types__type">
-            <button onClick={() => setCurrentIstuMapIndex(0)}>Общее</button>
-          </li>
-          <li className="map-types__type">
-            <button onClick={() => setCurrentIstuMapIndex(0)}>Общее</button>
-          </li>
-          <li className="map-types__type">
-            <button onClick={() => setCurrentIstuMapIndex(0)}>Общее</button>
-          </li>
-          <li className="map-types__type">
-            <button onClick={() => setCurrentIstuMapIndex(0)}>Общее</button>
-          </li>
-        </ul>
-      </div>
+      <Switcher className="map-block__map-types" index={currentMapIndex} setIndex={setCurrentMapIndex}>
+        <button>Карта Яндекс</button>
+        <button>Карта от ИжГТУ</button>
+      </Switcher>
       <iframe
-        className={`map-block__yandex-map ${currentMapIndex === 1 && 'active'}`}
+        title="yandex-map"
+        className={`map-block__yandex-map ${currentMapIndex === 0 && 'active'}`}
         src="https://yandex.ru/map-widget/v1/?um=constructor%3A4b18e751e56a86d982749b9809b82924588e14b35be6a6b3e6c4302b54112aa9&amp;source=constructor"
         width="676" height="473">
       </iframe>
-      <div className="map-block__istu-maps">
+      <div className={`map-block__istu-map  ${currentMapIndex === 1 && 'active'}`}>
+        <Switcher className='istu-map__map-types' index={currentIstuMapIndex} setIndex={setCurrentIstuMapIndex}>
+          <button>Общее</button>
+          <button>Соц объекты</button>
+          <button>Факультеты</button>
+          <button>Транспорт</button>
+        </Switcher>
+        <div className="map-block__istu-maps">
       
+        </div>
       </div>
     </div>
   )

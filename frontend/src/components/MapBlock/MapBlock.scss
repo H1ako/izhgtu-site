@@ -6,13 +6,21 @@
   align-items: center;
   gap: 1rem;
 
-  &__map-types {
 
+
+  &__istu-map {
+    &:not(.active) {
+      display: none;
+    }
   }
 
   &__yandex-map {
     border-radius: var(--bdrsWindow);
     width: 100%;
     height: min(30rem, 60vw, 70vh);
+
+    &:not(.active) {
+      display: none;
+    }
   }
 }

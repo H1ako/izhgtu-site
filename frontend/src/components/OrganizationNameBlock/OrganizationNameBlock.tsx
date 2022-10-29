@@ -1,6 +1,5 @@
 // global
 import React from 'react'
-import {Link} from "react-router-dom";
 // styles and icons
 import './OrganizationNameBlock.scss';
 // components

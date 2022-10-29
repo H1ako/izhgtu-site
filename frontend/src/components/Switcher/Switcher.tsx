@@ -7,12 +7,13 @@ import './Switcher.scss';
 interface Props {
   children: React.ReactNode,
   index: number,
-  setIndex: (newIndex: number) => void
+  setIndex: (newIndex: number) => void,
+  className?: string
 }
 
-function Switcher({children, index, setIndex}: Props) {
+function Switcher({children, index, setIndex, className=''}: Props) {
   return (
-    <div className="switcher">
+    <div className={`switcher ${className}`}>
       <ul className="switcher__variants">
         { React.Children.map(children, (child, childIndex) => (
           <li className={`variants__variant ${index === childIndex && 'active'}`}>
