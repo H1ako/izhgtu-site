@@ -93,7 +93,7 @@ html {
     overflow: hidden;
     width: min(550px, calc(100vw - $margin * 2));
     height: min(800px, 95vh);
-    border: 2px solid var(--colorMain);
+    border: 2px solid var(--colorBgAccentLight);
 
     .menu__header {
       position: relative;

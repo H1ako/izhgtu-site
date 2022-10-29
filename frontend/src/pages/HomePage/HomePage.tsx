@@ -9,6 +9,7 @@ import MainSlider from "../../components/MainSlider/MainSlider";
 import Navbar from "../../components/Navbar/Navbar";
 import NewsMarquee from "../../components/NewsMarquee/NewsMarquee";
 import StudentNav from "../../components/StudentNav/StudentNav";
+import MapBlock from "../../components/MapBlock/MapBlock";
 
 function HomePage() {
   return (
@@ -28,7 +29,11 @@ function HomePage() {
         <Navbar />
         <NewsMarquee />
       </div>
-      <StudentNav />
+      <div className="content">
+        <StudentNav />
+        <MapBlock />
+      </div>
+      
     </PageLayout>
   )
 }

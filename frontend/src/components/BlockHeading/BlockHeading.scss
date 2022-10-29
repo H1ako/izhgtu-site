@@ -1,0 +1,11 @@
+.block-heading {
+  background: var(--colorMain);
+  border-radius: var(--bdrsBtn);
+  width: 85%;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: var(--fontSize3);
+  padding-block: .75em;
+  display: flex;
+  justify-content: center;
+}

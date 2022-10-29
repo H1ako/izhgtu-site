@@ -7,10 +7,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { fas } from '@fortawesome/free-solid-svg-icons';
 // components
 import {Link} from "react-router-dom";
+import Switcher from "../Switcher/Switcher";
 
 library.add(fas)
 
 function StudentNav() {
+  const [ categoryIndex, setCategoryIndex ] = React.useState<number>(0)
+  
   const links: LinkCategory[] = [
     {
       id: 0,
@@ -82,15 +85,13 @@ function StudentNav() {
   
   return (
     <nav aria-label="nav for students" className="student-nav">
-      <ul className="student-nav__link-categories">
-        { links.map(linkCategory => (
-          <li key={linkCategory.id} className="link-categories__category">
-            <Link to={`#link-category-${linkCategory.id}`}>{linkCategory.name}</Link>
-          </li>
+      <Switcher index={categoryIndex} setIndex={setCategoryIndex}>
+        { links.map((linkCategory, index) => (
+          <button key={`category-switch-${linkCategory.id}`}>{linkCategory.name}</button>
         ))}
-      </ul>
-      { links.map(linkCategory => (
-        <ul key={`link-category-${linkCategory.id}`} id={`link-category-${linkCategory.id}`} className="student-nav__category-links">
+      </Switcher>
+      { links.map((linkCategory, index) => (
+        <ul key={`link-category-${linkCategory.id}`} className={`student-nav__category-links ${categoryIndex === index && 'active'}`}>
           { linkCategory.links.map(link => (
             <li key={`link-${link.id}`} className="category-links__link">
               <Link to={link.href}>
