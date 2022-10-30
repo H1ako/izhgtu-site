@@ -7,7 +7,7 @@ import MiniProfile from "../MiniProfile/MiniProfile";
 import Search from "../Search/Search";
 import DayInfo from "../DayInfo/DayInfo";
 
-
+// TODO: make skip header button
 function Header() {
   return (
       <header>

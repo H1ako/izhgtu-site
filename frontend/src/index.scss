@@ -42,7 +42,12 @@ p {
 }
 
 html {
-  overflow-x: hidden;
+  //overflow-x: hidden;
+}
+
+.root {
+  position: relative;
+  width: 100vw;
 }
 
 body {

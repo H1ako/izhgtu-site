@@ -32,9 +32,20 @@ function MapBlock() {
           <button>Факультеты</button>
           <button>Транспорт</button>
         </Switcher>
-        <div className="map-block__istu-maps">
-      
-        </div>
+        <ul className="istu-map__maps">
+          <li className={`maps__map ${currentIstuMapIndex == 0 && 'active'}`}>
+            <img src="/assets/istu_maps/map_common.jpg" alt=""/>
+          </li>
+          <li className={`maps__map ${currentIstuMapIndex == 1 && 'active'}`}>
+            <img src="/assets/istu_maps/map_social.jpg" alt=""/>
+          </li>
+          <li className={`maps__map ${currentIstuMapIndex == 2 && 'active'}`}>
+            <img src="/assets/istu_maps/map_faculties.jpg" alt=""/>
+          </li>
+          <li className={`maps__map ${currentIstuMapIndex == 3 && 'active'}`}>
+            <img src="/assets/istu_maps/map_transport.jpg" alt=""/>
+          </li>
+        </ul>
       </div>
     </div>
   )

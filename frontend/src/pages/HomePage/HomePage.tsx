@@ -10,6 +10,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import NewsMarquee from "../../components/NewsMarquee/NewsMarquee";
 import StudentNav from "../../components/StudentNav/StudentNav";
 import MapBlock from "../../components/MapBlock/MapBlock";
+import EventCalendar from "../../components/EventCalendar/EventCalendar";
 
 function HomePage() {
   return (
@@ -31,6 +32,7 @@ function HomePage() {
       </div>
       <div className="content">
         <StudentNav />
+        <EventCalendar />
         <MapBlock />
       </div>
       

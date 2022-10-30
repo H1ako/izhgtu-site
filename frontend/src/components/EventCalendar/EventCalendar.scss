@@ -1,0 +1,40 @@
+@import "../../mixins";
+
+.event-calendar {
+  @include blockWithHeading;
+
+  &__calendar {
+    border-radius: var(--bdrsWindow);
+    overflow: hidden;
+    width: 100%;
+
+    .calendar__tile {
+      position: relative;
+      z-index: 1;
+
+      &.react-calendar__tile--active {
+        overflow-y: visible !important;
+
+        .tile__info {
+          display: grid;
+        }
+      }
+
+      &:hover {
+
+      }
+
+      .tile__info {
+        display: none;
+        position: absolute;
+        bottom: 100%;
+        left: 0;
+        width: 100%;
+        background: red;
+        border-radius: var(--bdrsWindow) var(--bdrsWindow) 0 0;
+        //padding: .5rem;
+        place-content: center;
+      }
+    }
+  }
+}

@@ -15,4 +15,9 @@ declare global {
     name: string,
     links: CategoryLink[]
   }
+  
+  interface DateEvent {
+    date: Date,
+    info: string
+  }
 }

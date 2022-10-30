@@ -35,10 +35,12 @@
   --bdrsWindow: 10px;
 
   // width
-  --widthContent: min(1200px, 100vw);
+  --widthContent: min(1200px, 100%);
 
   // height
   --heightHeader: 3rem;
+  //--heightBlockTiny: min(30rem, 80vw, 35vh);
+  --heightBlockDefault: min(40rem, 60vw, 70vh);
 
   // padding
   --paddingBtn: .5em 3em;
