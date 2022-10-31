@@ -17,7 +17,9 @@ declare global {
   }
   
   interface DateEvent {
+    id: IdType,
     date: Date,
-    info: string
+    info: string,
+    image: string,
   }
 }
