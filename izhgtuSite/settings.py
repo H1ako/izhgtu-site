@@ -18,11 +18,30 @@ ALLOWED_HOSTS = [
     '127.0.0.1'
 ]
 
+# cms
+SITE_ID = 1
+
 LANGUAGES = [
     ('en', 'English'),
     ('ru', 'Russian'),
 ]
 
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+CMS_TEMPLATES = [
+    ('index.html', 'Main Template'),
+]
+
+THUMBNAIL_HIGH_RESOLUTION = True
+
+THUMBNAIL_PROCESSORS = (
+    'easy_thumbnails.processors.colorspace',
+    'easy_thumbnails.processors.autocrop',
+    'filer.thumbnail_processors.scale_and_crop_with_subject_location',
+    'easy_thumbnails.processors.filters'
+)
+
+# rest framework
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
@@ -30,6 +49,7 @@ REST_FRAMEWORK = {
     # 'PAGE_SIZE': 10
 }
 
+# passwordless authentication
 PASSWORDLESS_AUTH = {
     'PASSWORDLESS_AUTH_TYPES': ['EMAIL'],  # 'MOBILE'
     'PASSWORDLESS_EMAIL_NOREPLY_ADDRESS': 'noreply@istu.com',
@@ -50,6 +70,24 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    # cms
+    'sekizai',
+    # 'sekizai.context_processors.sekizai',
+    'django.contrib.sites',
+    'cms',
+    'menus',
+    'treebeard',
+    'filer',
+    'easy_thumbnails',
+    'mptt',
+    'djangocms_text_ckeditor',
+    'djangocms_link',
+    'djangocms_file',
+    'djangocms_picture',
+    'djangocms_video',
+    'djangocms_googlemap',
+    'djangocms_snippet',
+    'djangocms_style',
     # passwordless authentication
     'drfpasswordless',
     'frontend'
@@ -64,6 +102,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
+    # cms
+    'cms.middleware.user.CurrentUserMiddleware',
+    'cms.middleware.page.CurrentPageMiddleware',
+    'cms.middleware.toolbar.ToolbarMiddleware',
+    'cms.middleware.language.LanguageCookieMiddleware',
 ]
 
 ROOT_URLCONF = 'izhgtuSite.urls'
@@ -72,7 +115,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'frontend/build')
+            os.path.join(BASE_DIR, 'frontend/build'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -81,6 +124,10 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # cms
+                'sekizai.context_processors.sekizai',
+                'django.template.context_processors.i18n',
+                'cms.context_processors.cms_settings'
             ],
         },
     },

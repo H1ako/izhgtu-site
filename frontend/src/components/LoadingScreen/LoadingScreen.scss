@@ -34,7 +34,7 @@
     &.side-left {
       left: 0;
 
-      .side__icon {
+      & > * {
         align-self: flex-end;
         translate: 50%;
       }
@@ -43,13 +43,13 @@
     &.side-right {
       right: 0;
 
-      .side__icon {
+      & > * {
         align-self: flex-start;
         translate: -50%;
       }
     }
 
-    .side__icon {
+    .side-text {
 
     }
   }

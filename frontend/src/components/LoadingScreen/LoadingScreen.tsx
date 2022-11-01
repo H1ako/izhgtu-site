@@ -40,9 +40,11 @@ function LoadingScreen({transition=600}: Props) {
     >
       <div className="loading-screen__side side-left">
         <LoaderIcon className="side__icon" />
+        <h2 className="side__text">ЗАГРУЗКА...</h2>
       </div>
       <div className="loading-screen__side side-right">
         <LoaderIcon className="side__icon" />
+        <h2 className="side__text">ЗАГРУЗКА...</h2>
       </div>
     </div>
   )
