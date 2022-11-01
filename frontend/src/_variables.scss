@@ -12,6 +12,7 @@
   // transition
   --transitionDefault: 150ms;
   --transitionBig: 300ms;
+  --transitionBiggest: 600ms;
 
   // color
   --colorText: #E8E6E3;
@@ -49,6 +50,7 @@
   // z-index
   --zIndexHeader: 999;
   --zIndexWindow: 9999;
+  --zIndexHighest: 9999999;
 
   // filter's effects
   --brightnessDefault: 1.3;

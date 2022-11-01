@@ -1,6 +1,7 @@
 // global
 import React from 'react'
 // recoil atoms
+import {useRecoilState} from "recoil";
 import {lightboxImageSrcAtom} from "../../recoilAtoms/lightboxAtom";
 // styles and icons
 import './PageLayout.scss';
@@ -9,7 +10,7 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import AccessibilityMenu from "../../components/AccessibilityMenu/AccessibilityMenu";
 import Lightbox from "../../components/Lighbox/Lightbox";
-import {useRecoilState} from "recoil";
+import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
 
 interface Props {
     children: React.ReactNode
@@ -29,6 +30,7 @@ function PageLayout({ children }: Props) {
       <Footer />
       {/* fixed elements */}
       <AccessibilityMenu />
+      <LoadingScreen />
       { lightboxImageSrc &&
         <Lightbox imageSrc={lightboxImageSrc} onClose={closeLightbox} />
       }
