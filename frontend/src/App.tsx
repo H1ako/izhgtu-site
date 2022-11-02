@@ -11,23 +11,10 @@ function App() {
     setIsLoading(false)
   }, 500)
   
-  const pagesComponents = {
-    homePage: <HomePage />
-  }
-  
-  const routes = [
-    {
-      id: 0,
-      path: '/',
-      component: <HomePage />
-    }
-  ]
   
   return (
     <Routes>
-      {routes.map(route => (
-        <Route path={route.path} key={`route-${route.id}`} element={route.component}></Route>
-      ))}
+      <Route path='/' element={<HomePage />} />
     </Routes>
   );
 }

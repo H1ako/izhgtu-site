@@ -14,45 +14,65 @@ function EventCalendar() {
   const dateEvents: DateEvent[] = [
     {
       id: 0,
-      date: new Date(),
-      info: 'Корпоратив',
-      image: '/assets/ev.jpg'
+      image: '/assets/ev.jpg',
+      description: 'Корпоратив',
+      date: 'Wed Nov 02 2022 22:04:24 GMT+0400 (Самарское стандартное время)',
+      updatedAt: '',
+      createdAt: '',
+      post: null
     },
     {
       id: 1,
-      date: new Date(),
-      info: 'Встреча одноклассников',
-      image: '/assets/ev.jpg'
+      image: '/assets/ev.jpg',
+      description: 'Корпоратив',
+      date: 'Wed Nov 02 2022 22:04:24 GMT+0400 (Самарское стандартное время)',
+      updatedAt: '',
+      createdAt: '',
+      post: null
     },
     {
       id: 2,
-      date: new Date(),
-      info: 'Корпоратив',
-      image: '/assets/ev.jpg'
+      image: '/assets/ev.jpg',
+      description: 'Корпоратив',
+      date: 'Wed Nov 02 2022 22:04:24 GMT+0400 (Самарское стандартное время)',
+      updatedAt: '',
+      createdAt: '',
+      post: null
     },
     {
       id: 3,
-      date: new Date(),
-      info: 'Встреча одноклассников',
-      image: '/assets/ev.jpg'
+      image: '/assets/ev.jpg',
+      description: 'Встреча одноклассников',
+      date: 'Wed Nov 02 2022 22:04:24 GMT+0400 (Самарское стандартное время)',
+      updatedAt: '',
+      createdAt: '',
+      post: null
     },
     {
       id: 4,
-      date: new Date(),
-      info: 'Корпоратив',
-      image: '/assets/ev.jpg'
+      image: '/assets/ev.jpg',
+      description: 'Корпоратив',
+      date: 'Wed Nov 02 2022 22:04:24 GMT+0400 (Самарское стандартное время)',
+      updatedAt: '',
+      createdAt: '',
+      post: null
     },
     {
       id: 5,
-      date: new Date(),
-      info: 'Встреча одноклассников',
-      image: '/assets/ev.jpg'
+      image: '/assets/ev.jpg',
+      description: 'Встреча одноклассников',
+      date: 'Wed Nov 02 2022 22:04:24 GMT+0400 (Самарское стандартное время)',
+      updatedAt: '',
+      createdAt: '',
+      post: null
     }
   ]
   
   const getDateEvents = (date: Date): DateEvent[] => {
     return dateEvents.filter((dateEvents => {
-      return dateEvents.date.toDateString() == date.toDateString()
+      const eventDate = new Date(dateEvents.date)
+      
+      return eventDate.toDateString() == date.toDateString()
     }))
   }
   
@@ -76,7 +96,7 @@ function EventCalendar() {
                 {currentDateEvents.map(dateEvent => (
                   <li key={`date-event-${dateEvent.id}`} className="events__event">
                     <img className="event__image" src={dateEvent.image} alt=""/>
-                    <p className="event__description">{dateEvent.info}</p>
+                    <p className="event__description">{dateEvent.description}</p>
                   </li>
                 ))}
               </ul>
