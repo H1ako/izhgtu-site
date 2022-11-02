@@ -1,13 +1,14 @@
+from cms.models import Page
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, re_path, include
 from django.views.generic import TemplateView
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
-    re_path(r'^', include('cms.urls')),
     path('', include('drfpasswordless.urls')),
 ]
 

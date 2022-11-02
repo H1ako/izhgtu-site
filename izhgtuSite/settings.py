@@ -18,28 +18,28 @@ ALLOWED_HOSTS = [
     '127.0.0.1'
 ]
 
-# cms
-SITE_ID = 1
-
 LANGUAGES = [
     ('en', 'English'),
     ('ru', 'Russian'),
 ]
 
-X_FRAME_OPTIONS = 'SAMEORIGIN'
-
-CMS_TEMPLATES = [
-    ('index.html', 'Main Template'),
-]
-
-THUMBNAIL_HIGH_RESOLUTION = True
-
-THUMBNAIL_PROCESSORS = (
-    'easy_thumbnails.processors.colorspace',
-    'easy_thumbnails.processors.autocrop',
-    'filer.thumbnail_processors.scale_and_crop_with_subject_location',
-    'easy_thumbnails.processors.filters'
-)
+# cms
+# SITE_ID = 1
+#
+# X_FRAME_OPTIONS = 'SAMEORIGIN'
+#
+# CMS_TEMPLATES = [
+#     ('index.html', 'Main Template'),
+# ]
+#
+# THUMBNAIL_HIGH_RESOLUTION = True
+#
+# THUMBNAIL_PROCESSORS = (
+#     'easy_thumbnails.processors.colorspace',
+#     'easy_thumbnails.processors.autocrop',
+#     'filer.thumbnail_processors.scale_and_crop_with_subject_location',
+#     'easy_thumbnails.processors.filters'
+# )
 
 # rest framework
 REST_FRAMEWORK = {
@@ -71,23 +71,23 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     # cms
-    'sekizai',
+    # 'sekizai',
     # 'sekizai.context_processors.sekizai',
-    'django.contrib.sites',
-    'cms',
-    'menus',
-    'treebeard',
-    'filer',
-    'easy_thumbnails',
-    'mptt',
-    'djangocms_text_ckeditor',
-    'djangocms_link',
-    'djangocms_file',
-    'djangocms_picture',
-    'djangocms_video',
-    'djangocms_googlemap',
-    'djangocms_snippet',
-    'djangocms_style',
+    # 'django.contrib.sites',
+    # 'cms',
+    # 'menus',
+    # 'treebeard',
+    # 'filer',
+    # 'easy_thumbnails',
+    # 'mptt',
+    # 'djangocms_text_ckeditor',
+    # 'djangocms_link',
+    # 'djangocms_file',
+    # 'djangocms_picture',
+    # 'djangocms_video',
+    # 'djangocms_googlemap',
+    # 'djangocms_snippet',
+    # 'djangocms_style',
     # passwordless authentication
     'drfpasswordless',
     'frontend'
@@ -103,10 +103,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     # cms
-    'cms.middleware.user.CurrentUserMiddleware',
-    'cms.middleware.page.CurrentPageMiddleware',
-    'cms.middleware.toolbar.ToolbarMiddleware',
-    'cms.middleware.language.LanguageCookieMiddleware',
+    # 'cms.middleware.user.CurrentUserMiddleware',
+    # 'cms.middleware.page.CurrentPageMiddleware',
+    # 'cms.middleware.toolbar.ToolbarMiddleware',
+    # 'cms.middleware.language.LanguageCookieMiddleware',
 ]
 
 ROOT_URLCONF = 'izhgtuSite.urls'
@@ -125,9 +125,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 # cms
-                'sekizai.context_processors.sekizai',
-                'django.template.context_processors.i18n',
-                'cms.context_processors.cms_settings'
+                # 'sekizai.context_processors.sekizai',
+                # 'django.template.context_processors.i18n',
+                # 'cms.context_processors.cms_settings'
             ],
         },
     },
@@ -189,7 +189,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'assets/'
+STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
     BASE_DIR / 'frontend/build/static/',
