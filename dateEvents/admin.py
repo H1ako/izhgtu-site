@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+from dateEvents.models import DateEventPost, DateEvent
+
+
+admin.site.register(DateEventPost)
+admin.site.register(DateEvent)

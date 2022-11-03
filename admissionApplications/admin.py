@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from admissionApplications.models import AdmissionApplication
+
+
+admin.site.register(AdmissionApplication)
