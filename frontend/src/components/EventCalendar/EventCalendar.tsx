@@ -14,8 +14,9 @@ function EventCalendar() {
   const dateEvents: DateEvent[] = [
     {
       id: 0,
-      image: '/assets/ev.jpg',
-      description: 'Корпоратив',
+      picture: '/assets/ev.jpg',
+      name: 'Корпоратив',
+      description: 'Встреча сотрудников',
       date: 'Wed Nov 02 2022 22:04:24 GMT+0400 (Самарское стандартное время)',
       updatedAt: '',
       createdAt: '',
@@ -23,8 +24,9 @@ function EventCalendar() {
     },
     {
       id: 1,
-      image: '/assets/ev.jpg',
-      description: 'Корпоратив',
+      picture: '/assets/ev.jpg',
+      name: 'Корпоратив',
+      description: 'Встреча сотрудников',
       date: 'Wed Nov 02 2022 22:04:24 GMT+0400 (Самарское стандартное время)',
       updatedAt: '',
       createdAt: '',
@@ -32,8 +34,9 @@ function EventCalendar() {
     },
     {
       id: 2,
-      image: '/assets/ev.jpg',
-      description: 'Корпоратив',
+      picture: '/assets/ev.jpg',
+      name: 'Корпоратив',
+      description: 'Встреча сотрудников',
       date: 'Wed Nov 02 2022 22:04:24 GMT+0400 (Самарское стандартное время)',
       updatedAt: '',
       createdAt: '',
@@ -41,8 +44,9 @@ function EventCalendar() {
     },
     {
       id: 3,
-      image: '/assets/ev.jpg',
-      description: 'Встреча одноклассников',
+      picture: '/assets/ev.jpg',
+      name: 'Корпоратив',
+      description: 'Встреча сотрудников',
       date: 'Wed Nov 02 2022 22:04:24 GMT+0400 (Самарское стандартное время)',
       updatedAt: '',
       createdAt: '',
@@ -50,8 +54,9 @@ function EventCalendar() {
     },
     {
       id: 4,
-      image: '/assets/ev.jpg',
-      description: 'Корпоратив',
+      picture: '/assets/linkGroupBg.jpg',
+      name: 'Корпоратив',
+      description: 'Встреча сотрудников',
       date: 'Wed Nov 02 2022 22:04:24 GMT+0400 (Самарское стандартное время)',
       updatedAt: '',
       createdAt: '',
@@ -59,8 +64,9 @@ function EventCalendar() {
     },
     {
       id: 5,
-      image: '/assets/ev.jpg',
-      description: 'Встреча одноклассников',
+      picture: '/assets/ev.jpg',
+      name: 'Корпоратив',
+      description: 'Встреча сотрудников',
       date: 'Wed Nov 02 2022 22:04:24 GMT+0400 (Самарское стандартное время)',
       updatedAt: '',
       createdAt: '',
@@ -95,7 +101,8 @@ function EventCalendar() {
               <ul className="date-info__events">
                 {currentDateEvents.map(dateEvent => (
                   <li key={`date-event-${dateEvent.id}`} className="events__event">
-                    <img className="event__image" src={dateEvent.image} alt=""/>
+                    <img className="event__image" src={dateEvent.picture} alt=""/>
+                    <h4 className="event__name">{dateEvent.name}</h4>
                     <p className="event__description">{dateEvent.description}</p>
                   </li>
                 ))}

@@ -21,20 +21,22 @@ declare global {
     updatedAt: string
   }
   
+  interface Subject {
+    id: IdType,
+    name: string
+  }
+  
   interface EducationType extends Model{
     id: IdType,
     name: string,
-    teachers: User[],
     faculties: Faculty[],
-    specializations: Specialization[],
-    groups: SpecializationGroup[]
   }
   
   interface Faculty extends Model {
     id: IdType,
     name: string,
+    educationType: EducationType,
     specializations: Specialization[],
-    teachers: User[]
   }
   
   interface Specialization extends Model {
@@ -42,15 +44,15 @@ declare global {
     name: string,
     faculty: Faculty,
     groups: SpecializationGroup[],
-    teachers: User[]
   }
   
   interface SpecializationGroup extends Model {
     id: IdType,
     name: string,
     specialization: Specialization,
-    teachers: User[],
-    students: User[]
+    teachers: Teacher[],
+    students: Student[],
+    subjects: Subject[]
   }
   
   interface Achievement extends Model {
@@ -61,6 +63,7 @@ declare global {
   
   interface UserTag extends Model {
     id: IdType,
+    users: User[],
     name: string,
     description: string | null
   }
@@ -76,13 +79,15 @@ declare global {
   interface User extends Model {
     id: IdType,
     firstName: string,
-    role: string,
     lastName: string,
+    patronymic: string,
     fullName: string,
     picture: string,
     bgPicture: string,
     phone: string,
     email: string,
+    isStaff: boolean,
+    isSuperuser: boolean,
     achievements: Achievement[],
     documents: UserDocument[],
     tags: UserTag[]
@@ -91,15 +96,11 @@ declare global {
   interface Student extends User {
     group: SpecializationGroup[],
     specialization: Specialization,
-    faculty: Faculty,
-    educationType: EducationType
   }
   
   interface Teacher extends User {
     groups: SpecializationGroup[],
-    educationTypes: EducationType[],
-    specializations: Specialization[]
-    faculties: Faculty[]
+    subjects: Subject[]
   }
   
   interface Entrant extends Model {
@@ -108,22 +109,22 @@ declare global {
   
   interface AdmissionApplication {
     id: IdType,
-    user: User,
+    entrant: Entrant,
     specialization: Specialization,
   }
   
   interface DateEventPost extends Model {
     id: IdType,
-    name: string,
     author: User,
-    dateEventShort: DateEvent
+    dateEvent: DateEvent
   }
   
   interface DateEvent extends Model {
     id: IdType,
+    name: string,
+    description: string,
+    picture: string,
     date: string,
     post: DateEventPost | null,
-    description: string,
-    image: string,
   }
 }

@@ -15,13 +15,19 @@ SECRET_KEY = 'django-insecure-&xdf4urq!dajk_(d3w3q-bd^d$*+6rqfeo582vw61*50m)as-z
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '127.0.0.1'
+    '127.0.0.1',
+    'http://localhost:3000'
 ]
 
 LANGUAGES = [
     ('en', 'English'),
     ('ru', 'Russian'),
 ]
+
+AUTHENTICATION_BACKENDS = (
+    'authentication.backends.StudentCardIdOrEmailBackend',
+    'django.contrib.auth.backends.ModelBackend'  # fallback to default authentication backend if first fails
+)
 
 # cms
 # SITE_ID = 1
@@ -90,7 +96,13 @@ INSTALLED_APPS = [
     # 'djangocms_style',
     # passwordless authentication
     'drfpasswordless',
-    'frontend'
+    # apps
+    'frontend',
+    'users',
+    'authentication',
+    'education',
+    'dateEvents',
+    'admissionApplications',
 ]
 
 MIDDLEWARE = [
@@ -160,16 +172,16 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.authentication.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': 'django.contrib.authentication.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': 'django.contrib.authentication.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'django.contrib.authentication.password_validation.NumericPasswordValidator',
     },
 ]
 
@@ -184,6 +196,8 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+AUTH_USER_MODEL = 'users.CustomUser'
 
 
 # Static files (CSS, JavaScript, Images)
