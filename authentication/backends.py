@@ -7,7 +7,7 @@ userModel = get_user_model()
 class StudentCardIdOrEmailBackend(object):
     def authenticate(self, username=None, password=None, **kwargs):
         try:
-            user = userModel.objects.get(Q(student__cardId=username) | Q(email=username))
+            user = userModel.objects.get(Q(phone=username) | Q(email=username))
             if user.check_password(password):
                 return user
         except userModel.DoesNotExist:
