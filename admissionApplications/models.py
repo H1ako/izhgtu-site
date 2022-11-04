@@ -20,3 +20,7 @@ class AdmissionApplication(TimeStampedModel):
         null=True,
         on_delete=models.SET_NULL
     )
+
+    class Meta:
+        verbose_name = _('Admission Application')
+        verbose_name_plural = _('Admission Applications')

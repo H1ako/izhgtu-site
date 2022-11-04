@@ -14,6 +14,10 @@ class DateEventPost(TimeStampedModel):
         null=True
     )
 
+    class Meta:
+        verbose_name = _('Date Event Post')
+        verbose_name_plural = _('Date Event Posts')
+
 
 class DateEvent(TimeStampedModel):
     date = models.DateTimeField(_('Date'))
@@ -27,4 +31,8 @@ class DateEvent(TimeStampedModel):
     name = models.CharField(_('Name'), max_length=150)
     description = models.CharField(_('Description'), max_length=255)
     picture = models.ImageField(_('Picture'), upload_to='dateEventsPictures/')
+
+    class Meta:
+        verbose_name = _('Date Event')
+        verbose_name_plural = _('Date Events')
 

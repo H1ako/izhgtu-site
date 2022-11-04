@@ -8,9 +8,17 @@ from izhgtuSite.models import TimeStampedModel
 class Subject(TimeStampedModel):
     name = models.CharField(_('Name'), max_length=200, unique=True)
 
+    class Meta:
+        verbose_name = _('Subject')
+        verbose_name_plural = _('Subjects')
+
 
 class EducationType(TimeStampedModel):
     name = models.CharField(_('Name'), max_length=200, unique=True)
+
+    class Meta:
+        verbose_name = _('Education Type')
+        verbose_name_plural = _('Education Types')
 
 
 class Faculty(TimeStampedModel):
@@ -23,6 +31,10 @@ class Faculty(TimeStampedModel):
         on_delete=models.SET_NULL
     )
 
+    class Meta:
+        verbose_name = _('Faculty')
+        verbose_name_plural = _('Faculties')
+
 
 class Specialization(TimeStampedModel):
     name = models.CharField(_('Name'), max_length=200, unique=True)
@@ -33,6 +45,10 @@ class Specialization(TimeStampedModel):
         null=True,
         on_delete=models.SET_NULL
     )
+
+    class Meta:
+        verbose_name = _('Specialization')
+        verbose_name_plural = _('Specializations')
 
 
 class SpecializationGroup(TimeStampedModel):
@@ -53,3 +69,7 @@ class SpecializationGroup(TimeStampedModel):
         null=True
     )
     subjects = models.ManyToManyField(Subject, verbose_name=_('Subjects'), related_name='groups')
+
+    class Meta:
+        verbose_name = _('Specialization Group')
+        verbose_name_plural = _('Specialization Groups')

@@ -12,10 +12,18 @@ class UserTag(TimeStampedModel):
     name = models.CharField(_('Name'), max_length=60)
     description = models.CharField(_('Description'), max_length=255, null=True, blank=True)
 
+    class Meta:
+        verbose_name = _('User Tag')
+        verbose_name_plural = _('User Tags')
+
 
 class Student(TimeStampedModel):
     user = models.OneToOneField(CustomUser, verbose_name=_('User'), related_name='student', on_delete=models.CASCADE)
     group = models.ForeignKey(SpecializationGroup, related_name='students', null=True, on_delete=models.SET_NULL)
+
+    class Meta:
+        verbose_name = _('Student')
+        verbose_name_plural = _('Students')
 
 
 class StudentCard(TimeStampedModel):
@@ -31,15 +39,27 @@ class StudentCard(TimeStampedModel):
         null=True
     )
 
+    class Meta:
+        verbose_name = _('Student Card')
+        verbose_name_plural = _('Student Cards')
+
 
 class Teacher(TimeStampedModel):
     user = models.OneToOneField(CustomUser, verbose_name=_('User'), related_name='teacher', on_delete=models.CASCADE)
     subjects = models.ManyToManyField(Subject, related_name='teachers')
     groups = models.ManyToManyField(SpecializationGroup, related_name='teachers')
 
+    class Meta:
+        verbose_name = _('Teacher')
+        verbose_name_plural = _('Teachers')
+
 
 class Entrant(TimeStampedModel):
     user = models.OneToOneField(CustomUser, verbose_name=_('User'), related_name='entrant', on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = _('Entrant')
+        verbose_name_plural = _('Entrants')
 
 
 class UserDocument(TimeStampedModel):
@@ -47,3 +67,7 @@ class UserDocument(TimeStampedModel):
     name = models.CharField(_('Name'), max_length=100)
     file = models.FileField(_('File'), upload_to='userDocuments')
     fileType = models.CharField(_('File Type'), max_length=50)
+
+    class Meta:
+        verbose_name = _('User Document')
+        verbose_name_plural = _('User Documents')
