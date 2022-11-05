@@ -21,6 +21,12 @@ class AdmissionApplication(TimeStampedModel):
         on_delete=models.SET_NULL
     )
 
+    def getEducationType(self):
+        return self.specialization.faculty.educationType.name
+
+    def __str__(self):
+        return f"[{self.entrant.user}] : {self.specialization.name} - {self.getEducationType()}"
+
     class Meta:
         verbose_name = _('Admission Application')
         verbose_name_plural = _('Admission Applications')

@@ -12,6 +12,9 @@ class Subject(TimeStampedModel):
         verbose_name = _('Subject')
         verbose_name_plural = _('Subjects')
 
+    def __str__(self):
+        return f"{self.name}"
+
 
 class EducationType(TimeStampedModel):
     name = models.CharField(_('Name'), max_length=200, unique=True)
@@ -19,6 +22,9 @@ class EducationType(TimeStampedModel):
     class Meta:
         verbose_name = _('Education Type')
         verbose_name_plural = _('Education Types')
+
+    def __str__(self):
+        return f"{self.name}"
 
 
 class Faculty(TimeStampedModel):
@@ -35,6 +41,9 @@ class Faculty(TimeStampedModel):
         verbose_name = _('Faculty')
         verbose_name_plural = _('Faculties')
 
+    def __str__(self):
+        return f"{self.educationType.name} - {self.name}"
+
 
 class Specialization(TimeStampedModel):
     name = models.CharField(_('Name'), max_length=200, unique=True)
@@ -49,6 +58,9 @@ class Specialization(TimeStampedModel):
     class Meta:
         verbose_name = _('Specialization')
         verbose_name_plural = _('Specializations')
+
+    def __str__(self):
+        return f"{self.faculty} - {self.name}"
 
 
 class SpecializationGroup(TimeStampedModel):
@@ -73,3 +85,6 @@ class SpecializationGroup(TimeStampedModel):
     class Meta:
         verbose_name = _('Specialization Group')
         verbose_name_plural = _('Specialization Groups')
+
+    def __str__(self):
+        return f"{self.name} - {self.specialization.name}"

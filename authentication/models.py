@@ -24,8 +24,17 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     objects = CustomUserManager()
 
-    def get_full_name(self):
+    def __str__(self):
+        return f"{self.getInfo()}"
+
+    def getInfo(self):
+        return f"{self.getFullName()} - {self.email}"
+
+    def getMainName(self):
         return f'{self.lastName} {self.firstName}'
+
+    def getFullName(self):
+        return f'{self.getMainName()} {self.patronymic}'
 
     class Meta:
         verbose_name = _('User')

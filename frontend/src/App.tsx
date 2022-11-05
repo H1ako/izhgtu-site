@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {lazy} from 'react';
 import { Route, Routes } from "react-router-dom";
-import HomePage from "./pages/HomePage/HomePage";
 import {useRecoilState} from "recoil";
 import {loadingScreenAtom} from "./recoilAtoms/loadingAtom";
+
+const HomePage = lazy(() => import("./pages/HomePage/HomePage"))
 
 function App() {
   const [ isLoading, setIsLoading ] = useRecoilState(loadingScreenAtom)

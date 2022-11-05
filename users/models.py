@@ -16,6 +16,9 @@ class UserTag(TimeStampedModel):
         verbose_name = _('User Tag')
         verbose_name_plural = _('User Tags')
 
+    def __str__(self):
+        return f"[{self.name}] : {self.description}"
+
 
 class Student(TimeStampedModel):
     user = models.OneToOneField(CustomUser, verbose_name=_('User'), related_name='student', on_delete=models.CASCADE)
@@ -24,6 +27,9 @@ class Student(TimeStampedModel):
     class Meta:
         verbose_name = _('Student')
         verbose_name_plural = _('Students')
+
+    def __str__(self):
+        return f"{self.user}"
 
 
 class StudentCard(TimeStampedModel):
@@ -43,6 +49,9 @@ class StudentCard(TimeStampedModel):
         verbose_name = _('Student Card')
         verbose_name_plural = _('Student Cards')
 
+    def __str__(self):
+        return f"{self.student.user} - {self.cardId}"
+
 
 class Teacher(TimeStampedModel):
     user = models.OneToOneField(CustomUser, verbose_name=_('User'), related_name='teacher', on_delete=models.CASCADE)
@@ -53,6 +62,9 @@ class Teacher(TimeStampedModel):
         verbose_name = _('Teacher')
         verbose_name_plural = _('Teachers')
 
+    def __str__(self):
+        return f"{self.user}"
+
 
 class Entrant(TimeStampedModel):
     user = models.OneToOneField(CustomUser, verbose_name=_('User'), related_name='entrant', on_delete=models.CASCADE)
@@ -60,6 +72,9 @@ class Entrant(TimeStampedModel):
     class Meta:
         verbose_name = _('Entrant')
         verbose_name_plural = _('Entrants')
+
+    def __str__(self):
+        return f"{self.user}"
 
 
 class UserDocument(TimeStampedModel):
@@ -71,3 +86,6 @@ class UserDocument(TimeStampedModel):
     class Meta:
         verbose_name = _('User Document')
         verbose_name_plural = _('User Documents')
+
+    def __str__(self):
+        return f"{self.user} - {self.name}"
