@@ -48,10 +48,6 @@
         translate: -50%;
       }
     }
-
-    .side-text {
-
-    }
   }
 }
 
@@ -60,6 +56,6 @@
     background: var(--colorMain);
   }
   to {
-    background: var(--colorBg);
+    background: var(--colorBgDark);
   }
 }

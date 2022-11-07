@@ -2,6 +2,7 @@
 import React from 'react'
 // styles and icons
 import './Profile.scss';
+import WindowWithHeaderLayout from "../../containers/WindowWithHeaderLayout/WindowWithHeaderLayout";
 // components
 
 interface ProfileProps {
@@ -10,12 +11,13 @@ interface ProfileProps {
 
 function Profile({className}: ProfileProps) {
   return (
-      <div className={`profile ${className}}`}>
-        <button className="profile__toggle">
-          <img className="toggle__user-picture" src="/assets/ava.png" alt=""/>
-        </button>
-        <div className="profile__content"></div>
-      </div>
+    <WindowWithHeaderLayout className={`profile ${className}`} ToggleButton={
+      <button className="profile__toggle">
+        <img className="toggle__user-picture" src="/assets/ava.png" alt=""/>
+      </button>
+    }>
+      a
+    </WindowWithHeaderLayout>
   )
 }
 
