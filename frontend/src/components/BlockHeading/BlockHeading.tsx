@@ -11,9 +11,9 @@ interface Props {
 
 function BlockHeading({children, className=''}: Props) {
   return (
-    <div className={`block-heading ${className}`}>
+    <h1 className={`block-heading ${className}`}>
       {children}
-    </div>
+    </h1>
   )
 }
 

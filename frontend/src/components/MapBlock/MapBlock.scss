@@ -3,46 +3,11 @@
 .map-block {
   @include blockWithHeading;
 
-  position: relative;
-
-  &__istu-map {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    align-items: center;
-
-    &:not(.active) {
-      display: none;
-    }
-
-    .istu-map__maps {
-
-      .maps__map {
-        position: relative;
-        width: 100%;
-
-        &:not(.active) {
-          display: none;
-        }
-
-        img {
-          width: 100%;
-          height: var(--heightBlockDefault);
-          object-position: center;
-          object-fit: cover;
-          border-radius: var(--bdrsWindow);
-        }
-      }
-    }
-  }
+  width: 100%;
 
   &__yandex-map {
-    border-radius: var(--bdrsWindow);
     width: 100%;
-    height: var(--heightBlockDefault);
-
-    &:not(.active) {
-      display: none;
-    }
+    min-height: 10rem;
+    //height: var(--heightBlockDefault);
   }
 }

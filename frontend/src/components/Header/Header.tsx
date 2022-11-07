@@ -3,18 +3,18 @@ import React from 'react'
 // styles and icons
 import './Header.scss';
 // components
-import MiniProfile from "../MiniProfile/MiniProfile";
-import Search from "../Search/Search";
-import DayInfo from "../DayInfo/DayInfo";
+import AppLogo from "../AppLogo/AppLogo";
+import Menu from "../Menu/Menu";
+import Profile from "../Profile/Profile";
 
 // TODO: make skip header button
 function Header() {
   return (
       <header>
           <div className="header__content">
-              <DayInfo />
-              <Search />
-              <MiniProfile />
+            <Menu className="content__menu" />
+            <AppLogo className="content__logo" />
+            <Profile className="content__profile" />
           </div>
       </header>
   )

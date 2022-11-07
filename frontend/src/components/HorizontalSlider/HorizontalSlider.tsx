@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil'
 // recoil atoms
 import {lightboxImageSrcAtom} from "../../recoilAtoms/lightboxAtom";
 // styles and icons
-import './MainSlider.scss';
+import './HorizontalSlider.scss';
 import "slick-carousel/slick/slick.css";
 // import "slick-carousel/slick/slick-theme.css";
 import {
@@ -23,7 +23,7 @@ interface Props {
   children: React.ReactNode
 }
 
-function MainSlider({children}: Props) {
+function HorizontalSlider({children}: Props) {
   const [ ref, setRef ] = React.useState<Slider | null>(null)
   const [ isControlVisible, setControlVisibly ] = React.useState<boolean>(false)
   const [ areSliderElementsVisible, setSliderElementsVisibility ] = React.useState<boolean>(true)
@@ -71,41 +71,21 @@ function MainSlider({children}: Props) {
   
   return (
     <div
-      className={`slider-container ${!areSliderElementsVisible && 'hide-elements'}`}
+      className='slider-container'
     >
-      <div
-        className={`slider-container__control ${isControlVisible && 'active'}`}
-        onMouseLeave={closeControl}
-      >
-        <button className="control__toggle" onClick={toggleControl} onMouseEnter={openControl}>
-          <FontAwesomeIcon icon={faScrewdriverWrench} />
-        </button>
-        <div className="control__menu">
-          <button className="menu__btn menu__arrow" onClick={ref?.slickPrev}>
-            <FontAwesomeIcon icon={faChevronLeft} />
-          </button>
-          <button className="menu__btn menu__toggle-autoplay" onClick={toggleAutoplay}>
-            { paused ?
-              <FontAwesomeIcon icon={faPlay} />
-              :
-              <FontAwesomeIcon icon={faPause} />
-            }
-          </button>
-          <button className="menu__btn menu__arrow" onClick={ref?.slickNext}>
-            <FontAwesomeIcon icon={faChevronRight} />
-          </button>
-          <button className="menu__btn menu__toggle-hide" onClick={toggleHidingElements}>
-            { areSliderElementsVisible ?
-              <FontAwesomeIcon icon={faEyeSlash} />
-              :
-              <FontAwesomeIcon icon={faEye} />
-            }
-          </button>
-          <button className="menu__btn menu__toggle-lightbox" onClick={openLightbox}>
-            <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
-          </button>
-        </div>
-      </div>
+      <button className="menu__btn menu__toggle-autoplay" onClick={toggleAutoplay}>
+        { paused ?
+          <FontAwesomeIcon icon={faPlay} />
+          :
+          <FontAwesomeIcon icon={faPause} />
+        }
+      </button>
+      <button className="control__toggle" onClick={toggleControl} onMouseEnter={openControl}>
+        <FontAwesomeIcon icon={faScrewdriverWrench} />
+      </button>
+      <button className="menu__btn menu__toggle-lightbox" onClick={openLightbox}>
+        <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
+      </button>
       <div className="slider-container__arrows">
         <button className="arrows__arrow arrows__prev-arrow" onClick={ref?.slickPrev}>
           <FontAwesomeIcon icon={faChevronLeft} />
@@ -117,7 +97,7 @@ function MainSlider({children}: Props) {
       <Slider
         ref={setRef}
         infinite
-        dots
+        // dots
         speed={500}
         slidesToShow={1}
         slidesToScroll={1}
@@ -125,8 +105,6 @@ function MainSlider({children}: Props) {
         autoplaySpeed={3000}
         className="slider-container__slider"
         arrows={false}
-        dotsClass="slider__dots"
-        pauseOnDotsHover
       >
         {children}
       </Slider>
@@ -134,4 +112,4 @@ function MainSlider({children}: Props) {
   )
 }
 
-export default MainSlider
+export default HorizontalSlider

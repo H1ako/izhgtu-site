@@ -2,18 +2,26 @@
 import React from 'react'
 // styles and icons
 import './NewsMarquee.scss';
-import Marquee from "react-fast-marquee";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faXmark} from "@fortawesome/free-solid-svg-icons";
 // components
+import Marquee from "react-fast-marquee";
 
 function NewsMarquee() {
   const newsMarqueeRef = React.useRef<HTMLDivElement>(null)
   const newsRef = React.useRef<HTMLParagraphElement>(null)
   const [ isMarqueePlaying, setIsMarqueePlaying ] = React.useState<boolean>(false)
   
-  const onWindowResize = () => {
-    if (!newsMarqueeRef.current || !newsRef.current) return
+  const getIsNewsWidthBiggerMarquee = (): boolean => {
+    if (!newsMarqueeRef.current || !newsRef.current) return false
     
-    setIsMarqueePlaying(newsRef.current.offsetWidth > newsMarqueeRef.current.offsetWidth)
+    return newsRef.current.offsetWidth > newsMarqueeRef.current.offsetWidth
+  }
+  
+  const onWindowResize = () => {
+    
+    
+    setIsMarqueePlaying(getIsNewsWidthBiggerMarquee())
   }
   
   React.useEffect(() => {
@@ -24,7 +32,6 @@ function NewsMarquee() {
   
   return (
     <div className="news-marquee" ref={newsMarqueeRef}>
-      <h3 className="news-marquee__heading">Последние Новости</h3>
       <Marquee
         gradient={false}
         pauseOnHover={true}
@@ -36,6 +43,9 @@ function NewsMarquee() {
           <div className="news__part">Осеннняя сессия</div>
         </div>
       </Marquee>
+      <button className="news-marquee__close-btn">
+        <FontAwesomeIcon icon={faXmark} />
+      </button>
     </div>
   )
 }

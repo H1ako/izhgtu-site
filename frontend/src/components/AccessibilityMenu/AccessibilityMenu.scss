@@ -65,7 +65,7 @@ html {
   position: fixed;
   bottom: $margin;
   right: $margin;
-  z-index: var(--zIndexWindow);
+  z-index: var(--zIndexSettingsMenu);
 
   &.hidden {
     display: none;

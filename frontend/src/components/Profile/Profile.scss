@@ -1,0 +1,18 @@
+@import "../../mixins";
+
+.profile {
+  height: 100%;
+
+  &__toggle {
+    @include iconBtn;
+
+    position: relative;
+    height: 90%;
+
+    .toggle__user-picture {
+      @include rounderImage(var(--colorBgDark));
+
+      height: min(100%, 3.5rem);
+    }
+  }
+}

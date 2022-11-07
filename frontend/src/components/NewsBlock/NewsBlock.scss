@@ -1,0 +1,7 @@
+@import "../../mixins";
+
+.news-block {
+  @include blockWithHeading;
+
+  width: 100%;
+}

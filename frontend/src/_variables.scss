@@ -8,6 +8,7 @@
   --fontSize2: clamp(1.4rem, 2.8vw, 1.75rem);
   --fontSize1: clamp(1.75rem, 3.5vw, 2.5rem);
   --fontSize0: clamp(2.5rem, 7.5vw, 7rem);
+  --fontSizeBig: clamp(6re, 12vw, 10rem);
 
   // transition
   --transitionDefault: 150ms;
@@ -15,24 +16,25 @@
   --transitionBiggest: 600ms;
 
   // color
-  --colorText: #E8E6E3;
-  --colorTextDark: #BDB7AF;
+  --colorText: white;
+  --colorTextDark: #E8E6E3;
+  --colorBgDark: #101111;
   --colorBg: #181A1B;
-  --colorBgTransparent: rgba(24, 26, 27, 0.35);
-  --colorWindowAreaBg: rgba(24, 26, 27, 0.75);
+  --colorBgTransparent: rgba(16, 17, 17, 0.5);
   --colorBgAccent: #26292B;
   --colorBgAccentLight: #313436;
+  --colorWindowAreaBg: rgba(24, 26, 27, 0.75);
+  --colorGradientBgHorizontal: linear-gradient(90deg, rgba(22, 74, 207, 0.5) 0.69%, rgba(24, 26, 27, 0.5) 50%, rgba(22, 74, 207, 0.5) 100%);;
+  --colorGradientBg: linear-gradient(0deg, var(--colorMain) 16%, rgba(38, 41, 43, 0.2) 100%);
+  --colorGradientBgDark: linear-gradient(0deg, var(--colorMain) 16%, rgba(38, 41, 43, 0.8) 100%);
   --colorMain: #164ACF;
   --colorMainDark: #004DAA;
   --colorMainLight: #8A9CED;
   --colorAccent: #B70E02;
   --colorAccentLight: #F81000;
-  --colorGradientBgHorizontal: linear-gradient(90deg, var(--colorMain) 16%, rgba(38, 41, 43, 0.2) 100%);
-  --colorGradientBg: linear-gradient(0deg, var(--colorMain) 16%, rgba(38, 41, 43, 0.2) 100%);
-  --colorGradientBgDark: linear-gradient(0deg, var(--colorMain) 16%, rgba(38, 41, 43, 0.8) 100%);
 
   // border-radius
-  --bdrsBtn: 5px;
+  --bdrsBtn: 10px;
   --bdrsBtnRounded: 15px;
   --bdrsWindow: 10px;
 
@@ -41,14 +43,16 @@
   --widthScrollbar: 1rem;
 
   // height
-  --heightHeader: 3rem;
+  --heightHeaderInitial: 6rem;
+  --heightHeader: 4rem;
   //--heightBlockTiny: min(30rem, 80vw, 35vh);
-  --heightBlockDefault: min(40rem, 60vw, 70vh);
+  //--heightBlockDefault: min(40rem, 60vw, 70vh);
 
   // padding
-  --paddingBtn: .5em 3em;
+  --paddingBtn: .5em 4em;
 
   // z-index
+  --zIndexSettingsMenu: 99;
   --zIndexHeader: 999;
   --zIndexWindow: 9999;
   --zIndexHighest: 9999999;

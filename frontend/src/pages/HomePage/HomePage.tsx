@@ -5,37 +5,20 @@ import {Link} from "react-router-dom";
 import './HomePage.scss';
 // components
 import PageLayout from "../../containers/PageLayout/PageLayout";
-import MainSlider from "../../components/MainSlider/MainSlider";
-import Navbar from "../../components/Navbar/Navbar";
 import NewsMarquee from "../../components/NewsMarquee/NewsMarquee";
-import StudentNav from "../../components/StudentNav/StudentNav";
 import MapBlock from "../../components/MapBlock/MapBlock";
-import EventCalendar from "../../components/EventCalendar/EventCalendar";
+import NewsBlock from "../../components/NewsBlock/NewsBlock";
+import HorizontalSlider from "../../components/HorizontalSlider/HorizontalSlider";
 
 function HomePage() {
   return (
     <PageLayout>
-      <div className="face-wrapper">
-        <MainSlider>
-          <Link to='/'>
-            <img src="/assets/s1.jpg" alt="" />
-          </Link>
-          <Link to='/'>
-            <img src="/assets/s2.jpg" alt="" />
-          </Link>
-          <Link to='/'>
-            <img src="/assets/s3.jpg" alt="" />
-          </Link>
-        </MainSlider>
-        <Navbar />
-        <NewsMarquee />
-      </div>
-      <div className="content">
-        <StudentNav />
-        <EventCalendar />
-        <MapBlock />
-      </div>
-      
+      <NewsMarquee />
+      <HorizontalSlider>
+        <li></li>
+      </HorizontalSlider>
+      <NewsBlock />
+      <MapBlock />
     </PageLayout>
   )
 }
