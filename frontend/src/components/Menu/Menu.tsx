@@ -15,7 +15,7 @@ interface MenuProps {
 
 function Menu({className}: MenuProps) {
   return (
-    <WindowWithHeaderLayout className={`menu ${className}`} ToggleButton={
+    <WindowWithHeaderLayout heading="Меню" className={`menu ${className}`} ToggleButton={
       <button className="menu__toggle">
         <FontAwesomeIcon icon={faBars} className="toggle__icon" />
         <span className="toggle__text">Меню</span>

@@ -11,7 +11,7 @@ interface ProfileProps {
 
 function Profile({className}: ProfileProps) {
   return (
-    <WindowWithHeaderLayout className={`profile ${className}`} ToggleButton={
+    <WindowWithHeaderLayout heading="Профиль" className={`profile ${className}`} ToggleButton={
       <button className="profile__toggle">
         <img className="toggle__user-picture" src="/assets/ava.png" alt=""/>
       </button>

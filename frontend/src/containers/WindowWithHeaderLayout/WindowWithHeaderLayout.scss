@@ -15,11 +15,12 @@
     height: 0;
     transition: var(--transitionDefault);
     width: 100%;
+    background: var(--colorBgDark);
 
     .content__wrapper {
+      position: relative;
       display: flex;
       height: calc(100vh - var(--heightHeaderInitial));
-      background: var(--colorBgDark);
       padding: min(2rem, 5vw);
       flex-direction: column;
       gap: 2rem;

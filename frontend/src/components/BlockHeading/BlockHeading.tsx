@@ -4,12 +4,12 @@ import React from 'react'
 import './BlockHeading.scss';
 // components
 
-interface Props {
+interface BlockHeadingProps {
   children: React.ReactNode,
   className?: string
 }
 
-function BlockHeading({children, className=''}: Props) {
+function BlockHeading({children, className=''}: BlockHeadingProps) {
   return (
     <h1 className={`block-heading ${className}`}>
       {children}

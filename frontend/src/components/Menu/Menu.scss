@@ -12,6 +12,7 @@
 
     .toggle__text {
       color: var(--colorMainLight);
+      text-transform: uppercase;
     }
   }
 
@@ -146,6 +147,11 @@
 
           .part__text {
             @include clearedLink($fontSize: var(--fontSize4));
+
+            &:hover,
+            &:focus-within {
+              color: var(--colorMainLight);
+            }
 
             .text__icon {
               flex: 1 1 0;

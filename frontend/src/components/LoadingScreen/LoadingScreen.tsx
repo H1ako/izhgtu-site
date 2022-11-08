@@ -8,11 +8,12 @@ import './LoadingScreen.scss';
 // components
 import LoaderIcon from "../LoaderIcon/LoaderIcon";
 
-interface Props {
+interface LoadingScreenProps {
   transition?: number
 }
 
-function LoadingScreen({transition=600}: Props) {
+// TODO: Fix bug with empty space
+function LoadingScreen({transition=600}: LoadingScreenProps) {
   const isActive = useRecoilValue(loadingScreenAtom)
   
   const toggleScrollOnActive = () => {

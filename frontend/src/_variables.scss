@@ -8,7 +8,8 @@
   --fontSize2: clamp(1.4rem, 2.8vw, 1.75rem);
   --fontSize1: clamp(1.75rem, 3.5vw, 2.5rem);
   --fontSize0: clamp(2.5rem, 7.5vw, 7rem);
-  --fontSizeBig: clamp(6re, 12vw, 10rem);
+  --fontSizeBig: clamp(6rem, 12vw, 10rem);
+  --fontSizeExtraBig: clamp(10rem, 12vw, 15rem);
 
   // transition
   --transitionDefault: 150ms;
@@ -52,7 +53,7 @@
   --paddingBtn: .5em 4em;
 
   // z-index
-  --zIndexSettingsMenu: 99;
+  --zIndexSettingsMenu: 999;
   --zIndexHeader: 999;
   --zIndexWindow: 9999;
   --zIndexHighest: 9999999;

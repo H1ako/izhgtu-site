@@ -9,6 +9,7 @@
   text-decoration: none;
   color: var(--colorText);
   font-size: $fontSize;
+  transition: var(--transitionDefault);
 }
 
 @mixin contentArea {
