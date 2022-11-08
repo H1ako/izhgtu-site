@@ -6,37 +6,34 @@ import {lightboxImageSrcAtom} from "../../recoilAtoms/lightboxAtom";
 // styles and icons
 import './HorizontalSlider.scss';
 import "slick-carousel/slick/slick.css";
-// import "slick-carousel/slick/slick-theme.css";
 import {
   faChevronLeft,
-  faChevronRight, faEye,
-  faEyeSlash,
+  faChevronRight,
   faPause,
   faPlay,
-  faScrewdriverWrench, faUpRightAndDownLeftFromCenter
+  faUpRightAndDownLeftFromCenter
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 // components
 import Slider from "react-slick";
 
 interface Props {
-  children: React.ReactNode
+  children: React.ReactNode,
+  className?: string
 }
 
-function HorizontalSlider({children}: Props) {
-  const [ ref, setRef ] = React.useState<Slider | null>(null)
-  const [ isControlVisible, setControlVisibly ] = React.useState<boolean>(false)
-  const [ areSliderElementsVisible, setSliderElementsVisibility ] = React.useState<boolean>(true)
+function HorizontalSlider({children, className=''}: Props) {
   const [ paused, setPaused ] = React.useState<boolean>(false)
   const [ lightboxImageSrc, setLightboxImageSrc ] = useRecoilState(lightboxImageSrcAtom)
+  const [ sliderRef, setSliderRef ] = React.useState<Slider | null>(null)
   
   const toggleAutoplay = (): void => {
-    if (!ref) return
+    if (!sliderRef) return
     
     if (paused) {
-      ref.slickPlay()
+      sliderRef.slickPlay()
     } else {
-      ref.slickPause()
+      sliderRef.slickPause()
     }
     setPaused(state => !state)
   }
@@ -53,61 +50,45 @@ function HorizontalSlider({children}: Props) {
     return image.attributes.getNamedItem('src')?.value ?? ''
   }
   
-  const toggleHidingElements = (): void => {
-    setSliderElementsVisibility(state => !state)
-  }
-  
-  const toggleControl = (): void => {
-    setControlVisibly(state => !state)
-  }
-  
-  const openControl = (): void => {
-    setControlVisibly(true)
-  }
-  
-  const closeControl = (): void => {
-    setControlVisibly(false)
-  }
-  
   return (
     <div
-      className='slider-container'
+      className={`slider-container ${className}`}
     >
-      <button className="menu__btn menu__toggle-autoplay" onClick={toggleAutoplay}>
-        { paused ?
-          <FontAwesomeIcon icon={faPlay} />
-          :
-          <FontAwesomeIcon icon={faPause} />
-        }
-      </button>
-      <button className="control__toggle" onClick={toggleControl} onMouseEnter={openControl}>
-        <FontAwesomeIcon icon={faScrewdriverWrench} />
-      </button>
-      <button className="menu__btn menu__toggle-lightbox" onClick={openLightbox}>
-        <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
-      </button>
       <div className="slider-container__arrows">
-        <button className="arrows__arrow arrows__prev-arrow" onClick={ref?.slickPrev}>
+        <button className="arrows__arrow arrows__prev-arrow" onClick={sliderRef?.slickPrev}>
           <FontAwesomeIcon icon={faChevronLeft} />
         </button>
-        <button className="arrows__arrow arrows__next-arrow" onClick={ref?.slickNext}>
+        <button className="arrows__arrow arrows__next-arrow" onClick={sliderRef?.slickNext}>
           <FontAwesomeIcon icon={faChevronRight} />
         </button>
       </div>
       <Slider
-        ref={setRef}
+        ref={setSliderRef}
         infinite
-        // dots
-        speed={500}
+        speed={500 }
         slidesToShow={1}
+        centerPadding="10%"
         slidesToScroll={1}
         autoplay
+        centerMode
         autoplaySpeed={3000}
         className="slider-container__slider"
         arrows={false}
       >
         {children}
       </Slider>
+      <div className="slider-container__btns">
+        <button className="menu__btn menu__toggle-autoplay" onClick={toggleAutoplay}>
+          { paused ?
+            <FontAwesomeIcon icon={faPlay} />
+            :
+            <FontAwesomeIcon icon={faPause} />
+          }
+        </button>
+        <button className="menu__btn menu__toggle-lightbox" onClick={openLightbox}>
+          <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
+        </button>
+      </div>
     </div>
   )
 }

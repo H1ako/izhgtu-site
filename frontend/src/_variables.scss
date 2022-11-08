@@ -41,13 +41,10 @@
 
   // width
   --widthContent: min(1300px, 100%);
-  --widthScrollbar: 1rem;
+  --widthScrollbar: none;
 
   // height
-  --heightHeaderInitial: 6rem;
-  --heightHeader: 4rem;
-  //--heightBlockTiny: min(30rem, 80vw, 35vh);
-  //--heightBlockDefault: min(40rem, 60vw, 70vh);
+  --heightHeader: clamp(4rem, 8vw, 6rem);
 
   // padding
   --paddingBtn: .5em 4em;

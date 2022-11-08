@@ -44,10 +44,6 @@ p {
   margin: 0;
 }
 
-html {
-  //overflow-x: hidden;
-}
-
 .root {
   position: relative;
   width: 100vw;
@@ -56,10 +52,6 @@ html {
 body {
   background: var(--colorBg);
   color: var(--colorText);
-
-  &[style="overflow: hidden;"] {
-    padding-right: var(--widthScrollbar);;
-  }
 }
 
 ul {

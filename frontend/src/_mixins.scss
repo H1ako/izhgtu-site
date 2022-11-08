@@ -80,7 +80,7 @@
 }
 
 @mixin btn(
-  $bgColor: var(--colorText),
+  $background: var(--colorText),
   $color: var(--colorMain),
   $padding: var(--paddingBtn),
   $fontSize: var(--fontSize4)
@@ -95,31 +95,36 @@
   border-radius: var(--bdrsBtn);
   font-weight: bold;
   text-transform: uppercase;
-  border: 2px solid $bgColor;
+  border: 3px solid $background;
   background: none;
 
   &:hover,
   &:focus-within {
-    background: $bgColor;
+    background: $background;
     color: $color;
   }
 }
 
 @mixin btnMain($fontSize: var(--fontSize4)) {
-  @include btn(var(--colorMain), $fontSize);
+  @include btn($background: var(--colorMain), $fontSize: $fontSize, $color: var(--colorText));
 }
 
 @mixin btnAccent($fontSize: var(--fontSize4)) {
-  @include btn(var(--colorAccent), $fontSize:$fontSize);
+  @include btn($background: var(--colorAccent), $fontSize: $fontSize, $color: var(--colorText));
+}
+
+@mixin image {
+  object-fit: cover;
+  object-position: center;
 }
 
 @mixin rounderImage($borderColor: var(--colorText)) {
+  @include image;
+
   border-radius: 50%;
   border: 2px solid $borderColor;
   aspect-ratio: 1;
   background-color: var(--colorText);
-  object-fit: cover;
-  object-position: center;
 }
 
 @mixin separator($gap: 1rem, $color: var(--colorText), $vertical: false) {

@@ -9,7 +9,7 @@ import './PageLayout.scss';
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import AccessibilityMenu from "../../components/AccessibilityMenu/AccessibilityMenu";
-import Lightbox from "../../components/Lighbox/Lightbox";
+import Lightbox from "../../components/Lightbox/Lightbox";
 import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
 
 interface Props {

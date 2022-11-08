@@ -16,24 +16,6 @@ interface LoadingScreenProps {
 function LoadingScreen({transition=600}: LoadingScreenProps) {
   const isActive = useRecoilValue(loadingScreenAtom)
   
-  const toggleScrollOnActive = () => {
-    const body = document.querySelector('body')
-    if (!body) return
-    
-    if (isActive) {
-      body.style.overflow = 'hidden'
-    }
-    else {
-      setTimeout(() => {
-        body.style.removeProperty('overflow')
-      }, transition)
-    }
-  }
-  
-  React.useEffect(() => {
-    toggleScrollOnActive()
-  }, [isActive])
-  
   return (
     <div
       className={`loading-screen ${isActive && 'active'}`}

@@ -4,6 +4,7 @@ import React from 'react'
 import './WindowWithHeaderLayout.scss';
 // components
 import InnerBlockHeading from "../../components/InnerBlockHeading/InnerBlockHeading";
+import {disableBodyScroll, enableBodyScroll} from "body-scroll-lock";
 
 interface WindowWithHeaderLayoutProps {
   className?: string,
@@ -16,6 +17,15 @@ function WindowWithHeaderLayout({className, children, ToggleButton, heading=''}:
   const [ isActive, setActivity ] = React.useState<boolean>(false)
   
   const toggleMenu = () => {
+    const body = document.querySelector('body')
+    if (!body) return
+    
+    if (isActive) {
+      enableBodyScroll(body)
+    }
+    else {
+      disableBodyScroll(body)
+    }
     setActivity(state => !state)
   }
   

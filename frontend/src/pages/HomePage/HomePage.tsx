@@ -5,18 +5,16 @@ import {Link} from "react-router-dom";
 import './HomePage.scss';
 // components
 import PageLayout from "../../containers/PageLayout/PageLayout";
-import NewsMarquee from "../../components/NewsMarquee/NewsMarquee";
 import MapBlock from "../../components/MapBlock/MapBlock";
 import NewsBlock from "../../components/NewsBlock/NewsBlock";
-import HorizontalSlider from "../../components/HorizontalSlider/HorizontalSlider";
+import FacePictureBlock from "../../components/FacePictureBlock/FacePictureBlock";
+import MoreInfoBlock from "../../components/MoreInfoBlock/MoreInfoBlock";
 
 function HomePage() {
   return (
     <PageLayout>
-      <NewsMarquee />
-      <HorizontalSlider>
-        <li></li>
-      </HorizontalSlider>
+      <FacePictureBlock />
+      <MoreInfoBlock />
       <NewsBlock />
       <MapBlock />
     </PageLayout>

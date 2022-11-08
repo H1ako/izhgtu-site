@@ -1,9 +1,14 @@
 @import '../../mixins';
 
 .news-marquee {
-  position: relative;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 100%;
   background: var(--colorMain);
-  height: 3.75rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
 
   &__news {
     min-width: 100%;
@@ -11,8 +16,8 @@
     gap: .5rem;
     justify-content: center;
 
-    .news-part {
-      font-size: var(--fontSize3-4);
+    .news__part {
+      font-size: var(--fontSize4);
       white-space: nowrap;
     }
   }
@@ -21,6 +26,7 @@
     @include iconBtn;
 
     position: absolute;
-    right: 0;
+    right: 2%;
+    z-index: 1;
   }
 }

@@ -17,8 +17,9 @@ function Lightbox({imageSrc, onClose}: Props) {
   const imageRef = React.useRef<HTMLImageElement>(null)
   
   const getRotateIndex = (): number => {
-    // need index up to 4 numbers to rotate by 90deg
-    return rotateCounter % 4
+    const DEGREES_INDEX = 4
+    
+    return rotateCounter % DEGREES_INDEX
   }
   
   const rotateImage = (): void => {

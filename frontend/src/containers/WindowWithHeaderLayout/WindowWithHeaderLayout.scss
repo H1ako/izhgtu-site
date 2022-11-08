@@ -3,7 +3,7 @@
 .window-with-header {
   &.active {
     .window-with-header__content {
-      height: calc(100vh - var(--heightHeaderInitial));
+      height: calc(100vh - var(--heightHeader));
     }
   }
 
@@ -20,7 +20,7 @@
     .content__wrapper {
       position: relative;
       display: flex;
-      height: calc(100vh - var(--heightHeaderInitial));
+      height: calc(100vh - var(--heightHeader));
       padding: min(2rem, 5vw);
       flex-direction: column;
       gap: 2rem;
