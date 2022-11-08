@@ -7,6 +7,7 @@ import {loadingScreenAtom} from "../../recoilAtoms/loadingAtom";
 import './LoadingScreen.scss';
 // components
 import LoaderIcon from "../LoaderIcon/LoaderIcon";
+import {disableBodyScroll, enableBodyScroll} from "body-scroll-lock";
 
 interface LoadingScreenProps {
   transition?: number
@@ -15,6 +16,25 @@ interface LoadingScreenProps {
 // TODO: Fix bug with empty space
 function LoadingScreen({transition=600}: LoadingScreenProps) {
   const isActive = useRecoilValue(loadingScreenAtom)
+  
+  const toggleScrollOnActive = () => {
+    const body = document.querySelector('body')
+    if (!body) return
+    
+    if (isActive) {
+      disableBodyScroll(body)
+    }
+    else {
+      setTimeout(() => {
+        enableBodyScroll(body)
+      }, transition)
+      
+    }
+  }
+  
+  React.useEffect(() => {
+    toggleScrollOnActive()
+  }, [isActive])
   
   return (
     <div

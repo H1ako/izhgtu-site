@@ -52,6 +52,7 @@ p {
 body {
   background: var(--colorBg);
   color: var(--colorText);
+  overflow: overlay;
 }
 
 ul {
