@@ -1,0 +1,81 @@
+@import "../../mixins";
+
+.news-container {
+  position: relative;
+  width: 100%;
+  z-index: 1;
+
+  &__hovered-news {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    user-select: none;
+    pointer-events: none;
+
+    .hovered-news__picture {
+      @include image;
+
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  &__news-list {
+    width: 100%;
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 10rem);
+    background: var(--colorBgAccentLight);
+    gap: 1px;
+    z-index: 1;
+
+    .news-list__news {
+      position: relative;
+
+      a {
+        @include clearedLink;
+
+        display: block;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+
+        &::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          user-select: none;
+          pointer-events: none;
+          background: var(--colorBgTransparent);
+          z-index: -1;
+        }
+
+        .news__picture {
+          @include image;
+
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          z-index: -1;
+        }
+
+        .news__info {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
+          width: 100%;
+          height: 100%;
+          padding: 1rem;
+        }
+      }
+    }
+  }
+}

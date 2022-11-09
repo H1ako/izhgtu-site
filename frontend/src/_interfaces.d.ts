@@ -17,37 +17,33 @@ declare global {
   }
   
   interface Model {
+    id: IdType,
     createdAt: string,
     updatedAt: string
   }
   
   interface Subject {
-    id: IdType,
     name: string
   }
   
   interface EducationType extends Model{
-    id: IdType,
     name: string,
     faculties: Faculty[],
   }
   
   interface Faculty extends Model {
-    id: IdType,
     name: string,
     educationType: EducationType,
     specializations: Specialization[],
   }
   
   interface Specialization extends Model {
-    id: IdType,
     name: string,
     faculty: Faculty,
     groups: SpecializationGroup[],
   }
   
   interface SpecializationGroup extends Model {
-    id: IdType,
     name: string,
     specialization: Specialization,
     teachers: Teacher[],
@@ -56,20 +52,17 @@ declare global {
   }
   
   interface Achievement extends Model {
-    id: IdType,
     name: string,
     reason: string,
   }
   
   interface UserTag extends Model {
-    id: IdType,
     users: User[],
     name: string,
     description: string | null
   }
   
   interface UserDocument extends Model {
-    id: IdType,
     user: User,
     name: string,
     file: string,
@@ -77,7 +70,6 @@ declare global {
   }
   
   interface User extends Model {
-    id: IdType,
     firstName: string,
     lastName: string,
     patronymic: string,
@@ -103,28 +95,33 @@ declare global {
     subjects: Subject[]
   }
   
-  interface Entrant extends Model {
+  interface Entrant extends User {
     applications: AdmissionApplication[]
   }
   
-  interface AdmissionApplication {
-    id: IdType,
+  interface AdmissionApplication extends Model {
     entrant: Entrant,
     specialization: Specialization,
   }
   
-  interface DateEventPost extends Model {
-    id: IdType,
+  interface Post extends Model {
     author: User,
-    dateEvent: DateEvent
+    link: string,
   }
   
   interface DateEvent extends Model {
-    id: IdType,
     name: string,
     description: string,
     picture: string,
     date: string,
-    post: DateEventPost | null,
+    post: Post | null,
+  }
+  
+  interface News extends Model {
+    post: Post | null,
+    name: string,
+    description: string,
+    date: string,
+    picture: string
   }
 }

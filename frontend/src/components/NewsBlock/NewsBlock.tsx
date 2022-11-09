@@ -4,6 +4,7 @@ import React from 'react'
 import './NewsBlock.scss';
 // components
 import BlockHeading from "../BlockHeading/BlockHeading";
+import News from "../News/News";
 
 function NewsBlock() {
   return (
@@ -11,6 +12,7 @@ function NewsBlock() {
       <BlockHeading>
         Последние новости
       </BlockHeading>
+      <News />
     </div>
   )
 }
