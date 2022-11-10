@@ -1,0 +1,44 @@
+@import "../../mixins";
+
+.quote-block {
+  position: relative;
+  background: var(--colorBgDark);
+  padding-inline: var(--paddingInlineMain);
+  padding-block: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+
+  &__quote {
+    font-size: var(--fontSize3);
+    text-align: center;
+    font-style: italic;
+    width: min(1000px, 100%)
+  }
+
+  &__author {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .author__picture {
+      @include roundedImage($borderColor: var(--colorBgMain));
+
+      width: min(5rem, 12vw);
+    }
+
+    .author__info {
+
+      .info__name,
+      .info__occupation {
+        text-transform: uppercase;
+      }
+
+      .info__occupation {
+        color: var(--colorMainLight);
+      }
+    }
+  }
+}

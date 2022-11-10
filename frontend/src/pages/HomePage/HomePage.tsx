@@ -9,12 +9,14 @@ import MapBlock from "../../components/MapBlock/MapBlock";
 import NewsBlock from "../../components/NewsBlock/NewsBlock";
 import FacePictureBlock from "../../components/FacePictureBlock/FacePictureBlock";
 import MoreInfoBlock from "../../components/MoreInfoBlock/MoreInfoBlock";
+import PrincipalQuoteBlock from "../../components/PrincipalQuoteBlock/PrincipalQuoteBlock";
 
 function HomePage() {
   return (
     <PageLayout>
       <FacePictureBlock />
       <MoreInfoBlock />
+      <PrincipalQuoteBlock />
       <NewsBlock />
       <MapBlock />
     </PageLayout>

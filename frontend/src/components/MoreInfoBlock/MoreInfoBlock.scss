@@ -1,4 +1,5 @@
 .more-info-block {
+  padding-block: 1rem;
 
   &__slide {
     animation: var(--transitionBig) appearFromLeft ease-in-out forwards;

@@ -15,7 +15,7 @@
 @mixin contentArea {
   width: var(--widthContent);
   margin-inline: auto;
-  padding-inline: 1rem;
+  padding-inline: var(--paddingInlineMain);
 }
 
 @mixin blockWithHeading {
@@ -118,7 +118,7 @@
   object-position: center;
 }
 
-@mixin rounderImage($borderColor: var(--colorText)) {
+@mixin roundedImage($borderColor: var(--colorText)) {
   @include image;
 
   border-radius: 50%;

@@ -10,7 +10,7 @@
     height: 90%;
 
     .toggle__user-picture {
-      @include rounderImage(var(--colorBgDark));
+      @include roundedImage(var(--colorBgDark));
 
       height: min(100%, 3.5rem);
     }
