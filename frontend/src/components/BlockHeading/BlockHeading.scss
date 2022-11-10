@@ -7,4 +7,6 @@
   opacity: .15;
   font-size: var(--fontSizeBig);
   text-transform: uppercase;
+  user-select: none;
+  pointer-events: none;
 }
