@@ -29,7 +29,7 @@ function Header({className}: HeaderProps) {
   }
   
   const getIsActive = () => {
-    return isScrollingDown && getIsPageScrolled()
+    return isScrollingDown
   }
 
   React.useEffect(() => {

@@ -5,6 +5,7 @@
   height: calc(100vh - var(--heightHeader));
   width: 100%;
   z-index: 1;
+  clip-path: inset(0);
 
   &::after {
     content: '';
@@ -17,9 +18,11 @@
   &__picture {
     @include image;
 
-    position: absolute;
+    position: fixed;
     width: 100%;
-    height: 100%;
+    left: 0;
+    top: calc(-1 * var(--heightHeader));
+    height: calc(100% + var(--heightHeader));
   }
 
   &__inner {
