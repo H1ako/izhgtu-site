@@ -63,6 +63,10 @@
         padding: 1rem;
         z-index: 2;
 
+        & > * {
+          transition: var(--transitionDefault);
+        }
+
         .info__heading {
           text-transform: uppercase;
         }

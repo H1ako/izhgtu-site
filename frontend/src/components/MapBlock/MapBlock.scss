@@ -4,10 +4,4 @@
   @include blockWithHeading;
 
   width: 100%;
-
-  &__yandex-map {
-    width: 100%;
-    min-height: 30rem;
-    //height: var(--heightBlockDefault);
-  }
 }

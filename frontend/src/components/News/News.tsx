@@ -106,15 +106,18 @@ function News({className=''}: NewsProps) {
   ])
   const [ hoveredNews, setHoveredNews ] = React.useState<NewsIndexType>(null)
   
-  const hoveredNewsPicture = () => {
-    return hoveredNews !== null ? newsList[hoveredNews].picture : ''
+  const setNoCurrentNews = () => {
+    setHoveredNews(null)
   }
   
   return (
-    <div onMouseLeave={() => setHoveredNews(null)} className={`news-container ${className} ${hoveredNews !== null ? 'active' : ''}`}>
+    <div
+      onMouseLeave={setNoCurrentNews}
+      className={`news-container ${className} ${hoveredNews !== null ? 'active' : ''}`}
+    >
       <ul className="news-container__news-list">
         {newsList.map((news, index) => (
-          <li className={`news-list__news ${index === hoveredNews ? 'active' : ''}`}>
+          <li key={`news-${news.id}`} className={`news-list__news ${index === hoveredNews ? 'active' : ''}`}>
             <img src={news.picture} alt="" />
             <div className="news__info">
               <time className="info__date">{news.date}</time>
@@ -125,7 +128,7 @@ function News({className=''}: NewsProps) {
       </ul>
       <ul className="news-container__news-list-duplicate">
         { newsList.map((news, index) => (
-          <li onMouseEnter={() => setHoveredNews(index)} className="news-list__news">
+          <li key={`news-duplicate-${news.id}`} onMouseEnter={() => setHoveredNews(index)} className="news-list__news">
             <Link to={news.post ? news.post.link : ''}>
               <img src={news.picture} alt="" className="news__picture"/>
             </Link>

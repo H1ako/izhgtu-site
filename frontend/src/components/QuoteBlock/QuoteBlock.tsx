@@ -15,7 +15,6 @@ interface QuoteBlockProps {
 }
 
 function QuoteBlock({heading, quote, authorName, authorPicture, authorOccupation, className=''}: QuoteBlockProps) {
-  
   return (
     <div className={`quote-block ${className}`}>
       <InnerBlockHeading>

@@ -8,11 +8,12 @@
 *::after,
 *::before {
   box-sizing: border-box;
-  scrollbar-color: #454a4d #202324;
+  //scrollbar-color: #454a4d #202324;
   scroll-behavior: var(--widthScrollbar);
   scrollbar-gutter: var(--widthScrollbar);
   scrollbar-width: var(--widthScrollbar);
   font-family: 'Cuprum', sans-serif;
+  scrollbar-color: #454a4d var(--colorBgDark);
   line-height: 1.1;
 }
 
