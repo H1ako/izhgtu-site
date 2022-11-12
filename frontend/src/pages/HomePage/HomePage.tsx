@@ -17,7 +17,7 @@ function HomePage() {
       <MoreInfoBlock />
       <PrincipalQuoteBlock />
       <NewsBlock />
-      {/*<MapBlock />*/}
+      <MapBlock />
     </PageLayout>
   )
 }
