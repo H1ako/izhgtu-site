@@ -1,18 +1,10 @@
 @import "../../mixins";
 
-.search {
-  &__btn {
-    @include btn;
-
-    svg {
-      color: var(--colorMain);
-    }
-  }
-
-  .search__input {
+.search-window {
+  &__input {
     @include clearedInput;
 
-    width: 90vw;
+    width: 95vw;
     height: 5rem;
     text-align: center;
     font-size: var(--fontSize1);

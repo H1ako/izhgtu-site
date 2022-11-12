@@ -3,6 +3,7 @@ import React from 'react'
 import {Link} from "react-router-dom";
 // components
 import WindowWithHeaderLayout from "../../containers/WindowWithHeaderLayout/WindowWithHeaderLayout";
+import MainActionBtns from "../MainActionBtns/MainActionBtns";
 // styles and icons
 import './Menu.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -21,20 +22,7 @@ function Menu({className}: MenuProps) {
         <span className="toggle__text">Меню</span>
       </button>
     }>
-      <div className="menu__main-btns">
-        <button className="main-btns__btn">
-          <FontAwesomeIcon icon={faMagnifyingGlass} className="btn__icon" />
-          <span className="btn__text">Поиск</span>
-        </button>
-        <button className="main-btns__btn">
-          <FontAwesomeIcon icon={faPhone} className="btn__icon" />
-          <span className="btn__text">Позвонить</span>
-        </button>
-        <button className="main-btns__btn">
-          <FontAwesomeIcon icon={faLocationDot} className="btn__icon" />
-          <span className="btn__text">На карте</span>
-        </button>
-      </div>
+      <MainActionBtns />
       <nav className="menu__nav">
         <ul className="nav__links">
           <li className="links__links-group">

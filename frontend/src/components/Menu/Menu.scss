@@ -16,24 +16,6 @@
     }
   }
 
-  &__main-btns {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-
-    .main-btns__btn {
-      @include btn($fontSize: var(--fontSize4), $color: var(--colorMain));
-
-      width: 14rem;
-      white-space: nowrap;
-
-      .btn__icon {
-        color: var(--colorMain);
-      }
-    }
-  }
-
   &__nav {
     position: relative;
     width: 100%;

@@ -77,6 +77,10 @@
   gap: .5rem;
   align-items: center;
   background: none;
+
+  * {
+    transition: var(--transitionDefault);
+  }
 }
 
 @mixin btn(

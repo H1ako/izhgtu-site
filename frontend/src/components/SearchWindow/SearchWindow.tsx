@@ -17,15 +17,19 @@ function SearchWindow() {
 
     setIsActive(false)
   }
+  
+  React.useEffect(() => {
+    setQuery('')
+  }, [isActive])
 
   return (
-    <ModalAreaLayout isActive={isActive} onKeyUp={closeWindow} onClose={() => setIsActive(false)}>
+    <ModalAreaLayout className="search-window" isActive={isActive} onKeyUp={closeWindow} onClose={() => setIsActive(false)}>
       <input
         autoFocus={true}
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         type="search"
-        className="search__input"
+        className="search-window__input"
         placeholder="Введите запрос..."
       />
     </ModalAreaLayout>
