@@ -55,24 +55,22 @@ function Select({options, value, setValue, name}: Props) {
           <img src={currentOption?.icon} alt="" className="select__icon value__icon"/>
           <span className="value__text">{currentOption?.text}</span>
         </button>
-        { areOptionsVisible &&
-          <ModalLayout onClose={() => setOptionsVisibility(false)}>
-            <ul className="select-modal__options" aria-hidden="true">
-              {options.map((option, key) => (
-                <li key={option.value} className="options__option">
-                  <button autoFocus={key === 0} disabled={option.value === value} className="option__btn" onClick={() => optionClickHandler(option.value)}>
-                    {option.icon &&
-                      <img src={option.icon} alt="" className="select__icon btn__icon"/>
-                    }
-                    {option.text &&
-                      <span className="btn__text">{option.text}</span>
-                    }
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </ModalLayout>
-        }
+        <ModalLayout isActive={areOptionsVisible} onClose={() => setOptionsVisibility(false)}>
+          <ul className="select-modal__options" aria-hidden="true">
+            {options.map((option, key) => (
+              <li key={option.value} className="options__option">
+                <button autoFocus={key === 0} disabled={option.value === value} className="option__btn" onClick={() => optionClickHandler(option.value)}>
+                  {option.icon &&
+                    <img src={option.icon} alt="" className="select__icon btn__icon"/>
+                  }
+                  {option.text &&
+                    <span className="btn__text">{option.text}</span>
+                  }
+                </button>
+              </li>
+            ))}
+          </ul>
+        </ModalLayout>
       </div>
     </div>
   )

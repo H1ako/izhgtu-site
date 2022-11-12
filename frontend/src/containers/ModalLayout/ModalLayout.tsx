@@ -8,12 +8,13 @@ import './ModalLayout.scss';
 interface ModalLayoutProps {
   children: React.ReactNode,
   onClose: () => void,
-  className?: string
+  className?: string,
+  isActive: boolean
 }
 
-function ModalLayout({ children, onClose, className='' }: ModalLayoutProps) {
+function ModalLayout({ children, onClose, isActive, className='' }: ModalLayoutProps) {
   return (
-    <ModalAreaLayout className={className} onClose={onClose}>
+    <ModalAreaLayout isActive={isActive} className={className} onClose={onClose}>
       <div className="modal">
         <>
           {children}

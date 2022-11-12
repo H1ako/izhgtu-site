@@ -8,6 +8,10 @@
   place-content: center;
   background: var(--colorWindowAreaBg) ;
 
+  &:not(.active) {
+    display: none;
+  }
+
   &__close-btn {
     $margin: 1rem;
 

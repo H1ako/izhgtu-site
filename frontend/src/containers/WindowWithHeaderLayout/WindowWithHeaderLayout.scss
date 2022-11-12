@@ -1,7 +1,6 @@
 @import '../../mixins';
 
 .window-with-header {
-  width: 100%;
   &.active {
     .window-with-header__content {
       height: calc(100vh - var(--heightHeader));
