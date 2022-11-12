@@ -1,13 +1,13 @@
 // global
 import React from 'react'
 import {Link} from "react-router-dom";
+// components
+import WindowWithHeaderLayout from "../../containers/WindowWithHeaderLayout/WindowWithHeaderLayout";
 // styles and icons
 import './Menu.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBars, faLocationDot, faMagnifyingGlass, faPhone} from "@fortawesome/free-solid-svg-icons";
 import {faTelegram, faVk, faYoutube} from "@fortawesome/free-brands-svg-icons"
-// components
-import WindowWithHeaderLayout from "../../containers/WindowWithHeaderLayout/WindowWithHeaderLayout";
 
 interface MenuProps {
   className?: string

@@ -1,11 +1,11 @@
 // global
 import React from 'react'
+// components
+import ModalAreaLayout from "../../containers/ModalAreaLayout/ModalAreaLayout";
 // styles and icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import './Search.scss';
-// components
-import ModalAreaLayout from "../../containers/ModalAreaLayout/ModalAreaLayout";
 
 function Search() {
   const [ isActive, setIsActive ] = React.useState<boolean>(false)

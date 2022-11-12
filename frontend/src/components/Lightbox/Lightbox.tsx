@@ -1,18 +1,18 @@
 // global
 import React from 'react'
+// components
+import ModalAreaLayout from "../../containers/ModalAreaLayout/ModalAreaLayout";
 // styles and icons
 import './Lightbox.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faRotate} from "@fortawesome/free-solid-svg-icons";
-// components
-import ModalAreaLayout from "../../containers/ModalAreaLayout/ModalAreaLayout";
 
-interface Props {
+interface LightboxProps {
   imageSrc: string,
   onClose: () => void
 }
 
-function Lightbox({imageSrc, onClose}: Props) {
+function Lightbox({imageSrc, onClose}: LightboxProps) {
   const [ rotateCounter, setRotateCounter ] = React.useState<number>(1)
   const imageRef = React.useRef<HTMLImageElement>(null)
   

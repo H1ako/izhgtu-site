@@ -1,9 +1,5 @@
 // global
 import React from 'react'
-// styles and icons
-import './AccessibilityMenu.scss';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faGear, faXmark, faRepeat, faEyeSlash} from "@fortawesome/free-solid-svg-icons";
 // consts
 import {
   ANIMATIONS_STOPPED_CLASS,
@@ -14,12 +10,15 @@ import {
   REMOVED_TRANSITIONS_CLASS, DEFAULT_VALUES
 } from "./consts";
 // components
-import Select, {ISelectOption} from "../Select/Select";
+import Select, {SelectOption} from "../Select/Select";
 import Range from "../Range/Range";
 import Toggle from "../Toggle/Toggle";
 // additional
 import languages from '../../languages.json'
-
+// styles and icons
+import './AccessibilityMenu.scss';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faGear, faXmark, faRepeat, faEyeSlash} from "@fortawesome/free-solid-svg-icons";
 
 function AccessibilityMenu() {
   // menu settings
@@ -36,7 +35,7 @@ function AccessibilityMenu() {
   const [ areTransitionRemoved , setTransitionRemove ] = React.useState<boolean>(DEFAULT_VALUES.transitionRemoved)
   
   const languagesOption = languages.filter(language => language.active).map(language => {
-    const option: ISelectOption = {
+    const option: SelectOption = {
       value: language.code,
       text: language.name,
       icon: language.icon

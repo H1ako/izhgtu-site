@@ -1,10 +1,10 @@
 // global
 import React from 'react'
-// styles and icons
-import './WindowWithHeaderLayout.scss';
 // components
 import InnerBlockHeading from "../../components/InnerBlockHeading/InnerBlockHeading";
 import {disableBodyScroll, enableBodyScroll} from "body-scroll-lock";
+// styles and icons
+import './WindowWithHeaderLayout.scss';
 
 interface WindowWithHeaderLayoutProps {
   className?: string,
@@ -13,7 +13,7 @@ interface WindowWithHeaderLayoutProps {
   heading?: string
 }
 
-function WindowWithHeaderLayout({className, children, ToggleButton, heading=''}: WindowWithHeaderLayoutProps) {
+function WindowWithHeaderLayout({children, ToggleButton, heading='', className=''}: WindowWithHeaderLayoutProps) {
   const [ isActive, setActivity ] = React.useState<boolean>(false)
   
   const toggleMenu = () => {

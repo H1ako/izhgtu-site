@@ -1,18 +1,19 @@
 // global
 import React from 'react'
-// styles and icons
-import './ModalLayout.scss';
 // components
 import ModalAreaLayout from "../ModalAreaLayout/ModalAreaLayout";
+// styles and icons
+import './ModalLayout.scss';
 
-interface Props {
+interface ModalLayoutProps {
   children: React.ReactNode,
-  onClose: () => void
+  onClose: () => void,
+  className?: string
 }
 
-function ModalLayout({ children, onClose }: Props) {
+function ModalLayout({ children, onClose, className='' }: ModalLayoutProps) {
   return (
-    <ModalAreaLayout onClose={onClose}>
+    <ModalAreaLayout className={className} onClose={onClose}>
       <div className="modal">
         <>
           {children}

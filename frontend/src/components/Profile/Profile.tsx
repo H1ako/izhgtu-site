@@ -3,7 +3,6 @@ import React from 'react'
 // styles and icons
 import './Profile.scss';
 import WindowWithHeaderLayout from "../../containers/WindowWithHeaderLayout/WindowWithHeaderLayout";
-// components
 
 interface ProfileProps {
   className?: string

@@ -1,12 +1,11 @@
 // styles and icons
 import './AppLogo.scss';
-import logo from '../../static/svg/istu-logo.svg'
 
-interface Props {
+interface AppLogoProps {
   className?: string
 }
 
-function AppLogo({className=''}: Props) {
+function AppLogo({className=''}: AppLogoProps) {
   return (
     <svg
       className={`app-logo ${className}`}
@@ -16,8 +15,6 @@ function AppLogo({className=''}: Props) {
       xmlns="http://www.w3.org/2000/svg"
       x="0px"
       y="0px"
-      // width="532px"
-      // height="502px"
       viewBox="31.14 169.445 532 502"
       xmlSpace="preserve"
     >

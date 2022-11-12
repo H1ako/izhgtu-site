@@ -3,11 +3,11 @@ import React from 'react'
 // recoil atoms
 import {useRecoilValue} from "recoil";
 import {loadingScreenAtom} from "../../recoilAtoms/loadingAtom";
-// styles and icons
-import './LoadingScreen.scss';
 // components
 import LoaderIcon from "../LoaderIcon/LoaderIcon";
 import {disableBodyScroll, enableBodyScroll} from "body-scroll-lock";
+// styles and icons
+import './LoadingScreen.scss';
 
 interface LoadingScreenProps {
   transition?: number

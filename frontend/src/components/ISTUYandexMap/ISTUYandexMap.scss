@@ -1,4 +1,7 @@
 .istu-yandex-map {
   width: 100%;
-  min-height: 40rem;
+  //height: clamp(30rem, 40vw, 40rem);
+  aspect-ratio: 2 / 1;
+  min-height: 25rem;
+  max-height: 40rem;
 }

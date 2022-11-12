@@ -1,11 +1,11 @@
 // global
 import React from 'react'
 import {Link} from "react-router-dom";
-// styles and icons
-import './MoreInfoBlock.scss';
 // components
 import HorizontalSlider from "../../components/HorizontalSlider/HorizontalSlider";
 import BlockHeading from "../BlockHeading/BlockHeading";
+// styles and icons
+import './MoreInfoBlock.scss';
 
 interface MoreInfoBlockProps {
   className?: string

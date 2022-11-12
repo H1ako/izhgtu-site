@@ -1,14 +1,14 @@
 // global
 import React from 'react'
 import {Link} from "react-router-dom";
-// styles and icons
-import './Header.scss';
 // components
 import AppLogo from "../AppLogo/AppLogo";
 import Menu from "../Menu/Menu";
 import Profile from "../Profile/Profile";
 import NewsMarquee from "../NewsMarquee/NewsMarquee";
 import useScrollDirection from "../../libs/useScrollDirection";
+// styles and icons
+import './Header.scss';
 
 interface HeaderProps {
   className?: string
@@ -46,8 +46,8 @@ function Header({className}: HeaderProps) {
   }, [scrollDirection])
   
   return (
-      <header className={`${isActive ? 'active' : ''} ${className}`}>
-          <div className="header__content">
+      <header className={`main-header ${isActive ? 'active' : ''} ${className}`}>
+          <div className="main-header__content">
             { isNewsMarqueeActive &&
               <NewsMarquee className="content__marquee" onClose={closeNewsMarquee} />
             }

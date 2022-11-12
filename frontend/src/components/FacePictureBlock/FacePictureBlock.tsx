@@ -1,10 +1,10 @@
 // global
 import React from 'react'
-// styles and icons
-import './FacePictureBlock.scss';
 // components
 import OrganizationName from "../OrganizationName/OrganizationName";
 import EnrollButton from "../EnrollButton/EnrollButton";
+// styles and icons
+import './FacePictureBlock.scss';
 
 interface FacePictureBlockProps {
   className?: string

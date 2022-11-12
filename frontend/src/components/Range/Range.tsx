@@ -5,7 +5,7 @@ import './Range.scss';
 
 type RangeValueType = number | string
 
-interface Props {
+interface RangeProps {
   value: RangeValueType,
   setValue: (newValue: number | string) => void,
   name: string,
@@ -13,11 +13,16 @@ interface Props {
   maxValue?: number
 }
 
-function Range({value, setValue, name, minValue=0, maxValue=100}: Props) {
+function Range({value, setValue, name, minValue=0, maxValue=100}: RangeProps) {
   const updateValueByNumberInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = Math.min(Math.max(Number(e.target.value), minValue), maxValue)
-    // removes 0 from start when typing e.c [input: 0123 -> 123]
+    const newValue = getValueWithinRange(Number(e.target.value))
+    
+    // converting to string removes 0 from start when typing e.c [input: 0123 -> 123]
     setValue(String(newValue))
+  }
+  
+  const getValueWithinRange = (value: number): number => {
+    return Math.min(Math.max(value, minValue), maxValue)
   }
   
   return (

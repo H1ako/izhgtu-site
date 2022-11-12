@@ -1,9 +1,9 @@
 // global
 import React from 'react'
-// styles and icons
-import './News.scss';
 // components
 import {Link} from "react-router-dom";
+// styles and icons
+import './News.scss';
 
 interface NewsProps {
   className?: string

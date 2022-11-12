@@ -1,9 +1,9 @@
 // global
 import React from 'react'
-// styles and icons
-import './InnerBlockHeading.scss';
 // components
 import BlockHeading from "../BlockHeading/BlockHeading";
+// styles and icons
+import './InnerBlockHeading.scss';
 
 interface InnerBlockHeadingProps {
   children: React.ReactNode,

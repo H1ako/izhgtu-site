@@ -3,13 +3,13 @@ import React from 'react'
 // styles and icons
 import './Toggle.scss';
 
-interface Props {
+interface ToggleProps {
   value: boolean,
   setValue: (newValue: boolean | ((oldValue: boolean) => boolean)) => void,
   name: string,
 }
 
-function Toggle({value, setValue, name}: Props) {
+function Toggle({value, setValue, name}: ToggleProps) {
   const toggle = () => {
     setValue(state => !state)
   }

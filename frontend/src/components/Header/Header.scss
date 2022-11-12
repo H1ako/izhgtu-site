@@ -1,6 +1,6 @@
 @import "../../mixins";
 
-header {
+.main-header {
   position: sticky;
   top: 0;
   left: 0;
@@ -19,7 +19,7 @@ header {
     height: var(--heightHeader);
   }
 
-  .header__content {
+  .main-header__content {
     @include contentArea;
 
     height: 100%;

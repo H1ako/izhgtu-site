@@ -1,9 +1,9 @@
 // global
 import React from 'react'
+// components
+import QuoteBlock from "../QuoteBlock/QuoteBlock";
 // styles and icons
 import './PrincipalQuoteBlock.scss';
-import QuoteBlock from "../QuoteBlock/QuoteBlock";
-// components
 
 interface PrincipalQuoteBlockProps {
   className?: string,

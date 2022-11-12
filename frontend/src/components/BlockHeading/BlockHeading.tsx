@@ -2,7 +2,6 @@
 import React from 'react'
 // styles and icons
 import './BlockHeading.scss';
-// components
 
 interface BlockHeadingProps {
   children: React.ReactNode,

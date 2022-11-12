@@ -3,6 +3,9 @@ import React from 'react'
 import { useRecoilState } from 'recoil'
 // recoil atoms
 import {lightboxImageSrcAtom} from "../../recoilAtoms/lightboxAtom";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+// components
+import Slider from "react-slick";
 // styles and icons
 import './HorizontalSlider.scss';
 import "slick-carousel/slick/slick.css";
@@ -13,9 +16,6 @@ import {
   faPlay,
   faUpRightAndDownLeftFromCenter
 } from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-// components
-import Slider from "react-slick";
 
 interface Props {
   children: React.ReactNode,

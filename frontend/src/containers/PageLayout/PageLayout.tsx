@@ -3,20 +3,20 @@ import React from 'react'
 // recoil atoms
 import {useRecoilState} from "recoil";
 import {lightboxImageSrcAtom} from "../../recoilAtoms/lightboxAtom";
-// styles and icons
-import './PageLayout.scss';
 // components
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import AccessibilityMenu from "../../components/AccessibilityMenu/AccessibilityMenu";
 import Lightbox from "../../components/Lightbox/Lightbox";
 import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
+// styles and icons
+import './PageLayout.scss';
 
-interface Props {
+interface PageLayoutProps {
     children: React.ReactNode
 }
 
-function PageLayout({ children }: Props) {
+function PageLayout({ children }: PageLayoutProps) {
   const [ lightboxImageSrc, setLightboxImageSrc ] = useRecoilState(lightboxImageSrcAtom)
 
   const closeLightbox = () => {

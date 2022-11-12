@@ -1,34 +1,45 @@
 // global
 import React from 'react'
+// components
+import ModalLayout from "../../containers/ModalLayout/ModalLayout";
 // styles and icons
 import './Select.scss';
-import ModalLayout from "../../containers/ModalLayout/ModalLayout";
 
 export type SelectOptionValueType = string
 
-export interface ISelectOption {
+export interface SelectOption {
   icon?: string,
   text?: string,
   value: SelectOptionValueType,
 }
 
 interface Props {
-  options: ISelectOption[],
+  options: SelectOption[],
   value: SelectOptionValueType,
   setValue: (newValue: SelectOptionValueType) => void,
   name: string,
 }
 
 function Select({options, value, setValue, name}: Props) {
-  const [ currentOption, setCurrentOption ] = React.useState<ISelectOption | undefined>(undefined)
+  const [ currentOption, setCurrentOption ] = React.useState<SelectOption | undefined>(undefined)
   const [ areOptionsVisible, setOptionsVisibility ] = React.useState<boolean>(false)
   
   React.useEffect(() => {
-    setCurrentOption(options.find(option => option.value === value))
+    const newOption = getOptionByValue()
+    
+    setCurrentOption(newOption)
   }, [value, options])
   
-  const updateValue = (value: SelectOptionValueType) => {
+  const getOptionByValue = () => {
+    return options.find(option => option.value === value)
+  }
+  
+  const optionClickHandler = (value: SelectOptionValueType) => {
     setValue(value)
+    closeOptions()
+  }
+  
+  const closeOptions = () => {
     setOptionsVisibility(false)
   }
   
@@ -49,7 +60,7 @@ function Select({options, value, setValue, name}: Props) {
             <ul className="select-modal__options" aria-hidden="true">
               {options.map((option, key) => (
                 <li key={option.value} className="options__option">
-                  <button autoFocus={key === 0} disabled={option.value === value} className="option__btn" onClick={() => updateValue(option.value)}>
+                  <button autoFocus={key === 0} disabled={option.value === value} className="option__btn" onClick={() => optionClickHandler(option.value)}>
                     {option.icon &&
                       <img src={option.icon} alt="" className="select__icon btn__icon"/>
                     }

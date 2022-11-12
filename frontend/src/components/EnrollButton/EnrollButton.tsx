@@ -2,7 +2,6 @@
 import React from 'react'
 // styles and icons
 import './EnrollButton.scss';
-// components
 
 interface EnrollButtonProps {
   className?: string,

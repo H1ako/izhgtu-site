@@ -1,9 +1,9 @@
 // global
 import React from 'react'
-// styles and icons
-import './QuoteBlock.scss';
 // components
 import InnerBlockHeading from "../InnerBlockHeading/InnerBlockHeading";
+// styles and icons
+import './QuoteBlock.scss';
 
 interface QuoteBlockProps {
   heading?: string,

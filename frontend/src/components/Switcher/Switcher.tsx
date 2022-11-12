@@ -2,16 +2,15 @@
 import React from 'react'
 // styles and icon
 import './Switcher.scss';
-// components
 
-interface Props {
+interface SwitcherProps {
   children: React.ReactNode,
   index: number,
   setIndex: (newIndex: number) => void,
   className?: string
 }
 
-function Switcher({children, index, setIndex, className=''}: Props) {
+function Switcher({children, index, setIndex, className=''}: SwitcherProps) {
   return (
     <div className={`switcher ${className}`}>
       <ul className="switcher__variants">

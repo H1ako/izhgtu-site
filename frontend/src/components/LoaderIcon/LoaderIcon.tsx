@@ -1,15 +1,15 @@
 // global
 import React from 'react'
-// styles and icons
-import './LoaderIcon.scss';
 // components
 import AppLogo from "../AppLogo/AppLogo";
+// styles and icons
+import './LoaderIcon.scss';
 
-interface Props {
+interface LoaderIconProps {
   className?: string
 }
 
-function LoaderIcon({className}: Props) {
+function LoaderIcon({className}: LoaderIconProps) {
   return (
     <AppLogo className={`loader-icon ${className}`} />
   )

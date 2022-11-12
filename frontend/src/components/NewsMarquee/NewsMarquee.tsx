@@ -1,11 +1,11 @@
 // global
 import React from 'react'
+// components
+import Marquee from "react-fast-marquee";
 // styles and icons
 import './NewsMarquee.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
-// components
-import Marquee from "react-fast-marquee";
 
 interface NewsMarqueeProps {
   onClose: () => void,

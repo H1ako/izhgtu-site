@@ -1,10 +1,10 @@
 // global
 import React from 'react'
-// styles and icons
-import './NewsBlock.scss';
 // components
 import BlockHeading from "../BlockHeading/BlockHeading";
 import News from "../News/News";
+// styles and icons
+import './NewsBlock.scss';
 
 function NewsBlock() {
   return (
