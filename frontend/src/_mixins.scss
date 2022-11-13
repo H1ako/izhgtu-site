@@ -3,6 +3,23 @@
   border: none;
   color: var(--colorText);
   font-size: var(--fontSize4);
+
+  &::placeholder {
+    color: var(--colorTextDark);
+    text-transform: uppercase;
+  }
+}
+
+@mixin input(
+  $background: var(--colorBg),
+  $bdrs: var(--bdrsWindow),
+  $padding: .75rem var(--paddingInlineMain)
+) {
+  @include clearedInput;
+
+  background: $background;
+  border-radius: $bdrs;
+  padding: $padding;
 }
 
 @mixin clearedLink($fontSize: var(--fontSize4)) {
@@ -10,10 +27,11 @@
   color: var(--colorText);
   font-size: $fontSize;
   transition: var(--transitionDefault);
+  text-transform: uppercase;
 }
 
-@mixin contentArea {
-  width: var(--widthContent);
+@mixin contentArea($width: var(--widthContent)) {
+  width: $width;
   margin-inline: auto;
   padding-inline: var(--paddingInlineMain);
 }

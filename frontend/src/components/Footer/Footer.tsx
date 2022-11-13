@@ -4,12 +4,16 @@ import React from 'react'
 import {Link} from "react-router-dom";
 import ContactForm from "../forms/ContactForm/ContactForm";
 import SocialsList from "../SocialsList/SocialsList";
+import InnerBlockHeading from "../InnerBlockHeading/InnerBlockHeading";
 // styles and icons
 import './Footer.scss';
 
 function Footer() {
   return (
       <footer className="main-footer">
+        <InnerBlockHeading className="main-footer__heading">
+          ИЖГТУ
+        </InnerBlockHeading>
         <div className="main-footer__content">
           <div className="content__left-side">
             <nav className="left-side__useful-links">

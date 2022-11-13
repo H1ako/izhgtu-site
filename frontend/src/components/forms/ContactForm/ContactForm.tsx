@@ -40,6 +40,7 @@ function ContactForm() {
         onChange={(e) => setTheme(e.target.value)}
       />
       <textarea
+        className="contact-form__message"
         name="message"
         placeholder="сообщение"
         value={message}
