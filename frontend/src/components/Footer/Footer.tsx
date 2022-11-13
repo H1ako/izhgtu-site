@@ -1,7 +1,9 @@
 // global
 import React from 'react'
 // components
+import {Link} from "react-router-dom";
 import ContactForm from "../forms/ContactForm/ContactForm";
+import SocialsList from "../SocialsList/SocialsList";
 // styles and icons
 import './Footer.scss';
 
@@ -10,8 +12,32 @@ function Footer() {
       <footer className="main-footer">
         <div className="main-footer__content">
           <div className="content__left-side">
-            <nav className="left-side__useful-links"></nav>
-            <ul className="left-side__socials"></ul>
+            <nav className="left-side__useful-links">
+              <ul className="useful-links__list">
+                <li>
+                  <Link to='/'>Главная</Link>
+                </li>
+                <li>
+                  <Link to='/'>электронный журнал</Link>
+                </li>
+                <li>
+                  <Link to='/'>расписание</Link>
+                </li>
+                <li>
+                  <Link to='/'>частые вопросы</Link>
+                </li>
+                <li>
+                  <Link to='/'>образование</Link>
+                </li>
+                <li>
+                  <Link to='/'>Новости</Link>
+                </li>
+                <li>
+                  <Link to='/'>Контакты</Link>
+                </li>
+              </ul>
+            </nav>
+            <SocialsList />
           </div>
           <ContactForm />
         </div>

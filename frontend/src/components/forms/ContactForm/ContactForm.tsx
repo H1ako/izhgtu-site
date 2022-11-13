@@ -9,6 +9,10 @@ function ContactForm() {
   const [ theme, setTheme ] = React.useState<string>('')
   const [ message, setMessage ] = React.useState<string>('')
   
+  const sendLetter = () => {
+  
+  }
+  
   return (
     <form className="contact-form">
       <input
@@ -41,6 +45,7 @@ function ContactForm() {
         value={message}
         onChange={(e) => setMessage(e.target.value)}
       />
+      <button className="contact-form__submit" onClick={sendLetter}>Отправить</button>
     </form>
   )
 }

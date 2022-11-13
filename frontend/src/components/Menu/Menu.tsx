@@ -9,6 +9,7 @@ import './Menu.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBars, faLocationDot, faMagnifyingGlass, faPhone} from "@fortawesome/free-solid-svg-icons";
 import {faTelegram, faVk, faYoutube} from "@fortawesome/free-brands-svg-icons"
+import SocialsList from "../SocialsList/SocialsList";
 
 interface MenuProps {
   className?: string
@@ -46,23 +47,7 @@ function Menu({className}: MenuProps) {
       <div className="menu__info">
         <div className="info__group group-socials">
           <h3 className="group__heading">Мы в Соц Сетях</h3>
-          <ul className="group__list">
-            <li className="list__part">
-              <Link to='/' className='part__text'>
-                <FontAwesomeIcon icon={faVk} className="text__icon" />
-              </Link>
-            </li>
-            <li className="list__part">
-              <Link to='/' className='part__text'>
-                <FontAwesomeIcon icon={faYoutube} className="text__icon" />
-              </Link>
-            </li>
-            <li className="list__part">
-              <Link to='/' className='part__text'>
-                <FontAwesomeIcon icon={faTelegram} className="text__icon" />
-              </Link>
-            </li>
-          </ul>
+          <SocialsList />
         </div>
         <div className="info__group group-contacts">
           <h3 className="group__heading">Наши Контакты</h3>
