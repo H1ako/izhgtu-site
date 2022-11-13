@@ -7,6 +7,12 @@
   gap: 1rem;
   align-items: center;
 
+  &__heading {
+    text-transform: uppercase;
+    //margin-left: auto;
+    color: var(--colorBg);
+  }
+
   &__input,
   &__message {
     width: 100%;

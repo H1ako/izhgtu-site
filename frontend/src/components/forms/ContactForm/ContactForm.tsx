@@ -15,6 +15,7 @@ function ContactForm() {
   
   return (
     <form className="contact-form">
+      <h1 className="contact-form__heading">Связаться с нами</h1>
       <input
         type="text"
         className="contact-form__input"
