@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from authentication.managers import CustomUserManager
 
 
-class CustomUser(AbstractBaseUser, PermissionsMixin):
+class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('Email'), unique=True)
     phone = models.CharField(_("Phone Number"), max_length=16, unique=True, null=True, blank=True)
     firstName = models.CharField(_('Name'), max_length=40)
@@ -15,6 +15,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     picture = models.ImageField(_('Profile Picture'), upload_to='userPictures/', blank=True, null=True)
     bgPicture = models.ImageField(_('Profile Background Picture'), upload_to='userBgPictures/', blank=True, null=True)
     is_staff = models.BooleanField(_('Is Staff'), default=False)
+    is_active = models.BooleanField(_('Is Active'), default=False)
     is_superuser = models.BooleanField(_('Is Super User'), default=False)
     updatedAt = models.DateTimeField(_('Updated At'), auto_now=True)
     createdAt = models.DateTimeField(_('Created At'), auto_now_add=True)

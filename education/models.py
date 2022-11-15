@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from authentication.models import CustomUser
+from authentication.models import User
 from izhgtuSite.models import TimeStampedModel
 
 
@@ -74,7 +74,7 @@ class SpecializationGroup(TimeStampedModel):
         on_delete=models.SET_NULL
     )
     leader = models.ForeignKey(
-        CustomUser,
+        User,
         related_name='leaderOfGroups',
         verbose_name=_('Group Leader'),
         on_delete=models.SET_NULL,

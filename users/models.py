@@ -2,13 +2,24 @@ from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.utils.translation import gettext_lazy as _
 
-from authentication.models import CustomUser
+from authentication.models import User
 from education.models import SpecializationGroup, Subject
 from izhgtuSite.models import TimeStampedModel
 
 
+class Quote(TimeStampedModel):
+    author = models.CharField('Автор', max_length=250)
+    authorPicture = models.ImageField('Изображение Автора', upload_to='quotesAuthors/')
+    authorOccupation = models.CharField('Профессия Автора', max_length=150)
+    text = models.TextField('Текст')
+
+    class Meta:
+        verbose_name = 'Quote'
+        verbose_name_plural = 'Quotes'
+
+
 class UserTag(TimeStampedModel):
-    users = models.ManyToManyField(CustomUser, verbose_name=_('Users'), related_name='tags')
+    users = models.ManyToManyField(User, verbose_name=_('Users'), related_name='tags')
     name = models.CharField(_('Name'), max_length=60)
     description = models.CharField(_('Description'), max_length=255, null=True, blank=True)
 
@@ -21,7 +32,7 @@ class UserTag(TimeStampedModel):
 
 
 class Student(TimeStampedModel):
-    user = models.OneToOneField(CustomUser, verbose_name=_('User'), related_name='student', on_delete=models.CASCADE)
+    user = models.OneToOneField(User, verbose_name=_('User'), related_name='student', on_delete=models.CASCADE)
     group = models.ForeignKey(SpecializationGroup, related_name='students', null=True, on_delete=models.SET_NULL)
 
     class Meta:
@@ -54,7 +65,7 @@ class StudentCard(TimeStampedModel):
 
 
 class Teacher(TimeStampedModel):
-    user = models.OneToOneField(CustomUser, verbose_name=_('User'), related_name='teacher', on_delete=models.CASCADE)
+    user = models.OneToOneField(User, verbose_name=_('User'), related_name='teacher', on_delete=models.CASCADE)
     subjects = models.ManyToManyField(Subject, related_name='teachers')
     groups = models.ManyToManyField(SpecializationGroup, related_name='teachers')
 
@@ -67,7 +78,7 @@ class Teacher(TimeStampedModel):
 
 
 class Entrant(TimeStampedModel):
-    user = models.OneToOneField(CustomUser, verbose_name=_('User'), related_name='entrant', on_delete=models.CASCADE)
+    user = models.OneToOneField(User, verbose_name=_('User'), related_name='entrant', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = _('Entrant')
@@ -78,7 +89,7 @@ class Entrant(TimeStampedModel):
 
 
 class UserDocument(TimeStampedModel):
-    user = models.ForeignKey(CustomUser, verbose_name=_('User'), related_name='documents', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, verbose_name=_('User'), related_name='documents', on_delete=models.CASCADE)
     name = models.CharField(_('Name'), max_length=100)
     file = models.FileField(_('File'), upload_to='userDocuments')
     fileType = models.CharField(_('File Type'), max_length=50)

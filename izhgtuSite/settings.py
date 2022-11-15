@@ -17,7 +17,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
-    'http://localhost:3000'
+    'localhost'
 ]
 
 AUTHENTICATION_BACKENDS = (
@@ -43,6 +43,21 @@ AUTHENTICATION_BACKENDS = (
 #     'easy_thumbnails.processors.filters'
 # )
 
+# cms wagtail
+
+
+WAGTAIL_SITE_NAME = 'ИжГТУ'
+WAGTAILADMIN_BASE_URL = 'cms'
+
+WAGTAIL_HEADLESS_PREVIEW = {
+    "CLIENT_URLS": {
+        "default": "http://localhost:3000",
+    }
+}
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_URLS_REGEX = r"^/api/v2/"
+
 # rest framework
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -63,13 +78,14 @@ PASSWORDLESS_AUTH = {
 
 # Application definition
 INSTALLED_APPS = [
-    'djangocms_admin_style',
+    # 'djangocms_admin_style',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "corsheaders",
     'rest_framework',
     'rest_framework.authtoken',
     # cms
@@ -90,22 +106,40 @@ INSTALLED_APPS = [
     # 'djangocms_googlemap',
     # 'djangocms_snippet',
     # 'djangocms_style',
+    # cms wagtail
+    'wagtail.contrib.forms',
+    'wagtail.contrib.redirects',
+    'wagtail.embeds',
+    'wagtail.sites',
+    'wagtail.users',
+    'wagtail.snippets',
+    'wagtail.documents',
+    'wagtail.images',
+    'wagtail.search',
+    'wagtail.admin',
+    'wagtail',
+    'modelcluster',
+    'taggit',
+    'wagtail.api.v2',
+    "wagtail_headless_preview",
     # passwordless authentication
     'drfpasswordless',
     # apps
     'frontend',
-    'users',
+    'home',
     'authentication',
+    'users',
     'education',
     'dateEvents',
     'admissionApplications',
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -115,6 +149,8 @@ MIDDLEWARE = [
     # 'cms.middleware.page.CurrentPageMiddleware',
     # 'cms.middleware.toolbar.ToolbarMiddleware',
     # 'cms.middleware.language.LanguageCookieMiddleware',
+    # cms wagtail
+    'wagtail.contrib.redirects.middleware.RedirectMiddleware',
 ]
 
 ROOT_URLCONF = 'izhgtuSite.urls'
@@ -200,7 +236,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-AUTH_USER_MODEL = 'authentication.CustomUser'
+AUTH_USER_MODEL = 'authentication.User'
 
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'locale'),
