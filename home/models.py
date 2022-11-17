@@ -1,4 +1,5 @@
 from django.db import models
+from grapple.models import GraphQLString, GraphQLImage, GraphQLForeignKey, GraphQLSnippet
 from wagtail.admin.panels import FieldPanel
 from wagtail.api import APIField
 from wagtail.images.models import Image
@@ -40,9 +41,15 @@ class HomePage(HeadlessMixin, Page):
     ]
 
     api_fields = [
-        APIField('faceText'),
-        APIField('faceBgImage'),
-        APIField('quote'),
+        GraphQLString('faceText'),
+        GraphQLImage('faceBgImage'),
+        GraphQLForeignKey('quote', content_type=Quote),
+    ]
+
+    graphql_fields = [
+        GraphQLString('faceText'),
+        GraphQLImage('faceBgImage'),
+        # GraphQLForeignKey('quote', content_type=Quote),
     ]
 
 

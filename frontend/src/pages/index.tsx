@@ -1,5 +1,5 @@
-import HomePage from "./HomePage/HomePage";
+import {lazy} from 'react'
 
-export const PAGES = {
-  'homePage': HomePage
+export default {
+  HomePage: lazy(() => import("./HomePage/HomePage"))
 }

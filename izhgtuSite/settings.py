@@ -25,26 +25,13 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend'  # fallback to default authentication backend if first fails
 )
 
-# cms
-# SITE_ID = 1
-#
-# X_FRAME_OPTIONS = 'SAMEORIGIN'
-#
-# CMS_TEMPLATES = [
-#     ('index.html', 'Main Template'),
-# ]
-#
-# THUMBNAIL_HIGH_RESOLUTION = True
-#
-# THUMBNAIL_PROCESSORS = (
-#     'easy_thumbnails.processors.colorspace',
-#     'easy_thumbnails.processors.autocrop',
-#     'filer.thumbnail_processors.scale_and_crop_with_subject_location',
-#     'easy_thumbnails.processors.filters'
-# )
-
 # cms wagtail
 
+GRAPHENE = {"SCHEMA": "grapple.schema.schema"}
+GRAPPLE = {
+    "APPS": ["home"],
+}
+ASGI_APPLICATION = "graphql_ws.django.routing.application"
 
 WAGTAIL_SITE_NAME = 'ИжГТУ'
 WAGTAILADMIN_BASE_URL = 'cms'
@@ -121,7 +108,13 @@ INSTALLED_APPS = [
     'modelcluster',
     'taggit',
     'wagtail.api.v2',
+    # wagtail libs
     "wagtail_headless_preview",
+    'wagtailmedia',
+    "graphql_ws.django",
+    "grapple",
+    "graphene_django",
+    "channels",
     # passwordless authentication
     'drfpasswordless',
     # apps

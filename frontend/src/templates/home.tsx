@@ -2,14 +2,14 @@
 import React from 'react'
 import {graphql, PageProps} from "gatsby";
 // components
-import PageLayout from "../../containers/PageLayout/PageLayout";
-import MapBlock from "../../components/MapBlock/MapBlock";
-import NewsBlock from "../../components/NewsBlock/NewsBlock";
-import FacePictureBlock from "../../components/FacePictureBlock/FacePictureBlock";
-import MoreInfoBlock from "../../components/MoreInfoBlock/MoreInfoBlock";
-import PrincipalQuoteBlock from "../../components/PrincipalQuoteBlock/PrincipalQuoteBlock";
 // styles and icons
 import './HomePage.scss';
+import PageLayout from "../containers/PageLayout/PageLayout";
+import FacePictureBlock from "../components/FacePictureBlock/FacePictureBlock";
+import PrincipalQuoteBlock from "../components/PrincipalQuoteBlock/PrincipalQuoteBlock";
+import MoreInfoBlock from "../components/MoreInfoBlock/MoreInfoBlock";
+import NewsBlock from "../components/NewsBlock/NewsBlock";
+import MapBlock from "../components/MapBlock/MapBlock";
 
 function HomePage(props: PageProps) {
   console.log(props)
