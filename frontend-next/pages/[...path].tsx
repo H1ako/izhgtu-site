@@ -1,7 +1,9 @@
 import type {GetServerSidePropsContext} from "next";
-import LAZY_PAGES from "../components/pages";
+import LAZY_PAGES from "../pagesComponents";
 import client from "../apollo-client";
 import gql from "graphql-tag";
+import {useRecoilState} from "recoil";
+import {loadingScreenAtom} from "../recoilAtoms/loadingAtom";
 
 interface CurrentPageProps {
     componentName: string,
@@ -9,6 +11,12 @@ interface CurrentPageProps {
 }
 
 export default function CurrentPage({ componentName, componentProps }: CurrentPageProps) {
+    const [ isLoading, setIsLoading ] = useRecoilState(loadingScreenAtom)
+  
+    setTimeout(() => {
+        setIsLoading(false)
+    }, 500)
+    
     // @ts-ignore
     const Component = LAZY_PAGES[componentName];
     if (!Component) {

@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Русский",
+    "code": "ru",
+    "icon": "/assets/svg/flags/ru.svg",
+    "active": true
+  },
+  {
+    "name": "English",
+    "code": "en",
+    "icon": "/assets/svg/flags/gb.svg",
+    "active": true
+  },
+  {
+    "name": "English US",
+    "code": "us",
+    "icon": "/assets/svg/flags/us.svg",
+    "active": false
+  }
+]

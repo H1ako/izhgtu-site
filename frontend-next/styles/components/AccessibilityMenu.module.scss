@@ -1,0 +1,169 @@
+@import "../main/mixins";
+
+// options styles
+#html :global html {
+  $highlitedLinksColor: #f700ff;
+  $highlitedFocusColor: lime;
+
+  @function saturate($options...) {
+    @return #{'saturate(#{$options})'};
+  }
+
+  filter: saturate(var(--saturation, 100%)) !important;
+
+  &.highlited-links {
+    a {
+      outline: thick solid $highlitedLinksColor !important;
+    }
+  }
+
+  &.highlited-focus {
+    input,
+    button,
+    a,
+    textarea,
+    label {
+      outline: thick solid $highlitedFocusColor !important;
+    }
+  }
+
+  &.standart-font {
+    * {
+      font-family: "Arial", Helvetica, sans-serif !important;
+      font-weight: 300 !important;
+    }
+  }
+
+  &.hidden-images {
+    * {
+      background-image: none !important;
+    }
+
+    img {
+      object-position: 99999px 99999px !important;
+      outline: 3px dashed blueviolet !important;
+    }
+  }
+
+  &.animations-stopped {
+    * {
+      animation-play-state: paused !important;
+    }
+  }
+
+  &.transitions-removed {
+    * {
+      transition: none !important;
+    }
+  }
+}
+
+// menu styles
+.accessibility-menu {
+  $margin: 1rem;
+
+  position: fixed;
+  bottom: $margin;
+  right: $margin;
+  z-index: var(--zIndexSettingsMenu);
+
+  &.hidden {
+    display: none;
+  }
+
+  &__btn {
+    @include iconBtn(var(--fontSize3-4));
+
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: var(--colorMain);
+    border: 2px solid var(--colorBgAccentLight);
+    border-radius: var(--bdrsBtnRounded);
+    padding: .8em;
+  }
+
+  &__menu {
+    $padding: 1rem 2rem;
+
+    background: var(--colorBgAccent);
+    border-radius: var(--bdrsWindow);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: min(550px, calc(100vw - $margin * 2));
+    height: min(800px, 95vh);
+    border: 2px solid var(--colorBgAccentLight);
+
+    .menu__header {
+      position: relative;
+      padding: $padding;
+      background: var(--colorMain);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+
+      .header__close-btn {
+        $headerMargin: .5rem;
+
+        @include clearedBtn($fontSize: var(--fontSize2));
+
+        position: absolute;
+        top: $headerMargin;
+        right: $headerMargin;
+        align-self: flex-end;
+        background: none;
+        color: var(--colorAccent);
+        transition: var(--transitionDefault);
+      }
+
+      .header__heading {
+        @include textWithIcon;
+      }
+
+      .header__btns {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: .5rem;
+
+        .btns__btn {
+          @include btnAccent;
+          font-size: var(--fontSize4-5);
+        }
+      }
+    }
+
+    .menu__settings {
+      $gap: 1.5rem;
+
+      display: flex;
+      flex-direction: column;
+      padding: $padding;
+      gap: $gap;
+      height: 100%;
+      overflow-y: auto;
+
+      .settings__setting {
+        display: grid;
+        align-items: center;
+        grid-template-columns: 9rem 1fr;
+        gap: 1rem;
+
+        &:not(:last-child) {
+          @include separator($gap);
+        }
+
+        .setting__name {
+          font-size: var(--fontSize3-4);
+        }
+
+        .setting__value {
+          display: flex;
+          justify-content: flex-end;
+        }
+      }
+    }
+  }
+}

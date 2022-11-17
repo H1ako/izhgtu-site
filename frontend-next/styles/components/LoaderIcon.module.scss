@@ -1,0 +1,14 @@
+.loader-icon {
+  animation: 2.5s infinite ease-in-out loadingIcon alternate-reverse;
+  color: var(--colorText);
+  width: min(70vw, 30rem, 70vh);
+}
+
+@keyframes loadingIcon {
+  from {
+    color: var(--colorText);
+  }
+  to {
+    color: var(--colorMain);
+  }
+}

@@ -1,0 +1,166 @@
+[
+  {
+    "name": "Школьнику",
+    "links": [
+      {
+        "name": "ПРИЁМ",
+        "description": "Правила приема и зачисления, информация по вступительным испытаниям",
+        "icon": "graduation-cap",
+        "image": "/assets/linkGroupBg.jpg",
+        "href": "/"
+      },
+      {
+        "name": "ПРИЁМ",
+        "description": "Правила приема и зачисления, информация по вступительным испытаниям",
+        "icon": "graduation-cap",
+        "image": "/assets/linkGroupBg.jpg",
+        "href": "/"
+      },
+      {
+        "name": "ПРИЁМ",
+        "description": "Правила приема и зачисления, информация по вступительным испытаниям",
+        "icon": "graduation-cap",
+        "image": "/assets/linkGroupBg.jpg",
+        "href": "/"
+      },
+      {
+        "name": "ПРИЁМ",
+        "description": "Правила приема и зачисления, информация по вступительным испытаниям",
+        "icon": "graduation-cap",
+        "image": "/assets/linkGroupBg.jpg",
+        "href": "/"
+      }
+    ]
+  },
+  {
+    "name": "Абитуриенту",
+    "links": [
+      {
+        "name": "ПРИЁМ",
+        "description": "Правила приема и зачисления, информация по вступительным испытаниям",
+        "icon": "graduation-cap",
+        "image": "/assets/linkGroupBg.jpg",
+        "href": "/"
+      },
+      {
+        "name": "ПРИЁМ",
+        "description": "Правила приема и зачисления, информация по вступительным испытаниям",
+        "icon": "graduation-cap",
+        "image": "/assets/linkGroupBg.jpg",
+        "href": "/"
+      },
+      {
+        "name": "ПРИЁМ",
+        "description": "Правила приема и зачисления, информация по вступительным испытаниям",
+        "icon": "graduation-cap",
+        "image": "/assets/linkGroupBg.jpg",
+        "href": "/"
+      },
+      {
+        "name": "ПРИЁМ",
+        "description": "Правила приема и зачисления, информация по вступительным испытаниям",
+        "icon": "graduation-cap",
+        "image": "/assets/linkGroupBg.jpg",
+        "href": "/"
+      }
+    ]
+  },
+  {
+    "name": "Студенту",
+    "links": [
+      {
+        "name": "ПРИЁМ",
+        "description": "Правила приема и зачисления, информация по вступительным испытаниям",
+        "icon": "graduation-cap",
+        "image": "/assets/linkGroupBg.jpg",
+        "href": "/"
+      },
+      {
+        "name": "ПРИЁМ",
+        "description": "Правила приема и зачисления, информация по вступительным испытаниям",
+        "icon": "graduation-cap",
+        "image": "/assets/linkGroupBg.jpg",
+        "href": "/"
+      },
+      {
+        "name": "ПРИЁМ",
+        "description": "Правила приема и зачисления, информация по вступительным испытаниям",
+        "icon": "graduation-cap",
+        "image": "/assets/linkGroupBg.jpg",
+        "href": "/"
+      },
+      {
+        "name": "ПРИЁМ",
+        "description": "Правила приема и зачисления, информация по вступительным испытаниям",
+        "icon": "graduation-cap",
+        "image": "/assets/linkGroupBg.jpg",
+        "href": "/"
+      }
+    ]
+  },
+  {
+    "name": "Аспиранту",
+    "links": [
+      {
+        "name": "ПРИЁМ",
+        "description": "Правила приема и зачисления, информация по вступительным испытаниям",
+        "icon": "graduation-cap",
+        "image": "/assets/linkGroupBg.jpg",
+        "href": "/"
+      },
+      {
+        "name": "ПРИЁМ",
+        "description": "Правила приема и зачисления, информация по вступительным испытаниям",
+        "icon": "graduation-cap",
+        "image": "/assets/linkGroupBg.jpg",
+        "href": "/"
+      },
+      {
+        "name": "ПРИЁМ",
+        "description": "Правила приема и зачисления, информация по вступительным испытаниям",
+        "icon": "graduation-cap",
+        "image": "/assets/linkGroupBg.jpg",
+        "href": "/"
+      },
+      {
+        "name": "ПРИЁМ",
+        "description": "Правила приема и зачисления, информация по вступительным испытаниям",
+        "icon": "graduation-cap",
+        "image": "/assets/linkGroupBg.jpg",
+        "href": "/",
+    ]
+  },
+  {
+    "name": "Сотруднику",
+    "links": [
+      {
+        "name": "ПРИЁМ",
+        "description": "Правила приема и зачисления, информация по вступительным испытаниям",
+        "icon": "graduation-cap",
+        "image": "/assets/linkGroupBg.jpg",
+        "href": "/"
+      },
+      {
+        "name": "ПРИЁМ",
+        "description": "Правила приема и зачисления, информация по вступительным испытаниям",
+        "icon": "graduation-cap",
+        "image": "/assets/linkGroupBg.jpg",
+        "href": "/"
+      },
+      {
+        "name": "ПРИЁМ",
+        "description": "Правила приема и зачисления, информация по вступительным испытаниям",
+        "icon": "graduation-cap",
+        "image": "/assets/linkGroupBg.jpg",
+        "href": "/"
+      },
+      {
+        "name": "ПРИЁМ",
+        "description": "Правила приема и зачисления, информация по вступительным испытаниям",
+        "icon": "graduation-cap",
+        "image": "/assets/linkGroupBg.jpg",
+        "href": "/"
+      }
+    ]
+  }
+]

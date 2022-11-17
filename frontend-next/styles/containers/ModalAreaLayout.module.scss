@@ -1,0 +1,28 @@
+@import "../main/mixins";
+
+.modal-area {
+  position: fixed;
+  inset: 0;
+  z-index: var(--zIndexWindow);
+  display: grid;
+  place-content: center;
+  background: var(--colorWindowAreaBg) ;
+
+  &:not(.active) {
+    display: none;
+  }
+
+  &__close-btn {
+    $margin: 1rem;
+
+    @include clearedBtn($fontSize: var(--fontSize2));
+
+    position: absolute;
+    top: $margin;
+    right: $margin;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: var(--colorAccent);
+    background: none;
+  }
+}

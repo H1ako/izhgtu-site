@@ -1,0 +1,24 @@
+@import "../main/mixins";
+
+.switcher {
+  &__variants {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    border-radius: var(--bdrsBtn);
+    overflow: hidden;
+
+    .variants__variant {
+      &.active button {
+        background: var(--colorAccent);
+      }
+
+      button {
+        @include clearedLink;
+        @include btnMain(var(--fontSize5));
+
+        border-radius: 0;
+      }
+    }
+  }
+}

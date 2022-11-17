@@ -9,7 +9,7 @@ from rest_framework.response import Response
 
 apiRouter = WagtailAPIRouter('wagtailapi')
 
-apiRouter.register_endpoint('pages', PagesAPIViewSet)
+apiRouter.register_endpoint('pagesComponents', PagesAPIViewSet)
 apiRouter.register_endpoint('images', ImagesAPIViewSet)
 apiRouter.register_endpoint('documents', DocumentsAPIViewSet)
 

@@ -1,0 +1,19 @@
+@import "../main/mixins";
+
+.main-action-btns {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+
+  &__btn {
+    @include iconBtn($fontSize: var(--fontSize2));
+
+    color: var(--colorText);
+
+    &:hover,
+    &:focus-within {
+      color: var(--colorMain);
+    }
+  }
+}

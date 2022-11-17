@@ -1,0 +1,35 @@
+@import "../main/mixins";
+
+.contact-form {
+  width: min(100%, 800px);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+
+  &__heading {
+    text-transform: uppercase;
+    //margin-left: auto;
+    color: var(--colorBg);
+  }
+
+  &__input,
+  &__message {
+    width: 100%;
+  }
+
+  &__input {
+    @include input();
+  }
+
+  &__message {
+    @include input();
+
+    resize: vertical;
+    flex-grow: 1;
+  }
+
+  &__submit {
+    @include btn($background: var(--colorBg));
+  }
+}
