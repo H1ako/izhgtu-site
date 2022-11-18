@@ -119,6 +119,7 @@ INSTALLED_APPS = [
     'drfpasswordless',
     # apps
     'frontend',
+    # 'frontend',
     'home',
     'authentication',
     'users',

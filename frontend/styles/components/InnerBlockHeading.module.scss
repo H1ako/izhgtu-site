@@ -1,0 +1,9 @@
+.innerBlockHeading {
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+  width: min-content;
+  right: 0;
+  font-size: var(--fontSizeExtraBig);
+  z-index: -1;
+}

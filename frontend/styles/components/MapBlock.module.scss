@@ -1,0 +1,7 @@
+@import "../main/mixins";
+
+.mapBlock {
+  @include blockWithHeading;
+
+  width: 100%;
+}

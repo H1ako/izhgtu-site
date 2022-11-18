@@ -1,0 +1,61 @@
+.loadingScreen {
+  z-index: var(--zIndexHighest);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  user-select: none;
+
+  &:not(.active) {
+    pointer-events: none;
+
+    .leftSide {
+      translate: -100%;
+    }
+
+    .rightSide {
+      translate: 100%;
+    }
+  }
+
+  &__side {
+    position: absolute;
+    height: 100vh;
+    width: 50%;
+    transition: var(--transition, var(--transitionBiggest));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--colorMain);
+    animation: 2.5s infinite ease-in-out loadingScreenBg alternate-reverse;
+
+    &.leftSide {
+      left: 0;
+
+      & > * {
+        align-self: flex-end;
+        translate: 50%;
+      }
+    }
+
+    &.rightSide {
+      right: 0;
+
+      & > * {
+        align-self: flex-start;
+        translate: -50%;
+      }
+    }
+  }
+}
+
+@keyframes loadingScreenBg {
+  from {
+    background: var(--colorMain);
+  }
+  to {
+    background: var(--colorBgDark);
+  }
+}

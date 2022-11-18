@@ -1,9 +1,0 @@
-@import "../../mixins";
-
-.modal {
-  background: var(--colorBgAccent);
-  border-radius: var(--bdrsWindow);
-  padding: 1rem 2rem;
-  width: min(600px, 90vw);
-  max-height: min(800px, 95vh);
-}

@@ -1,0 +1,43 @@
+@import "../main/mixins";
+
+.mainHeader {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--heightHeader);
+  background: var(--colorBgDark);
+  padding: .5rem 1rem;
+  z-index: var(--zIndexHeader);
+  transition: var(--transitionDefault);
+
+  &.active {
+    translate: 0 -100%;
+  }
+
+  &.normal {
+    height: var(--heightHeader);
+  }
+
+  &__content {
+    @include contentArea;
+
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
+    .content__logo {
+      @include clearedLink;
+
+      display: block;
+      height: 95%;
+      aspect-ratio: 1;
+    }
+
+    .content__marquee {
+      z-index: -1;
+    }
+  }
+}

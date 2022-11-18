@@ -1,1 +1,0 @@
-type IdType = string | number
