@@ -115,11 +115,12 @@ INSTALLED_APPS = [
     "grapple",
     "graphene_django",
     "channels",
-    # passwordless authentication
+    # libraries
+    'django_extensions',
     'drfpasswordless',
     # apps
     'frontend',
-    # 'frontend',
+    'menus',
     'home',
     'authentication',
     'users',
@@ -163,9 +164,6 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 # cms
-                # 'sekizai.context_processors.sekizai',
-                # 'django.template.context_processors.i18n',
-                # 'cms.context_processors.cms_settings'
             ],
         },
     },

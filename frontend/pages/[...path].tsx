@@ -18,8 +18,14 @@ export default function CurrentPage({ componentName, componentProps }: CurrentPa
     const Component = LAZY_PAGES[componentName];
     
     useEffect(() => {
-        setIsLoading(!Component)
+        if (componentName !== null) {
+            setIsLoading(false)
+        }
     }, [componentName])
+    
+    // useEffect(() => {
+    //
+    // }, [componentProps])
     
     if (!Component) {
         return <h1>Component {componentName} not found</h1>;

@@ -1,29 +1,45 @@
 from django.db import models
-from grapple.models import GraphQLString, GraphQLImage, GraphQLForeignKey, GraphQLSnippet
-from wagtail.admin.panels import FieldPanel
-from wagtail.api import APIField
+from grapple.models import GraphQLForeignKey, GraphQLStreamfield, GraphQLImage
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from wagtail import blocks
+from wagtail.fields import StreamField
 from wagtail.images.models import Image
 from wagtail.models import Page
 
 from users.models import Quote
 from wagtail_headless_preview.models import HeadlessMixin
 
-
-# from wagtail.fields import RichTextField
+class TextWithShortVariantBlock(blocks.StructBlock):
+    text = blocks.CharBlock(help_text='Основной Текст', max_length=255)
+    short_text = blocks.CharBlock(help_text='Короткий Текст', max_length=255)
+    size = blocks.ChoiceBlock(help_text='Размер Шрифта', default='normal', choices=[
+        ('small', 'Маленький'),
+        ('normal', 'Обычный'),
+        ('big', 'Большой'),
+    ])
 
 
 class HomePage(HeadlessMixin, Page):
-    # parent_page_types = []
     max_count = 1
 
-    faceText = models.CharField('Лицевой текст', max_length=255, blank=True, null=True)
-    faceBgImage = models.ForeignKey(
+    # face block
+    face_body = StreamField(
+        [
+            (
+                'heading',
+                TextWithShortVariantBlock()
+            )
+        ],
+        blank=True,
+        use_json_field=True
+    )
+    face_bg = models.ForeignKey(
         Image,
         null=True,
         blank=True,
         verbose_name='Лицевая фоновая картинка',
         on_delete=models.SET_NULL,
-        related_name='+'
+        related_name='+',
     )
     quote = models.ForeignKey(
         Quote,
@@ -31,25 +47,30 @@ class HomePage(HeadlessMixin, Page):
         blank=True,
         verbose_name='Цитата',
         on_delete=models.SET_NULL,
-        related_name='+'
+        related_name='+',
     )
 
     content_panels = Page.content_panels + [
-        FieldPanel('faceText'),
-        FieldPanel('faceBgImage'),
+        MultiFieldPanel([
+            FieldPanel('face_body'),
+            FieldPanel('face_bg'),
+        ], heading='Лицевой Блок'),
         FieldPanel('quote'),
     ]
 
     api_fields = [
-        GraphQLString('faceText'),
-        GraphQLImage('faceBgImage'),
+        GraphQLStreamfield('face_body'),
+        GraphQLImage('face_Bg'),
         GraphQLForeignKey('quote', content_type=Quote),
     ]
 
     graphql_fields = [
-        GraphQLString('faceText'),
-        GraphQLImage('faceBgImage'),
+        GraphQLStreamfield('face_body'),
+        GraphQLImage('face_Bg'),
         # GraphQLForeignKey('quote', content_type=Quote),
     ]
+
+class TestPage(Page):
+    pass
 
 

@@ -1,23 +1,34 @@
 // global
 import React from 'react'
 // components
-import OrganizationName from "../OrganizationName/OrganizationName";
+import TextWithShortVariant from "../TextWithShortVariant/TextWithShortVariant";
 import EnrollButton from "../EnrollButton/EnrollButton";
 import MainActionBtns from "../MainActionBtns/MainActionBtns";
 // styles and icons
 import styles from '../../styles/components/FacePictureBlock.module.scss';
 
 interface FacePictureBlockProps {
-  className?: string
+  className?: string,
+  bgImage?: string,
+  
 }
 
-function FacePictureBlock({className=''}: FacePictureBlockProps) {
+function FacePictureBlock({className='', bgImage}: FacePictureBlockProps) {
   return (
     <div className={`${styles.facePictureBlock} ${className}`}>
-      <img src="/assets/XXL.png" alt="" className={styles.facePictureBlock__picture}/>
+      <img src={bgImage} alt="" className={styles.facePictureBlock__picture}/>
       <div className={styles.facePictureBlock__inner}>
         <MainActionBtns className={styles.inner__btns} />
-        <OrganizationName />
+        <TextWithShortVariant
+          text="Федеральное государственное бюджетное образовательное учреждение высшего образования"
+          shortText="ФГБОУ ВО"
+          size="normal"
+        />
+        <TextWithShortVariant
+          text="Ижевский государственный технический университет имени М.Т. Калашникова"
+          shortText="ИжГТУ имени М.Т. Калашникова"
+          size="big"
+        />
         <EnrollButton />
       </div>
     </div>
