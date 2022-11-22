@@ -47,6 +47,28 @@ class MenuItem(ClusterableModel):
     ]
 
 
+class MenuItemLinkGroup(ClusterableModel):
+    name = models.CharField(_('Name'), max_length=50)
+    url = models.URLField(_('Custom URL '), blank=True, null=True, max_length=500)
+    page = models.ForeignKey(
+        'wagtailcore.Page',
+        blank=True,
+        null=True,
+        related_name='+',
+        on_delete=models.CASCADE
+    )
+    open_in_new_tab = models.BooleanField(_('Open in new tab'), default=False, blank=True)
+    menu_item = ParentalKey(MenuItem, related_name='links_groups', null=True, blank=True)
+
+    panels = [
+        FieldPanel('name'),
+        FieldPanel('url'),
+        PageChooserPanel('page'),
+        FieldPanel('open_in_new_tab'),
+        InlinePanel('links_groups', label=f"{_('Sublink')} - 2", heading=f"{_('Sublinks')} - 2")
+    ]
+
+
 class MenuItemLink(Orderable):
     name = models.CharField(_('Name'), max_length=50)
     url = models.URLField(_('Custom URL '), blank=True, null=True, max_length=500)
@@ -58,7 +80,7 @@ class MenuItemLink(Orderable):
         on_delete=models.CASCADE
     )
     open_in_new_tab = models.BooleanField(_('Open in new tab'), default=False, blank=True)
-    menu_item = ParentalKey(MenuItem, related_name='links_groups')
+    link_group = ParentalKey(MenuItemLinkGroup, related_name='links_groups', null=True, blank=True)
 
     panels = [
         FieldPanel('name'),

@@ -94,6 +94,7 @@ INSTALLED_APPS = [
     # 'djangocms_snippet',
     # 'djangocms_style',
     # cms wagtail
+    'wagtail.contrib.modeladmin',
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
     'wagtail.embeds',
@@ -120,6 +121,7 @@ INSTALLED_APPS = [
     'drfpasswordless',
     # apps
     'frontend',
+    'contentMainSettings',
     'menus',
     'home',
     'authentication',

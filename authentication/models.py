@@ -4,6 +4,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 
 from authentication.managers import CustomUserManager
+from modelcluster.fields import ParentalManyToManyField
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -17,6 +18,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(_('Is Staff'), default=False)
     is_active = models.BooleanField(_('Is Active'), default=False)
     is_superuser = models.BooleanField(_('Is Super User'), default=False)
+    tags = ParentalManyToManyField('users.UserTag', verbose_name=_('Tags'), related_name='users')
     updatedAt = models.DateTimeField(_('Updated At'), auto_now=True)
     createdAt = models.DateTimeField(_('Created At'), auto_now_add=True)
 

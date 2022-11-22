@@ -5,23 +5,45 @@ from django.utils.translation import gettext_lazy as _
 from authentication.models import User
 from education.models import SpecializationGroup, Subject
 from izhgtuSite.models import TimeStampedModel
+from wagtail.admin.panels import FieldPanel
+from wagtail.fields import RichTextField
 
 
 class Quote(TimeStampedModel):
-    author = models.CharField('Автор', max_length=250)
-    authorPicture = models.ImageField('Изображение Автора', upload_to='quotesAuthors/')
-    authorOccupation = models.CharField('Профессия Автора', max_length=150)
-    text = models.TextField('Текст')
+    author = models.CharField(_('Author'), max_length=250)
+    author_picture = models.ForeignKey(
+        'wagtailimages.Image',
+        blank=True,
+        null=True,
+        verbose_name=_('Author Picture'),
+        related_name='+',
+        on_delete=models.SET_NULL
+    )
+    author_occupation = models.CharField(_('Author Occupation'), max_length=150, blank=True, null=True)
+    text = RichTextField(help_text=_('Text'), verbose_name=_('Text'),
+                         features=['h1', 'h2', 'h3', 'h4', 'h5', 'bold', 'link', 'hr'])
+
+    panels = [
+        FieldPanel('author'),
+        FieldPanel('author_picture'),
+        FieldPanel('author_occupation'),
+        FieldPanel('text'),
+    ]
 
     class Meta:
-        verbose_name = 'Quote'
-        verbose_name_plural = 'Quotes'
+        verbose_name = _('Quote')
+        verbose_name_plural = _('Quotes')
 
 
 class UserTag(TimeStampedModel):
-    users = models.ManyToManyField(User, verbose_name=_('Users'), related_name='tags')
     name = models.CharField(_('Name'), max_length=60)
-    description = models.CharField(_('Description'), max_length=255, null=True, blank=True)
+    description = RichTextField(help_text=_('Text'), verbose_name=_('Text'),
+                                features=['h1', 'h2', 'h3', 'h4', 'h5', 'bold', 'link', 'hr'], blank=True, null=True)
+
+    panels = [
+        FieldPanel('name'),
+        FieldPanel('description'),
+    ]
 
     class Meta:
         verbose_name = _('User Tag')
@@ -45,9 +67,9 @@ class Student(TimeStampedModel):
 
 class StudentCard(TimeStampedModel):
     cardId = models.IntegerField(_('Student Card Id'), unique=True)
-    issueDate = models.DateField(_('Issue Date'))
-    creditedOrder = models.CharField(_('Credited Order'), max_length=150)
-    validBy = models.DateField(_('Valid By'))
+    issue_date = models.DateField(_('Issue Date'))
+    credited_order = models.CharField(_('Credited Order'), max_length=150)
+    valid_by = models.DateField(_('Valid By'))
     student = models.OneToOneField(
         Student,
         verbose_name=_('Student'),
@@ -92,7 +114,7 @@ class UserDocument(TimeStampedModel):
     user = models.ForeignKey(User, verbose_name=_('User'), related_name='documents', on_delete=models.CASCADE)
     name = models.CharField(_('Name'), max_length=100)
     file = models.FileField(_('File'), upload_to='userDocuments')
-    fileType = models.CharField(_('File Type'), max_length=50)
+    file_type = models.CharField(_('File Type'), max_length=50)
 
     class Meta:
         verbose_name = _('User Document')
