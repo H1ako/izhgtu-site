@@ -11,13 +11,10 @@ query Page($url: String!) {
                 title
                 file
             }
-            faceBody {
-                ... on TextWithShortVariantBlock {
-                    blockType
-                    text
-                    shortText
-                    size
-              }
+            headings {
+                text
+                shortText
+                size
             }
             quote {
                 id

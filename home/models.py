@@ -1,25 +1,29 @@
 from django.db import models
-from grapple.models import GraphQLStreamfield, GraphQLImage, GraphQLSnippet, GraphQLForeignKey, GraphQLString
+from grapple.models import GraphQLStreamfield, GraphQLImage, GraphQLSnippet, GraphQLString,\
+    GraphQLCollection, GraphQLForeignKey
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail import blocks
 from wagtail.fields import StreamField
 from wagtail.images.models import Image
 from wagtail.models import Page
-from grapple.helpers import register_streamfield_block
+from modelcluster.fields import ParentalKey
+from wagtail.admin.panels import MultiFieldPanel, FieldPanel, InlinePanel, PageChooserPanel
+from wagtail.models import Orderable
 
 from wagtail_headless_preview.models import HeadlessMixin
-from wagtail.images.api.fields import ImageRenditionField
+from django.utils.translation import gettext_lazy as _
 
 
-@register_streamfield_block
-class TextWithShortVariantBlock(blocks.StructBlock):
-    text = blocks.CharBlock(help_text='Основной Текст', max_length=255)
-    short_text = blocks.CharBlock(help_text='Короткий Текст', max_length=255)
-    size = blocks.ChoiceBlock(help_text='Размер Шрифта', default='normal', choices=[
+class FaceHeading(Orderable):
+    text = models.CharField(_('Text'), max_length=255)
+    short_text = models.CharField(_('Short text'), max_length=150)
+    size = models.CharField(_('Size'), max_length=100, default='normal', choices=[
         ('small', 'Маленький'),
         ('normal', 'Обычный'),
         ('big', 'Большой'),
     ])
+
+    page = ParentalKey('home.HomePage', related_name='headings', on_delete=models.CASCADE)
 
     graphql_fields = [
         GraphQLString('text'),
@@ -31,17 +35,6 @@ class TextWithShortVariantBlock(blocks.StructBlock):
 class HomePage(HeadlessMixin, Page):
     max_count = 1
 
-    # face block
-    face_body = StreamField(
-        [
-            (
-                'heading',
-                TextWithShortVariantBlock()
-            )
-        ],
-        blank=True,
-        use_json_field=True
-    )
     face_bg = models.ForeignKey(
         Image,
         null=True,
@@ -60,14 +53,16 @@ class HomePage(HeadlessMixin, Page):
     )
 
     graphql_fields = [
-        GraphQLStreamfield('face_body'),
+        GraphQLCollection(
+            GraphQLForeignKey, 'headings', FaceHeading, required=True
+        ),
         GraphQLImage('face_bg'),
         GraphQLSnippet('quote', 'users.Quote'),
     ]
 
     content_panels = Page.content_panels + [
         MultiFieldPanel([
-            FieldPanel('face_body'),
+            InlinePanel('headings', heading='headings', label='heading'),
             FieldPanel('face_bg'),
         ], heading='Лицевой Блок'),
         FieldPanel('quote'),
@@ -76,7 +71,6 @@ class HomePage(HeadlessMixin, Page):
     api_fields = [
         GraphQLStreamfield('face_body'),
         GraphQLImage('face_Bg'),
-        # GraphQLForeignKey('quote', content_type=Quote),
         GraphQLSnippet('quote', 'users.Quote'),
     ]
 

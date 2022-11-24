@@ -8,12 +8,13 @@ import {loadingScreenAtom} from "../recoilAtoms/loadingAtom";
 import client from "../apollo-client";
 import LAZY_PAGES from "../pagesComponents";
 import {PAGE_GETTER_QUERY} from "../graphql/queries/pageQueries";
-import {Page_page} from "../graphql/generated";
+// types
+import {Page, Page_page, PageVariables} from "../graphql/generated";
 
 
 interface CurrentPageProps {
     componentName: string | null,
-    componentProps: Page_page
+    componentProps: Page_page | null
 }
 
 export default function CurrentPage({ componentName, componentProps }: CurrentPageProps) {
@@ -36,14 +37,14 @@ export default function CurrentPage({ componentName, componentProps }: CurrentPa
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
     const url = context.resolvedUrl.split('?')[0]
-    const queryData = await client.query({
+    const queryData = await client.query<Page, PageVariables>({
       query: PAGE_GETTER_QUERY,
         variables: {
             url
         },
     })
-    const pageData: Page_page = queryData?.data?.page
-    const componentName = pageData?.pageType || null
+    const pageData = queryData.data.page
+    const componentName = pageData?.pageType ?? null
 
     const propsForCurrentPage: CurrentPageProps = {
         componentName,

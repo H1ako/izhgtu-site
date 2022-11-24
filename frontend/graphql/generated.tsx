@@ -20,19 +20,12 @@ export interface Page_page_HomePage_faceBg {
   file: string;
 }
 
-export interface Page_page_HomePage_faceBody_BlockQuoteBlock {
-  __typename: "BlockQuoteBlock" | "BooleanBlock" | "CharBlock" | "ChoiceBlock" | "DateBlock" | "DateTimeBlock" | "DecimalBlock" | "DocumentChooserBlock" | "EmailBlock" | "EmbedBlock" | "FloatBlock" | "ImageChooserBlock" | "IntegerBlock" | "ListBlock" | "PageChooserBlock" | "RawHTMLBlock" | "RegexBlock" | "RichTextBlock" | "SnippetChooserBlock" | "StaticBlock" | "StreamBlock" | "StreamFieldBlock" | "StructBlock" | "TextBlock" | "TimeBlock" | "URLBlock";
-}
-
-export interface Page_page_HomePage_faceBody_TextWithShortVariantBlock {
-  __typename: "TextWithShortVariantBlock";
-  blockType: string;
+export interface Page_page_HomePage_headings {
+  __typename: "FaceHeading";
   text: string | null;
   shortText: string | null;
   size: string | null;
 }
-
-export type Page_page_HomePage_faceBody = Page_page_HomePage_faceBody_BlockQuoteBlock | Page_page_HomePage_faceBody_TextWithShortVariantBlock;
 
 export interface Page_page_HomePage_quote_authorPicture {
   __typename: "ImageObjectType";
@@ -55,7 +48,7 @@ export interface Page_page_HomePage {
   url: string | null;
   pageType: string | null;
   faceBg: Page_page_HomePage_faceBg | null;
-  faceBody: (Page_page_HomePage_faceBody | null)[] | null;
+  headings: (Page_page_HomePage_headings | null)[];
   quote: Page_page_HomePage_quote | null;
 }
 

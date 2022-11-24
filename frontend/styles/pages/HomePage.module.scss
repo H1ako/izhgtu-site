@@ -1,2 +1,7 @@
-@import "../main/mixins";
+.faceBtns {
+  $margin: var(--paddingInlineMain);
 
+  position: absolute;
+  top: $margin;
+  right: $margin;
+}
