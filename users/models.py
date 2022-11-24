@@ -2,14 +2,17 @@ from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.utils.translation import gettext_lazy as _
 
+from grapple.models import GraphQLImage, GraphQLString, GraphQLRichText
 from authentication.models import User
 from education.models import SpecializationGroup, Subject
 from izhgtuSite.models import TimeStampedModel
 from wagtail.admin.panels import FieldPanel
 from wagtail.fields import RichTextField
+from wagtail.snippets.models import register_snippet
 
 
-class Quote(TimeStampedModel):
+@register_snippet
+class Quote(models.Model):
     author = models.CharField(_('Author'), max_length=250)
     author_picture = models.ForeignKey(
         'wagtailimages.Image',
@@ -30,11 +33,22 @@ class Quote(TimeStampedModel):
         FieldPanel('text'),
     ]
 
+    graphql_fields = [
+        GraphQLString("author"),
+        GraphQLImage('author_picture'),
+        GraphQLString("author_occupation"),
+        GraphQLRichText('text')
+    ]
+
     class Meta:
         verbose_name = _('Quote')
         verbose_name_plural = _('Quotes')
 
+    def __str__(self):
+        return f'{self.author} - {self.author_occupation}'
 
+
+@register_snippet
 class UserTag(TimeStampedModel):
     name = models.CharField(_('Name'), max_length=60)
     description = RichTextField(help_text=_('Text'), verbose_name=_('Text'),
@@ -50,7 +64,7 @@ class UserTag(TimeStampedModel):
         verbose_name_plural = _('User Tags')
 
     def __str__(self):
-        return f"[{self.name}] : {self.description}"
+        return f"{self.name}"
 
 
 class Student(TimeStampedModel):

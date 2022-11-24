@@ -1,14 +1,19 @@
+// global
+import {useEffect} from "react";
 import type {GetServerSidePropsContext} from "next";
-import LAZY_PAGES from "../pagesComponents";
-import client from "../apollo-client";
-import gql from "graphql-tag";
+// recoil
 import {useSetRecoilState} from "recoil";
 import {loadingScreenAtom} from "../recoilAtoms/loadingAtom";
-import {useEffect} from "react";
+// extra
+import client from "../apollo-client";
+import LAZY_PAGES from "../pagesComponents";
+import {PAGE_GETTER_QUERY} from "../graphql/queries/pageQueries";
+import {Page_page} from "../graphql/generated";
+
 
 interface CurrentPageProps {
-    componentName: string,
-    componentProps: any
+    componentName: string | null,
+    componentProps: Page_page
 }
 
 export default function CurrentPage({ componentName, componentProps }: CurrentPageProps) {
@@ -23,10 +28,6 @@ export default function CurrentPage({ componentName, componentProps }: CurrentPa
         }
     }, [componentName])
     
-    // useEffect(() => {
-    //
-    // }, [componentProps])
-    
     if (!Component) {
         return <h1>Component {componentName} not found</h1>;
     }
@@ -34,26 +35,19 @@ export default function CurrentPage({ componentName, componentProps }: CurrentPa
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-    const url = context.req.url
-    const pageData = await client.query({
-      query: gql`
-        query Page($url: String!) {
-            page (urlPath: $url) {
-                id
-                url
-                pageType
-            }
-        }
-      `,
+    const url = context.resolvedUrl.split('?')[0]
+    const queryData = await client.query({
+      query: PAGE_GETTER_QUERY,
         variables: {
             url
-        }
+        },
     })
-    const componentName = pageData?.data?.page?.pageType ?? null
+    const pageData: Page_page = queryData?.data?.page
+    const componentName = pageData?.pageType || null
 
     const propsForCurrentPage: CurrentPageProps = {
         componentName,
-        componentProps: pageData?.data?.page ?? null
+        componentProps: pageData
     }
     
     return {

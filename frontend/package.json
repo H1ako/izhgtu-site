@@ -6,13 +6,17 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "apollo:schema": "apollo service:download --endpoint=http://127.0.0.1:8000/api/graphql/ ./graphql/graphql-schema.json",
+    "apollo:generate": "npx apollo codegen:generate --localSchemaFile=./graphql/graphql-schema.json --target typescript --tagName=gql --excludes=node_modules/**/* --includes=./graphql/queries/*.tsx --endpoint=http://127.0.0.1:8000/api/graphql --outputFlat ./graphql/generated.tsx"
   },
   "dependencies": {
     "@apollo/client": "^3.7.1",
     "@fortawesome/free-brands-svg-icons": "^6.2.0",
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@graphql-codegen/cli": "^2.14.0",
+    "@graphql-codegen/typescript": "^2.8.2",
     "@types/body-scroll-lock": "^3.1.0",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
@@ -23,7 +27,7 @@
     "eslint": "8.27.0",
     "eslint-config-next": "13.0.3",
     "font-awesome": "^4.7.0",
-    "graphql": "^16.6.0",
+    "graphql": "^14.7.0",
     "next": "13.0.3",
     "next-http-proxy-middleware": "^1.2.5",
     "react": "18.2.0",

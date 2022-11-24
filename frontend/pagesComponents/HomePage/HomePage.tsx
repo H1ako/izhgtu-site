@@ -6,15 +6,23 @@ import MapBlock from "../../components/MapBlock/MapBlock";
 import NewsBlock from "../../components/NewsBlock/NewsBlock";
 import FacePictureBlock from "../../components/FacePictureBlock/FacePictureBlock";
 import MoreInfoBlock from "../../components/MoreInfoBlock/MoreInfoBlock";
-import PrincipalQuoteBlock from "../../components/PrincipalQuoteBlock/PrincipalQuoteBlock";
+import {Page_page_HomePage} from "../../graphql/generated";
+import QuoteBlock from "../../components/QuoteBlock/QuoteBlock";
 
-function HomePage(props: any) {
-  // console.log(props)
+
+function HomePage({faceBg, faceBody, quote}: Page_page_HomePage) {
   return (
     <PageLayout>
       <FacePictureBlock />
       <MoreInfoBlock />
-      <PrincipalQuoteBlock />
+      { quote &&
+        <QuoteBlock
+          authorName={quote.author as string}
+          authorOccupation={quote.authorOccupation}
+          authorPicture={quote.authorPicture?.file}
+          quote={quote.text}
+        />
+      }
       <NewsBlock />
       <MapBlock />
     </PageLayout>

@@ -29,7 +29,7 @@ AUTHENTICATION_BACKENDS = (
 
 GRAPHENE = {"SCHEMA": "grapple.schema.schema"}
 GRAPPLE = {
-    "APPS": ["home"],
+    "APPS": ["home", 'users'],
 }
 ASGI_APPLICATION = "graphql_ws.django.routing.application"
 

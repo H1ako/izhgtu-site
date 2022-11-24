@@ -1,6 +1,12 @@
 import {IconName} from "@fortawesome/free-solid-svg-icons";
 
 declare global {
+  interface BasePageProps {
+    id: IdType,
+    pageType: string,
+    url: string
+  }
+  
   interface CategoryLink {
     id: IdType,
     name: string,

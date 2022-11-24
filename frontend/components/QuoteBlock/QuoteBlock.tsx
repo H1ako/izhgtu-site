@@ -9,8 +9,8 @@ interface QuoteBlockProps {
   heading?: string,
   quote: string,
   authorName: string,
-  authorPicture?: string,
-  authorOccupation?: string,
+  authorPicture?: string | null,
+  authorOccupation?: string | null,
   className?: string,
 }
 
@@ -20,7 +20,7 @@ function QuoteBlock({heading, quote, authorName, authorPicture, authorOccupation
       <InnerBlockHeading>
         {heading}
       </InnerBlockHeading>
-      <q className={styles.quoteBlock__quote}>{quote}</q>
+      <q className={styles.quoteBlock__quote} dangerouslySetInnerHTML={{__html: quote}} />
       <div className={styles.quoteBlock__author}>
         { authorPicture &&
           <img src={authorPicture} alt="" className={styles.author__picture}/>

@@ -11,12 +11,10 @@ from wagtail.snippets.models import register_snippet
 @register_snippet
 class Menu(ClusterableModel):
     title = models.CharField(_('Title'), max_length=255)
-    slug = AutoSlugField(help_text=_('Slug'), populate_from='title', editable=True)
 
     panels = [
         MultiFieldPanel([
             FieldPanel('title'),
-            FieldPanel('slug'),
         ], heading=_('Menu')),
         InlinePanel('links_groups', label=_('Link'), heading=_('Links'))
     ]

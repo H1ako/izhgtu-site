@@ -2,12 +2,11 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from izhgtuSite.models import TimeStampedModel
-from users.models import User
 
 
 class DateEventPost(TimeStampedModel):
     author = models.ForeignKey(
-        User,
+        'authentication.User',
         verbose_name=_('Author'),
         related_name='dateEventPosts',
         on_delete=models.SET_NULL,
