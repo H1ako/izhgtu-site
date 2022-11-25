@@ -8,7 +8,7 @@
 // ====================================================
 
 export interface Page_page_Page {
-  __typename: "Page" | "TestPage";
+  __typename: "Page";
   id: string | null;
   url: string | null;
   pageType: string | null;
@@ -22,9 +22,10 @@ export interface Page_page_HomePage_faceBg {
 
 export interface Page_page_HomePage_headings {
   __typename: "FaceHeading";
-  text: string | null;
-  shortText: string | null;
-  size: string | null;
+  id: number;
+  text: string;
+  shortText: string;
+  size: string;
 }
 
 export interface Page_page_HomePage_quote_authorPicture {
@@ -35,11 +36,10 @@ export interface Page_page_HomePage_quote_authorPicture {
 
 export interface Page_page_HomePage_quote {
   __typename: "Quote";
-  id: string | null;
-  author: string | null;
+  author: string;
   authorPicture: Page_page_HomePage_quote_authorPicture | null;
   authorOccupation: string | null;
-  text: any | null;
+  text: any;
 }
 
 export interface Page_page_HomePage {
@@ -48,7 +48,7 @@ export interface Page_page_HomePage {
   url: string | null;
   pageType: string | null;
   faceBg: Page_page_HomePage_faceBg | null;
-  headings: (Page_page_HomePage_headings | null)[];
+  headings: Page_page_HomePage_headings[];
   quote: Page_page_HomePage_quote | null;
 }
 

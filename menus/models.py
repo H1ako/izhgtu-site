@@ -1,5 +1,4 @@
 from django.db import models
-from django_extensions.db.fields import AutoSlugField
 from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import MultiFieldPanel, FieldPanel, InlinePanel, PageChooserPanel
 from wagtail.models import Orderable, ClusterableModel

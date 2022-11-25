@@ -3,6 +3,8 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.utils.translation import gettext_lazy as _
 
 from grapple.models import GraphQLImage, GraphQLString, GraphQLRichText
+from wagtail.images.models import Image
+
 from authentication.models import User
 from education.models import SpecializationGroup, Subject
 from izhgtuSite.models import TimeStampedModel
@@ -15,7 +17,7 @@ from wagtail.snippets.models import register_snippet
 class Quote(models.Model):
     author = models.CharField(_('Author'), max_length=250)
     author_picture = models.ForeignKey(
-        'wagtailimages.Image',
+        Image,
         blank=True,
         null=True,
         verbose_name=_('Author Picture'),
@@ -34,10 +36,10 @@ class Quote(models.Model):
     ]
 
     graphql_fields = [
-        GraphQLString("author"),
+        GraphQLString("author", required=True),
         GraphQLImage('author_picture'),
         GraphQLString("author_occupation"),
-        GraphQLRichText('text')
+        GraphQLRichText('text', required=True)
     ]
 
     class Meta:

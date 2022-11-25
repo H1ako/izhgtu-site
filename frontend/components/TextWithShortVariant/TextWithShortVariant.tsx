@@ -3,7 +3,7 @@ import React from 'react'
 // styles and icons
 import styles from '../../styles/components/TextWithShortVariant.module.scss'
 
-type FontSizeType = 'small' | 'normal' | 'big'
+export type FontSizeType = 'small' | 'normal' | 'big'
 
 interface OrganizationNameProps {
   className?: string,

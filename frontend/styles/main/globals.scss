@@ -1,0 +1,98 @@
+@import "fonts";
+@import "normalize";
+@import "slick-carousel/slick/slick.css";
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  //scrollbar-color: #454a4d #202324;
+  scroll-behavior: var(--widthScrollbar);
+  scrollbar-gutter: var(--widthScrollbar);
+  scrollbar-width: var(--widthScrollbar);
+  font-family: 'Cuprum', sans-serif;
+  scrollbar-color: #454a4d var(--colorBgDark);
+  line-height: 1.1;
+}
+
+h1, h2, h3, h4, h5 {
+  margin: 0;
+}
+
+h1 {
+  font-size: var(--fontSize1);
+}
+
+h2 {
+  font-size: var(--fontSize2);
+}
+
+h3 {
+  font-size: var(--fontSize3);
+}
+
+h4 {
+  font-size: var(--fontSize4);
+}
+
+h5 {
+  font-size: var(--fontSize5);
+}
+
+p {
+  margin: 0;
+}
+
+.root {
+  position: relative;
+  width: 100vw;
+}
+
+body {
+  background: var(--colorBg);
+  color: var(--colorText);
+  overflow: overlay;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.slick-list {
+  height: 100%;
+}
+
+.slick-track {
+  height: 100%;
+  display: flex;
+
+  .slick-slide {
+    position: relative;
+    display: flex;
+    z-index: 1;
+    margin-inline: 1rem;
+
+    & > div {
+      width: 100%;
+      height: 100%;
+
+      & > * {
+        position: relative;
+        height: 100%;
+        display: flex !important;
+        justify-content: center;
+        outline: none;
+      }
+    }
+
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      background-color: var(--colorBgAccent);
+      object-position: center;
+    }
+  }
+}

@@ -1,6 +1,5 @@
 // global
 import {useEffect} from "react";
-import type {GetServerSidePropsContext} from "next";
 // recoil
 import {useSetRecoilState} from "recoil";
 import {loadingScreenAtom} from "../recoilAtoms/loadingAtom";
@@ -9,7 +8,8 @@ import client from "../apollo-client";
 import LAZY_PAGES from "../pagesComponents";
 import {PAGE_GETTER_QUERY} from "../graphql/queries/pageQueries";
 // types
-import {Page, Page_page, PageVariables} from "../graphql/generated";
+import type {GetServerSidePropsContext} from "next";
+import type {Page, Page_page, PageVariables} from "../graphql/generated";
 
 
 interface CurrentPageProps {
@@ -30,9 +30,9 @@ export default function CurrentPage({ componentName, componentProps }: CurrentPa
     }, [componentName])
     
     if (!Component) {
-        return <h1>Component {componentName} not found</h1>;
+        return <h1>Component {componentName} not found</h1>
     }
-    return <Component {...componentProps} />;
+    return <Component {...componentProps} />
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {

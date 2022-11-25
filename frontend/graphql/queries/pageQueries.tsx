@@ -12,12 +12,12 @@ query Page($url: String!) {
                 file
             }
             headings {
+                id
                 text
                 shortText
                 size
             }
             quote {
-                id
                 author
                 authorPicture {
                     title

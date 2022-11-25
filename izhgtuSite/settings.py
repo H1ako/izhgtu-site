@@ -25,6 +25,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend'  # fallback to default authentication backend if first fails
 )
 
+
 # cms wagtail
 
 GRAPHENE = {"SCHEMA": "grapple.schema.schema"}
@@ -117,8 +118,8 @@ INSTALLED_APPS = [
     "graphene_django",
     "channels",
     # libraries
-    'django_extensions',
     'drfpasswordless',
+    # 'django_nextjs.apps.DjangoNextJSConfig',
     # apps
     'frontend',
     'contentMainSettings',

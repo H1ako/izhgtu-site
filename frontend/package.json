@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "apollo:schema": "apollo service:download --endpoint=http://127.0.0.1:8000/api/graphql/ ./graphql/graphql-schema.json",
-    "apollo:generate": "npx apollo codegen:generate --localSchemaFile=./graphql/graphql-schema.json --target typescript --tagName=gql --excludes=node_modules/**/* --includes=./graphql/queries/*.tsx --endpoint=http://127.0.0.1:8000/api/graphql --outputFlat ./graphql/generated.tsx"
+    "apollo:generate": "npx apollo codegen:generate --localSchemaFile=./graphql/graphql-schema.json --target typescript --tagName=gql --excludes=node_modules/**/* --includes=./graphql/queries/*.tsx --endpoint=http://127.0.0.1:8000/api/graphql --outputFlat ./graphql/generated.tsx",
+    "apollo:update_shcema": "npm run apollo:schema && npm run apollo:generate"
   },
   "dependencies": {
     "@apollo/client": "^3.7.1",

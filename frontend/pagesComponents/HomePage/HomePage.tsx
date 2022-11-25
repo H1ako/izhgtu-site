@@ -8,25 +8,25 @@ import FacePictureBlock from "../../components/FacePictureBlock/FacePictureBlock
 import MoreInfoBlock from "../../components/MoreInfoBlock/MoreInfoBlock";
 import QuoteBlock from "../../components/QuoteBlock/QuoteBlock";
 import MainActionBtns from "../../components/MainActionBtns/MainActionBtns";
-import TextWithShortVariant from "../../components/TextWithShortVariant/TextWithShortVariant";
+import TextWithShortVariant, {FontSizeType} from "../../components/TextWithShortVariant/TextWithShortVariant";
 import EnrollButton from "../../components/EnrollButton/EnrollButton";
-// types
-import {Page_page_HomePage} from "../../graphql/generated";
 // styles
 import styles from '../../styles/pages/HomePage.module.scss'
+// types
+import type {Page_page_HomePage} from "../../graphql/generated";
 
 
 function HomePage({faceBg, headings, quote}: Page_page_HomePage) {
-  console.log(headings)
   return (
     <PageLayout>
       <FacePictureBlock bgImage={faceBg?.file} >
         <MainActionBtns className={styles.faceBtns} />
         { headings.map((heading) => (
           <TextWithShortVariant
+            key={`heading-${heading.id}`}
             text={heading.text}
             shortText={heading.shortText}
-            size={heading.size}
+            size={heading.size as FontSizeType}
           />
         ))}
         <EnrollButton />
