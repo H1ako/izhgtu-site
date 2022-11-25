@@ -1,0 +1,1 @@
+web: gunicorn izhgtuSize.wsgi --log-file -
