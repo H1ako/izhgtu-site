@@ -33,7 +33,6 @@ function LoadingScreen({transition=600}: LoadingScreenProps) {
   }
   
   React.useEffect(() => {
-    console.log(isActive && 'active')
     toggleScrollOnActive()
   }, [isActive])
   

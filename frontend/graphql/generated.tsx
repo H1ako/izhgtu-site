@@ -36,6 +36,7 @@ export interface Page_page_HomePage_quote_authorPicture {
 
 export interface Page_page_HomePage_quote {
   __typename: "Quote";
+  title: string;
   author: string;
   authorPicture: Page_page_HomePage_quote_authorPicture | null;
   authorOccupation: string | null;

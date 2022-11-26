@@ -113,7 +113,7 @@ function News({className=''}: NewsProps) {
   return (
     <div
       onMouseLeave={setNoCurrentNews}
-      className={`${styles.newsContainer} ${className} ${hoveredNews !== null ? 'active' : ''}`}
+      className={`${styles.newsContainer} ${className} ${hoveredNews !== null ? styles.active : ''}`}
     >
       <ul className={styles.newsContainer__newsList}>
         {newsList.map((news, index) => (

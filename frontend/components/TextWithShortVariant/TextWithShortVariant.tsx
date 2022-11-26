@@ -14,10 +14,11 @@ interface OrganizationNameProps {
 
 function TextWithShortVariant({className='', text, shortText, size='normal'}: OrganizationNameProps) {
   const getFontSizeClass = () => {
-    return `size-${size}`
+    return styles[`${size}`]
   }
+  
   return (
-    <div className={`${styles.textWithShortVariant} ${getFontSizeClass} ${className}`}>
+    <div className={`${styles.textWithShortVariant} ${getFontSizeClass()} ${className}`}>
       <p className={styles.textWithShortVariant__text}>{text}</p>
       <p className={styles.textWithShortVariant__textShort}>{shortText}</p>
     </div>

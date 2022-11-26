@@ -5,6 +5,16 @@
   gap: .5rem;
   font-size: var(--fontSize2);
 
+  &.big {
+    font-size: var(--fontSize2);
+  }
+  &.normal {
+    font-size: var(--fontSize3);
+  }
+  &.small {
+    font-size: var(--fontSize4);
+  }
+
   & > * {
     font-size: inherit;
     text-align: center;

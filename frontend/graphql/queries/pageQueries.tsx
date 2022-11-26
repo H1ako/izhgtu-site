@@ -18,6 +18,7 @@ query Page($url: String!) {
                 size
             }
             quote {
+                title
                 author
                 authorPicture {
                     title
