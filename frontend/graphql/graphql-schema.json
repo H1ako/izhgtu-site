@@ -2549,9 +2549,29 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "OBJECT",
-              "name": "ImageObjectType",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "ImageObjectType",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "moreInfoCarousel",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "INTERFACE",
+                "name": "StreamFieldInterface",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -5096,6 +5116,218 @@
         "possibleTypes": null
       },
       {
+        "kind": "INTERFACE",
+        "name": "StreamFieldInterface",
+        "description": null,
+        "fields": [
+          {
+            "name": "id",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "blockType",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "field",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "rawValue",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "StreamFieldBlock",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "CharBlock",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "TextBlock",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "EmailBlock",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "IntegerBlock",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "FloatBlock",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "DecimalBlock",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "RegexBlock",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "URLBlock",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "BooleanBlock",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "DateBlock",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "TimeBlock",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "DateTimeBlock",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "RichTextBlock",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "RawHTMLBlock",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "BlockQuoteBlock",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "ChoiceBlock",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "StreamBlock",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "StructBlock",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "StaticBlock",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "ListBlock",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "EmbedBlock",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "VideoBlock",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "PictureBlock",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "PageChooserBlock",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "DocumentChooserBlock",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "ImageChooserBlock",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "SnippetChooserBlock",
+            "ofType": null
+          }
+        ]
+      },
+      {
         "kind": "OBJECT",
         "name": "Quote",
         "description": null,
@@ -6575,208 +6807,6 @@
         ],
         "enumValues": null,
         "possibleTypes": null
-      },
-      {
-        "kind": "INTERFACE",
-        "name": "StreamFieldInterface",
-        "description": null,
-        "fields": [
-          {
-            "name": "id",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "blockType",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "field",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "rawValue",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": [
-          {
-            "kind": "OBJECT",
-            "name": "StreamFieldBlock",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "CharBlock",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "TextBlock",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "EmailBlock",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "IntegerBlock",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "FloatBlock",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "DecimalBlock",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "RegexBlock",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "URLBlock",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "BooleanBlock",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "DateBlock",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "TimeBlock",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "DateTimeBlock",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "RichTextBlock",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "RawHTMLBlock",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "BlockQuoteBlock",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "ChoiceBlock",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "StreamBlock",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "StructBlock",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "StaticBlock",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "ListBlock",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "EmbedBlock",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "PageChooserBlock",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "DocumentChooserBlock",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "ImageChooserBlock",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "SnippetChooserBlock",
-            "ofType": null
-          }
-        ]
       },
       {
         "kind": "OBJECT",
@@ -8902,6 +8932,252 @@
         "fields": null,
         "inputFields": null,
         "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "VideoBlock",
+        "description": null,
+        "fields": [
+          {
+            "name": "id",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "blockType",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "field",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "rawValue",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "blocks",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INTERFACE",
+                    "name": "StreamFieldInterface",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "video",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "MediaObjectType",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "StreamFieldInterface",
+            "ofType": null
+          }
+        ],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "PictureBlock",
+        "description": null,
+        "fields": [
+          {
+            "name": "id",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "blockType",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "field",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "rawValue",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "blocks",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INTERFACE",
+                    "name": "StreamFieldInterface",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "picture",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "ImageObjectType",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "link",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "StreamFieldInterface",
+            "ofType": null
+          }
+        ],
         "enumValues": null,
         "possibleTypes": null
       },

@@ -3,8 +3,8 @@ from django.db import models
 
 
 class TimeStampedModel(models.Model):
-    updatedAt = models.DateTimeField(_('Updated At'), auto_now=True)
-    createdAt = models.DateTimeField(_('Created At'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
+    created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
 
     class Meta:
         abstract = True

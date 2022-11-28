@@ -1,5 +1,6 @@
 // global
 import React from 'react'
+import Link from "next/link";
 // components
 import PageLayout from "../../containers/PageLayout/PageLayout";
 import MapBlock from "../../components/MapBlock/MapBlock";
@@ -14,13 +15,12 @@ import EnrollButton from "../../components/EnrollButton/EnrollButton";
 import styles from '../../styles/pages/HomePage.module.scss'
 // types
 import type {Page_page_HomePage} from "../../graphql/generated";
-import Link from "next/link";
 
 
-function HomePage({faceBg, headings, quote}: Page_page_HomePage) {
+function HomePage({faceBg, headings, quote, moreInfoCarousel}: Page_page_HomePage) {
   return (
     <PageLayout>
-      <FacePictureBlock bgImage={faceBg?.file} >
+      <FacePictureBlock bgImage={faceBg?.url} >
         <MainActionBtns className={styles.faceBtns} />
         { headings.map((heading) => (
           <TextWithShortVariant
@@ -32,23 +32,31 @@ function HomePage({faceBg, headings, quote}: Page_page_HomePage) {
         ))}
         <EnrollButton />
       </FacePictureBlock>
-      <MoreInfoCarouselBlock>
-        <Link className={styles.moreInfoBlock__slide} href="/" style={{"--index":  0} as React.CSSProperties}>
-          <img src="/assets/s2.jpg" alt=""/>
-        </Link>
-        <Link className={styles.moreInfoBlock__slide} href="/" style={{"--index":  1} as React.CSSProperties}>
-          <img src="/assets/s1.jpg" alt=""/>
-        </Link>
-        <Link className={styles.moreInfoBlock__slide} href="/" style={{"--index":  2} as React.CSSProperties}>
-          <img src="/assets/s3.jpg" alt=""/>
-        </Link>
+      { moreInfoCarousel &&
+        <MoreInfoCarouselBlock>
+          { moreInfoCarousel.map((slide) => {
+            if (!slide) return <></>
+            else if (slide.__typename === 'VideoBlock') return (
+              <video
+                src={slide.video.url}
+                controls
+                poster={`/media/${slide.video.thumbnail}`}
+              />
+            )
+            else if (slide.__typename === 'PictureBlock') return (
+              <Link href={slide.link ?? ''} hidden={true}>
+                <img src={slide.picture.url} alt="" />
+              </Link>
+            )
+          })}
       </MoreInfoCarouselBlock>
+      }
       { quote &&
         <QuoteBlock
           heading={quote.title}
           authorName={quote.author}
           authorOccupation={quote.authorOccupation}
-          authorPicture={quote.authorPicture?.file}
+          authorPicture={quote.authorPicture?.url}
           quote={quote.text}
         />
       }

@@ -7,7 +7,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 // components
 import Slider from "react-slick";
 // styles and icons
-import styles from '../../styles/components/HorizontalSlider.module.scss';
+import styles from './HorizontalSlider.module.scss';
 import {
   faChevronLeft,
   faChevronRight,
@@ -64,7 +64,7 @@ function HorizontalSlider({children, className=''}: Props) {
       <Slider
         ref={setSliderRef}
         infinite
-        speed={500 }
+        speed={500}
         slidesToShow={1}
         centerPadding="10%"
         slidesToScroll={1}

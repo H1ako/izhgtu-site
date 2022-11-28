@@ -9,7 +9,7 @@ query Page($url: String!) {
         ... on HomePage {
             faceBg {
                 title
-                file
+                url
             }
             headings {
                 id
@@ -17,12 +17,32 @@ query Page($url: String!) {
                 shortText
                 size
             }
+            moreInfoCarousel {
+                ... on VideoBlock {
+                    id
+                    __typename
+                    video {
+                        title
+                        url
+                        thumbnail
+                    }
+                }
+                ... on PictureBlock {
+                    id
+                    __typename
+                    link
+                    picture {
+                        title
+                        url
+                    }
+                }
+            }
             quote {
                 title
                 author
                 authorPicture {
                     title
-                    file
+                    url
                 }
                 authorOccupation
                 text

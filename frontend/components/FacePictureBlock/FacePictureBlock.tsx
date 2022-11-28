@@ -12,7 +12,7 @@ interface FacePictureBlockProps {
 function FacePictureBlock({className='', bgImage, children}: FacePictureBlockProps) {
   return (
     <div className={`${styles.facePictureBlock} ${className}`}>
-      <img src={`/media/${bgImage}`} alt="" className={styles.facePictureBlock__picture}/>
+      <img src={bgImage} alt="" className={styles.facePictureBlock__picture}/>
       <div className={styles.facePictureBlock__inner}>
         {children}
       </div>

@@ -6,38 +6,41 @@ from django.utils.translation import gettext_lazy as _
 from authentication.managers import CustomUserManager
 from modelcluster.fields import ParentalManyToManyField
 
+from izhgtuSite.models import TimeStampedModel
 
-class User(AbstractBaseUser, PermissionsMixin):
+
+class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('Email'), unique=True)
     phone = models.CharField(_("Phone Number"), max_length=16, unique=True, null=True, blank=True)
-    firstName = models.CharField(_('Name'), max_length=40)
-    lastName = models.CharField(_('Surname'), max_length=80)
+    first_name = models.CharField(_('Name'), max_length=40)
+    last_name = models.CharField(_('Surname'), max_length=80)
     patronymic = models.CharField(_('Patronymic'), max_length=80)
     picture = models.ImageField(_('Profile Picture'), upload_to='userPictures/', blank=True, null=True)
-    bgPicture = models.ImageField(_('Profile Background Picture'), upload_to='userBgPictures/', blank=True, null=True)
+    bg_picture = models.ImageField(_('Profile Background Picture'), upload_to='userBgPictures/', blank=True, null=True)
     is_staff = models.BooleanField(_('Is Staff'), default=False)
     is_active = models.BooleanField(_('Is Active'), default=False)
     is_superuser = models.BooleanField(_('Is Super User'), default=False)
     tags = ParentalManyToManyField('users.UserTag', verbose_name=_('Tags'), related_name='users')
-    updatedAt = models.DateTimeField(_('Updated At'), auto_now=True)
-    createdAt = models.DateTimeField(_('Created At'), auto_now_add=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['firstName', 'lastName', 'patronymic']
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'patronymic']
 
     objects = CustomUserManager()
 
     def __str__(self):
-        return f"{self.getInfo()}"
+        return f"{self.get_info()}"
 
-    def getInfo(self):
-        return f"{self.getFullName()} - {self.email}"
+    def is_entrant(self):
+        return hasattr(self, 'student')
 
-    def getMainName(self):
-        return f'{self.lastName} {self.firstName}'
+    def get_info(self):
+        return f"{self.get_full_name()} - {self.email}"
 
-    def getFullName(self):
-        return f'{self.getMainName()} {self.patronymic}'
+    def get_main_name(self):
+        return f'{self.last_name} {self.first_name}'
+
+    def get_full_name(self):
+        return f'{self.get_main_name()} {self.patronymic}'
 
     class Meta:
         verbose_name = _('User')

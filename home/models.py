@@ -30,7 +30,7 @@ class HomePage(HeadlessMixin, Page):
         MediaSlideBlock(),
         use_json_field=True,
         null=True,
-        blank=True
+        blank=True,
     )
 
     quote = models.ForeignKey(
@@ -41,6 +41,8 @@ class HomePage(HeadlessMixin, Page):
         on_delete=models.SET_NULL,
         related_name='+',
     )
+
+    # news = models.ManyToManyField('')
 
     graphql_fields = [
         GraphQLCollection(

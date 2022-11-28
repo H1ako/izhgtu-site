@@ -23,7 +23,7 @@ function QuoteBlock({heading, quote, authorName, authorPicture, authorOccupation
       <q className={styles.quoteBlock__quote} dangerouslySetInnerHTML={{__html: quote}} />
       <div className={styles.quoteBlock__author}>
         { authorPicture &&
-          <img src={`/media/${authorPicture}`} alt="" className={styles.author__picture}/>
+          <img src={authorPicture} alt="" className={styles.author__picture}/>
         }
         <div className={styles.author__info}>
           <h3 className={styles.info__name}>{authorName}</h3>

@@ -4,6 +4,7 @@ from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_URL = 'http://127.0.0.1:8000'
 
 
 # Quick-start development settings - unsuitable for production
@@ -20,6 +21,8 @@ ALLOWED_HOSTS = [
     'localhost'
 ]
 
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
 AUTHENTICATION_BACKENDS = (
     'authentication.backends.StudentCardIdOrEmailBackend',
     'django.contrib.auth.backends.ModelBackend'  # fallback to default authentication backend if first fails
@@ -30,7 +33,7 @@ AUTHENTICATION_BACKENDS = (
 
 GRAPHENE = {"SCHEMA": "grapple.schema.schema"}
 GRAPPLE = {
-    "APPS": ["home", 'users'],
+    "APPS": ["home", 'users', 'news', 'blog'],
 }
 ASGI_APPLICATION = "graphql_ws.django.routing.application"
 
@@ -119,12 +122,16 @@ INSTALLED_APPS = [
     "channels",
     # libraries
     'drfpasswordless',
+    'instance_selector',
     # 'django_nextjs.apps.DjangoNextJSConfig',
     # apps
+    'core',
     'frontend',
     'contentMainSettings',
     'menus',
     'home',
+    'news',
+    'blog',
     'authentication',
     'users',
     'education',
@@ -240,11 +247,12 @@ LOCALE_PATHS = (
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'assets/'
+STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
     BASE_DIR / 'frontend/build/static/',
     BASE_DIR / 'frontend/src/static/',
+    BASE_DIR / 'static/',
 ]
 
 MEDIA_URL = '/media/'
