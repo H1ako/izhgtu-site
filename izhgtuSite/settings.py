@@ -126,7 +126,7 @@ INSTALLED_APPS = [
     # 'django_nextjs.apps.DjangoNextJSConfig',
     # apps
     'core',
-    'frontend',
+    # 'frontend',
     'contentMainSettings',
     'menus',
     'home',
@@ -164,7 +164,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'frontend/.next/'),
+            # os.path.join(BASE_DIR, 'frontend/.next/'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -248,9 +248,9 @@ LOCALE_PATHS = (
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'frontend/static/',
     BASE_DIR / 'static/',
 ]
 
