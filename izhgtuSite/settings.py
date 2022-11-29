@@ -18,7 +18,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
-    'localhost'
+    'localhost',
+    'izhgtu.herokuapp.com'
 ]
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
