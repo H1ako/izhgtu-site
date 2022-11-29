@@ -1,1 +1,1 @@
-web: gunicorn wsgi:izhgtuSite --log-file -
+web: gunicorn izhgtuSite.wsgi --log-file -
