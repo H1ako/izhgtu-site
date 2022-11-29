@@ -14,6 +14,12 @@ class NewsAdmin(ModelAdmin):
     menu_order = 200
     add_to_settings_menu = False
     exclude_from_explorer = False
-    # add_to_admin_menu = True
-    list_display = ('title',)
-    search_fields = ('title',)
+    list_display = ('title', 'post', 'created_at')
+    search_fields = (
+        'title',
+        'post__title',
+        'post__author__first_name',
+        'post__author__last_name',
+        'post__author__patronymic',
+        'created_at'
+    )

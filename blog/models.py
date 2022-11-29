@@ -2,12 +2,13 @@ from django.db import models
 from django import forms
 
 from django.utils.translation import gettext_lazy as _
-from grapple.models import GraphQLString, GraphQLSnippet, GraphQLTag
+from grapple.models import GraphQLString, GraphQLSnippet, GraphQLTag, GraphQLForeignKey, GraphQLRichText
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from taggit.managers import TaggableManager
 from taggit.models import TaggedItemBase
 from wagtail.admin.panels import FieldPanel
+from wagtail.fields import RichTextField
 from wagtail.models import Orderable
 from wagtail.snippets.models import register_snippet
 
@@ -47,17 +48,20 @@ class BlogPost(ClusterableModel, TimeStampedModel):
     tags = TaggableManager(through=BlogPostTag, blank=True)
     category = models.ForeignKey(BlogPostCategory, related_name='blog_posts', blank=True, null=True,
                                  on_delete=models.SET_NULL)
+    body = RichTextField(_('Body'), null=True, blank=True)
     title = models.CharField(_('Title'), max_length=100)
 
     panels = [
-        InstanceSelectorPanel('author'),
-        FieldPanel('tags'),
         FieldPanel('title'),
-        FieldPanel('category', widget=forms.RadioSelect)
+        FieldPanel('body'),
+        InstanceSelectorPanel('author'),
+        FieldPanel('category', widget=forms.RadioSelect),
+        FieldPanel('tags'),
     ]
 
     graphql_fields = [
         # GraphQLForeignKey('author', content_type='authentication.User'),
+        GraphQLRichText('body'),
         GraphQLString('title', required=True),
         GraphQLTag('tags', is_list=True, required=True),
         GraphQLSnippet('category', 'blog.BlogPostCategory')

@@ -28,6 +28,10 @@ class News(TimeStampedModel):
         GraphQLForeignKey('post', content_type='blog.BlogPost')
     ]
 
+    search_fields = [
+
+    ]
+
     def __str__(self):
         return f'{self.title} - {self.created_at}'
 

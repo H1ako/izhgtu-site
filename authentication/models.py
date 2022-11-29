@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import gettext_lazy as _
+from wagtail.admin.panels import FieldPanel
 
 from authentication.managers import CustomUserManager
 from modelcluster.fields import ParentalManyToManyField
@@ -27,9 +28,22 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
 
     objects = CustomUserManager()
 
+    panels = [
+        FieldPanel('email'),
+        FieldPanel('phone'),
+        FieldPanel('first_name'),
+        FieldPanel('last_name'),
+        FieldPanel('picture'),
+        FieldPanel('bg_picture'),
+        FieldPanel('is_staff'),
+        FieldPanel('is_superuser'),
+        FieldPanel('tags'),
+    ]
+
     def __str__(self):
         return f"{self.get_info()}"
 
+    @property
     def is_entrant(self):
         return hasattr(self, 'student')
 

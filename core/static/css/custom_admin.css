@@ -14,3 +14,7 @@
 /*    --w-color-grey-400: #BDB7AF;*/
 /*    --w-color-grey-600: white;*/
 /*}*/
+
+.sidebar-panel {
+    overflow: initial;
+}

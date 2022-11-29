@@ -14,6 +14,6 @@ class BlogPostAdmin(ModelAdmin):
     menu_order = 300
     add_to_settings_menu = False
     exclude_from_explorer = False
-    # add_to_admin_menu = True
-    list_display = ('title', 'author',)
-    search_fields = ('title', 'author',)
+    list_display = ('title', 'author', 'category')
+    search_fields = ('title', 'author__first_name', 'author__last_name', 'author__patronymic', 'category__name')
+    list_filter = ('author', 'category', 'tags')
