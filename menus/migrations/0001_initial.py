@@ -10,62 +10,188 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('wagtailcore', '0078_referenceindex'),
+        ("wagtailcore", "0078_referenceindex"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Menu',
+            name="Menu",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255, verbose_name='Title')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=255, verbose_name="Title")),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='MenuItem',
+            name="MenuItem",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50, verbose_name='Name')),
-                ('url', models.URLField(blank=True, max_length=500, null=True, verbose_name='Custom URL ')),
-                ('open_in_new_tab', models.BooleanField(blank=True, default=False, verbose_name='Open in new tab')),
-                ('menu', modelcluster.fields.ParentalKey(on_delete=django.db.models.deletion.CASCADE, related_name='links_groups', to='menus.menu')),
-                ('page', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='+', to='wagtailcore.page')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50, verbose_name="Name")),
+                (
+                    "url",
+                    models.URLField(
+                        blank=True,
+                        max_length=500,
+                        null=True,
+                        verbose_name="Custom URL ",
+                    ),
+                ),
+                (
+                    "open_in_new_tab",
+                    models.BooleanField(
+                        blank=True, default=False, verbose_name="Open in new tab"
+                    ),
+                ),
+                (
+                    "menu",
+                    modelcluster.fields.ParentalKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="links_groups",
+                        to="menus.menu",
+                    ),
+                ),
+                (
+                    "page",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="+",
+                        to="wagtailcore.page",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='MenuItemLinkGroup',
+            name="MenuItemLinkGroup",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50, verbose_name='Name')),
-                ('url', models.URLField(blank=True, max_length=500, null=True, verbose_name='Custom URL ')),
-                ('open_in_new_tab', models.BooleanField(blank=True, default=False, verbose_name='Open in new tab')),
-                ('menu_item', modelcluster.fields.ParentalKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='links_groups', to='menus.menuitem')),
-                ('page', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='+', to='wagtailcore.page')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50, verbose_name="Name")),
+                (
+                    "url",
+                    models.URLField(
+                        blank=True,
+                        max_length=500,
+                        null=True,
+                        verbose_name="Custom URL ",
+                    ),
+                ),
+                (
+                    "open_in_new_tab",
+                    models.BooleanField(
+                        blank=True, default=False, verbose_name="Open in new tab"
+                    ),
+                ),
+                (
+                    "menu_item",
+                    modelcluster.fields.ParentalKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="links_groups",
+                        to="menus.menuitem",
+                    ),
+                ),
+                (
+                    "page",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="+",
+                        to="wagtailcore.page",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='MenuItemLink',
+            name="MenuItemLink",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('sort_order', models.IntegerField(blank=True, editable=False, null=True)),
-                ('name', models.CharField(max_length=50, verbose_name='Name')),
-                ('url', models.URLField(blank=True, max_length=500, null=True, verbose_name='Custom URL ')),
-                ('open_in_new_tab', models.BooleanField(blank=True, default=False, verbose_name='Open in new tab')),
-                ('link_group', modelcluster.fields.ParentalKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='links_groups', to='menus.menuitemlinkgroup')),
-                ('page', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='+', to='wagtailcore.page')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "sort_order",
+                    models.IntegerField(blank=True, editable=False, null=True),
+                ),
+                ("name", models.CharField(max_length=50, verbose_name="Name")),
+                (
+                    "url",
+                    models.URLField(
+                        blank=True,
+                        max_length=500,
+                        null=True,
+                        verbose_name="Custom URL ",
+                    ),
+                ),
+                (
+                    "open_in_new_tab",
+                    models.BooleanField(
+                        blank=True, default=False, verbose_name="Open in new tab"
+                    ),
+                ),
+                (
+                    "link_group",
+                    modelcluster.fields.ParentalKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="links_groups",
+                        to="menus.menuitemlinkgroup",
+                    ),
+                ),
+                (
+                    "page",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="+",
+                        to="wagtailcore.page",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['sort_order'],
-                'abstract': False,
+                "ordering": ["sort_order"],
+                "abstract": False,
             },
         ),
     ]

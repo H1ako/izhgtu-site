@@ -15,33 +15,87 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='DateEventPost',
+            name="DateEventPost",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('updatedAt', models.DateTimeField(auto_now=True, verbose_name='Updated At')),
-                ('createdAt', models.DateTimeField(auto_now_add=True, verbose_name='Created At')),
-                ('author', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='dateEventPosts', to=settings.AUTH_USER_MODEL, verbose_name='Author')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "updatedAt",
+                    models.DateTimeField(auto_now=True, verbose_name="Updated At"),
+                ),
+                (
+                    "createdAt",
+                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                ),
+                (
+                    "author",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="dateEventPosts",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="Author",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Date Event Post',
-                'verbose_name_plural': 'Date Event Posts',
+                "verbose_name": "Date Event Post",
+                "verbose_name_plural": "Date Event Posts",
             },
         ),
         migrations.CreateModel(
-            name='DateEvent',
+            name="DateEvent",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('updatedAt', models.DateTimeField(auto_now=True, verbose_name='Updated At')),
-                ('createdAt', models.DateTimeField(auto_now_add=True, verbose_name='Created At')),
-                ('date', models.DateTimeField(verbose_name='Date')),
-                ('name', models.CharField(max_length=150, verbose_name='Name')),
-                ('description', models.CharField(max_length=255, verbose_name='Description')),
-                ('picture', models.ImageField(upload_to='dateEventsPictures/', verbose_name='Picture')),
-                ('post', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='dateEvent', to='dateEvents.dateeventpost', verbose_name='Post')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "updatedAt",
+                    models.DateTimeField(auto_now=True, verbose_name="Updated At"),
+                ),
+                (
+                    "createdAt",
+                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                ),
+                ("date", models.DateTimeField(verbose_name="Date")),
+                ("name", models.CharField(max_length=150, verbose_name="Name")),
+                (
+                    "description",
+                    models.CharField(max_length=255, verbose_name="Description"),
+                ),
+                (
+                    "picture",
+                    models.ImageField(
+                        upload_to="dateEventsPictures/", verbose_name="Picture"
+                    ),
+                ),
+                (
+                    "post",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="dateEvent",
+                        to="dateEvents.dateeventpost",
+                        verbose_name="Post",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Date Event',
-                'verbose_name_plural': 'Date Events',
+                "verbose_name": "Date Event",
+                "verbose_name_plural": "Date Events",
             },
         ),
     ]

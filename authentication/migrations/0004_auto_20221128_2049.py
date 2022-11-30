@@ -6,23 +6,23 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('authentication', '0003_auto_20221128_2049'),
+        ("authentication", "0003_auto_20221128_2049"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='user',
-            old_name='bgPicture',
-            new_name='bg_picture',
+            model_name="user",
+            old_name="bgPicture",
+            new_name="bg_picture",
         ),
         migrations.RenameField(
-            model_name='user',
-            old_name='firstName',
-            new_name='first_name',
+            model_name="user",
+            old_name="firstName",
+            new_name="first_name",
         ),
         migrations.RenameField(
-            model_name='user',
-            old_name='lastName',
-            new_name='last_name',
+            model_name="user",
+            old_name="lastName",
+            new_name="last_name",
         ),
     ]

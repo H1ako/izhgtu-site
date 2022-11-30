@@ -8,9 +8,9 @@ class StudentCardIdOrEmailBackend(object):
     def authenticate(self, username=None, password=None, **kwargs):
         try:
             user = userModel.objects.get(
-                Q(phone=username) |
-                Q(email=username) |
-                Q(student__studentCard__cardId=username)
+                Q(phone=username)
+                | Q(email=username)
+                | Q(student__studentCard__cardId=username)
             )
             if user.check_password(password):
                 return user

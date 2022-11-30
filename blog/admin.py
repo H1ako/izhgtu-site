@@ -9,11 +9,17 @@ from blog.models import BlogPost
 @modeladmin_register
 class BlogPostAdmin(ModelAdmin):
     model = BlogPost
-    menu_label = _('Blog Posts')
-    menu_icon = 'placeholder'
+    menu_label = _("Blog Posts")
+    menu_icon = "placeholder"
     menu_order = 300
     add_to_settings_menu = False
     exclude_from_explorer = False
-    list_display = ('title', 'author', 'category')
-    search_fields = ('title', 'author__first_name', 'author__last_name', 'author__patronymic', 'category__name')
-    list_filter = ('author', 'category', 'tags')
+    list_display = ("title", "author", "category")
+    search_fields = (
+        "title",
+        "author__first_name",
+        "author__last_name",
+        "author__patronymic",
+        "category__name",
+    )
+    list_filter = ("author", "category", "tags")

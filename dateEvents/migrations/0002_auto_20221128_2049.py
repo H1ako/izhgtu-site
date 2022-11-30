@@ -6,28 +6,28 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('dateEvents', '0001_initial'),
+        ("dateEvents", "0001_initial"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='dateevent',
-            old_name='createdAt',
-            new_name='created_at',
+            model_name="dateevent",
+            old_name="createdAt",
+            new_name="created_at",
         ),
         migrations.RenameField(
-            model_name='dateevent',
-            old_name='updatedAt',
-            new_name='updated_at',
+            model_name="dateevent",
+            old_name="updatedAt",
+            new_name="updated_at",
         ),
         migrations.RenameField(
-            model_name='dateeventpost',
-            old_name='createdAt',
-            new_name='created_at',
+            model_name="dateeventpost",
+            old_name="createdAt",
+            new_name="created_at",
         ),
         migrations.RenameField(
-            model_name='dateeventpost',
-            old_name='updatedAt',
-            new_name='updated_at',
+            model_name="dateeventpost",
+            old_name="updatedAt",
+            new_name="updated_at",
         ),
     ]

@@ -12,33 +12,113 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('wagtailimages', '0024_index_image_file_hash'),
-        ('wagtailcore', '0078_referenceindex'),
-        ('users', '0001_initial'),
+        ("wagtailimages", "0024_index_image_file_hash"),
+        ("wagtailcore", "0078_referenceindex"),
+        ("users", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='TestPage',
+            name="TestPage",
             fields=[
-                ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.page')),
+                (
+                    "page_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="wagtailcore.page",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
-            bases=('wagtailcore.page',),
+            bases=("wagtailcore.page",),
         ),
         migrations.CreateModel(
-            name='HomePage',
+            name="HomePage",
             fields=[
-                ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.page')),
-                ('face_body', wagtail.fields.StreamField([('heading', wagtail.blocks.StructBlock([('text', wagtail.blocks.CharBlock(help_text='Основной Текст', max_length=255)), ('short_text', wagtail.blocks.CharBlock(help_text='Короткий Текст', max_length=255)), ('size', wagtail.blocks.ChoiceBlock(choices=[('small', 'Маленький'), ('normal', 'Обычный'), ('big', 'Большой')], help_text='Размер Шрифта'))]))], blank=True, use_json_field=True)),
-                ('face_bg', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailimages.image', verbose_name='Лицевая фоновая картинка')),
-                ('quote', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='users.quote', verbose_name='Цитата')),
+                (
+                    "page_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="wagtailcore.page",
+                    ),
+                ),
+                (
+                    "face_body",
+                    wagtail.fields.StreamField(
+                        [
+                            (
+                                "heading",
+                                wagtail.blocks.StructBlock(
+                                    [
+                                        (
+                                            "text",
+                                            wagtail.blocks.CharBlock(
+                                                help_text="Основной Текст",
+                                                max_length=255,
+                                            ),
+                                        ),
+                                        (
+                                            "short_text",
+                                            wagtail.blocks.CharBlock(
+                                                help_text="Короткий Текст",
+                                                max_length=255,
+                                            ),
+                                        ),
+                                        (
+                                            "size",
+                                            wagtail.blocks.ChoiceBlock(
+                                                choices=[
+                                                    ("small", "Маленький"),
+                                                    ("normal", "Обычный"),
+                                                    ("big", "Большой"),
+                                                ],
+                                                help_text="Размер Шрифта",
+                                            ),
+                                        ),
+                                    ]
+                                ),
+                            )
+                        ],
+                        blank=True,
+                        use_json_field=True,
+                    ),
+                ),
+                (
+                    "face_bg",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="+",
+                        to="wagtailimages.image",
+                        verbose_name="Лицевая фоновая картинка",
+                    ),
+                ),
+                (
+                    "quote",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="+",
+                        to="users.quote",
+                        verbose_name="Цитата",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
-            bases=(wagtail_headless_preview.models.HeadlessMixin, 'wagtailcore.page'),
+            bases=(wagtail_headless_preview.models.HeadlessMixin, "wagtailcore.page"),
         ),
     ]

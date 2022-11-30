@@ -6,58 +6,58 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0002_auto_20221126_0930'),
+        ("users", "0002_auto_20221126_0930"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='entrant',
-            old_name='createdAt',
-            new_name='created_at',
+            model_name="entrant",
+            old_name="createdAt",
+            new_name="created_at",
         ),
         migrations.RenameField(
-            model_name='entrant',
-            old_name='updatedAt',
-            new_name='updated_at',
+            model_name="entrant",
+            old_name="updatedAt",
+            new_name="updated_at",
         ),
         migrations.RenameField(
-            model_name='student',
-            old_name='createdAt',
-            new_name='created_at',
+            model_name="student",
+            old_name="createdAt",
+            new_name="created_at",
         ),
         migrations.RenameField(
-            model_name='student',
-            old_name='updatedAt',
-            new_name='updated_at',
+            model_name="student",
+            old_name="updatedAt",
+            new_name="updated_at",
         ),
         migrations.RenameField(
-            model_name='studentcard',
-            old_name='createdAt',
-            new_name='created_at',
+            model_name="studentcard",
+            old_name="createdAt",
+            new_name="created_at",
         ),
         migrations.RenameField(
-            model_name='studentcard',
-            old_name='updatedAt',
-            new_name='updated_at',
+            model_name="studentcard",
+            old_name="updatedAt",
+            new_name="updated_at",
         ),
         migrations.RenameField(
-            model_name='teacher',
-            old_name='createdAt',
-            new_name='created_at',
+            model_name="teacher",
+            old_name="createdAt",
+            new_name="created_at",
         ),
         migrations.RenameField(
-            model_name='teacher',
-            old_name='updatedAt',
-            new_name='updated_at',
+            model_name="teacher",
+            old_name="updatedAt",
+            new_name="updated_at",
         ),
         migrations.RenameField(
-            model_name='userdocument',
-            old_name='createdAt',
-            new_name='created_at',
+            model_name="userdocument",
+            old_name="createdAt",
+            new_name="created_at",
         ),
         migrations.RenameField(
-            model_name='userdocument',
-            old_name='updatedAt',
-            new_name='updated_at',
+            model_name="userdocument",
+            old_name="updatedAt",
+            new_name="updated_at",
         ),
     ]

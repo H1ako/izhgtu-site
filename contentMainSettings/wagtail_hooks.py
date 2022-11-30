@@ -10,15 +10,18 @@ from wagtail.admin.views.account import BaseSettingsPanel
 from wagtail import hooks
 
 
-@hooks.register('register_admin_urls')
+@hooks.register("register_admin_urls")
 def register_calendar_url():
     return [
-        path('main-content-settings/', index, name='main-content-settings'),
+        path("main-content-settings/", index, name="main-content-settings"),
     ]
 
 
-@hooks.register('register_settings_menu_item')
+@hooks.register("register_settings_menu_item")
 def register_main_content_settings_menu_item():
-    return MenuItem(_('Main Settings'), reverse('main-content-settings'), classnames='icon icon-folder-inverse',
-                    order=10000)
-
+    return MenuItem(
+        _("Main Settings"),
+        reverse("main-content-settings"),
+        classnames="icon icon-folder-inverse",
+        order=10000,
+    )

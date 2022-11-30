@@ -6,14 +6,14 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('wagtailcore', '0078_referenceindex'),
-        ('wagtailredirects', '0008_add_verbose_name_plural'),
-        ('wagtailforms', '0005_alter_formsubmission_form_data'),
-        ('home', '0007_alter_faceheading_text'),
+        ("wagtailcore", "0078_referenceindex"),
+        ("wagtailredirects", "0008_add_verbose_name_plural"),
+        ("wagtailforms", "0005_alter_formsubmission_form_data"),
+        ("home", "0007_alter_faceheading_text"),
     ]
 
     operations = [
         migrations.DeleteModel(
-            name='TestPage',
+            name="TestPage",
         ),
     ]

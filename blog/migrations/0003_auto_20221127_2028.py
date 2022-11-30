@@ -8,35 +8,70 @@ import modelcluster.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('blog', '0002_rename_blog_post_blogposttag_content_object'),
+        ("blog", "0002_rename_blog_post_blogposttag_content_object"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='BlogPostCategory',
+            name="BlogPostCategory",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, verbose_name='Name')),
-                ('slug', models.SlugField(allow_unicode=True, help_text='Blog Post identifier', max_length=255, verbose_name='Slug')),
-                ('description', models.CharField(blank=True, max_length=200, null=True, verbose_name='Description')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100, verbose_name="Name")),
+                (
+                    "slug",
+                    models.SlugField(
+                        allow_unicode=True,
+                        help_text="Blog Post identifier",
+                        max_length=255,
+                        verbose_name="Slug",
+                    ),
+                ),
+                (
+                    "description",
+                    models.CharField(
+                        blank=True,
+                        max_length=200,
+                        null=True,
+                        verbose_name="Description",
+                    ),
+                ),
             ],
         ),
         migrations.RemoveField(
-            model_name='blogposttag',
-            name='description',
+            model_name="blogposttag",
+            name="description",
         ),
         migrations.RemoveField(
-            model_name='blogposttag',
-            name='name',
+            model_name="blogposttag",
+            name="name",
         ),
         migrations.AlterField(
-            model_name='blogposttag',
-            name='content_object',
-            field=modelcluster.fields.ParentalKey(on_delete=django.db.models.deletion.CASCADE, related_name='tagged_posts', to='blog.blogpost', verbose_name='Blog Post'),
+            model_name="blogposttag",
+            name="content_object",
+            field=modelcluster.fields.ParentalKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="tagged_posts",
+                to="blog.blogpost",
+                verbose_name="Blog Post",
+            ),
         ),
         migrations.AddField(
-            model_name='blogpost',
-            name='category',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='blog_posts', to='blog.blogpostcategory'),
+            model_name="blogpost",
+            name="category",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="blog_posts",
+                to="blog.blogpostcategory",
+            ),
         ),
     ]

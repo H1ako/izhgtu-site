@@ -10,13 +10,50 @@ import wagtailmedia.blocks
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('home', '0008_delete_testpage'),
+        ("home", "0008_delete_testpage"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='homepage',
-            name='more_info_carousel',
-            field=wagtail.fields.StreamField([('video', wagtail.blocks.StructBlock([('video', wagtailmedia.blocks.VideoChooserBlock(help_text='Video'))])), ('picture', wagtail.blocks.StructBlock([('picture', wagtail.images.blocks.ImageChooserBlock(help_text='Image')), ('link', wagtail.blocks.CharBlock(help_text='Link', max_length=500, required=False))]))], null=True, use_json_field=True),
+            model_name="homepage",
+            name="more_info_carousel",
+            field=wagtail.fields.StreamField(
+                [
+                    (
+                        "video",
+                        wagtail.blocks.StructBlock(
+                            [
+                                (
+                                    "video",
+                                    wagtailmedia.blocks.VideoChooserBlock(
+                                        help_text="Video"
+                                    ),
+                                )
+                            ]
+                        ),
+                    ),
+                    (
+                        "picture",
+                        wagtail.blocks.StructBlock(
+                            [
+                                (
+                                    "picture",
+                                    wagtail.images.blocks.ImageChooserBlock(
+                                        help_text="Image"
+                                    ),
+                                ),
+                                (
+                                    "link",
+                                    wagtail.blocks.CharBlock(
+                                        help_text="Link", max_length=500, required=False
+                                    ),
+                                ),
+                            ]
+                        ),
+                    ),
+                ],
+                null=True,
+                use_json_field=True,
+            ),
         ),
     ]

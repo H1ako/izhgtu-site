@@ -6,22 +6,24 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0001_initial'),
+        ("users", "0001_initial"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='usertag',
-            name='createdAt',
+            model_name="usertag",
+            name="createdAt",
         ),
         migrations.RemoveField(
-            model_name='usertag',
-            name='updatedAt',
+            model_name="usertag",
+            name="updatedAt",
         ),
         migrations.AddField(
-            model_name='quote',
-            name='title',
-            field=models.CharField(default='Об ИжГТУ', max_length=50, verbose_name='Title'),
+            model_name="quote",
+            name="title",
+            field=models.CharField(
+                default="Об ИжГТУ", max_length=50, verbose_name="Title"
+            ),
             preserve_default=False,
         ),
     ]

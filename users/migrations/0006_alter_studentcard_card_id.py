@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0005_remove_userdocument_file_type'),
+        ("users", "0005_remove_userdocument_file_type"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='studentcard',
-            name='card_id',
-            field=models.CharField(max_length=100, unique=True, verbose_name='Student Card Id'),
+            model_name="studentcard",
+            name="card_id",
+            field=models.CharField(
+                max_length=100, unique=True, verbose_name="Student Card Id"
+            ),
         ),
     ]

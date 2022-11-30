@@ -12,112 +12,301 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('education', '0001_initial'),
-        ('wagtailimages', '0024_index_image_file_hash'),
+        ("education", "0001_initial"),
+        ("wagtailimages", "0024_index_image_file_hash"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Student',
+            name="Student",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('updatedAt', models.DateTimeField(auto_now=True, verbose_name='Updated At')),
-                ('createdAt', models.DateTimeField(auto_now_add=True, verbose_name='Created At')),
-                ('group', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='students', to='education.specializationgroup')),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='student', to=settings.AUTH_USER_MODEL, verbose_name='User')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "updatedAt",
+                    models.DateTimeField(auto_now=True, verbose_name="Updated At"),
+                ),
+                (
+                    "createdAt",
+                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                ),
+                (
+                    "group",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="students",
+                        to="education.specializationgroup",
+                    ),
+                ),
+                (
+                    "user",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="student",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="User",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Student',
-                'verbose_name_plural': 'Students',
+                "verbose_name": "Student",
+                "verbose_name_plural": "Students",
             },
         ),
         migrations.CreateModel(
-            name='UserTag',
+            name="UserTag",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('updatedAt', models.DateTimeField(auto_now=True, verbose_name='Updated At')),
-                ('createdAt', models.DateTimeField(auto_now_add=True, verbose_name='Created At')),
-                ('name', models.CharField(max_length=60, verbose_name='Name')),
-                ('description', wagtail.fields.RichTextField(blank=True, help_text='Text', null=True, verbose_name='Text')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "updatedAt",
+                    models.DateTimeField(auto_now=True, verbose_name="Updated At"),
+                ),
+                (
+                    "createdAt",
+                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                ),
+                ("name", models.CharField(max_length=60, verbose_name="Name")),
+                (
+                    "description",
+                    wagtail.fields.RichTextField(
+                        blank=True, help_text="Text", null=True, verbose_name="Text"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'User Tag',
-                'verbose_name_plural': 'User Tags',
+                "verbose_name": "User Tag",
+                "verbose_name_plural": "User Tags",
             },
         ),
         migrations.CreateModel(
-            name='UserDocument',
+            name="UserDocument",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('updatedAt', models.DateTimeField(auto_now=True, verbose_name='Updated At')),
-                ('createdAt', models.DateTimeField(auto_now_add=True, verbose_name='Created At')),
-                ('name', models.CharField(max_length=100, verbose_name='Name')),
-                ('file', models.FileField(upload_to='userDocuments', verbose_name='File')),
-                ('file_type', models.CharField(max_length=50, verbose_name='File Type')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='documents', to=settings.AUTH_USER_MODEL, verbose_name='User')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "updatedAt",
+                    models.DateTimeField(auto_now=True, verbose_name="Updated At"),
+                ),
+                (
+                    "createdAt",
+                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                ),
+                ("name", models.CharField(max_length=100, verbose_name="Name")),
+                (
+                    "file",
+                    models.FileField(upload_to="userDocuments", verbose_name="File"),
+                ),
+                (
+                    "file_type",
+                    models.CharField(max_length=50, verbose_name="File Type"),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="documents",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="User",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'User Document',
-                'verbose_name_plural': 'User Documents',
+                "verbose_name": "User Document",
+                "verbose_name_plural": "User Documents",
             },
         ),
         migrations.CreateModel(
-            name='Teacher',
+            name="Teacher",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('updatedAt', models.DateTimeField(auto_now=True, verbose_name='Updated At')),
-                ('createdAt', models.DateTimeField(auto_now_add=True, verbose_name='Created At')),
-                ('groups', models.ManyToManyField(related_name='teachers', to='education.SpecializationGroup')),
-                ('subjects', models.ManyToManyField(related_name='teachers', to='education.Subject')),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='teacher', to=settings.AUTH_USER_MODEL, verbose_name='User')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "updatedAt",
+                    models.DateTimeField(auto_now=True, verbose_name="Updated At"),
+                ),
+                (
+                    "createdAt",
+                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                ),
+                (
+                    "groups",
+                    models.ManyToManyField(
+                        related_name="teachers", to="education.SpecializationGroup"
+                    ),
+                ),
+                (
+                    "subjects",
+                    models.ManyToManyField(
+                        related_name="teachers", to="education.Subject"
+                    ),
+                ),
+                (
+                    "user",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="teacher",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="User",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Teacher',
-                'verbose_name_plural': 'Teachers',
+                "verbose_name": "Teacher",
+                "verbose_name_plural": "Teachers",
             },
         ),
         migrations.CreateModel(
-            name='StudentCard',
+            name="StudentCard",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('updatedAt', models.DateTimeField(auto_now=True, verbose_name='Updated At')),
-                ('createdAt', models.DateTimeField(auto_now_add=True, verbose_name='Created At')),
-                ('cardId', models.IntegerField(unique=True, verbose_name='Student Card Id')),
-                ('issue_date', models.DateField(verbose_name='Issue Date')),
-                ('credited_order', models.CharField(max_length=150, verbose_name='Credited Order')),
-                ('valid_by', models.DateField(verbose_name='Valid By')),
-                ('student', models.OneToOneField(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='studentCard', to='users.student', verbose_name='Student')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "updatedAt",
+                    models.DateTimeField(auto_now=True, verbose_name="Updated At"),
+                ),
+                (
+                    "createdAt",
+                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                ),
+                (
+                    "cardId",
+                    models.IntegerField(unique=True, verbose_name="Student Card Id"),
+                ),
+                ("issue_date", models.DateField(verbose_name="Issue Date")),
+                (
+                    "credited_order",
+                    models.CharField(max_length=150, verbose_name="Credited Order"),
+                ),
+                ("valid_by", models.DateField(verbose_name="Valid By")),
+                (
+                    "student",
+                    models.OneToOneField(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="studentCard",
+                        to="users.student",
+                        verbose_name="Student",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Student Card',
-                'verbose_name_plural': 'Student Cards',
+                "verbose_name": "Student Card",
+                "verbose_name_plural": "Student Cards",
             },
         ),
         migrations.CreateModel(
-            name='Quote',
+            name="Quote",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('author', models.CharField(max_length=250, verbose_name='Author')),
-                ('author_occupation', models.CharField(blank=True, max_length=150, null=True, verbose_name='Author Occupation')),
-                ('text', wagtail.fields.RichTextField(help_text='Text', verbose_name='Text')),
-                ('author_picture', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailimages.image', verbose_name='Author Picture')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("author", models.CharField(max_length=250, verbose_name="Author")),
+                (
+                    "author_occupation",
+                    models.CharField(
+                        blank=True,
+                        max_length=150,
+                        null=True,
+                        verbose_name="Author Occupation",
+                    ),
+                ),
+                (
+                    "text",
+                    wagtail.fields.RichTextField(help_text="Text", verbose_name="Text"),
+                ),
+                (
+                    "author_picture",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="+",
+                        to="wagtailimages.image",
+                        verbose_name="Author Picture",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Quote',
-                'verbose_name_plural': 'Quotes',
+                "verbose_name": "Quote",
+                "verbose_name_plural": "Quotes",
             },
         ),
         migrations.CreateModel(
-            name='Entrant',
+            name="Entrant",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('updatedAt', models.DateTimeField(auto_now=True, verbose_name='Updated At')),
-                ('createdAt', models.DateTimeField(auto_now_add=True, verbose_name='Created At')),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='entrant', to=settings.AUTH_USER_MODEL, verbose_name='User')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "updatedAt",
+                    models.DateTimeField(auto_now=True, verbose_name="Updated At"),
+                ),
+                (
+                    "createdAt",
+                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                ),
+                (
+                    "user",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="entrant",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="User",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Entrant',
-                'verbose_name_plural': 'Entrants',
+                "verbose_name": "Entrant",
+                "verbose_name_plural": "Entrants",
             },
         ),
     ]

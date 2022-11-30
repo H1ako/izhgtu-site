@@ -15,74 +15,202 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='EducationType',
+            name="EducationType",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('updatedAt', models.DateTimeField(auto_now=True, verbose_name='Updated At')),
-                ('createdAt', models.DateTimeField(auto_now_add=True, verbose_name='Created At')),
-                ('name', models.CharField(max_length=200, unique=True, verbose_name='Name')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "updatedAt",
+                    models.DateTimeField(auto_now=True, verbose_name="Updated At"),
+                ),
+                (
+                    "createdAt",
+                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                ),
+                (
+                    "name",
+                    models.CharField(max_length=200, unique=True, verbose_name="Name"),
+                ),
             ],
             options={
-                'verbose_name': 'Education Type',
-                'verbose_name_plural': 'Education Types',
+                "verbose_name": "Education Type",
+                "verbose_name_plural": "Education Types",
             },
         ),
         migrations.CreateModel(
-            name='Faculty',
+            name="Faculty",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('updatedAt', models.DateTimeField(auto_now=True, verbose_name='Updated At')),
-                ('createdAt', models.DateTimeField(auto_now_add=True, verbose_name='Created At')),
-                ('name', models.CharField(max_length=200, unique=True, verbose_name='Name')),
-                ('educationType', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='faculties', to='education.educationtype', verbose_name='Education Type')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "updatedAt",
+                    models.DateTimeField(auto_now=True, verbose_name="Updated At"),
+                ),
+                (
+                    "createdAt",
+                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                ),
+                (
+                    "name",
+                    models.CharField(max_length=200, unique=True, verbose_name="Name"),
+                ),
+                (
+                    "educationType",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="faculties",
+                        to="education.educationtype",
+                        verbose_name="Education Type",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Faculty',
-                'verbose_name_plural': 'Faculties',
+                "verbose_name": "Faculty",
+                "verbose_name_plural": "Faculties",
             },
         ),
         migrations.CreateModel(
-            name='Specialization',
+            name="Specialization",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('updatedAt', models.DateTimeField(auto_now=True, verbose_name='Updated At')),
-                ('createdAt', models.DateTimeField(auto_now_add=True, verbose_name='Created At')),
-                ('name', models.CharField(max_length=200, unique=True, verbose_name='Name')),
-                ('faculty', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='specializations', to='education.faculty', verbose_name='Specialization')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "updatedAt",
+                    models.DateTimeField(auto_now=True, verbose_name="Updated At"),
+                ),
+                (
+                    "createdAt",
+                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                ),
+                (
+                    "name",
+                    models.CharField(max_length=200, unique=True, verbose_name="Name"),
+                ),
+                (
+                    "faculty",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="specializations",
+                        to="education.faculty",
+                        verbose_name="Specialization",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Specialization',
-                'verbose_name_plural': 'Specializations',
+                "verbose_name": "Specialization",
+                "verbose_name_plural": "Specializations",
             },
         ),
         migrations.CreateModel(
-            name='Subject',
+            name="Subject",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('updatedAt', models.DateTimeField(auto_now=True, verbose_name='Updated At')),
-                ('createdAt', models.DateTimeField(auto_now_add=True, verbose_name='Created At')),
-                ('name', models.CharField(max_length=200, unique=True, verbose_name='Name')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "updatedAt",
+                    models.DateTimeField(auto_now=True, verbose_name="Updated At"),
+                ),
+                (
+                    "createdAt",
+                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                ),
+                (
+                    "name",
+                    models.CharField(max_length=200, unique=True, verbose_name="Name"),
+                ),
             ],
             options={
-                'verbose_name': 'Subject',
-                'verbose_name_plural': 'Subjects',
+                "verbose_name": "Subject",
+                "verbose_name_plural": "Subjects",
             },
         ),
         migrations.CreateModel(
-            name='SpecializationGroup',
+            name="SpecializationGroup",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('updatedAt', models.DateTimeField(auto_now=True, verbose_name='Updated At')),
-                ('createdAt', models.DateTimeField(auto_now_add=True, verbose_name='Created At')),
-                ('name', models.CharField(max_length=100, unique=True, verbose_name='Name')),
-                ('year', models.SmallIntegerField(verbose_name='Education Year')),
-                ('leader', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='leaderOfGroups', to=settings.AUTH_USER_MODEL, verbose_name='Group Leader')),
-                ('specialization', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='groups', to='education.specialization', verbose_name='Specialization')),
-                ('subjects', models.ManyToManyField(related_name='groups', to='education.Subject', verbose_name='Subjects')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "updatedAt",
+                    models.DateTimeField(auto_now=True, verbose_name="Updated At"),
+                ),
+                (
+                    "createdAt",
+                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                ),
+                (
+                    "name",
+                    models.CharField(max_length=100, unique=True, verbose_name="Name"),
+                ),
+                ("year", models.SmallIntegerField(verbose_name="Education Year")),
+                (
+                    "leader",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="leaderOfGroups",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="Group Leader",
+                    ),
+                ),
+                (
+                    "specialization",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="groups",
+                        to="education.specialization",
+                        verbose_name="Specialization",
+                    ),
+                ),
+                (
+                    "subjects",
+                    models.ManyToManyField(
+                        related_name="groups",
+                        to="education.Subject",
+                        verbose_name="Subjects",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Specialization Group',
-                'verbose_name_plural': 'Specialization Groups',
+                "verbose_name": "Specialization Group",
+                "verbose_name_plural": "Specialization Groups",
             },
         ),
     ]

@@ -7,23 +7,29 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0003_auto_20221128_2049'),
+        ("users", "0003_auto_20221128_2049"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='studentcard',
-            old_name='cardId',
-            new_name='card_id',
+            model_name="studentcard",
+            old_name="cardId",
+            new_name="card_id",
         ),
         migrations.AlterField(
-            model_name='studentcard',
-            name='student',
-            field=models.OneToOneField(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='student_card', to='users.student', verbose_name='Student'),
+            model_name="studentcard",
+            name="student",
+            field=models.OneToOneField(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="student_card",
+                to="users.student",
+                verbose_name="Student",
+            ),
         ),
         migrations.AlterField(
-            model_name='userdocument',
-            name='file',
-            field=models.FileField(upload_to='user_documents', verbose_name='File'),
+            model_name="userdocument",
+            name="file",
+            field=models.FileField(upload_to="user_documents", verbose_name="File"),
         ),
     ]

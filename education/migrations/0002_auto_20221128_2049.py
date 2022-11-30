@@ -6,58 +6,58 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('education', '0001_initial'),
+        ("education", "0001_initial"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='educationtype',
-            old_name='createdAt',
-            new_name='created_at',
+            model_name="educationtype",
+            old_name="createdAt",
+            new_name="created_at",
         ),
         migrations.RenameField(
-            model_name='educationtype',
-            old_name='updatedAt',
-            new_name='updated_at',
+            model_name="educationtype",
+            old_name="updatedAt",
+            new_name="updated_at",
         ),
         migrations.RenameField(
-            model_name='faculty',
-            old_name='createdAt',
-            new_name='created_at',
+            model_name="faculty",
+            old_name="createdAt",
+            new_name="created_at",
         ),
         migrations.RenameField(
-            model_name='faculty',
-            old_name='updatedAt',
-            new_name='updated_at',
+            model_name="faculty",
+            old_name="updatedAt",
+            new_name="updated_at",
         ),
         migrations.RenameField(
-            model_name='specialization',
-            old_name='createdAt',
-            new_name='created_at',
+            model_name="specialization",
+            old_name="createdAt",
+            new_name="created_at",
         ),
         migrations.RenameField(
-            model_name='specialization',
-            old_name='updatedAt',
-            new_name='updated_at',
+            model_name="specialization",
+            old_name="updatedAt",
+            new_name="updated_at",
         ),
         migrations.RenameField(
-            model_name='specializationgroup',
-            old_name='createdAt',
-            new_name='created_at',
+            model_name="specializationgroup",
+            old_name="createdAt",
+            new_name="created_at",
         ),
         migrations.RenameField(
-            model_name='specializationgroup',
-            old_name='updatedAt',
-            new_name='updated_at',
+            model_name="specializationgroup",
+            old_name="updatedAt",
+            new_name="updated_at",
         ),
         migrations.RenameField(
-            model_name='subject',
-            old_name='createdAt',
-            new_name='created_at',
+            model_name="subject",
+            old_name="createdAt",
+            new_name="created_at",
         ),
         migrations.RenameField(
-            model_name='subject',
-            old_name='updatedAt',
-            new_name='updated_at',
+            model_name="subject",
+            old_name="updatedAt",
+            new_name="updated_at",
         ),
     ]

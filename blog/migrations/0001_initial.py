@@ -12,40 +12,101 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('taggit', '0004_alter_taggeditem_content_type_alter_taggeditem_tag'),
+        ("taggit", "0004_alter_taggeditem_content_type_alter_taggeditem_tag"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='BlogPost',
+            name="BlogPost",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('updatedAt', models.DateTimeField(auto_now=True, verbose_name='Updated At')),
-                ('createdAt', models.DateTimeField(auto_now_add=True, verbose_name='Created At')),
-                ('title', models.CharField(max_length=100, verbose_name='Title')),
-                ('author', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='authored_posts', to=settings.AUTH_USER_MODEL, verbose_name='Author')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "updatedAt",
+                    models.DateTimeField(auto_now=True, verbose_name="Updated At"),
+                ),
+                (
+                    "createdAt",
+                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                ),
+                ("title", models.CharField(max_length=100, verbose_name="Title")),
+                (
+                    "author",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="authored_posts",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="Author",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='BlogPostTag',
+            name="BlogPostTag",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, verbose_name='Name')),
-                ('description', models.CharField(blank=True, max_length=200, null=True, verbose_name='Description')),
-                ('blog_post', modelcluster.fields.ParentalKey(on_delete=django.db.models.deletion.CASCADE, related_name='tagged_items', to='blog.blogpost', verbose_name='Blog Post')),
-                ('tag', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='blog_blogposttag_items', to='taggit.tag')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100, verbose_name="Name")),
+                (
+                    "description",
+                    models.CharField(
+                        blank=True,
+                        max_length=200,
+                        null=True,
+                        verbose_name="Description",
+                    ),
+                ),
+                (
+                    "blog_post",
+                    modelcluster.fields.ParentalKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="tagged_items",
+                        to="blog.blogpost",
+                        verbose_name="Blog Post",
+                    ),
+                ),
+                (
+                    "tag",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="blog_blogposttag_items",
+                        to="taggit.tag",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.AddField(
-            model_name='blogpost',
-            name='tags',
-            field=taggit.managers.TaggableManager(blank=True, help_text='A comma-separated list of tags.', through='blog.BlogPostTag', to='taggit.Tag', verbose_name='Tags'),
+            model_name="blogpost",
+            name="tags",
+            field=taggit.managers.TaggableManager(
+                blank=True,
+                help_text="A comma-separated list of tags.",
+                through="blog.BlogPostTag",
+                to="taggit.Tag",
+                verbose_name="Tags",
+            ),
         ),
     ]

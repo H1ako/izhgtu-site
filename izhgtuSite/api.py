@@ -7,11 +7,11 @@ from wagtail.documents.api.v2.views import DocumentsAPIViewSet
 from wagtail_headless_preview.models import PagePreview
 from rest_framework.response import Response
 
-apiRouter = WagtailAPIRouter('wagtailapi')
+apiRouter = WagtailAPIRouter("wagtailapi")
 
-apiRouter.register_endpoint('pagesComponents', PagesAPIViewSet)
-apiRouter.register_endpoint('images', ImagesAPIViewSet)
-apiRouter.register_endpoint('documents', DocumentsAPIViewSet)
+apiRouter.register_endpoint("pagesComponents", PagesAPIViewSet)
+apiRouter.register_endpoint("images", ImagesAPIViewSet)
+apiRouter.register_endpoint("documents", DocumentsAPIViewSet)
 
 
 class PagePreviewAPIViewSet(PagesAPIViewSet):

@@ -1,6 +1,13 @@
 from django.db import models
-from grapple.models import GraphQLStreamfield, GraphQLImage, GraphQLSnippet, GraphQLString, \
-    GraphQLCollection, GraphQLForeignKey, GraphQLInt
+from grapple.models import (
+    GraphQLStreamfield,
+    GraphQLImage,
+    GraphQLSnippet,
+    GraphQLString,
+    GraphQLCollection,
+    GraphQLForeignKey,
+    GraphQLInt,
+)
 from wagtail.fields import StreamField
 from wagtail.images.models import Image
 from wagtail.models import Page
@@ -21,9 +28,9 @@ class HomePage(HeadlessMixin, Page):
         Image,
         null=True,
         blank=True,
-        verbose_name='Лицевая фоновая картинка',
+        verbose_name="Лицевая фоновая картинка",
         on_delete=models.SET_NULL,
-        related_name='+',
+        related_name="+",
     )
 
     more_info_carousel = StreamField(
@@ -34,53 +41,76 @@ class HomePage(HeadlessMixin, Page):
     )
 
     quote = models.ForeignKey(
-        'users.Quote',
+        "users.Quote",
         null=True,
         blank=True,
-        verbose_name='Цитата',
+        verbose_name="Цитата",
         on_delete=models.SET_NULL,
-        related_name='+',
+        related_name="+",
     )
 
     # news = models.ManyToManyField('')
 
     graphql_fields = [
         GraphQLCollection(
-            GraphQLForeignKey, 'headings', 'home.FaceHeading', required=True, item_required=True
+            GraphQLForeignKey,
+            "headings",
+            "home.FaceHeading",
+            required=True,
+            item_required=True,
         ),
-        GraphQLImage('face_bg', required=True),
-        GraphQLStreamfield('more_info_carousel'),
-        GraphQLSnippet('quote', 'users.Quote'),
+        GraphQLImage("face_bg", required=True),
+        GraphQLStreamfield("more_info_carousel"),
+        GraphQLSnippet("quote", "users.Quote"),
     ]
 
     content_panels = Page.content_panels + [
-        MultiFieldPanel([
-            InlinePanel('headings', heading='headings', label='heading'),
-            FieldPanel('face_bg'),
-        ], heading=_('Face Block')),
-        MultiFieldPanel([
-            FieldPanel('more_info_carousel'),
-        ], heading=_('More Info Block')),
-        MultiFieldPanel([
-            FieldPanel('quote'),
-        ], heading=_('Quote Block')),
+        MultiFieldPanel(
+            [
+                InlinePanel("headings", heading="headings", label="heading"),
+                FieldPanel("face_bg"),
+            ],
+            heading=_("Face Block"),
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("more_info_carousel"),
+            ],
+            heading=_("More Info Block"),
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("quote"),
+            ],
+            heading=_("Quote Block"),
+        ),
     ]
 
 
 class FaceHeading(Orderable):
-    text = models.CharField(_('Text'), max_length=255,)
-    short_text = models.CharField(_('Short text'), max_length=150)
-    size = models.CharField(_('Size'), max_length=100, default='normal', choices=[
-        ('small', 'Маленький'),
-        ('normal', 'Обычный'),
-        ('big', 'Большой'),
-    ])
+    text = models.CharField(
+        _("Text"),
+        max_length=255,
+    )
+    short_text = models.CharField(_("Short text"), max_length=150)
+    size = models.CharField(
+        _("Size"),
+        max_length=100,
+        default="normal",
+        choices=[
+            ("small", "Маленький"),
+            ("normal", "Обычный"),
+            ("big", "Большой"),
+        ],
+    )
 
-    page = ParentalKey('home.HomePage', related_name='headings', on_delete=models.CASCADE)
+    page = ParentalKey(
+        "home.HomePage", related_name="headings", on_delete=models.CASCADE
+    )
 
     graphql_fields = [
-        GraphQLInt('id', required=True),
-        GraphQLString('text', required=True),
-        GraphQLString('short_text', required=True),
-        GraphQLString('size', required=True),
+        GraphQLInt("id", required=True),
+        GraphQLString("text", required=True),
+        GraphQLString("short_text", required=True),
+        GraphQLString("size", required=True),
     ]

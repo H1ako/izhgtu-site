@@ -6,17 +6,17 @@ from izhgtuSite.models import TimeStampedModel
 
 class AdmissionApplication(TimeStampedModel):
     entrant = models.ForeignKey(
-        'users.Entrant',
-        verbose_name=_('Entrant'),
-        related_name='applications',
-        on_delete=models.CASCADE
+        "users.Entrant",
+        verbose_name=_("Entrant"),
+        related_name="applications",
+        on_delete=models.CASCADE,
     )
     specialization = models.ForeignKey(
-        'education.Specialization',
-        verbose_name=_('Specialization'),
-        related_name='applications',
+        "education.Specialization",
+        verbose_name=_("Specialization"),
+        related_name="applications",
         null=True,
-        on_delete=models.SET_NULL
+        on_delete=models.SET_NULL,
     )
 
     def getEducationType(self):
@@ -26,5 +26,5 @@ class AdmissionApplication(TimeStampedModel):
         return f"[{self.entrant.user}] : {self.specialization.name} - {self.getEducationType()}"
 
     class Meta:
-        verbose_name = _('Admission Application')
-        verbose_name_plural = _('Admission Applications')
+        verbose_name = _("Admission Application")
+        verbose_name_plural = _("Admission Applications")

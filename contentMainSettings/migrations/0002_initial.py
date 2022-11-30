@@ -9,19 +9,29 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('menus', '0001_initial'),
-        ('contentMainSettings', '0001_initial'),
+        ("menus", "0001_initial"),
+        ("contentMainSettings", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='header',
-            name='menu',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='headers', to='menus.menu'),
+            model_name="header",
+            name="menu",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="headers",
+                to="menus.menu",
+            ),
         ),
         migrations.AddField(
-            model_name='footer',
-            name='menu',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='footers', to='menus.menu'),
+            model_name="footer",
+            name="menu",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="footers",
+                to="menus.menu",
+            ),
         ),
     ]

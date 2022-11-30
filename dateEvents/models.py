@@ -6,32 +6,31 @@ from izhgtuSite.models import TimeStampedModel
 
 class DateEventPost(TimeStampedModel):
     author = models.ForeignKey(
-        'authentication.User',
-        verbose_name=_('Author'),
-        related_name='dateEventPosts',
+        "authentication.User",
+        verbose_name=_("Author"),
+        related_name="dateEventPosts",
         on_delete=models.SET_NULL,
-        null=True
+        null=True,
     )
 
     class Meta:
-        verbose_name = _('Date Event Post')
-        verbose_name_plural = _('Date Event Posts')
+        verbose_name = _("Date Event Post")
+        verbose_name_plural = _("Date Event Posts")
 
 
 class DateEvent(TimeStampedModel):
-    date = models.DateTimeField(_('Date'))
+    date = models.DateTimeField(_("Date"))
     post = models.ForeignKey(
         DateEventPost,
-        verbose_name=_('Post'),
+        verbose_name=_("Post"),
         on_delete=models.SET_NULL,
-        related_name='dateEvent',
-        null=True
+        related_name="dateEvent",
+        null=True,
     )
-    name = models.CharField(_('Name'), max_length=150)
-    description = models.CharField(_('Description'), max_length=255)
-    picture = models.ImageField(_('Picture'), upload_to='dateEventsPictures/')
+    name = models.CharField(_("Name"), max_length=150)
+    description = models.CharField(_("Description"), max_length=255)
+    picture = models.ImageField(_("Picture"), upload_to="dateEventsPictures/")
 
     class Meta:
-        verbose_name = _('Date Event')
-        verbose_name_plural = _('Date Events')
-
+        verbose_name = _("Date Event")
+        verbose_name_plural = _("Date Events")

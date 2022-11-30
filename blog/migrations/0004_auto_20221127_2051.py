@@ -6,16 +6,19 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('blog', '0003_auto_20221127_2028'),
+        ("blog", "0003_auto_20221127_2028"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='blogpost',
-            options={'verbose_name': 'Blog Post', 'verbose_name_plural': 'Blog Posts'},
+            name="blogpost",
+            options={"verbose_name": "Blog Post", "verbose_name_plural": "Blog Posts"},
         ),
         migrations.AlterModelOptions(
-            name='blogpostcategory',
-            options={'verbose_name': 'Blog Post Category', 'verbose_name_plural': 'Blog Post Categories'},
+            name="blogpostcategory",
+            options={
+                "verbose_name": "Blog Post Category",
+                "verbose_name_plural": "Blog Post Categories",
+            },
         ),
     ]
