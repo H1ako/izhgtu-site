@@ -146,11 +146,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    # cms
-    # 'cms.middleware.user.CurrentUserMiddleware',
-    # 'cms.middleware.page.CurrentPageMiddleware',
-    # 'cms.middleware.toolbar.ToolbarMiddleware',
-    # 'cms.middleware.language.LanguageCookieMiddleware',
     # cms wagtail
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
 ]
