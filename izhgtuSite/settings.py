@@ -125,6 +125,7 @@ INSTALLED_APPS = [
     "core",
     # 'frontend',
     "contentMainSettings",
+    'core',
     "menus",
     "home",
     "news",
