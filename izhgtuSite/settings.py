@@ -30,7 +30,13 @@ AUTHENTICATION_BACKENDS = (
 
 GRAPHENE = {"SCHEMA": "grapple.schema.schema"}
 GRAPPLE = {
-    "APPS": ["home", "users", "news", "blog"],
+    "APPS": [
+        "home",
+        "users",
+        "news",
+        "blog",
+        "authentication"
+    ],
 }
 ASGI_APPLICATION = "graphql_ws.django.routing.application"
 
@@ -117,13 +123,12 @@ INSTALLED_APPS = [
     "grapple",
     "graphene_django",
     "channels",
+    "instance_selector",
     # libraries
     "drfpasswordless",
-    "instance_selector",
     # 'django_nextjs.apps.DjangoNextJSConfig',
     # apps
     "core",
-    # 'frontend',
     "contentMainSettings",
     "menus",
     "home",
@@ -183,7 +188,7 @@ DATABASES = {
         "NAME": "izhgtu-site",
         "USER": "root",
         "PASSWORD": "root",
-        "HOST": "localhost",  # Or an IP Address that your DB is hosted on
+        "HOST": "localhost",
         "PORT": "3306",
     },
     "extra": {

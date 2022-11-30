@@ -1,15 +1,29 @@
+import graphene
+from django import forms
 from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import gettext_lazy as _
+from grapple.helpers import register_query_field
+from grapple.models import GraphQLBoolean, GraphQLString, GraphQLImage, GraphQLCollection, GraphQLForeignKey, GraphQLInt
 from wagtail.admin.panels import FieldPanel
 
 from authentication.managers import CustomUserManager
-from modelcluster.fields import ParentalManyToManyField
-
 from izhgtuSite.models import TimeStampedModel
 
 
+user_params = {
+    "id": graphene.Int(),
+    "first_name": graphene.String(),
+    "last_name": graphene.String(),
+    "patronymic": graphene.String(),
+    "full_name": graphene.String(),
+    "email": graphene.String(),
+    "phone": graphene.String(),
+}
+
+
+@register_query_field("user", 'users', plural_item_required=True, query_params=user_params)
 class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_("Email"), unique=True)
     phone = models.CharField(
@@ -30,7 +44,7 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(_("Is Staff"), default=False)
     is_active = models.BooleanField(_("Is Active"), default=False)
     is_superuser = models.BooleanField(_("Is Super User"), default=False)
-    tags = ParentalManyToManyField(
+    tags = models.ManyToManyField(
         "users.UserTag", verbose_name=_("Tags"), related_name="users"
     )
 
@@ -38,6 +52,10 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ["first_name", "last_name", "patronymic"]
 
     objects = CustomUserManager()
+
+    search_fields = [
+        GraphQLString('first_name', required=True),
+    ]
 
     panels = [
         FieldPanel("email"),
@@ -48,24 +66,61 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
         FieldPanel("bg_picture"),
         FieldPanel("is_staff"),
         FieldPanel("is_superuser"),
-        FieldPanel("tags"),
+        FieldPanel("tags", widget=forms.CheckboxSelectMultiple),
+    ]
+
+    graphql_fields = [
+        GraphQLInt('id', required=True),
+        GraphQLString('email', required=True),
+        GraphQLString('phone'),
+        GraphQLString('first_name', required=True),
+        GraphQLString('last_name', required=True),
+        GraphQLString('patronymic', required=True),
+        GraphQLString('full_name', required=True),
+        GraphQLString('main_name', required=True),
+        GraphQLImage('picture'),
+        GraphQLImage('bg_picture'),
+        GraphQLBoolean('is_superuser', required=True),
+        GraphQLBoolean('is_staff', required=True),
+        GraphQLCollection(
+            GraphQLForeignKey,
+            'tags',
+            'users.UserTag',
+            required=True,
+            is_queryset=True,
+            item_required=True
+        ),
+        GraphQLBoolean('is_entrant', required=True),
+        GraphQLBoolean('is_student', required=True),
+        GraphQLBoolean('is_teacher', required=True),
     ]
 
     def __str__(self):
-        return f"{self.get_info()}"
+        return f"{self.info}"
 
     @property
     def is_entrant(self):
+        return hasattr(self, "entrant")
+
+    @property
+    def is_teacher(self):
+        return hasattr(self, "teacher")
+
+    @property
+    def is_student(self):
         return hasattr(self, "student")
 
-    def get_info(self):
-        return f"{self.get_full_name()} - {self.email}"
-
-    def get_main_name(self):
+    @property
+    def main_name(self):
         return f"{self.last_name} {self.first_name}"
 
-    def get_full_name(self):
-        return f"{self.get_main_name()} {self.patronymic}"
+    @property
+    def full_name(self):
+        return f"{self.main_name} {self.patronymic}"
+
+    @property
+    def info(self):
+        return f"{self.full_name} - {self.email}"
 
     class Meta:
         verbose_name = _("User")

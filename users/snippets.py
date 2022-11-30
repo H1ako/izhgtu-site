@@ -68,6 +68,11 @@ class UserTag(models.Model):
         FieldPanel("description"),
     ]
 
+    graphql_fields = [
+        GraphQLString("name", required=True),
+        GraphQLRichText("description"),
+    ]
+
     class Meta:
         verbose_name = _("User Tag")
         verbose_name_plural = _("User Tags")
