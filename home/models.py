@@ -1,4 +1,3 @@
-from django import forms
 from django.db import models
 from grapple.models import (
     GraphQLStreamfield,
@@ -9,7 +8,6 @@ from grapple.models import (
     GraphQLForeignKey,
     GraphQLInt,
 )
-from instance_selector.edit_handlers import InstanceSelectorPanel
 from wagtail.fields import StreamField
 from wagtail.images.models import Image
 from wagtail.models import Page
@@ -25,6 +23,7 @@ from home.blocks import MediaSlideBlock
 
 class HomePage(HeadlessMixin, Page):
     max_count = 1
+    parent_page_types = []
 
     face_bg = models.ForeignKey(
         Image,

@@ -15,10 +15,11 @@ from taggit.managers import TaggableManager
 from taggit.models import TaggedItemBase
 from wagtail.admin.panels import FieldPanel
 from wagtail.fields import RichTextField
-from wagtail.models import Orderable
+from wagtail.models import Orderable, Page
 from wagtail.snippets.models import register_snippet
 
 from instance_selector.edit_handlers import InstanceSelectorPanel
+from wagtail_headless_preview.models import HeadlessMixin
 
 from izhgtuSite.models import TimeStampedModel
 
@@ -52,49 +53,58 @@ class BlogPostCategory(models.Model):
 
 class BlogPostTag(TaggedItemBase):
     content_object = ParentalKey(
-        "blog.BlogPost", verbose_name=_("Blog Post"), related_name="tagged_posts"
+        "blog.BlogPostPage", verbose_name=_("Blog Post Page"), related_name="tagged_post_pages"
     )
 
 
-class BlogPost(ClusterableModel, TimeStampedModel):
-    author = models.ForeignKey(
+class BlogPostPage(TimeStampedModel, HeadlessMixin, Page):
+    subpage_types = []
+    parent_page_types = [
+        'blog.BlogPostIndexPage'
+    ]
+
+    post_author = models.ForeignKey(
         "authentication.User",
         verbose_name=_("Author"),
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name="authored_posts",
+        related_name="authored_post_pages",
     )
-    tags = TaggableManager(through=BlogPostTag, blank=True)
-    category = models.ForeignKey(
+    post_tags = TaggableManager(through=BlogPostTag, blank=True)
+    post_category = models.ForeignKey(
         BlogPostCategory,
-        related_name="blog_posts",
+        related_name="blog_post_pages",
         blank=True,
         null=True,
         on_delete=models.SET_NULL,
     )
-    body = RichTextField(_("Body"), null=True, blank=True)
-    title = models.CharField(_("Title"), max_length=100)
+    post_body = RichTextField(_("Body"), null=True, blank=True)
+    post_title = models.CharField(_("Title"), max_length=100)
 
-    panels = [
-        FieldPanel("title"),
-        FieldPanel("body"),
-        InstanceSelectorPanel("author"),
-        FieldPanel("category", widget=forms.RadioSelect),
-        FieldPanel("tags"),
+    content_panels = Page.content_panels + [
+        FieldPanel("post_title"),
+        FieldPanel("post_body"),
+        InstanceSelectorPanel("post_author"),
+        FieldPanel('post_category'),
+        # FieldPanel("post_category", widget=forms.RadioSelect),
+        FieldPanel("post_tags"),
     ]
 
     graphql_fields = [
-        # GraphQLForeignKey('author', content_type='authentication.User'),
-        GraphQLRichText("body"),
-        GraphQLString("title", required=True),
-        GraphQLTag("tags", is_list=True, required=True),
-        GraphQLSnippet("category", "blog.BlogPostCategory"),
+        GraphQLForeignKey('author', content_type='authentication.User'),
+        GraphQLRichText("post_body"),
+        GraphQLString("post_title", required=True),
+        GraphQLTag("post_tags", is_list=True, required=True),
+        GraphQLSnippet("post_category", "blog.BlogPostCategory"),
     ]
 
-    def __str__(self):
-        return f"{self.title} - {self.author.get_full_name()}"
 
-    class Meta:
-        verbose_name = _("Blog Post")
-        verbose_name_plural = _("Blog Posts")
+class BlogPostIndexPage(HeadlessMixin, Page):
+    max_count = 1
+    parent_page_types = [
+        'home.HomePage'
+    ]
+    subpage_types = [
+        'blog.BlogPostPage',
+    ]

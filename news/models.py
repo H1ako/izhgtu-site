@@ -1,8 +1,7 @@
 from django import forms
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from grapple.models import GraphQLString, GraphQLForeignKey, GraphQLImage
-from instance_selector.edit_handlers import InstanceSelectorPanel
+from grapple.models import GraphQLString, GraphQLImage, GraphQLPage
 from wagtail.admin.panels import FieldPanel
 
 from izhgtuSite.models import TimeStampedModel
@@ -20,8 +19,8 @@ class News(TimeStampedModel):
         on_delete=models.SET_NULL,
     )
     post = models.ForeignKey(
-        "blog.BlogPost",
-        verbose_name=_("Post"),
+        "blog.BlogPostPage",
+        verbose_name=_("Post Page"),
         blank=True,
         null=True,
         on_delete=models.SET_NULL,
@@ -31,13 +30,13 @@ class News(TimeStampedModel):
     panels = [
         FieldPanel("title"),
         FieldPanel("picture"),
-        InstanceSelectorPanel("post"),
+        FieldPanel("post"),
     ]
 
     graphql_fields = [
         GraphQLString("title", required=True),
         GraphQLImage("picture"),
-        GraphQLForeignKey("post", content_type="blog.BlogPost"),
+        GraphQLPage('post'),
     ]
 
     search_fields = []
