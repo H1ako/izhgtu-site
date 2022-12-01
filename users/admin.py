@@ -67,7 +67,7 @@ class EntrantAdmin(ModelAdmin):
 class UsersGroupAdmin(ModelAdminGroup):
     menu_label = _("Users")
     menu_icon = "group"
-    add_to_settings_menu = True
+    add_to_settings_menu = False
     items = (
         StudentAdmin,
         StudentCardAdmin,

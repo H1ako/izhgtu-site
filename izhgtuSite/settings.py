@@ -72,7 +72,6 @@ PASSWORDLESS_AUTH = {
 
 # Application definition
 INSTALLED_APPS = [
-    # 'djangocms_admin_style',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -82,24 +81,6 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
     "rest_framework.authtoken",
-    # cms
-    # 'sekizai',
-    # 'sekizai.context_processors.sekizai',
-    # 'django.contrib.sites',
-    # 'cms',
-    # 'menus',
-    # 'treebeard',
-    # 'filer',
-    # 'easy_thumbnails',
-    # 'mptt',
-    # 'djangocms_text_ckeditor',
-    # 'djangocms_link',
-    # 'djangocms_file',
-    # 'djangocms_picture',
-    # 'djangocms_video',
-    # 'djangocms_googlemap',
-    # 'djangocms_snippet',
-    # 'djangocms_style',
     # cms wagtail
     "wagtail.contrib.modeladmin",
     "wagtail.contrib.forms",
@@ -113,6 +94,7 @@ INSTALLED_APPS = [
     "wagtail.search",
     "wagtail.admin",
     "wagtail",
+    "wagtail.contrib.settings",
     "modelcluster",
     "taggit",
     "wagtail.api.v2",
@@ -129,7 +111,6 @@ INSTALLED_APPS = [
     # 'django_nextjs.apps.DjangoNextJSConfig',
     # apps
     "core",
-    "contentMainSettings",
     "menus",
     "home",
     "news",
@@ -170,7 +151,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                # cms
+                "wagtail.contrib.settings.context_processors.settings"
             ],
         },
     },

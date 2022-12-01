@@ -103,7 +103,7 @@ class SpecializationGroupAdmin(ModelAdmin):
 class EducationGroupAdmin(ModelAdminGroup):
     menu_label = _("Education")
     menu_icon = "group"
-    add_to_settings_menu = True
+    add_to_settings_menu = False
     items = (
         SubjectAdmin,
         EducationTypeAdmin,
