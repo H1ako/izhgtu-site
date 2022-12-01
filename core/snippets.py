@@ -1,11 +1,12 @@
 from django import forms
 from django.db import models
-from wagtail.admin.panels import MultiFieldPanel, FieldPanel
-from wagtail.contrib.settings.models import BaseSetting
-from wagtail.contrib.settings.registry import register_setting
-from wagtail.fields import RichTextField
+from wagtail.admin.panels import FieldPanel
+from wagtail.blocks import StructBlock, PageChooserBlock, URLBlock, StreamBlock, CharBlock
+from wagtail.fields import RichTextField, StreamField
 from wagtail.snippets.models import register_snippet
 from django.utils.translation import gettext_lazy as _
+
+from home import blocks
 
 
 @register_snippet
@@ -68,6 +69,21 @@ class Header(models.Model):
         return f"{self.name}"
 
 
+class FooterMenuLinkAbstract(StructBlock):
+    name = CharBlock(help_text=_('Name'), max_length=100)
+
+    class Meta:
+        abstract = True
+
+
+class FooterMenuLinkPage(FooterMenuLinkAbstract):
+    page = PageChooserBlock(help_text=_('Page'))
+
+
+class FooterMenuLinkUrl(FooterMenuLinkAbstract):
+    page = URLBlock(_('Page'))
+
+
 @register_snippet
 class Footer(models.Model):
     name = models.CharField(_('Name'), max_length=100)
@@ -87,12 +103,17 @@ class Footer(models.Model):
     #     verbose_name=_('Contacts'),
     #     blank=True
     # )
+    menu = StreamField((
+        ('url', FooterMenuLinkUrl()),
+        ('site_page', FooterMenuLinkPage()),
+    ), use_json_field=True, blank=True, null=True)
 
     show_contact_form = models.BooleanField(_('Show Contact Form?'), default=True)
 
     panels = [
         FieldPanel('name'),
         FieldPanel('show_contact_form'),
+        FieldPanel('menu'),
         FieldPanel('right_description'),
     ]
 
