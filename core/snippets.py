@@ -1,5 +1,7 @@
 from django import forms
 from django.db import models
+from grapple.models import GraphQLString, GraphQLBoolean, GraphQLSnippet, GraphQLRichText, GraphQLStreamfield, \
+    GraphQLPage, GraphQLCollection, GraphQLInt
 from wagtail.admin.panels import FieldPanel
 from wagtail.blocks import StructBlock, PageChooserBlock, URLBlock, StreamBlock, CharBlock
 from wagtail.fields import RichTextField, StreamField
@@ -19,6 +21,13 @@ class Location(models.Model):
         FieldPanel('name'),
         FieldPanel('address'),
         FieldPanel('description'),
+    ]
+
+    graphql_fields = [
+        GraphQLInt('id', required=True),
+        GraphQLString('name', required=True),
+        GraphQLString('address', required=True),
+        GraphQLString('description'),
     ]
 
     def __str__(self):
@@ -41,6 +50,13 @@ class Contact(models.Model):
         FieldPanel('type', widget=forms.RadioSelect),
     ]
 
+    graphql_fields = [
+        GraphQLInt('id', required=True),
+        GraphQLString('name', required=True),
+        GraphQLString('address', required=True),
+        GraphQLString('type'),
+    ]
+
     def __str__(self):
         return f"{self.name}"
 
@@ -56,13 +72,39 @@ class Header(models.Model):
     contacts = models.ManyToManyField(
         'core.Contact',
         verbose_name=_('Contacts'),
-        blank=True
+        blank=True,
+    )
+    menu = models.ForeignKey(
+        'menus.Menu',
+        verbose_name=_('Menu'),
+        on_delete=models.SET_NULL,
+        null=True,
     )
 
     panels = [
         FieldPanel('name'),
         FieldPanel('locations', widget=forms.CheckboxSelectMultiple),
         FieldPanel('contacts', widget=forms.CheckboxSelectMultiple),
+        FieldPanel('menu'),
+    ]
+
+    graphql_fields = [
+        GraphQLString('name', required=True),
+        GraphQLCollection(
+            GraphQLSnippet,
+            'locations',
+            'core.Location',
+            item_required=True,
+            required=True
+        ),
+        GraphQLCollection(
+            GraphQLSnippet,
+            'contacts',
+            'core.Contact',
+            item_required=True,
+            required=True
+        ),
+        GraphQLSnippet('menu', snippet_model='menus.Menu'),
     ]
 
     def __str__(self):
@@ -79,9 +121,17 @@ class FooterMenuLinkAbstract(StructBlock):
 class FooterMenuLinkPage(FooterMenuLinkAbstract):
     page = PageChooserBlock(help_text=_('Page'))
 
+    graphql_fields = [
+        GraphQLPage('page', required=True),
+    ]
+
 
 class FooterMenuLinkUrl(FooterMenuLinkAbstract):
     page = URLBlock(_('Page'))
+
+    graphql_fields = [
+        GraphQLString('page', required=True),
+    ]
 
 
 @register_snippet
@@ -115,6 +165,13 @@ class Footer(models.Model):
         FieldPanel('show_contact_form'),
         FieldPanel('menu'),
         FieldPanel('right_description'),
+    ]
+
+    graphql_fields = [
+        GraphQLString('name', required=True),
+        GraphQLBoolean('show_contact_form', required=True),
+        GraphQLRichText('right_description'),
+        GraphQLStreamfield('menu')
     ]
 
     def __str__(self):

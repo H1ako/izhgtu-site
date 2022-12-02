@@ -1,4 +1,5 @@
 from django.db import models
+from grapple.models import GraphQLString, GraphQLCollection, GraphQLPage, GraphQLBoolean, GraphQLForeignKey
 from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import (
     MultiFieldPanel,
@@ -26,13 +27,23 @@ class Menu(ClusterableModel):
         InlinePanel("links_groups", label=_("Link"), heading=_("Links")),
     ]
 
+    graphql_fields = [
+        GraphQLString('title', required=True),
+        GraphQLCollection(
+            GraphQLForeignKey,
+            'links_groups',
+            'menus.MenuItem',
+            required=True,
+            item_required=True),
+    ]
+
     def __str__(self):
         return f"{self.title}"
 
 
 class MenuItem(ClusterableModel):
     name = models.CharField(_("Name"), max_length=50)
-    url = models.URLField(_("Custom URL "), blank=True, null=True, max_length=500)
+    url = models.URLField(_("Custom URL"), blank=True, null=True, max_length=500)
     page = models.ForeignKey(
         "wagtailcore.Page",
         blank=True,
@@ -53,10 +64,23 @@ class MenuItem(ClusterableModel):
         InlinePanel("links_groups", label=_("Sublink"), heading=_("Sublinks")),
     ]
 
+    graphql_fields = [
+        GraphQLString('name', required=True),
+        GraphQLString('url'),
+        GraphQLPage('page'),
+        GraphQLBoolean('open_in_new_tab'),
+        GraphQLCollection(
+            GraphQLForeignKey,
+            'links_groups',
+            'menus.MenuItemLinkGroup',
+            item_required=True
+        ),
+    ]
+
 
 class MenuItemLinkGroup(ClusterableModel):
     name = models.CharField(_("Name"), max_length=50)
-    url = models.URLField(_("Custom URL "), blank=True, null=True, max_length=500)
+    url = models.URLField(_("Custom URL"), blank=True, null=True, max_length=500)
     page = models.ForeignKey(
         "wagtailcore.Page",
         blank=True,
@@ -81,10 +105,23 @@ class MenuItemLinkGroup(ClusterableModel):
         ),
     ]
 
+    graphql_fields = [
+        GraphQLString('name', required=True),
+        GraphQLString('url'),
+        GraphQLPage('page'),
+        GraphQLBoolean('open_in_new_tab'),
+        GraphQLCollection(
+            GraphQLForeignKey,
+            'links_groups',
+            'menus.MenuItemLink',
+            item_required=True
+        ),
+    ]
+
 
 class MenuItemLink(Orderable):
     name = models.CharField(_("Name"), max_length=50)
-    url = models.URLField(_("Custom URL "), blank=True, null=True, max_length=500)
+    url = models.URLField(_("Custom URL"), blank=True, null=True, max_length=500)
     page = models.ForeignKey(
         "wagtailcore.Page",
         blank=True,
@@ -104,4 +141,11 @@ class MenuItemLink(Orderable):
         FieldPanel("url"),
         PageChooserPanel("page"),
         FieldPanel("open_in_new_tab"),
+    ]
+
+    graphql_fields = [
+        GraphQLString('name', required=True),
+        GraphQLString('url'),
+        GraphQLPage('page'),
+        GraphQLBoolean('open_in_new_tab'),
     ]

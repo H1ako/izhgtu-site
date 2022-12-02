@@ -1,8 +1,10 @@
 from django.db import models
+from grapple.models import GraphQLSnippet, GraphQLImage
 from wagtail.admin.panels import MultiFieldPanel, FieldPanel
 from wagtail.contrib.settings.models import BaseSetting
 from wagtail.contrib.settings.registry import register_setting
 from django.utils.translation import gettext_lazy as _
+from wagtail.images.models import Image
 
 from core.snippets import Header, Footer
 
@@ -36,10 +38,25 @@ class MainContentSettings(BaseSetting):
         null=True,
         blank=False,
     )
+    logo = models.ForeignKey(
+        Image,
+        verbose_name=_('Logo'),
+        related_name='+',
+        null=True,
+        blank=False,
+        on_delete=models.SET_NULL
+    )
 
     panels = [
         MultiFieldPanel((
             FieldPanel('header'),
             FieldPanel('footer'),
-        ), _('Main Content Settings'))
+        ), _('Main Blocks')),
+        FieldPanel('logo'),
+    ]
+
+    graphql_fields = [
+        GraphQLImage('logo'),
+        GraphQLSnippet('header', snippet_model='core.Header'),
+        GraphQLSnippet('footer', snippet_model='core.Footer'),
     ]

@@ -35,7 +35,9 @@ GRAPPLE = {
         "users",
         "news",
         "blog",
-        "authentication"
+        "authentication",
+        "menus",
+        "core",
     ],
 }
 ASGI_APPLICATION = "graphql_ws.django.routing.application"
