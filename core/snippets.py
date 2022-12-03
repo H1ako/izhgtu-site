@@ -1,14 +1,16 @@
 from django import forms
 from django.db import models
 from grapple.models import GraphQLString, GraphQLBoolean, GraphQLSnippet, GraphQLRichText, GraphQLStreamfield, \
-    GraphQLPage, GraphQLCollection, GraphQLInt
+    GraphQLPage, GraphQLCollection, GraphQLInt, GraphQLForeignKey
+from modelcluster.fields import ParentalManyToManyField
 from wagtail.admin.panels import FieldPanel
-from wagtail.blocks import StructBlock, PageChooserBlock, URLBlock, StreamBlock, CharBlock
+from wagtail.blocks import StructBlock, PageChooserBlock, URLBlock, CharBlock
 from wagtail.fields import RichTextField, StreamField
+from wagtail.models import Orderable
 from wagtail.snippets.models import register_snippet
 from django.utils.translation import gettext_lazy as _
-
-from home import blocks
+from wagtailsvg.edit_handlers import SvgChooserPanel
+from wagtailsvg.models import Svg
 
 
 @register_snippet
@@ -62,6 +64,35 @@ class Contact(models.Model):
 
 
 @register_snippet
+class Social(models.Model):
+    name = models.CharField(_('Name'), max_length=100)
+    icon = models.ForeignKey(
+        Svg,
+        verbose_name=_('Icon'),
+        related_name='+',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL
+    )
+    url = models.URLField(_('Url'))
+
+    panels = [
+        FieldPanel('name'),
+        SvgChooserPanel('icon'),
+        FieldPanel('url'),
+    ]
+
+    graphql_fields = [
+        GraphQLString('name', required=True),
+        GraphQLString('url', required=True),
+        GraphQLForeignKey('icon', content_type=Svg),
+    ]
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+@register_snippet
 class Header(models.Model):
     name = models.CharField(_('Name'), max_length=100)
     locations = models.ManyToManyField(
@@ -80,12 +111,20 @@ class Header(models.Model):
         on_delete=models.SET_NULL,
         null=True,
     )
+    socials = ParentalManyToManyField(
+        'core.Social',
+        verbose_name=_('Socials'),
+        blank=True,
+    )
+    show_last_news_marquee = models.BooleanField(_('Show Last News Marquee'), default=True)
 
     panels = [
         FieldPanel('name'),
         FieldPanel('locations', widget=forms.CheckboxSelectMultiple),
         FieldPanel('contacts', widget=forms.CheckboxSelectMultiple),
+        FieldPanel('socials', widget=forms.CheckboxSelectMultiple),
         FieldPanel('menu'),
+        FieldPanel('show_last_news_marquee', heading=_('Show Last News Row')),
     ]
 
     graphql_fields = [
@@ -104,7 +143,15 @@ class Header(models.Model):
             item_required=True,
             required=True
         ),
+        GraphQLCollection(
+            GraphQLSnippet,
+            'socials',
+            'core.Social',
+            item_required=True,
+            required=True
+        ),
         GraphQLSnippet('menu', snippet_model='menus.Menu'),
+        GraphQLBoolean('show_last_news_marquee', required=True)
     ]
 
     def __str__(self):
@@ -148,11 +195,11 @@ class Footer(models.Model):
         'hr',
         'blockquote'
     ))
-    # socials = models.ManyToManyField(
-    #     'core.Contact',
-    #     verbose_name=_('Contacts'),
-    #     blank=True
-    # )
+    socials = ParentalManyToManyField(
+        'core.Social',
+        verbose_name=_('Socials'),
+        blank=True,
+    )
     menu = StreamField((
         ('url', FooterMenuLinkUrl()),
         ('site_page', FooterMenuLinkPage()),
@@ -163,12 +210,20 @@ class Footer(models.Model):
     panels = [
         FieldPanel('name'),
         FieldPanel('show_contact_form'),
+        FieldPanel('socials', widget=forms.CheckboxSelectMultiple),
         FieldPanel('menu'),
         FieldPanel('right_description'),
     ]
 
     graphql_fields = [
         GraphQLString('name', required=True),
+        GraphQLCollection(
+            GraphQLSnippet,
+            'socials',
+            'core.Social',
+            item_required=True,
+            required=True
+        ),
         GraphQLBoolean('show_contact_form', required=True),
         GraphQLRichText('right_description'),
         GraphQLStreamfield('menu')

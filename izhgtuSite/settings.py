@@ -38,12 +38,14 @@ GRAPPLE = {
         "authentication",
         "menus",
         "core",
+        "wagtailsvg"
     ],
 }
 ASGI_APPLICATION = "graphql_ws.django.routing.application"
 
 WAGTAIL_SITE_NAME = "ИжГТУ"
 WAGTAILADMIN_BASE_URL = "cms"
+WAGTAILSVG_UPLOAD_FOLDER = 'svg'  # SVG upload folder
 
 WAGTAIL_HEADLESS_PREVIEW = {
     "CLIENT_URLS": {
@@ -108,6 +110,8 @@ INSTALLED_APPS = [
     "graphene_django",
     "channels",
     "instance_selector",
+    "generic_chooser",
+    "wagtailsvg",
     # libraries
     "drfpasswordless",
     # 'django_nextjs.apps.DjangoNextJSConfig',
