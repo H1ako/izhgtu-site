@@ -1,16 +1,15 @@
 from django import forms
 from django.db import models
-from grapple.models import GraphQLString, GraphQLBoolean, GraphQLSnippet, GraphQLRichText, GraphQLStreamfield, \
-    GraphQLPage, GraphQLCollection, GraphQLInt, GraphQLForeignKey
-from modelcluster.fields import ParentalManyToManyField
-from wagtail.admin.panels import FieldPanel
-from wagtail.blocks import StructBlock, PageChooserBlock, URLBlock, CharBlock
-from wagtail.fields import RichTextField, StreamField
-from wagtail.models import Orderable
 from wagtail.snippets.models import register_snippet
 from django.utils.translation import gettext_lazy as _
 from wagtailsvg.edit_handlers import SvgChooserPanel
 from wagtailsvg.models import Svg
+from grapple.models import GraphQLString, GraphQLBoolean, GraphQLSnippet, GraphQLRichText, GraphQLStreamfield, \
+    GraphQLPage, GraphQLCollection, GraphQLInt, GraphQLForeignKey
+from wagtail.blocks import StructBlock, PageChooserBlock, URLBlock, CharBlock
+from wagtail.fields import RichTextField, StreamField
+from modelcluster.fields import ParentalManyToManyField
+from wagtail.admin.panels import FieldPanel
 
 
 @register_snippet

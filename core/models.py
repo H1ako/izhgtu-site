@@ -48,6 +48,7 @@ class MainContentSettings(BaseSetting):
         blank=False,
         on_delete=models.SET_NULL
     )
+    yandex_map_url = models.URLField(_('Yandex Url'), max_length=500, null=True, blank=True)
     org_name = models.CharField(_('Organization Name'), max_length=100, null=True, blank=True)
     short_org_name = models.CharField(_('Short Organization Name'), max_length=20, null=True, blank=True)
 
@@ -56,6 +57,7 @@ class MainContentSettings(BaseSetting):
             FieldPanel('short_org_name', heading=_('Short Organization Name')),
             FieldPanel('org_name', heading=_('Organization Main Name')),
         ), _('Organization Name')),
+        FieldPanel('yandex_map_url'),
         SvgChooserPanel('logo', heading=_('Logo')),
         MultiFieldPanel((
             FieldPanel('header'),
@@ -67,6 +69,7 @@ class MainContentSettings(BaseSetting):
         GraphQLForeignKey('logo', content_type=Svg),
         GraphQLSnippet('header', snippet_model='core.Header'),
         GraphQLSnippet('footer', snippet_model='core.Footer'),
+        GraphQLString('yandex_map_urls'),
         GraphQLString('short_org_name'),
         GraphQLString('org_name'),
     ]

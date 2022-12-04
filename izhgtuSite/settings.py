@@ -38,7 +38,7 @@ GRAPPLE = {
         "authentication",
         "menus",
         "core",
-        "wagtailsvg"
+        "wagtailsvg",
     ],
 }
 ASGI_APPLICATION = "graphql_ws.django.routing.application"
@@ -118,14 +118,15 @@ INSTALLED_APPS = [
     # apps
     "core",
     "menus",
-    "home",
-    "news",
-    "blog",
     "authentication",
     "users",
     "education",
     "dateEvents",
     "admissionApplications",
+    #  pages
+    "home",
+    "news",
+    "blog",
 ]
 
 MIDDLEWARE = [

@@ -12,7 +12,7 @@ import MainActionBtns from "../../components/MainActionBtns/MainActionBtns";
 import TextWithShortVariant, {FontSizeType} from "../../components/TextWithShortVariant/TextWithShortVariant";
 import EnrollButton from "../../components/EnrollButton/EnrollButton";
 // styles
-import styles from '../../styles/pages/HomePage.module.scss'
+import styles from './HomePage.module.scss'
 // types
 import type {Page_page_HomePage} from "../../graphql/generated";
 
