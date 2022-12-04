@@ -38,13 +38,14 @@ function HomePage({faceBg, headings, quote, moreInfoCarousel}: Page_page_HomePag
             if (!slide) return <></>
             else if (slide.__typename === 'VideoBlock') return (
               <video
+                key={`video-${slide.id}`}
                 src={slide.video.url}
                 controls
                 poster={`/media/${slide.video.thumbnail}`}
               />
             )
             else if (slide.__typename === 'PictureBlock') return (
-              <Link href={slide.link ?? ''} hidden={true}>
+              <Link key={`picture-${slide.id}`} href={slide.link ?? ''} hidden={true}>
                 <img src={slide.picture.url} alt="" />
               </Link>
             )
