@@ -4,19 +4,24 @@ from grapple.models import GraphQLString
 from wagtailsvg.models import Svg
 
 
-class TypedSvg(Svg):
+class SvgTyped(Svg):
+    @property
+    def url(self):
+        return self.file.url
+
     graphql_fields = [
-        GraphQLString("title"),
-        GraphQLString("file"),
-        GraphQLString("width"),
-        GraphQLString("height"),
-        GraphQLString("focal_point_x"),
-        GraphQLString("focal_point_y"),
-        GraphQLString("focal_point_width"),
-        GraphQLString("focal_point_height"),
-        GraphQLString("file_size"),
-        GraphQLString("created_at"),
-        GraphQLString("updated_at"),
+        GraphQLString("title", required=True),
+        GraphQLString("file", required=True),
+        GraphQLString("url", required=True),
+        GraphQLString("width", required=True),
+        GraphQLString("height", required=True),
+        GraphQLString("focal_point_x", required=True),
+        GraphQLString("focal_point_y", required=True),
+        GraphQLString("focal_point_width", required=True),
+        GraphQLString("focal_point_height", required=True),
+        GraphQLString("file_size", required=True),
+        GraphQLString("created_at", required=True),
+        GraphQLString("updated_at", required=True),
     ]
 
     class Meta:

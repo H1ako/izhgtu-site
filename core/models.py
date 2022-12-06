@@ -1,15 +1,15 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+
 from grapple.models import GraphQLSnippet, GraphQLForeignKey, GraphQLString
 from wagtail.admin.panels import MultiFieldPanel, FieldPanel
 from wagtail.contrib.settings.models import BaseSetting
 from wagtail.contrib.settings.registry import register_setting
-from django.utils.translation import gettext_lazy as _
 from wagtail.images.models import Image
 from wagtailsvg.edit_handlers import SvgChooserPanel
-from wagtailsvg.models import Svg
 
 from core.snippets import Header, Footer
-from svg.models import TypedSvg
+from svg.models import SvgTyped
 
 
 @register_setting
@@ -42,7 +42,7 @@ class MainContentSettings(BaseSetting):
         blank=False,
     )
     logo = models.ForeignKey(
-        Svg,
+        SvgTyped,
         verbose_name=_('Logo'),
         related_name='+',
         null=True,
@@ -67,7 +67,7 @@ class MainContentSettings(BaseSetting):
     ]
 
     graphql_fields = [
-        GraphQLForeignKey('logo', TypedSvg),
+        GraphQLForeignKey('logo', content_type=SvgTyped),
         GraphQLSnippet('header', snippet_model='core.Header'),
         GraphQLSnippet('footer', snippet_model='core.Footer'),
         GraphQLString('yandex_map_urls'),
