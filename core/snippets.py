@@ -1,6 +1,7 @@
 from django import forms
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from grapple.helpers import register_streamfield_block
 
 from wagtail.snippets.models import register_snippet
 from wagtailsvg.edit_handlers import SvgChooserPanel
@@ -40,7 +41,7 @@ class Location(models.Model):
 @register_snippet
 class Contact(models.Model):
     name = models.CharField(_('Name'), max_length=100)
-    address = models.CharField(f"{_('Phone')}/{_('Email')}/{_('Social')}", max_length=500)
+    address = models.CharField(f"{_('Phone/Email/Social')}", max_length=500)
     type = models.CharField(_('Type'), choices=(
         ('email', _('Email')),
         ('phone', _('Phone')),
@@ -57,7 +58,7 @@ class Contact(models.Model):
         GraphQLInt('id', required=True),
         GraphQLString('name', required=True),
         GraphQLString('address', required=True),
-        GraphQLString('type'),
+        GraphQLString('type', required=True),
     ]
 
     def __str__(self):
@@ -125,7 +126,7 @@ class Header(models.Model):
         FieldPanel('contacts', widget=forms.CheckboxSelectMultiple),
         FieldPanel('socials', widget=forms.CheckboxSelectMultiple),
         FieldPanel('menu'),
-        FieldPanel('show_last_news_marquee', heading=_('Show Last News Row')),
+        FieldPanel('show_last_news_marquee'),
     ]
 
     graphql_fields = [
@@ -166,19 +167,23 @@ class FooterMenuLinkAbstract(StructBlock):
         abstract = True
 
 
+@register_streamfield_block
 class FooterMenuLinkPage(FooterMenuLinkAbstract):
     page = PageChooserBlock(help_text=_('Page'))
 
     graphql_fields = [
+        GraphQLString('name', required=True),
         GraphQLPage('page', required=True),
     ]
 
 
+@register_streamfield_block
 class FooterMenuLinkUrl(FooterMenuLinkAbstract):
-    page = URLBlock(_('Page'))
+    url = URLBlock(_('Url'))
 
     graphql_fields = [
-        GraphQLString('page', required=True),
+        GraphQLString('name', required=True),
+        GraphQLString('url', required=True),
     ]
 
 

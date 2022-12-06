@@ -48,6 +48,30 @@ query Page($url: String!) {
                 text
             }
         }
+        ... on BlogPostPage {
+            postPicture {
+                title
+                url
+            }
+            postAuthor {
+                id
+                fullName
+                picture {
+                    url
+                    title
+                }
+            }
+            postTags {
+                id
+                name
+            }
+            postCategory {
+                name
+                slug
+            }
+            postBody
+            postTitle
+          }
     }
 }
 `

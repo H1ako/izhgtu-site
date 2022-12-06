@@ -42,6 +42,12 @@ class BlogPostCategory(models.Model):
         FieldPanel("description"),
     ]
 
+    graphql_fields = [
+        GraphQLString("name", required=True),
+        GraphQLString("slug", required=True),
+        GraphQLString("description"),
+    ]
+
     def __str__(self):
         return f"{self.name}"
 
@@ -102,7 +108,7 @@ class BlogPostPage(TimeStampedModel, HeadlessMixin, Page):
 
     graphql_fields = [
         GraphQLImage("post_picture"),
-        GraphQLForeignKey('author', content_type='authentication.User'),
+        GraphQLForeignKey('post_author', content_type='authentication.User'),
         GraphQLRichText("post_body"),
         GraphQLString("post_title", required=True),
         GraphQLTag("post_tags", is_list=True, required=True),

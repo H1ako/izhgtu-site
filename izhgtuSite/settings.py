@@ -41,6 +41,7 @@ GRAPPLE = {
         "authentication",
         "menus",
     ],
+    "EXPOSE_GRAPHIQL": True,
 }
 ASGI_APPLICATION = "graphql_ws.django.routing.application"
 

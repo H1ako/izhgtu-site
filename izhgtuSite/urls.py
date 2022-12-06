@@ -1,5 +1,4 @@
 from django.conf import settings
-from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
@@ -9,15 +8,14 @@ from wagtail import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 from .api import apiRouter
 from django.views.decorators.csrf import csrf_exempt
-from graphene_django.views import GraphQLView
+from grapple import urls as grapple_urls
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api-authentication/", include("rest_framework.urls")),
     path("", include("drfpasswordless.urls")),
     # wagtail cms
-    url(r"^api/graphql", csrf_exempt(GraphQLView.as_view())),
-    url(r"^api/graphiql", csrf_exempt(GraphQLView.as_view(graphiql=True, pretty=True))),
+    path(r"api/", include(grapple_urls)),
     path("api/v2/", apiRouter.urls),
     path("cms/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
