@@ -9,6 +9,7 @@ from wagtailsvg.edit_handlers import SvgChooserPanel
 from wagtailsvg.models import Svg
 
 from core.snippets import Header, Footer
+from svg.models import TypedSvg
 
 
 @register_setting
@@ -48,7 +49,7 @@ class MainContentSettings(BaseSetting):
         blank=False,
         on_delete=models.SET_NULL
     )
-    yandex_map_url = models.URLField(_('Yandex Url'), max_length=500, null=True, blank=True)
+    yandex_map_url = models.URLField(_('Yandex Map Url'), max_length=500, null=True, blank=True)
     org_name = models.CharField(_('Organization Name'), max_length=100, null=True, blank=True)
     short_org_name = models.CharField(_('Short Organization Name'), max_length=20, null=True, blank=True)
 
@@ -66,7 +67,7 @@ class MainContentSettings(BaseSetting):
     ]
 
     graphql_fields = [
-        GraphQLForeignKey('logo', content_type=Svg),
+        GraphQLForeignKey('logo', TypedSvg),
         GraphQLSnippet('header', snippet_model='core.Header'),
         GraphQLSnippet('footer', snippet_model='core.Footer'),
         GraphQLString('yandex_map_urls'),

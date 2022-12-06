@@ -31,21 +31,22 @@ AUTHENTICATION_BACKENDS = (
 GRAPHENE = {"SCHEMA": "grapple.schema.schema"}
 GRAPPLE = {
     "APPS": [
+        "wagtailsvg",
+        "svg",
+        "core",
         "home",
         "users",
         "news",
         "blog",
         "authentication",
         "menus",
-        "core",
-        "wagtailsvg",
     ],
 }
 ASGI_APPLICATION = "graphql_ws.django.routing.application"
 
 WAGTAIL_SITE_NAME = "ИжГТУ"
 WAGTAILADMIN_BASE_URL = "cms"
-WAGTAILSVG_UPLOAD_FOLDER = 'svg'  # SVG upload folder
+WAGTAILSVG_UPLOAD_FOLDER = "svg"  # SVG upload folder
 
 WAGTAIL_HEADLESS_PREVIEW = {
     "CLIENT_URLS": {
@@ -103,11 +104,12 @@ INSTALLED_APPS = [
     "taggit",
     "wagtail.api.v2",
     # wagtail libs
-    "wagtail_headless_preview",
     "wagtailmedia",
     "graphql_ws.django",
     "grapple",
     "graphene_django",
+    "wagtail_headless_preview",
+    "graphene",
     "channels",
     "instance_selector",
     "generic_chooser",
@@ -117,6 +119,7 @@ INSTALLED_APPS = [
     # 'django_nextjs.apps.DjangoNextJSConfig',
     # apps
     "core",
+    "svg",
     "menus",
     "authentication",
     "users",

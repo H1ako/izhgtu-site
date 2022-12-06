@@ -1,6 +1,4 @@
 from django.db import models
-from django import forms
-
 from django.utils.translation import gettext_lazy as _
 from grapple.models import (
     GraphQLString,
@@ -12,7 +10,6 @@ from grapple.models import (
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
-from taggit.managers import TaggableManager
 from taggit.models import TaggedItemBase
 from wagtail.admin.panels import FieldPanel
 from wagtail.fields import RichTextField
@@ -55,7 +52,8 @@ class BlogPostCategory(models.Model):
 
 class BlogPostTag(TaggedItemBase):
     content_object = ParentalKey(
-        "blog.BlogPostPage", verbose_name=_("Blog Post Page"), related_name="tagged_post_pages", on_delete=models.CASCADE
+        "blog.BlogPostPage", verbose_name=_("Blog Post Page"), related_name="tagged_post_pages",
+        on_delete=models.CASCADE
     )
 
 
