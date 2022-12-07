@@ -111,7 +111,7 @@ class BlogPostPage(TimeStampedModel, HeadlessMixin, Page):
         GraphQLForeignKey('post_author', content_type='authentication.User'),
         GraphQLRichText("post_body"),
         GraphQLString("post_title", required=True),
-        GraphQLTag("post_tags", is_list=True, required=True),
+        GraphQLTag("post_tags", required=True),
         GraphQLSnippet("post_category", "blog.BlogPostCategory"),
     ]
 
