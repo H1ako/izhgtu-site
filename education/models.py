@@ -1,6 +1,7 @@
 from django import forms
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from grapple.models import GraphQLString, GraphQLInt, GraphQLForeignKey, GraphQLCollection
 from instance_selector.edit_handlers import InstanceSelectorPanel
 from wagtail.admin.panels import FieldPanel
 
@@ -11,7 +12,13 @@ from izhgtuSite.models import TimeStampedModel
 class Subject(TimeStampedModel):
     name = models.CharField(_("Name"), max_length=200, unique=True)
 
-    panels = [FieldPanel("name")]
+    panels = [
+        FieldPanel("name")
+    ]
+
+    graphql_fields = [
+        GraphQLString("name", required=True),
+    ]
 
     class Meta:
         verbose_name = _("Subject")
@@ -24,7 +31,13 @@ class Subject(TimeStampedModel):
 class EducationType(TimeStampedModel):
     name = models.CharField(_("Name"), max_length=200, unique=True)
 
-    panels = [FieldPanel("name")]
+    panels = [
+        FieldPanel("name")
+    ]
+
+    graphql_fields = [
+        GraphQLString("name", required=True),
+    ]
 
     class Meta:
         verbose_name = _("Education Type")
@@ -47,6 +60,11 @@ class Faculty(TimeStampedModel):
     panels = [
         FieldPanel("name"),
         InstanceSelectorPanel("education_type"),
+    ]
+
+    graphql_fields = [
+        GraphQLString("name", required=True),
+        GraphQLForeignKey("education_type", content_type='education.EducationType'),
     ]
 
     class Meta:
@@ -72,6 +90,11 @@ class Specialization(TimeStampedModel):
         InstanceSelectorPanel("faculty"),
     ]
 
+    graphql_fields = [
+        GraphQLString("name", required=True),
+        GraphQLForeignKey("faculty", content_type='education.Faculty'),
+    ]
+
     class Meta:
         verbose_name = _("Specialization")
         verbose_name_plural = _("Specializations")
@@ -85,6 +108,10 @@ class EducationForm(TimeStampedModel):
 
     panels = [
         FieldPanel("name"),
+    ]
+
+    graphql_fields = [
+        GraphQLString("name", required=True),
     ]
 
     class Meta:
@@ -130,6 +157,21 @@ class SpecializationGroup(TimeStampedModel):
         InstanceSelectorPanel("specialization"),
         InstanceSelectorPanel("leader"),
         FieldPanel("subjects", widget=forms.CheckboxSelectMultiple),
+    ]
+
+    graphql_fields = [
+        GraphQLString("name"),
+        GraphQLInt("year"),
+        GraphQLForeignKey("education_form", content_type='education.EducationForm'),
+        GraphQLForeignKey("specialization", content_type='education.Specialization'),
+        GraphQLForeignKey("leader", content_type='authentication.User'),
+        GraphQLCollection(
+            GraphQLForeignKey,
+            "subjects",
+            'education.Subject',
+            required=True,
+            item_required=True
+        ),
     ]
 
     class Meta:

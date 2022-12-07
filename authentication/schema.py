@@ -35,6 +35,9 @@ class UserType(DjangoObjectType):
             "is_teacher",
             "is_entrant",
             "full_name",
+            "student",
+            "teacher",
+            "entrant",
             "tags",
             "email",
             "phone",
@@ -44,6 +47,7 @@ class UserType(DjangoObjectType):
 class AuthUserQuery:
     auth_user = graphene.Field(UserType)
 
+    # noinspection PyMethodMayBeStatic
     def resolve_auth_user(self, info):
         user = info.context.user
         if user.is_anonymous:

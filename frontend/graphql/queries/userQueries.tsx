@@ -1,26 +1,63 @@
 import gql from "graphql-tag";
 
-export const USER_GETTER_QUERY = gql`
-query User($id: ID!) {
-    user (id: $id) {
+
+export const AUTH_USER_GETTER_QUERY = gql`
+  query AuthUser {
+    authUser {
+      id
+      fullName
+      email
+      phone
+      isEntrant
+      isStudent
+      isTeacher
+      student {
         id
-        firstName
-        lastName
-        fullName
-        phone
-        tags {
+        studentCard {
+          cardId
+        }
+        group {
+          name
+          educationForm {
+            name
+          }
+          specialization {
+            name
+            faculty {
+              name
+              educationType {
+                name
+              }
+            }
+          }
+          leader {
+            fullName
+            isTeacher
+          }
+          subjects {
             id
             name
-            description
+          }
         }
-        isEntrant
-        isStudent
-        isTeacher
-        email
-        picture {
-            title
-            url
+      }
+      teacher {
+        subjects {
+          id
+          name
         }
+        groups {
+          id
+          name
+        }
+      }
+      entrant {
+        id
+      }
+      tags {
+        id
+        name
+        description
+      }
     }
-}
+  }
 `

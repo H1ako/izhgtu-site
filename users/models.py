@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.utils.translation import gettext_lazy as _
+from grapple.models import GraphQLForeignKey, GraphQLString, GraphQLCollection
 from instance_selector.edit_handlers import InstanceSelectorPanel
 from wagtail.admin.panels import FieldPanel
 from wagtail.images.models import Image
@@ -24,6 +25,12 @@ class Student(TimeStampedModel):
     panels = [
         InstanceSelectorPanel("user"),
         InstanceSelectorPanel("group"),
+    ]
+
+    graphql_fields = [
+        GraphQLForeignKey('user', content_type='authentication.User', required=True),
+        GraphQLForeignKey("group", content_type='education.SpecializationGroup', required=True),
+        GraphQLForeignKey("student_card", required=True, content_type='users.StudentCard'),
     ]
 
     class Meta:
@@ -55,6 +62,14 @@ class StudentCard(TimeStampedModel):
         InstanceSelectorPanel("student"),
     ]
 
+    graphql_fields = [
+        GraphQLString("card_id", required=True),
+        GraphQLString("issue_date", required=True),
+        GraphQLString("credited_order", required=True),
+        GraphQLString("valid_by", required=True),
+        GraphQLForeignKey("student", content_type='users.Student'),
+    ]
+
     class Meta:
         verbose_name = _("Student Card")
         verbose_name_plural = _("Student Cards")
@@ -76,6 +91,24 @@ class Teacher(TimeStampedModel):
         FieldPanel("groups"),
     ]
 
+    graphql_fields = [
+        GraphQLForeignKey('user', content_type='authentication.User', required=True),
+        GraphQLCollection(
+            GraphQLForeignKey,
+            "subjects",
+            'education.Subject',
+            required=True,
+            item_required=True
+        ),
+        GraphQLCollection(
+            GraphQLForeignKey,
+            "groups",
+            'education.SpecializationGroup',
+            required=True,
+            item_required=True
+        ),
+    ]
+
     class Meta:
         verbose_name = _("Teacher")
         verbose_name_plural = _("Teachers")
@@ -93,6 +126,10 @@ class Entrant(TimeStampedModel):
         InstanceSelectorPanel("user"),
     ]
 
+    graphql_fields = [
+        GraphQLForeignKey('user', content_type='authentication.User', required=True),
+    ]
+
     class Meta:
         verbose_name = _("Entrant")
         verbose_name_plural = _("Entrants")
@@ -108,10 +145,21 @@ class UserDocument(TimeStampedModel):
     name = models.CharField(_("Name"), max_length=100)
     file = models.FileField(_("File"), upload_to="user_documents")
 
+    @property
+    def file_url(self):
+        return self.file.url
+
     panels = [
         InstanceSelectorPanel("user"),
         FieldPanel("name"),
         FieldPanel("file"),
+    ]
+
+    graphql_fields = [
+        GraphQLForeignKey('user', content_type='authentication.User', required=True),
+        GraphQLString("name", required=True),
+        GraphQLString("file", required=True),
+        GraphQLString("file_url", required=True),
     ]
 
     class Meta:
