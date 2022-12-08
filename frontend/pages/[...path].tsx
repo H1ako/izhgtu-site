@@ -44,7 +44,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         },
     })
     const pageData = queryData.data.page
-    console.log('data updated')
     const componentName = pageData?.pageType ?? null
 
     const propsForCurrentPage: CurrentPageProps = {
