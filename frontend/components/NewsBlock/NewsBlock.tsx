@@ -6,13 +6,17 @@ import News from "../News/News";
 // styles and icons
 import styles from '../../styles/components/NewsBlock.module.scss';
 
-function NewsBlock() {
+interface NewsBlockProps {
+  newsList: News[],
+}
+
+function NewsBlock({newsList}: NewsBlockProps) {
   return (
     <div className={styles.newsBlock}>
       <BlockHeading>
         Последние новости
       </BlockHeading>
-      <News />
+      <News newsList={newsList} />
     </div>
   )
 }

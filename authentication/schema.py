@@ -9,39 +9,30 @@ class UserType(DjangoObjectType):
     is_student = graphene.Boolean(required=True)
     is_teacher = graphene.Boolean(required=True)
     is_entrant = graphene.Boolean(required=True)
+    picture_url = graphene.String()
+    bg_picture_url = graphene.String()
 
-    def resolve_is_student(self, info):
+    def resolve_picture_url(self: User, info):
+        return self.picture.url
+
+    def resolve_bg_picture_url(self: User, info):
+        return self.bg_picture.url
+
+    def resolve_is_student(self: User, info):
         return self.is_student
 
-    def resolve_is_teacher(self, info):
+    def resolve_is_teacher(self: User, info):
         return self.is_teacher
 
-    def resolve_is_entrant(self, info):
+    def resolve_is_entrant(self: User, info):
         return self.is_entrant
 
-    def resolve_full_name(self, info):
+    def resolve_full_name(self: User, info):
         return self.full_name
 
     class Meta:
         model = User
-        fields = (
-            "id",
-            "first_name",
-            "last_name",
-            "patronymic",
-            "is_superuser",
-            "is_staff",
-            "is_student",
-            "is_teacher",
-            "is_entrant",
-            "full_name",
-            "student",
-            "teacher",
-            "entrant",
-            "tags",
-            "email",
-            "phone",
-        )
+        exclude = ('password', 'groups', 'user_permissions', 'is_superuser', 'is_staff')
 
 
 class AuthUserQuery:

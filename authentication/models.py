@@ -5,7 +5,8 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 from grapple.helpers import register_query_field
-from grapple.models import GraphQLBoolean, GraphQLString, GraphQLImage, GraphQLCollection, GraphQLForeignKey, GraphQLInt
+from grapple.models import GraphQLBoolean, GraphQLString, GraphQLCollection, GraphQLForeignKey, GraphQLInt, \
+    GraphQLImage, GraphQLField
 from wagtail.admin.panels import FieldPanel
 
 from authentication.managers import CustomUserManager
@@ -27,7 +28,7 @@ user_params = {
 class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_("Email"), unique=True)
     phone = models.CharField(
-        _("Phone Number"), max_length=16, unique=True, null=True, blank=True
+        _("Phone Number"), max_length=17, unique=True, null=True, blank=True
     )
     first_name = models.CharField(_("Name"), max_length=40)
     last_name = models.CharField(_("Surname"), max_length=80)
@@ -35,6 +36,7 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
     picture = models.ImageField(
         _("Profile Picture"), upload_to="userPictures/", blank=True, null=True
     )
+
     bg_picture = models.ImageField(
         _("Profile Background Picture"),
         upload_to="userBgPictures/",
@@ -52,6 +54,14 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ["first_name", "last_name", "patronymic"]
 
     objects = CustomUserManager()
+
+    @property
+    def picture_url(self):
+        return self.picture.url
+
+    @property
+    def bg_picture_url(self):
+        return self.bg_picture.url
 
     search_fields = [
         GraphQLString('first_name', required=True),
@@ -80,6 +90,8 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
         GraphQLString('main_name', required=True),
         GraphQLImage('picture'),
         GraphQLImage('bg_picture'),
+        GraphQLString('picture_url'),
+        GraphQLString('bg_picture_url'),
         GraphQLBoolean('is_superuser', required=True),
         GraphQLBoolean('is_staff', required=True),
         GraphQLCollection(

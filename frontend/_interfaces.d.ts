@@ -123,11 +123,11 @@ declare global {
     post: Post | null,
   }
   
-  interface News extends Model {
-    post: Post | null,
-    name: string,
-    description: string,
+  interface News {
+    id: IdType,
+    title: string,
+    picture: string | null,
     date: string,
-    picture: string
+    postLink: string | null,
   }
 }

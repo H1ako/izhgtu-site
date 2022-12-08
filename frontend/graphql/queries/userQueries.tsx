@@ -11,6 +11,8 @@ export const AUTH_USER_GETTER_QUERY = gql`
       isEntrant
       isStudent
       isTeacher
+      pictureUrl
+      bgPictureUrl
       student {
         id
         studentCard {

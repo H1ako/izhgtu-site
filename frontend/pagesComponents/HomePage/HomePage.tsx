@@ -17,7 +17,24 @@ import styles from './HomePage.module.scss'
 import type {Page_page_HomePage} from "../../graphql/generated";
 
 
-function HomePage({faceBg, headings, quote, moreInfoCarousel}: Page_page_HomePage) {
+function HomePage({faceBg, headings, quote, moreInfoCarousel, lastNews}: Page_page_HomePage) {
+  const [ newsList, setNewsList ] = React.useState<News[]>([])
+  
+  const refactorLastNews = () => {
+    const newNewsList: News[] = lastNews.map((news) => ({
+      id: news.id,
+      title: news.title,
+      date: news.createdAt,
+      picture: news.picture?.url ?? null,
+      postLink: news.post?.url ?? null,
+    }))
+    setNewsList(newNewsList)
+  }
+  
+  React.useEffect(() => {
+    refactorLastNews()
+  }, [lastNews])
+  
   return (
     <PageLayout>
       <FacePictureBlock bgImage={faceBg?.url} >
@@ -61,7 +78,7 @@ function HomePage({faceBg, headings, quote, moreInfoCarousel}: Page_page_HomePag
           quote={quote.text}
         />
       }
-      <NewsBlock />
+      <NewsBlock newsList={newsList} />
       <MapBlock />
     </PageLayout>
   )

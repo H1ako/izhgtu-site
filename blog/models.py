@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+
 from grapple.models import (
     GraphQLString,
     GraphQLSnippet,
@@ -16,9 +17,8 @@ from wagtail.fields import RichTextField
 from wagtail.images.models import Image
 from wagtail.models import Orderable, Page
 from wagtail.snippets.models import register_snippet
-
-from instance_selector.edit_handlers import InstanceSelectorPanel
 from wagtail_headless_preview.models import HeadlessMixin
+from instance_selector.edit_handlers import InstanceSelectorPanel
 
 from izhgtuSite.models import TimeStampedModel
 
@@ -63,7 +63,6 @@ class BlogPostTag(TaggedItemBase):
     )
 
 
-# TODO: Fix bug: tags doesnt saves
 class BlogPostPage(TimeStampedModel, HeadlessMixin, Page):
     subpage_types = []
     parent_page_types = [

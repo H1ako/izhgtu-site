@@ -14,6 +14,26 @@ export interface Page_page_Page {
   pageType: string | null;
 }
 
+export interface Page_page_HomePage_lastNews_post {
+  __typename: "Page" | "HomePage" | "BlogPostPage" | "BlogPostIndexPage";
+  url: string | null;
+}
+
+export interface Page_page_HomePage_lastNews_picture {
+  __typename: "ImageObjectType";
+  url: string;
+  title: string;
+}
+
+export interface Page_page_HomePage_lastNews {
+  __typename: "News";
+  id: number;
+  title: string;
+  createdAt: string;
+  post: Page_page_HomePage_lastNews_post | null;
+  picture: Page_page_HomePage_lastNews_picture | null;
+}
+
 export interface Page_page_HomePage_faceBg {
   __typename: "ImageObjectType";
   title: string;
@@ -80,6 +100,7 @@ export interface Page_page_HomePage {
   id: string | null;
   url: string | null;
   pageType: string | null;
+  lastNews: Page_page_HomePage_lastNews[];
   faceBg: Page_page_HomePage_faceBg;
   headings: Page_page_HomePage_headings[];
   moreInfoCarousel: (Page_page_HomePage_moreInfoCarousel | null)[] | null;
@@ -160,17 +181,17 @@ export interface Settings_settings_MainContentSettings_logo {
 }
 
 export interface Settings_settings_MainContentSettings_header_menu_linksGroups_page {
-  __typename: "HomePage" | "Page" | "BlogPostPage" | "BlogPostIndexPage";
+  __typename: "Page" | "HomePage" | "BlogPostPage" | "BlogPostIndexPage";
   url: string | null;
 }
 
 export interface Settings_settings_MainContentSettings_header_menu_linksGroups_linksGroups_page {
-  __typename: "HomePage" | "Page" | "BlogPostPage" | "BlogPostIndexPage";
+  __typename: "Page" | "HomePage" | "BlogPostPage" | "BlogPostIndexPage";
   url: string | null;
 }
 
 export interface Settings_settings_MainContentSettings_header_menu_linksGroups_linksGroups_linksGroups_page {
-  __typename: "HomePage" | "Page" | "BlogPostPage" | "BlogPostIndexPage";
+  __typename: "Page" | "HomePage" | "BlogPostPage" | "BlogPostIndexPage";
 }
 
 export interface Settings_settings_MainContentSettings_header_menu_linksGroups_linksGroups_linksGroups {
@@ -254,7 +275,7 @@ export interface Settings_settings_MainContentSettings_footer_menu_FooterMenuLin
 }
 
 export interface Settings_settings_MainContentSettings_footer_menu_FooterMenuLinkPage_page {
-  __typename: "HomePage" | "Page" | "BlogPostPage" | "BlogPostIndexPage";
+  __typename: "Page" | "HomePage" | "BlogPostPage" | "BlogPostIndexPage";
   url: string | null;
 }
 
@@ -390,6 +411,8 @@ export interface AuthUser_authUser {
   isEntrant: boolean;
   isStudent: boolean;
   isTeacher: boolean;
+  pictureUrl: string | null;
+  bgPictureUrl: string | null;
   student: AuthUser_authUser_student | null;
   teacher: AuthUser_authUser_teacher | null;
   entrant: AuthUser_authUser_entrant | null;

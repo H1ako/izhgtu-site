@@ -19,6 +19,7 @@ from wagtail_headless_preview.models import HeadlessMixin
 from django.utils.translation import gettext_lazy as _
 
 from home.blocks import MediaSlideBlock
+from news.models import News
 
 
 class HomePage(HeadlessMixin, Page):
@@ -50,11 +51,22 @@ class HomePage(HeadlessMixin, Page):
         related_name="+",
     )
 
+    @property
+    def last_news(self):
+        return News.objects.all().order_by("-created_at")[:9]
+
     graphql_fields = [
         GraphQLCollection(
             GraphQLForeignKey,
             "headings",
             "home.FaceHeading",
+            required=True,
+            item_required=True,
+        ),
+        GraphQLCollection(
+            GraphQLForeignKey,
+            "last_news",
+            "news.News",
             required=True,
             item_required=True,
         ),

@@ -1,7 +1,6 @@
-from django import forms
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from grapple.models import GraphQLString, GraphQLImage, GraphQLPage
+from grapple.models import GraphQLString, GraphQLImage, GraphQLPage, GraphQLInt
 from wagtail.admin.panels import FieldPanel
 
 from izhgtuSite.models import TimeStampedModel
@@ -34,9 +33,12 @@ class News(TimeStampedModel):
     ]
 
     graphql_fields = [
+        GraphQLInt("id", required=True),
         GraphQLString("title", required=True),
         GraphQLImage("picture"),
         GraphQLPage('post'),
+        GraphQLString('updated_at', required=True),
+        GraphQLString("created_at", required=True),
     ]
 
     search_fields = []

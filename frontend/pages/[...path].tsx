@@ -21,7 +21,7 @@ export default function CurrentPage({ componentName, componentProps }: CurrentPa
     const setIsLoading = useSetRecoilState(loadingScreenAtom)
     
     // @ts-ignore
-    const Component = LAZY_PAGES[componentName];
+    const Component = LAZY_PAGES[componentName]
     
     useEffect(() => {
         if (componentName !== null) {
@@ -44,6 +44,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         },
     })
     const pageData = queryData.data.page
+    console.log('data updated')
     const componentName = pageData?.pageType ?? null
 
     const propsForCurrentPage: CurrentPageProps = {
@@ -55,3 +56,5 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         props: propsForCurrentPage
     }
 }
+// how to use eslint to format code
+// https://www.youtube.com/watch?v=bfyI9yl3qfE
