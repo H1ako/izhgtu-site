@@ -297,6 +297,7 @@ export interface Settings_settings_MainContentSettings_footer {
 
 export interface Settings_settings_MainContentSettings {
   __typename: "MainContentSettings";
+  yandexMapUrl: string | null;
   logo: Settings_settings_MainContentSettings_logo | null;
   header: Settings_settings_MainContentSettings_header | null;
   footer: Settings_settings_MainContentSettings_footer | null;

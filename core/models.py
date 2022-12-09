@@ -70,7 +70,7 @@ class MainContentSettings(BaseSetting):
         GraphQLForeignKey('logo', content_type=SvgTyped),
         GraphQLSnippet('header', snippet_model='core.Header'),
         GraphQLSnippet('footer', snippet_model='core.Footer'),
-        GraphQLString('yandex_map_urls'),
+        GraphQLString('yandex_map_url'),
         GraphQLString('short_org_name'),
         GraphQLString('org_name'),
     ]

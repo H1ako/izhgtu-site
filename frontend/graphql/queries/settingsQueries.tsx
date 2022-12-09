@@ -4,6 +4,7 @@ export const SETTINGS_GETTER_QUERY = gql`
 query Settings {
   settings {
     ... on MainContentSettings {
+      yandexMapUrl
       logo {
         url
         title

@@ -3824,6 +3824,18 @@
             "deprecationReason": null
           },
           {
+            "name": "yandexMapUrl",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "orgName",
             "description": null,
             "args": [],
@@ -3837,18 +3849,6 @@
           },
           {
             "name": "shortOrgName",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "yandexMapUrls",
             "description": null,
             "args": [],
             "type": {
