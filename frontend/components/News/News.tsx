@@ -2,7 +2,7 @@
 import React from 'react'
 import Link from "next/link";
 // styles and icons
-import styles from '../../styles/components/News.module.scss';
+import styles from './News.module.scss';
 
 
 interface NewsProps {

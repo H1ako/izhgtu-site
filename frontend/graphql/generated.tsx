@@ -113,17 +113,11 @@ export interface Page_page_BlogPostPage_postPicture {
   url: string;
 }
 
-export interface Page_page_BlogPostPage_postAuthor_picture {
-  __typename: "ImageObjectType";
-  url: string;
-  title: string;
-}
-
 export interface Page_page_BlogPostPage_postAuthor {
   __typename: "User";
   id: number;
   fullName: string;
-  picture: Page_page_BlogPostPage_postAuthor_picture | null;
+  pictureUrl: string | null;
 }
 
 export interface Page_page_BlogPostPage_postTags {

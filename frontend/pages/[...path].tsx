@@ -33,6 +33,7 @@ export default function CurrentPage({ componentName, componentProps, settings }:
     // @ts-ignore
     const Component = LAZY_PAGES[componentName]
     
+    
     React.useEffect(() => {
         componentName !== null && setIsLoading(false)
     }, [componentName])
@@ -52,7 +53,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     const pageData = await getPageData(context.resolvedUrl)
     const page = pageData.page
     const componentName = page?.pageType ?? null
-    
     const settings = await getSettings()
 
     const propsForCurrentPage: CurrentPageProps = {

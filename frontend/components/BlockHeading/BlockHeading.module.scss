@@ -3,10 +3,11 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  width: 100%;
+  max-width: 100%;
   opacity: .15;
   font-size: var(--fontSizeBig);
   text-transform: uppercase;
   user-select: none;
   pointer-events: none;
+  overflow: hidden;
 }

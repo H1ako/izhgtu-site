@@ -15,32 +15,35 @@ import {Page_page_BlogPostPage} from "../../graphql/generated";
 function BlogPostPage({postBody, postAuthor, postCategory, postTags, postPicture, postTitle}: Page_page_BlogPostPage) {
   return (
     <PageLayout>
-      <FacePictureBlock>
-        <div className="postHeading">
+      <FacePictureBlock bgImage={postPicture?.url}>
+        <div className={styles.postHeading}>
           { postCategory &&
-            <h3 className="postHeading__category">{postCategory.name}</h3>
+            <Link className={styles.postHeading__category} href={''}>{postCategory.name}</Link>
           }
-          <h1 className="postHeading__title">{postTitle}</h1>
+          <h1 className={styles.postHeading__title}>{postTitle}</h1>
         </div>
       </FacePictureBlock>
-      <div className="content">
-        <div className="content__postBody" dangerouslySetInnerHTML={{__html: postBody}}/>
-        <ul className="content__postTags">
-          {postTags && postTags.map((tag) => (
-            <li>
-              <Link className={'postTags__tag'} href={'#'}>{tag?.name}</Link>
-            </li>
-          ))}
-          
-        </ul>
-        <div className="content__inlineWrapper">
-          <div className="inlineWrapper__author"></div>
-          <div className="inlineWrapper__btns">
-            <button className="btns__btn">
-              <FontAwesomeIcon icon={faDownload} />
-              <span className="btn__text">Скачать</span>
-            </button>
+      <div className={styles.content}>
+        <div className={styles.content__postBody} dangerouslySetInnerHTML={{__html: postBody}}/>
+        <div className={styles.content__bottomBlock}>
+          <div className={styles.bottomBlock__inlineWrapper}>
+            <div className="inlineWrapper__author">
+            
+            </div>
+            <div className="inlineWrapper__btns">
+              <button className="btns__btn">
+                <FontAwesomeIcon icon={faDownload} />
+                <span className="btn__text">Скачать</span>
+              </button>
+            </div>
           </div>
+          <ul className="content__postTags">
+            {postTags && postTags.map((tag) => (
+              <li>
+                <Link className={'postTags__tag'} href={'#'}>{tag?.name}</Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </PageLayout>

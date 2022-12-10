@@ -1,4 +1,4 @@
-@import "../main/mixins";
+@import "../../styles/main/mixins";
 
 .newsContainer {
   position: relative;
@@ -47,6 +47,11 @@
       flex-direction: column;
       justify-content: flex-end;
       border: 1px solid var(--colorBgAccent);
+
+      & > * {
+        user-select: none;
+        pointer-events: none;
+      }
 
       &.active {
         img {

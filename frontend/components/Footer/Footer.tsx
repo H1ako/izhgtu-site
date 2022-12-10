@@ -6,7 +6,7 @@ import ContactForm from "../forms/ContactForm/ContactForm";
 import SocialsList from "../SocialsList/SocialsList";
 import InnerBlockHeading from "../InnerBlockHeading/InnerBlockHeading";
 // styles and icons
-import styles from '../../styles/components/Footer.module.scss';
+import styles from './Footer.module.scss';
 
 function Footer() {
   return (
