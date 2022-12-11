@@ -3,7 +3,7 @@ import React from 'react'
 // components
 import Marquee from "react-fast-marquee";
 // styles and icons
-import styles from '../../styles/components/NewsMarquee.module.scss';
+import styles from './NewsMarquee.module.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 
@@ -24,8 +24,6 @@ function NewsMarquee({onClose, className}: NewsMarqueeProps) {
   }
   
   const onWindowResize = () => {
-    
-    
     setIsMarqueePlaying(getIsNewsWidthBiggerMarquee())
   }
   

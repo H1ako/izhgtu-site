@@ -1,0 +1,24 @@
+@import "../../styles/main/mixins";
+
+.userMiniCard {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    &__picture {
+      @include roundedImage($borderColor: var(--colorBgMain));
+
+      width: min(5rem, 12vw);
+    }
+
+    &__info {
+      .info__name,
+      .info__occupation {
+        text-transform: uppercase;
+      }
+
+      .info__occupation {
+        color: var(--colorMainLight);
+      }
+    }
+  }

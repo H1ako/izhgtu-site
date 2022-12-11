@@ -3,7 +3,8 @@ import React from 'react'
 // components
 import InnerBlockHeading from "../InnerBlockHeading/InnerBlockHeading";
 // styles and icons
-import styles from '../../styles/components/QuoteBlock.module.scss';
+import styles from './QuoteBlock.module.scss';
+import UserMiniCard from "../UserMiniCard/UserMiniCard";
 
 interface QuoteBlockProps {
   heading?: string,
@@ -21,17 +22,7 @@ function QuoteBlock({heading, quote, authorName, authorPicture, authorOccupation
         {heading}
       </InnerBlockHeading>
       <q className={styles.quoteBlock__quote} dangerouslySetInnerHTML={{__html: quote}} />
-      <div className={styles.quoteBlock__author}>
-        { authorPicture &&
-          <img src={authorPicture} alt="" className={styles.author__picture}/>
-        }
-        <div className={styles.author__info}>
-          <h3 className={styles.info__name}>{authorName}</h3>
-          { authorOccupation &&
-            <h4 className={styles.info__occupation}>{authorOccupation}</h4>
-          }
-        </div>
-      </div>
+      <UserMiniCard userName={authorName} userPicture={authorPicture} userOccupation={authorOccupation} />
     </div>
   )
 }

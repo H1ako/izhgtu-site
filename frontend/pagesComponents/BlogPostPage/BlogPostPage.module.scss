@@ -1,6 +1,9 @@
 @import "../../styles/main/mixins";
 
 .postHeading {
+  position: sticky;
+  top: 0;
+  left: 0;
   min-height: 30%;
   max-height: 100%;
   padding: 1rem 3vw;
@@ -12,6 +15,11 @@
   justify-content: center;
   gap: .25rem;
   backdrop-filter: blur(10px);
+  transition: var(--transitionDefault);
+
+  &.headerActive {
+    top: var(--heightHeader);
+  }
 
   & > * {
     text-align: center;
@@ -20,42 +28,46 @@
 
   &__category {
     @include clearedLink(var(--fontSize2));
+
     color: var(--colorMain);
   }
 }
 
-.content {
+.postBody {
   @include contentArea;
 
   padding-block: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
 
-
-  &__postBody {
-    display: flex;
-    flex-direction: column;
-    gap: .25rem;
-
-    *:not(h1, h2, h3, h4, h5, h6) {
-      font-size: var(--fontSize3);
-    }
-
-    *:not(b) {
-      font-weight: 300;
-    }
-
-    b {
-      color: var(--colorMain);
-    }
-
-    ul, ol {
-      list-style: initial;
-      margin-left: 2rem;
-    }
+  *:not(h1, h2, h3, h4, h5, h6) {
+    font-size: var(--fontSize3);
   }
 
-  &__bottomBlock {
+  *:not(b) {
+    font-weight: 300;
+  }
 
-    .bottomBlock__inlineWrapper {
+  b {
+    color: var(--colorMain);
+  }
+
+  ul, ol {
+    list-style: initial;
+    margin-left: 2rem;
+  }
+}
+
+.bottomBlock {
+  width: 100%;
+  background: var(--colorBgDark);
+  padding-block: 2rem;
+
+  &__content {
+    @include contentArea;
+
+    .content__inlineWrapper {
 
       .inlineWrapper__postTags {
         display: flex;

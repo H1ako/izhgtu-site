@@ -8,7 +8,7 @@ import Lightbox from "../../components/Lightbox/Lightbox";
 import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
 import SearchWindow from "../../components/SearchWindow/SearchWindow";
 // styles and icons
-import styles from '../../styles/containers/PageLayout.module.scss';
+import styles from './PageLayout.module.scss';
 
 interface PageLayoutProps {
     children: React.ReactNode

@@ -10,37 +10,43 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDownload} from "@fortawesome/free-solid-svg-icons";
 // types
 import {Page_page_BlogPostPage} from "../../graphql/generated";
+import UserMiniCard from "../../components/UserMiniCard/UserMiniCard";
+import {useRecoilValue} from "recoil";
+import {headerActiveStateAtom} from "../../recoilAtoms/headerAtoms";
+import {useInView} from "react-intersection-observer";
 
 
 function BlogPostPage({postBody, postAuthor, postCategory, postTags, postPicture, postTitle}: Page_page_BlogPostPage) {
+  const isHeaderActive = useRecoilValue(headerActiveStateAtom)
+  
   return (
     <PageLayout>
       <FacePictureBlock bgImage={postPicture?.url}>
-        <div className={styles.postHeading}>
+        <div className={`${styles.postHeading} ${isHeaderActive ? '' : styles.headerActive}`}>
           { postCategory &&
             <Link className={styles.postHeading__category} href={''}>{postCategory.name}</Link>
           }
           <h1 className={styles.postHeading__title}>{postTitle}</h1>
         </div>
       </FacePictureBlock>
-      <div className={styles.content}>
-        <div className={styles.content__postBody} dangerouslySetInnerHTML={{__html: postBody}}/>
-        <div className={styles.content__bottomBlock}>
-          <div className={styles.bottomBlock__inlineWrapper}>
-            <div className="inlineWrapper__author">
-            
-            </div>
-            <div className="inlineWrapper__btns">
-              <button className="btns__btn">
+      <div className={styles.postBody} dangerouslySetInnerHTML={{__html: postBody}}/>
+      <div className={styles.bottomBlock}>
+        <div className={styles.bottomBlock__content}>
+          <div className={styles.content__inlineWrapper}>
+            { postAuthor &&
+              <UserMiniCard userName={postAuthor.fullName} userPicture={postAuthor.pictureUrl}/>
+            }
+            <div className={styles.inlineWrapper__btns}>
+              <button className={styles.btns__btn}>
                 <FontAwesomeIcon icon={faDownload} />
-                <span className="btn__text">Скачать</span>
+                <span className={styles.btn__text}>Скачать</span>
               </button>
             </div>
           </div>
-          <ul className="content__postTags">
+          <ul className={styles.content__postTags}>
             {postTags && postTags.map((tag) => (
-              <li>
-                <Link className={'postTags__tag'} href={'#'}>{tag?.name}</Link>
+              <li key={tag?.id}>
+                <Link className={styles.postTags__tag} href={'#'}>{tag?.name}</Link>
               </li>
             ))}
           </ul>

@@ -8,7 +8,9 @@ import Profile from "../Profile/Profile";
 import NewsMarquee from "../NewsMarquee/NewsMarquee";
 import useScrollDirection from "../../libs/useScrollDirection";
 // styles and icons
-import styles from '../../styles/components/Header.module.scss';
+import styles from './Header.module.scss';
+import {useRecoilState} from "recoil";
+import {headerActiveStateAtom, headerMarqueeActiveStateAtom} from "../../recoilAtoms/headerAtoms";
 
 interface HeaderProps {
   className?: string
@@ -16,8 +18,8 @@ interface HeaderProps {
 
 // TODO: make skip header button
 function Header({className}: HeaderProps) {
-  const [ isNewsMarqueeActive, setIsNewsMarqueeActive ] = React.useState<boolean>(true)
-  const [ isActive, setIsActive ] = React.useState<boolean>(false)
+  const [ isNewsMarqueeActive, setIsNewsMarqueeActive ] = useRecoilState(headerMarqueeActiveStateAtom)
+  const [ isActive, setIsActive ] = useRecoilState<boolean>(headerActiveStateAtom)
   const scrollDirection = useScrollDirection()
   
   const closeNewsMarquee = () => {
@@ -42,18 +44,18 @@ function Header({className}: HeaderProps) {
   }, [scrollDirection])
   
   return (
-      <header className={`${styles.mainHeader} ${isActive ? styles.active : ''} ${className}`}>
-          <div className={styles.mainHeader__content}>
-            { isNewsMarqueeActive &&
-              <NewsMarquee className={styles.content__marquee} onClose={closeNewsMarquee} />
-            }
-            <Menu />
-            <Link href='/' className={styles.content__logo}>
-              <AppLogo />
-            </Link>
-            <Profile />
-          </div>
-      </header>
+    <header className={`${styles.mainHeader} ${isActive ? styles.active : ''} ${className}`}>
+      <div className={styles.mainHeader__content}>
+        <Menu />
+        <Link href='/' className={styles.content__logo}>
+          <AppLogo />
+        </Link>
+        <Profile />
+        { isNewsMarqueeActive &&
+          <NewsMarquee className={styles.content__marquee} onClose={closeNewsMarquee} />
+        }
+      </div>
+    </header>
   )
 }
 
