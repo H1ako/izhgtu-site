@@ -46,7 +46,7 @@ function BlogPostPage({postBody, postAuthor, postCategory, postTags, postPicture
           <ul className={styles.content__postTags}>
             {postTags && postTags.map((tag) => (
               <li key={tag?.id}>
-                <Link className={styles.postTags__tag} href={'#'}>{tag?.name}</Link>
+                <Link className={styles.postTags__tag} href={'#'}>#{tag?.name}</Link>
               </li>
             ))}
           </ul>

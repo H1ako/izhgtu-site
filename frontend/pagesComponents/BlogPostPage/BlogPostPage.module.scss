@@ -37,9 +37,17 @@
   @include contentArea;
 
   padding-block: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: .25rem;
+
+  & > *:not(img) {
+    //margin-top: .25rem;
+    margin-block: 1em;
+    //padding: initial;
+  }
+
+  p:empty {
+    background: red;
+    padding-block: 1em;
+  }
 
   *:not(h1, h2, h3, h4, h5, h6) {
     font-size: var(--fontSize3);
@@ -67,13 +75,48 @@
   &__content {
     @include contentArea;
 
-    .content__inlineWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 
-      .inlineWrapper__postTags {
+    .content__inlineWrapper {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+
+      .inlineWrapper__btns {
         display: flex;
         align-items: center;
         gap: .5rem;
-        width: 100%;
+
+        .btns__btn {
+          @include btnMain;
+
+          .btn__text {
+            @media screen {
+
+            }
+          }
+        }
+      }
+    }
+
+    .content__postTags {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      width: 100%;
+      flex-wrap: wrap;
+
+
+      .postTags__tag {
+        @include clearedLink;
+
+        &:hover,
+        &:focus-within {
+          color: var(--colorMain);
+        }
       }
     }
   }

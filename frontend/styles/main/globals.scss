@@ -60,6 +60,27 @@ ul {
   list-style: none;
 }
 
+.richtext-image {
+  width: 50%;
+  height: auto;
+  max-height: 30rem;
+  object-fit: center;
+
+  &.full-width {
+    width: 100%;
+  }
+
+  &.left {
+    //margin-right: auto;
+    float: left;
+  }
+
+  &.right {
+    //margin-left: auto;
+    float: right;
+  }
+}
+
 .slick-list {
   height: 100%;
 }
