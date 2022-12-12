@@ -39,22 +39,35 @@
   padding-block: 2rem;
 
   & > *:not(img) {
-    //margin-top: .25rem;
     margin-block: 1em;
-    //padding: initial;
   }
 
   p:empty {
-    background: red;
-    padding-block: 1em;
+    padding-top: 1em;
   }
 
   *:not(h1, h2, h3, h4, h5, h6) {
-    font-size: var(--fontSize3);
+    font-size: var(--fontSize3-4);
   }
 
   *:not(b) {
     font-weight: 300;
+  }
+
+  blockquote {
+    position: relative;
+    margin-inline: 0;
+    padding-inline: 2em;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: .5rem;
+      background: var(--colorBgAccentLight);
+    }
   }
 
   b {

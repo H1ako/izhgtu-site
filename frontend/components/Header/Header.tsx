@@ -10,7 +10,7 @@ import useScrollDirection from "../../libs/useScrollDirection";
 // styles and icons
 import styles from './Header.module.scss';
 import {useRecoilState} from "recoil";
-import {headerActiveStateAtom, headerMarqueeActiveStateAtom} from "../../recoilAtoms/headerAtoms";
+import {headerActiveStateAtom} from "../../recoilAtoms/headerAtoms";
 
 interface HeaderProps {
   className?: string
@@ -18,7 +18,7 @@ interface HeaderProps {
 
 // TODO: make skip header button
 function Header({className}: HeaderProps) {
-  const [ isNewsMarqueeActive, setIsNewsMarqueeActive ] = useRecoilState(headerMarqueeActiveStateAtom)
+  const [ isNewsMarqueeActive, setIsNewsMarqueeActive ] = React.useState<boolean>(true)
   const [ isActive, setIsActive ] = useRecoilState<boolean>(headerActiveStateAtom)
   const scrollDirection = useScrollDirection()
   
@@ -27,7 +27,7 @@ function Header({className}: HeaderProps) {
   }
   
   const getIsActive = () : boolean=> {
-    return scrollDirection == 'down'
+    return scrollDirection !== 'down'
   }
   
   const toggleOnScroll = (): void => {
@@ -44,7 +44,7 @@ function Header({className}: HeaderProps) {
   }, [scrollDirection])
   
   return (
-    <header className={`${styles.mainHeader} ${isActive ? styles.active : ''} ${className}`}>
+    <header className={`${styles.mainHeader} ${isActive ? '' : styles.active} ${className}`}>
       <div className={styles.mainHeader__content}>
         <Menu />
         <Link href='/' className={styles.content__logo}>

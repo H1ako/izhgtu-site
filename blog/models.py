@@ -23,6 +23,18 @@ from instance_selector.edit_handlers import InstanceSelectorPanel
 from izhgtuSite.models import TimeStampedModel
 
 
+BLOG_POST_PAGE_RICH_TEXT_FEATURES = [
+    'h1', 'h2', 'h3',
+    'image', 'embed',
+    'bold', 'italic',
+    'hr',
+    'superscript', 'subscript',
+    'blockquote',
+    'link', 'document-link',
+    'ol', 'ul'
+]
+
+
 @register_snippet
 class BlogPostCategory(models.Model):
     name = models.CharField(_("Name"), max_length=100)
@@ -93,7 +105,7 @@ class BlogPostPage(TimeStampedModel, HeadlessMixin, Page):
         null=True,
         on_delete=models.SET_NULL,
     )
-    post_body = RichTextField(_("Body"), null=True, blank=True)
+    post_body = RichTextField(_("Body"), null=True, blank=True, features=BLOG_POST_PAGE_RICH_TEXT_FEATURES)
     post_title = models.CharField(_("Title"), max_length=100)
 
     content_panels = Page.content_panels + [

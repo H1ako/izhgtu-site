@@ -22,7 +22,7 @@ function BlogPostPage({postBody, postAuthor, postCategory, postTags, postPicture
   return (
     <PageLayout>
       <FacePictureBlock bgImage={postPicture?.url}>
-        <div className={`${styles.postHeading} ${isHeaderActive ? '' : styles.headerActive}`}>
+        <div className={`${styles.postHeading} ${isHeaderActive ? styles.headerActive : ''}`}>
           { postCategory &&
             <Link className={styles.postHeading__category} href={''}>{postCategory.name}</Link>
           }
