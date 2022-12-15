@@ -1,34 +1,28 @@
 // global
 import React from 'react'
 import Link from "next/link";
+import {useInView} from "react-intersection-observer";
 // components
 import PageLayout from "../../containers/PageLayout/PageLayout";
-import FacePictureBlock from "../../components/FacePictureBlock/FacePictureBlock";
+import FacePictureBlockBlured from "../../components/FacePictureBlockBlured/FacePictureBlockBlured";
+import UserMiniCard from "../../components/UserMiniCard/UserMiniCard";
 // styles
 import styles from './BlogPostPage.module.scss'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDownload} from "@fortawesome/free-solid-svg-icons";
 // types
 import {Page_page_BlogPostPage} from "../../graphql/generated";
-import UserMiniCard from "../../components/UserMiniCard/UserMiniCard";
-import {useRecoilValue} from "recoil";
-import {headerActiveStateAtom} from "../../recoilAtoms/headerAtoms";
-import {useInView} from "react-intersection-observer";
 
 
 function BlogPostPage({postBody, postAuthor, postCategory, postTags, postPicture, postTitle}: Page_page_BlogPostPage) {
-  const isHeaderActive = useRecoilValue(headerActiveStateAtom)
-  
   return (
     <PageLayout>
-      <FacePictureBlock bgImage={postPicture?.url}>
-        <div className={`${styles.postHeading} ${isHeaderActive ? styles.headerActive : ''}`}>
-          { postCategory &&
-            <Link className={styles.postHeading__category} href={''}>{postCategory.name}</Link>
-          }
-          <h1 className={styles.postHeading__title}>{postTitle}</h1>
-        </div>
-      </FacePictureBlock>
+      <FacePictureBlockBlured bgImage={postPicture?.url}>
+        { postCategory &&
+          <Link className={styles.faceCategory} href={''}>{postCategory.name}</Link>
+        }
+        <h1 className={styles.faceTitle}>{postTitle}</h1>
+      </FacePictureBlockBlured>
       <div className={styles.postBody} dangerouslySetInnerHTML={{__html: postBody}}/>
       <div className={styles.bottomBlock}>
         <div className={styles.bottomBlock__content}>

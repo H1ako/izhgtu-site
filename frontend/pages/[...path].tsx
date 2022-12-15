@@ -35,12 +35,16 @@ export default function CurrentPage({ componentName, componentProps, settings }:
     
     
     React.useEffect(() => {
-        componentName !== null && setIsLoading(false)
+        if (componentName !== null) {
+            setIsLoading(false)
+        }
     }, [componentName])
     
     React.useEffect(() => {
         const refactoredSettings = getRefactoredSettings(settings)
-        if (refactoredSettings) setSettings((prev) => ({...prev, ...refactoredSettings}))
+        if (refactoredSettings) {
+            setSettings((prev) => ({...prev, ...refactoredSettings}))
+        }
     }, [settings])
     
     if (!Component) {

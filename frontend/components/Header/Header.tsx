@@ -9,8 +9,9 @@ import NewsMarquee from "../NewsMarquee/NewsMarquee";
 import useScrollDirection from "../../libs/useScrollDirection";
 // styles and icons
 import styles from './Header.module.scss';
-import {useRecoilState} from "recoil";
+import {useRecoilState, useRecoilValue} from "recoil";
 import {headerActiveStateAtom} from "../../recoilAtoms/headerAtoms";
+import {settingsAtom} from "../../recoilAtoms/settingsAtom";
 
 interface HeaderProps {
   className?: string
@@ -18,6 +19,7 @@ interface HeaderProps {
 
 // TODO: make skip header button
 function Header({className}: HeaderProps) {
+  const { mainContent }  = useRecoilValue(settingsAtom)
   const [ isNewsMarqueeActive, setIsNewsMarqueeActive ] = React.useState<boolean>(true)
   const [ isActive, setIsActive ] = useRecoilState<boolean>(headerActiveStateAtom)
   const scrollDirection = useScrollDirection()

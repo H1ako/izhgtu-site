@@ -85,3 +85,28 @@ query Page($url: String!) {
   }
 }
 `
+
+const BLOG_POSTS_QUERY = gql`
+query BlogPosts($perPage: Int, $page: Int) {
+  blogPosts(perPage: 30, page: 1) {
+    items {
+      id
+      url
+      postPicture {
+        url
+        title
+      }
+      postTitle
+    }
+    pagination {
+      count
+      totalPages
+      perPage
+      prevPage
+      nextPage
+      total
+      currentPage
+    }
+  }
+}
+`
