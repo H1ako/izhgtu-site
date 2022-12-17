@@ -4,65 +4,65 @@ import gql from "graphql-tag";
 export const PAGE_GETTER_QUERY = gql`
 query Page($url: String!) {
   page (urlPath: $url) {
-  id
-  url
-  pageType
-  ... on HomePage {
-    lastNews {
-      id
-      title
-      createdAt
-      post {
-        url
-      }
-      picture {
-        url
+    id
+    url
+    pageType
+    ... on HomePage {
+      lastNews {
+        id
         title
-      }
-    }
-    faceBg {
-      title
-      url
-    }
-    headings {
-      id
-      text
-      shortText
-      size
-    }
-    moreInfoCarousel {
-      ... on VideoBlock {
-        id
-        __typename
-        video {
-          title
+        createdAt
+        post {
           url
-          thumbnail
         }
-      }
-      ... on PictureBlock {
-        id
-        __typename
-        link
         picture {
-          title
           url
+          title
         }
       }
-    }
-    quote {
-      title
-      author
-      authorPicture {
+      faceBg {
         title
         url
       }
-      authorOccupation
-      text
+      headings {
+        id
+        text
+        shortText
+        size
+      }
+      moreInfoCarousel {
+        ... on VideoBlock {
+          id
+          __typename
+          video {
+            title
+            url
+            thumbnail
+          }
+        }
+        ... on PictureBlock {
+          id
+          __typename
+          link
+          picture {
+            title
+            url
+          }
+        }
+      }
+      quote {
+        title
+        author
+        authorPicture {
+          title
+          url
+        }
+        authorOccupation
+        text
+      }
     }
-  }
-  ... on BlogPostPage {
-    postPicture {
+    ... on BlogPostPage {
+      postPicture {
         title
         url
       }
@@ -82,13 +82,20 @@ query Page($url: String!) {
       postBody
       postTitle
     }
+    ... on BlogPostIndexPage {
+      faceTitle
+      facePicture {
+        url
+        title
+      }
+    }
   }
 }
 `
-
-const BLOG_POSTS_QUERY = gql`
-query BlogPosts($perPage: Int, $page: Int) {
-  blogPosts(perPage: 30, page: 1) {
+  
+export const BLOG_POSTS_QUERY = gql`
+query BlogPosts($perPage: PositiveInt, $page: PositiveInt) {
+  blogPosts(perPage: $perPage, page: $page) {
     items {
       id
       url

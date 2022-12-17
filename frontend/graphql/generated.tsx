@@ -8,7 +8,7 @@
 // ====================================================
 
 export interface Page_page_Page {
-  __typename: "Page" | "BlogPostIndexPage";
+  __typename: "Page";
   id: string | null;
   url: string | null;
   pageType: string | null;
@@ -145,7 +145,22 @@ export interface Page_page_BlogPostPage {
   postTitle: string;
 }
 
-export type Page_page = Page_page_Page | Page_page_HomePage | Page_page_BlogPostPage;
+export interface Page_page_BlogPostIndexPage_facePicture {
+  __typename: "ImageObjectType";
+  url: string;
+  title: string;
+}
+
+export interface Page_page_BlogPostIndexPage {
+  __typename: "BlogPostIndexPage";
+  id: string | null;
+  url: string | null;
+  pageType: string | null;
+  faceTitle: string | null;
+  facePicture: Page_page_BlogPostIndexPage_facePicture | null;
+}
+
+export type Page_page = Page_page_Page | Page_page_HomePage | Page_page_BlogPostPage | Page_page_BlogPostIndexPage;
 
 export interface Page {
   page: Page_page | null;
@@ -153,6 +168,55 @@ export interface Page {
 
 export interface PageVariables {
   url: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: BlogPosts
+// ====================================================
+
+export interface BlogPosts_blogPosts_items_postPicture {
+  __typename: "ImageObjectType";
+  url: string;
+  title: string;
+}
+
+export interface BlogPosts_blogPosts_items {
+  __typename: "BlogPostPage";
+  id: string | null;
+  url: string | null;
+  postPicture: BlogPosts_blogPosts_items_postPicture | null;
+  postTitle: string;
+}
+
+export interface BlogPosts_blogPosts_pagination {
+  __typename: "PaginationType";
+  count: any;
+  totalPages: any;
+  perPage: any;
+  prevPage: any | null;
+  nextPage: any | null;
+  total: any;
+  currentPage: any;
+}
+
+export interface BlogPosts_blogPosts {
+  __typename: "BlogPostPagePaginatedType";
+  items: BlogPosts_blogPosts_items[] | null;
+  pagination: BlogPosts_blogPosts_pagination | null;
+}
+
+export interface BlogPosts {
+  blogPosts: BlogPosts_blogPosts | null;
+}
+
+export interface BlogPostsVariables {
+  perPage?: any | null;
+  page?: any | null;
 }
 
 /* tslint:disable */

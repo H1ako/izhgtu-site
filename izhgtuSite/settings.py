@@ -18,13 +18,27 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost", "izhgtu.herokuapp.com"]
 
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:8000',
+    'http://127.0.0.1:3000'
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',  # for localhost (REACT Default)
+    'http://localhost:8080',  # for localhost (Developlemt)
+    'http://127.0.0.1:8000',
+    'http://127.0.0.1:3000'
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
+
 X_FRAME_OPTIONS = "SAMEORIGIN"
 
 AUTHENTICATION_BACKENDS = (
     "authentication.backends.StudentCardIdOrEmailBackend",
     "django.contrib.auth.backends.ModelBackend",  # fallback to default authentication backend if first fails
 )
-
 
 # cms wagtail
 
@@ -136,11 +150,11 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
-    "django.middleware.common.CommonMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.locale.LocaleMiddleware",
+    "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
