@@ -3,6 +3,8 @@ import React from 'react'
 import Link from "next/link";
 import {useInView} from "react-intersection-observer";
 import client from "../../apollo-client";
+import {useQuery} from "@apollo/client";
+// queries
 import {BLOG_POSTS_QUERY} from "../../graphql/queries/pageQueries";
 // components
 import PageLayout from "../../containers/PageLayout/PageLayout";
@@ -14,8 +16,6 @@ import {faDownload} from "@fortawesome/free-solid-svg-icons";
 // types
 import {GetServerSidePropsContext} from "next";
 import {BlogPosts_blogPosts, BlogPostsVariables, Page_page_BlogPostIndexPage} from "../../graphql/generated";
-import {data} from "browserslist";
-import {useQuery} from "@apollo/client";
 
 
 function BlogPostIndexPage({faceTitle, facePicture}: Page_page_BlogPostIndexPage) {
@@ -25,7 +25,6 @@ function BlogPostIndexPage({faceTitle, facePicture}: Page_page_BlogPostIndexPage
       page: 1,
       perPage: 30
     },
-    fetchPolicy: "network-only"
   })
   
   React.useEffect(() => {

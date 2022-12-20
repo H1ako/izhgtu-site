@@ -1,5 +1,7 @@
 import os
 from pathlib import Path
+
+from corsheaders.defaults import default_headers
 from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -16,7 +18,11 @@ SECRET_KEY = "django-insecure-&xdf4urq!dajk_(d3w3q-bd^d$*+6rqfeo582vw61*50m)as-z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "izhgtu.herokuapp.com"]
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    'localhost',
+    "izhgtu.herokuapp.com",
+]
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
@@ -24,14 +30,17 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:3000'
 ]
 
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:3000',  # for localhost (REACT Default)
-    'http://localhost:8080',  # for localhost (Developlemt)
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
     'http://127.0.0.1:8000',
-    'http://127.0.0.1:3000'
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:8000',
+]
+
+CORS_ALLOW_CREDENTIALS = True
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
 
@@ -41,7 +50,6 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # cms wagtail
-
 GRAPHENE = {"SCHEMA": "grapple.schema.schema"}
 GRAPPLE = {
     "APPS": [
@@ -70,9 +78,6 @@ WAGTAIL_HEADLESS_PREVIEW = {
     }
 }
 
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_URLS_REGEX = r"^/api/v2/"
-
 # rest framework
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
@@ -99,9 +104,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "corsheaders",
     "rest_framework",
     "rest_framework.authtoken",
+    "corsheaders",
     # cms wagtail
     "wagtail.contrib.modeladmin",
     "wagtail.contrib.forms",
@@ -132,7 +137,6 @@ INSTALLED_APPS = [
     "wagtailsvg",
     # libraries
     "drfpasswordless",
-    # 'django_nextjs.apps.DjangoNextJSConfig',
     # apps
     "core",
     "svg",
@@ -142,16 +146,15 @@ INSTALLED_APPS = [
     "education",
     "dateEvents",
     "admissionApplications",
-    #  pages
     "home",
     "news",
     "blog",
 ]
 
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.middleware.locale.LocaleMiddleware",

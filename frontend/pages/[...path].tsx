@@ -7,11 +7,13 @@ import {settingsAtom} from "../recoilAtoms/settingsAtom";
 // extra
 import client from "../apollo-client";
 import LAZY_PAGES from "../pagesComponents";
-import {PAGE_GETTER_QUERY} from "../graphql/queries/pageQueries";
 import {SETTINGS_GETTER_QUERY} from "../graphql/queries/settingsQueries";
+import {PAGE_GETTER_QUERY} from "../graphql/queries/pageQueries";
 // types
 import type {GetServerSidePropsContext} from "next";
 import type {
+    BlogPosts,
+    BlogPostsVariables,
     Page,
     Page_page,
     PageVariables,
@@ -72,10 +74,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 const getPageData = async (resolvedUrl: string) => {
     const url = getUrlWithoutQuery(resolvedUrl)
-    
-    const {data} = await client.query<Page, PageVariables>({
+    const {data, errors} = await client.query<Page, PageVariables>({
         query: PAGE_GETTER_QUERY,
-        variables: {url}
+        variables: {url},
     })
     return data
 }
@@ -96,6 +97,7 @@ const getSettingByType = (settings: Settings_settings[], type: string) => {
 
 const getRefactoredSettings = (settings: Settings_settings[] | null) => {
     if (!settings) return null
+    
     const mainContentSettings = getSettingByType(settings, 'MainContentSettings') as Settings_settings_MainContentSettings
     
     return {
