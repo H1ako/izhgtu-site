@@ -1,3 +1,12 @@
 .blogPostCard {
+  border-radius: var(--bdrsBtn);
+  overflow: hidden;
 
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--colorBgTransparent);
+    z-index: -1;
+  }
 }

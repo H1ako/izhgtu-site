@@ -6,9 +6,8 @@ import PostCardLayout, {PostCardProps} from "../../containers/PostCardLayout/Pos
 import styles from './BlogPostCard.module.scss';
 
 
-interface BlogPostCardProps extends PostCardProps {
+interface BlogPostCardProps extends PostCardProps {}
 
-}
 
 function BlogPostCard({className='', title, picture, date, infoClassName}: BlogPostCardProps) {
   return (

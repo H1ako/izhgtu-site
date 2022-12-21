@@ -3,7 +3,6 @@
 
 .postCardLayout {
   transition: var(--transitionDefault);
-  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -17,6 +16,7 @@
     height: 100%;
     padding: 1rem;
     z-index: 2;
+    transition: var(--transitionDefault);
 
     & > * {
       transition: var(--transitionDefault);
@@ -41,7 +41,6 @@
     top: 0;
     left: 0;
     z-index: -1;
-    opacity: 0;
     transition: var(--transitionDefault);
   }
 }

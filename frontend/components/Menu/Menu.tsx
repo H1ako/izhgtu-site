@@ -6,7 +6,7 @@ import WindowWithHeaderLayout from "../../containers/WindowWithHeaderLayout/Wind
 import MainActionBtns from "../MainActionBtns/MainActionBtns";
 import SocialsList from "../SocialsList/SocialsList";
 // styles and icons
-import styles from '../../styles/components/Menu.module.scss';
+import styles from './Menu.module.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBars} from "@fortawesome/free-solid-svg-icons";
 

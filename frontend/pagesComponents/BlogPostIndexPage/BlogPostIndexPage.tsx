@@ -29,26 +29,29 @@ function BlogPostIndexPage({faceTitle, facePicture}: Page_page_BlogPostIndexPage
     console.log(data)
     refetch()
   }, [])
-  
+
   return (
     <PageLayout>
       <FacePictureBlockBlured className={styles.faceBlock} bgImage={facePicture?.url}>
         <h1>{faceTitle}</h1>
       </FacePictureBlockBlured>
   
-      { !loading && !error &&
-        <ul className={styles.content__posts}>
-          { data?.blogPosts?.items && data.blogPosts.items.map(post => (
-            <BlogPostCard
-              key={`post-${post.id}`}
-              title={post.postTitle}
-              picture={post.postPicture?.url}
-              date={post.firstPublishedAt}
-            />
-          ))
-          }
-        </ul>
-      }
+      <div className={styles.content}>
+        <aside className={styles.filtersBar}></aside>
+        { true && // !loading && !error
+          <ul className={styles.content__posts}>
+            { data?.blogPosts?.items && data.blogPosts.items.map(post => (
+              <BlogPostCard
+                key={`post-${post.id}`}
+                title={post.postTitle}
+                picture={post.postPicture?.url}
+                date={post.firstPublishedAt}
+              />
+            ))
+            }
+          </ul>
+        }
+      </div>
     </PageLayout>
   )
 }

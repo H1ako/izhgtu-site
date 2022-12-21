@@ -1,6 +1,37 @@
 @import "../../styles/main/mixins";
 
 
+.filtersBar {
+  width: 30rem;
+  background: red;
+  height: 40rem;
+  //display: none;
+}
+
 .faceBlock {
   height: 50vh;
+}
+
+.content {
+  @include contentArea($width: 100%);
+
+  position: relative;
+  display: flex;
+  padding-block: 1rem;
+  gap: 2rem;
+
+  &__posts {
+    --minWidthPost: 25rem;
+
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--minWidthPost), 1fr));
+    gap: 1rem;
+    grid-auto-flow: row;
+
+    & > * {
+      height: 15rem;
+      position: relative;
+    }
+  }
 }

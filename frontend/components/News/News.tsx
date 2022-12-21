@@ -41,7 +41,7 @@ function News({className='', newsList}: NewsProps) {
       </ul>
       <ul className={styles.newsContainer__newsListDuplicate}>
         { newsList.map((news, index) => (
-          <li key={`news-duplicate-${news.id}`} onMouseEnter={() => setHoveredNews(index)} className={styles.newsList__news}>
+          <li key={`news-duplicate-${news.id}`} onMouseEnter={() => setHoveredNews(index)} className={styles.newsListDuplicate__news}>
             <Link href={news.postLink ?? ''}>
               <img src={news.picture ?? ''} alt="" className={styles.news__picture}/>
             </Link>
