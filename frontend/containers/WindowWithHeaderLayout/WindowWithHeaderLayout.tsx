@@ -1,10 +1,10 @@
 // global
 import React from 'react'
+import {disableBodyScroll, enableBodyScroll} from "body-scroll-lock";
 // components
 import InnerBlockHeading from "../../components/InnerBlockHeading/InnerBlockHeading";
-import {disableBodyScroll, enableBodyScroll} from "body-scroll-lock";
 // styles and icons
-import styles from '../../styles/containers/WindowWithHeaderLayout.module.scss';
+import styles from './WindowWithHeaderLayout.module.scss';
 
 interface WindowWithHeaderLayoutProps {
   className?: string,

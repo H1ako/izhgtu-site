@@ -1,0 +1,47 @@
+@import "../../styles/main/mixins";
+
+
+.postCardLayout {
+  transition: var(--transitionDefault);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border: 1px solid var(--colorBgAccent);
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+    z-index: 2;
+
+    & > * {
+      transition: var(--transitionDefault);
+    }
+
+    .info__heading {
+      text-transform: uppercase;
+    }
+
+    .info__date {
+      text-transform: uppercase;
+      font-size: var(--fontSize4);
+    }
+  }
+
+  img {
+    @include image;
+
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    opacity: 0;
+    transition: var(--transitionDefault);
+  }
+}

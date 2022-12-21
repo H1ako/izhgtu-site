@@ -1,6 +1,8 @@
 // global
 import React from 'react'
 import Link from "next/link";
+// components
+import PostCardLayout from "../../containers/PostCardLayout/PostCardLayout";
 // styles and icons
 import styles from './News.module.scss';
 
@@ -12,27 +14,29 @@ interface NewsProps {
 
 type NewsIndexType = number | null
 
+
 function News({className='', newsList}: NewsProps) {
   const [ hoveredNews, setHoveredNews ] = React.useState<NewsIndexType>(null)
   
-  const setNoCurrentNews = () => {
+  const resetCurrentNews = () => {
     setHoveredNews(null)
   }
   
   return (
     <div
-      onMouseLeave={setNoCurrentNews}
+      onMouseLeave={resetCurrentNews}
       className={`${styles.newsContainer} ${className} ${hoveredNews !== null ? styles.active : ''}`}
     >
       <ul className={styles.newsContainer__newsList}>
         {newsList.map((news, index) => (
-          <li key={`news-${news.id}`} className={`${styles.newsList__news} ${index === hoveredNews ? styles.active : ''}`}>
-            <img src={news.picture ?? ''} alt="" />
-            <div className={styles.news__info}>
-              <time className={styles.info__date}>{news.date}</time>
-              <h3 className={styles.info__heading}>{news.title}</h3>
-            </div>
-          </li>
+          <PostCardLayout
+            key={`news-${news.id}`}
+            className={`${styles.newsList__news} ${index === hoveredNews ? styles.active : ''}`}
+            infoClassName={styles.news__info}
+            title={news.title}
+            picture={news.picture ?? ''}
+            date={news.date}
+          />
         ))}
       </ul>
       <ul className={styles.newsContainer__newsListDuplicate}>

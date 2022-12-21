@@ -104,6 +104,15 @@ query BlogPosts($perPage: PositiveInt, $page: PositiveInt) {
         title
       }
       postTitle
+      postTags {
+        id
+        name
+      }
+      firstPublishedAt
+      postCategory {
+        id
+        name
+      }
     }
     pagination {
       count

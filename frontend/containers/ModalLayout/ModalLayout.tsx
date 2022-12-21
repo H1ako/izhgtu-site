@@ -3,7 +3,7 @@ import React from 'react'
 // components
 import ModalAreaLayout from "../ModalAreaLayout/ModalAreaLayout";
 // styles and icons
-import styles from '../../styles/containers/ModalLayout.module.scss';
+import styles from './ModalLayout.module.scss';
 
 interface ModalLayoutProps {
   children: React.ReactNode,

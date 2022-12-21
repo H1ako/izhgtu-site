@@ -1,26 +1,24 @@
 // global
 import React from 'react'
 import Link from "next/link";
-import {useInView} from "react-intersection-observer";
-import client from "../../apollo-client";
 import {useQuery} from "@apollo/client";
 // queries
 import {BLOG_POSTS_QUERY} from "../../graphql/queries/pageQueries";
 // components
 import PageLayout from "../../containers/PageLayout/PageLayout";
 import FacePictureBlockBlured from "../../components/FacePictureBlockBlured/FacePictureBlockBlured";
+import BlogPostCard from "../../components/BlogPostCard/BlogPostCard";
 // styles
 import styles from './BlogPostIndexPage.module.scss'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDownload} from "@fortawesome/free-solid-svg-icons";
 // types
 import {GetServerSidePropsContext} from "next";
-import {BlogPosts_blogPosts, BlogPostsVariables, Page_page_BlogPostIndexPage} from "../../graphql/generated";
+import {BlogPosts, BlogPostsVariables, Page_page_BlogPostIndexPage} from "../../graphql/generated";
 
 
 function BlogPostIndexPage({faceTitle, facePicture}: Page_page_BlogPostIndexPage) {
-  const [posts, setPosts] = React.useState<BlogPosts_blogPosts>()
-  const {loading, data, error, refetch} = useQuery<BlogPosts_blogPosts, BlogPostsVariables>(BLOG_POSTS_QUERY, {
+  const {loading, data, error, refetch} = useQuery<BlogPosts, BlogPostsVariables>(BLOG_POSTS_QUERY, {
     variables: {
       page: 1,
       perPage: 30
@@ -28,9 +26,9 @@ function BlogPostIndexPage({faceTitle, facePicture}: Page_page_BlogPostIndexPage
   })
   
   React.useEffect(() => {
-    refetch()
     console.log(data)
-  }, [data])
+    refetch()
+  }, [])
   
   return (
     <PageLayout>
@@ -40,8 +38,13 @@ function BlogPostIndexPage({faceTitle, facePicture}: Page_page_BlogPostIndexPage
   
       { !loading && !error &&
         <ul className={styles.content__posts}>
-          { data?.items && data.items.map(posts => (
-            <li></li>
+          { data?.blogPosts?.items && data.blogPosts.items.map(post => (
+            <BlogPostCard
+              key={`post-${post.id}`}
+              title={post.postTitle}
+              picture={post.postPicture?.url}
+              date={post.firstPublishedAt}
+            />
           ))
           }
         </ul>

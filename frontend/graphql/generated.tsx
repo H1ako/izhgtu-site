@@ -185,12 +185,27 @@ export interface BlogPosts_blogPosts_items_postPicture {
   title: string;
 }
 
+export interface BlogPosts_blogPosts_items_postTags {
+  __typename: "TagObjectType";
+  id: string;
+  name: string;
+}
+
+export interface BlogPosts_blogPosts_items_postCategory {
+  __typename: "BlogPostCategory";
+  id: string | null;
+  name: string;
+}
+
 export interface BlogPosts_blogPosts_items {
   __typename: "BlogPostPage";
   id: string | null;
   url: string | null;
   postPicture: BlogPosts_blogPosts_items_postPicture | null;
   postTitle: string;
+  postTags: (BlogPosts_blogPosts_items_postTags | null)[] | null;
+  firstPublishedAt: any | null;
+  postCategory: BlogPosts_blogPosts_items_postCategory | null;
 }
 
 export interface BlogPosts_blogPosts_pagination {

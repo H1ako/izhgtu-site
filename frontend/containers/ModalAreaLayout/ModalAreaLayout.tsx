@@ -1,7 +1,7 @@
 // global
 import React from 'react'
 // styles and icons
-import styles from '../../styles/containers/ModalAreaLayout.module.scss';
+import styles from './ModalAreaLayout.module.scss';
 
 interface ModalAreaLayoutProps {
   children: React.ReactNode,

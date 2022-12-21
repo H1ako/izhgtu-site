@@ -1,9 +1,11 @@
 // styles and icons
-import styles from '../../styles/components/AppLogo.module.scss';
+import styles from './AppLogo.module.scss';
+
 
 interface AppLogoProps {
   className?: string
 }
+
 
 function AppLogo({className=''}: AppLogoProps) {
   return (

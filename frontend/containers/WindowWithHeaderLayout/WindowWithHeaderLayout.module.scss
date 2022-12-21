@@ -1,10 +1,6 @@
-@import "../main/mixins";
-
 .windowWithHeader {
-  &.active {
-    .windowWithHeader__content {
-      height: calc(100vh - var(--heightHeader));
-    }
+  &.active .windowWithHeader__content {
+    height: calc(100vh - var(--heightHeader));
   }
 
   &__content {
