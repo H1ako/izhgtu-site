@@ -16,12 +16,14 @@ import {
   faUpRightAndDownLeftFromCenter
 } from "@fortawesome/free-solid-svg-icons";
 
-interface Props {
+
+interface HorizontalSliderProps {
   children: React.ReactNode,
   className?: string
 }
 
-function HorizontalSlider({children, className=''}: Props) {
+
+function HorizontalSlider({children, className=''}: HorizontalSliderProps) {
   const [ paused, setPaused ] = React.useState<boolean>(false)
   const [ lightboxImageSrc, setLightboxImageSrc ] = useRecoilState(lightboxImageSrcAtom)
   const [ sliderRef, setSliderRef ] = React.useState<Slider | null>(null)

@@ -200,7 +200,7 @@ export interface BlogPosts_blogPosts_items_postCategory {
 export interface BlogPosts_blogPosts_items {
   __typename: "BlogPostPage";
   id: string | null;
-  url: string | null;
+  url: string;
   postPicture: BlogPosts_blogPosts_items_postPicture | null;
   postTitle: string;
   postTags: (BlogPosts_blogPosts_items_postTags | null)[] | null;

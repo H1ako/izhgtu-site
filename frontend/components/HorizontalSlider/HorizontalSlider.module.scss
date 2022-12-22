@@ -1,5 +1,6 @@
 @import "../../styles/main/mixins";
 
+
 .sliderContainer {
   --sliderHeight: clamp(15rem, 40vw, 30rem);
 
@@ -57,7 +58,6 @@
 
     .menu__btn {
       @include iconBtn($fontSize: var(--fontSize2));
-      @include scaleOnFocus;
 
       background: none;
     }

@@ -1,6 +1,29 @@
+@import "../../styles/main/mixins";
+
+
 .blogPostCard {
   border-radius: var(--bdrsBtn);
   overflow: hidden;
+  z-index: 1;
+
+  &:hover {
+    &::after {
+      background: var(--colorBgDarkTransparent);
+    }
+
+    .blogPostCard__info {
+      opacity: 0;
+    }
+
+    .blogPostCard__focusedContent {
+      opacity: 1;
+
+      & > * {
+        user-select: all;
+        pointer-events: all;
+      }
+    }
+  }
 
   &::after {
     content: '';
@@ -8,5 +31,48 @@
     inset: 0;
     background: var(--colorBgTransparent);
     z-index: -1;
+    transition: var(--transitionDefault);
+  }
+
+  &__focusedContent {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    opacity: 0;
+    transition: var(--transitionDefault);
+    user-select: none;
+    pointer-events: none;
+    z-index: 9999;
+
+    .focusedContent__btns {
+      display: flex;
+      gap: 1rem;
+
+      .btns__btn {
+        @include clearedBtn(var(--fontSize2));
+
+        background: none;
+
+        &:hover {
+          .btn__icon {
+            color: var(--colorMain);
+          }
+        }
+
+        .btn__icon {
+          transition: var(--transitionDefault);
+          font-size: var(--fontSize1);
+        }
+      }
+    }
+  }
+
+  a {
+    position: absolute;
+    top: 0;
+    left: 0;
+    inset: 0;
+    z-index: 999;
   }
 }
