@@ -1,16 +1,15 @@
 import graphene
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from grapple.helpers import register_paginated_query_field, register_query_field
+from grapple.helpers import register_paginated_query_field
 
 from grapple.models import (
     GraphQLString,
     GraphQLSnippet,
     GraphQLTag,
     GraphQLForeignKey,
-    GraphQLRichText, GraphQLImage, GraphQLCollection, GraphQLField,
+    GraphQLRichText, GraphQLImage, GraphQLField,
 )
-from grapple.utils import resolve_paginated_queryset
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
@@ -26,7 +25,6 @@ from instance_selector.edit_handlers import InstanceSelectorPanel
 
 from authentication.models import User
 from blog.schema import FilterListType
-from izhgtuSite.models import TimeStampedModel
 
 
 BLOG_POST_PAGE_RICH_TEXT_FEATURES = [
@@ -85,12 +83,12 @@ class BlogPostTag(TaggedItemBase, index.Indexed):
     )
 
     search_fields = Page.search_fields + [
-        index.SearchField('name'),
+        index.SearchField('tag', partial_match=True),
     ]
 
-# use query params for plural query fields
+
 @register_paginated_query_field("blogPost", "blogPosts", plural_item_required=True, query_params=BLOG_POST_PAGE_PARAMS)
-class BlogPostPage(TimeStampedModel, HeadlessMixin, Page):
+class BlogPostPage(HeadlessMixin, Page):
     subpage_types = []
     parent_page_types = [
         'blog.BlogPostIndexPage'
@@ -172,43 +170,13 @@ class BlogPostIndexPage(HeadlessMixin, Page):
 
     @property
     def filters(self):
-        def get_category_values():
-            return [{
-                'name': category.name,
-                'value': category.slug,
-            } for category in BlogPostCategory.objects.all()]
-
-        def get_tag_values():
-            return [{
-                'name': tag.tag.name,
-                'value': tag.tag.slug,
-            } for tag in BlogPostTag.objects.all()]
-
-        def get_author_values():
-            return [{
-                'name': author.full_name,
-                'value': author.id,
-            } for author in User.objects.all()]
-
-        def get_date_values():
-            return [{
-                'name': post.first_published_at.strftime('%d.%m.%Y'),
-                'value': post.first_published_at,
-            } for post in BlogPostPage.objects.live().all()]
-
-        def Filter(name, field_type, values):
-            return {
-                'name': name,
-                'type': field_type,
-                'values': values
-            }
-
         filters = [
             Filter('Категории', 'checkbox', get_category_values()),
             Filter('Теги', 'checkbox', get_tag_values()),
             Filter('Авторы', 'checkbox', get_author_values()),
             Filter('Дата', 'date', get_date_values()),
         ]
+
         return filters
 
     content_panels = Page.content_panels + [
@@ -221,3 +189,48 @@ class BlogPostIndexPage(HeadlessMixin, Page):
         GraphQLImage("face_picture"),
         GraphQLField('filters', FilterListType, required=True),
     ]
+
+
+def Filter(name, field_type, values):
+    return {
+        'name': name,
+        'type': field_type,
+        'values': values
+    }
+
+
+def get_category_values():
+    valuesEntries = BlogPostCategory.objects.all()
+
+    return [{
+        'name': category.name,
+        'value': category.slug,
+    } for category in valuesEntries]
+
+
+def get_tag_values():
+    valuesEntries = BlogPostTag.objects.all().order_by('tag__name').values('tag__name', 'tag__slug').distinct()
+
+    return [{
+        'name': tag['tag__name'],
+        'value': tag['tag__slug'],
+    } for tag in valuesEntries]
+
+
+def get_author_values():
+    valuesEntries = User.objects.all()
+
+    return [{
+        'name': author.full_name,
+        'value': author.id,
+    } for author in valuesEntries]
+
+
+def get_date_values():
+    valuesEntries = BlogPostPage.objects.live().all()
+
+    return [{
+        'name': post.first_published_at.strftime('%d.%m.%Y'),
+        'value': post.first_published_at,
+    } for post in valuesEntries]
+
