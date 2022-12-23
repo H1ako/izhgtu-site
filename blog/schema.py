@@ -14,7 +14,7 @@ class FilterTypeType(graphene.Enum):
 class FilterType(graphene.ObjectType):
     name = graphene.String(required=True)
     type = FilterTypeType(required=True)
-    values = graphene.List(graphene.NonNull(FilterValueType), required=True)
+    values = graphene.List(graphene.NonNull(FilterValueType))
 
     class Meta:
         interfaces = (graphene.relay.Node, )

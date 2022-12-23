@@ -4,6 +4,7 @@ import React from 'react'
 import SearchField from "../SearchField/SearchField";
 // styles
 import styles from './FiltersBar.module.scss'
+import DateRange from "../DateRange/DateRange";
 
 
 interface FilterValueType {
@@ -16,17 +17,22 @@ enum FilterTypeType {
   DATE = 'DATE',
 }
 
-interface FilterType {
+interface FilterCheckboxType {
   name: string,
   type: FilterTypeType,
   values: FilterValueType[]
 }
 
-interface FiltersBarProps {
-  className?: string,
-  filters: FilterType[]
+interface FilterDateType {
+  name: string,
+  type: FilterTypeType,
+  values: []
 }
 
+interface FiltersBarProps {
+  className?: string,
+  filters: (FilterDateType | FilterCheckboxType)[]
+}
 
 interface FilterValuesProps {
   values: FilterValueType[],
@@ -34,9 +40,22 @@ interface FilterValuesProps {
   filterType: FilterTypeType,
 }
 
+interface FilterDateProps {
+  endDate: Date | null,
+  startDate: Date | null,
+  setEndDate: (date: Date | null) => void,
+  setStartDate: (date: Date | null) => void,
+}
+
+interface FilterCheckboxProps {
+  name: string,
+  value: string,
+  checked: boolean,
+}
+
 
 function FiltersBar({className='', filters}: FiltersBarProps) {
-  const [searchValue, setSearchValue] = React.useState('')
+  const [ searchValue, setSearchValue ] = React.useState('')
   
   return (
     <aside className={`${styles.filtersBar} ${className}`}>
@@ -66,6 +85,8 @@ function FiltersBar({className='', filters}: FiltersBarProps) {
 
 function FilterValues({values, filterName, filterType}: FilterValuesProps) {
   if (filterType === FilterTypeType.CHECKBOX) {
+    const [ checkedValues, setCheckedValues ] = React.useState<string[]>([])
+    
     return (
       <ul className={styles.filter__values}>
         { values.map(value => (
@@ -73,6 +94,7 @@ function FilterValues({values, filterName, filterType}: FilterValuesProps) {
             <FilterCheckbox
               name={value.name}
               value={value.value}
+              checked={checkedValues.includes(value.value)}
             />
           </li>
         )) }
@@ -80,17 +102,16 @@ function FilterValues({values, filterName, filterType}: FilterValuesProps) {
     )
   }
   else if (filterType === FilterTypeType.DATE) {
+    const [ startDate, setStartDate ] = React.useState<Date | null>(null)
+    const [ endDate, setEndDate ] = React.useState<Date | null>(null)
+    
     return (
-      <ul className={styles.filter__values}>
-        { values.map(value => (
-          <li key={`filter-${filterName}-value-${value.name}`} className={styles.values__value}>
-            <FilterDate
-              name={value.name}
-              value={value.value}
-            />
-          </li>
-        )) }
-      </ul>
+      <FilterDate
+        startDate={startDate}
+        setStartDate={setStartDate}
+        endDate={endDate}
+        setEndDate={setEndDate}
+      />
     )
   }
   
@@ -114,22 +135,20 @@ function FilterValues({values, filterName, filterType}: FilterValuesProps) {
 }
 
 
-function FilterDate({name, value}: FilterValueType) {
+function FilterDate({startDate, endDate, setStartDate, setEndDate}: FilterDateProps) {
   return (
-    <label className={styles.value__label}>
-      <input
-        type="checkbox"
-        className={styles.label__input}
-        name={`filter-${name}`}
-        value={value}
-      />
-      <span className={styles.label__text}>{name}</span>
-    </label>
+    <DateRange
+      startDate={startDate}
+      endDate={endDate}
+      setStartDate={setStartDate}
+      setEndDate={setEndDate}
+      className={styles.value__dateRange}
+    />
   )
 }
 
 
-function FilterCheckbox({name, value}: FilterValueType) {
+function FilterCheckbox({name, value, checked}: FilterCheckboxProps) {
   return (
     <label className={styles.value__label}>
       <input

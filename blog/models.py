@@ -43,6 +43,110 @@ BLOG_POST_PAGE_PARAMS = {
 }
 
 
+class BlogPostIndexPage(HeadlessMixin, Page):
+    max_count = 1
+    parent_page_types = [
+        'home.HomePage'
+    ]
+    subpage_types = [
+        'blog.BlogPostPage',
+    ]
+
+    face_title = models.CharField(_("Face Title"), max_length=100, blank=True, null=True)
+    face_picture = models.ForeignKey(
+        Image,
+        verbose_name=_('Face Picture'),
+        related_name="+",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL
+    )
+
+    @property
+    def filters(self):
+        filters = [
+            Filter('Категории', 'checkbox', get_category_values()),
+            Filter('Теги', 'checkbox', get_tag_values()),
+            Filter('Авторы', 'checkbox', get_author_values()),
+            Filter('Дата', 'date'),
+        ]
+
+        return filters
+
+    content_panels = Page.content_panels + [
+        FieldPanel("face_title"),
+        FieldPanel("face_picture"),
+    ]
+
+    graphql_fields = [
+        GraphQLString("face_title"),
+        GraphQLImage("face_picture"),
+        GraphQLField('filters', FilterListType, required=True),
+    ]
+
+
+@register_paginated_query_field("blogPost", "blogPosts", plural_item_required=True, query_params=BLOG_POST_PAGE_PARAMS)
+class BlogPostPage(HeadlessMixin, Page):
+    subpage_types = []
+    parent_page_types = [
+        'blog.BlogPostIndexPage'
+    ]
+
+    post_picture = models.ForeignKey(
+        Image,
+        verbose_name=_('Picture'),
+        related_name="+",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL
+    )
+    post_author = models.ForeignKey(
+        "authentication.User",
+        verbose_name=_("Author"),
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="authored_post_pages",
+    )
+    post_tags = ClusterTaggableManager(through='blog.BlogPostTag', blank=True)
+    post_category = models.ForeignKey(
+        'blog.BlogPostCategory',
+        related_name="blog_post_pages",
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+    )
+    post_body = RichTextField(_("Body"), null=True, blank=True, features=BLOG_POST_PAGE_RICH_TEXT_FEATURES)
+    post_title = models.CharField(_("Title"), max_length=100)
+
+    content_panels = Page.content_panels + [
+        FieldPanel("post_picture"),
+        FieldPanel("post_title"),
+        FieldPanel("post_body"),
+        InstanceSelectorPanel("post_author"),
+        FieldPanel('post_category'),
+        FieldPanel("post_tags"),
+    ]
+
+    search_fields = Page.search_fields + [
+        index.SearchField("post_title", partial_match=True),
+        index.SearchField("post_category", partial_match=True),
+        index.SearchField("post_tags", partial_match=True),
+        index.SearchField("post_author", partial_match=True),
+        index.SearchField("first_published_at", partial_match=True),
+    ]
+
+    graphql_fields = [
+        GraphQLImage("post_picture"),
+        GraphQLForeignKey('post_author', content_type='authentication.User'),
+        GraphQLRichText("post_body"),
+        GraphQLString("url", required=True),
+        GraphQLString("post_title", required=True),
+        GraphQLTag("post_tags", required=True),
+        GraphQLSnippet("post_category", "blog.BlogPostCategory"),
+    ]
+
+
 @register_snippet
 class BlogPostCategory(models.Model, index.Indexed):
     name = models.CharField(_("Name"), max_length=100)
@@ -87,111 +191,10 @@ class BlogPostTag(TaggedItemBase, index.Indexed):
     ]
 
 
-@register_paginated_query_field("blogPost", "blogPosts", plural_item_required=True, query_params=BLOG_POST_PAGE_PARAMS)
-class BlogPostPage(HeadlessMixin, Page):
-    subpage_types = []
-    parent_page_types = [
-        'blog.BlogPostIndexPage'
-    ]
+def Filter(name, field_type, values=None):
+    if values is None:
+        values = []
 
-    post_picture = models.ForeignKey(
-        Image,
-        verbose_name=_('Picture'),
-        related_name="+",
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL
-    )
-    post_author = models.ForeignKey(
-        "authentication.User",
-        verbose_name=_("Author"),
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="authored_post_pages",
-    )
-    post_tags = ClusterTaggableManager(through=BlogPostTag, blank=True)
-    post_category = models.ForeignKey(
-        BlogPostCategory,
-        related_name="blog_post_pages",
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-    )
-    post_body = RichTextField(_("Body"), null=True, blank=True, features=BLOG_POST_PAGE_RICH_TEXT_FEATURES)
-    post_title = models.CharField(_("Title"), max_length=100)
-
-    content_panels = Page.content_panels + [
-        FieldPanel("post_picture"),
-        FieldPanel("post_title"),
-        FieldPanel("post_body"),
-        InstanceSelectorPanel("post_author"),
-        FieldPanel('post_category'),
-        FieldPanel("post_tags"),
-    ]
-
-    search_fields = Page.search_fields + [
-        index.SearchField("post_title", partial_match=True),
-        index.SearchField("post_category", partial_match=True),
-        index.SearchField("post_tags", partial_match=True),
-        index.SearchField("post_author", partial_match=True),
-        index.SearchField("first_published_at", partial_match=True),
-    ]
-
-    graphql_fields = [
-        GraphQLImage("post_picture"),
-        GraphQLForeignKey('post_author', content_type='authentication.User'),
-        GraphQLRichText("post_body"),
-        GraphQLString("url", required=True),
-        GraphQLString("post_title", required=True),
-        GraphQLTag("post_tags", required=True),
-        GraphQLSnippet("post_category", "blog.BlogPostCategory"),
-    ]
-
-
-class BlogPostIndexPage(HeadlessMixin, Page):
-    max_count = 1
-    parent_page_types = [
-        'home.HomePage'
-    ]
-    subpage_types = [
-        'blog.BlogPostPage',
-    ]
-
-    face_title = models.CharField(_("Face Title"), max_length=100, blank=True, null=True)
-    face_picture = models.ForeignKey(
-        Image,
-        verbose_name=_('Face Picture'),
-        related_name="+",
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL
-    )
-
-    @property
-    def filters(self):
-        filters = [
-            Filter('Категории', 'checkbox', get_category_values()),
-            Filter('Теги', 'checkbox', get_tag_values()),
-            Filter('Авторы', 'checkbox', get_author_values()),
-            Filter('Дата', 'date', get_date_values()),
-        ]
-
-        return filters
-
-    content_panels = Page.content_panels + [
-        FieldPanel("face_title"),
-        FieldPanel("face_picture"),
-    ]
-
-    graphql_fields = [
-        GraphQLString("face_title"),
-        GraphQLImage("face_picture"),
-        GraphQLField('filters', FilterListType, required=True),
-    ]
-
-
-def Filter(name, field_type, values):
     return {
         'name': name,
         'type': field_type,
@@ -224,13 +227,4 @@ def get_author_values():
         'name': author.full_name,
         'value': author.id,
     } for author in valuesEntries]
-
-
-def get_date_values():
-    valuesEntries = BlogPostPage.objects.live().all()
-
-    return [{
-        'name': post.first_published_at.strftime('%d.%m.%Y'),
-        'value': post.first_published_at,
-    } for post in valuesEntries]
 

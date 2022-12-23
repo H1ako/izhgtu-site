@@ -15,7 +15,7 @@ export interface Page_page_Page {
 }
 
 export interface Page_page_HomePage_lastNews_post {
-  __typename: "Page" | "HomePage" | "BlogPostPage" | "BlogPostIndexPage";
+  __typename: "Page" | "HomePage" | "BlogPostIndexPage" | "BlogPostPage";
   url: string | null;
 }
 
@@ -161,7 +161,7 @@ export interface Page_page_BlogPostIndexPage_filters {
   __typename: "FilterType";
   type: FilterTypeType;
   name: string;
-  values: Page_page_BlogPostIndexPage_filters_values[];
+  values: Page_page_BlogPostIndexPage_filters_values[] | null;
 }
 
 export interface Page_page_BlogPostIndexPage {
@@ -268,17 +268,17 @@ export interface Settings_settings_MainContentSettings_logo {
 }
 
 export interface Settings_settings_MainContentSettings_header_menu_linksGroups_page {
-  __typename: "Page" | "HomePage" | "BlogPostPage" | "BlogPostIndexPage";
+  __typename: "Page" | "HomePage" | "BlogPostIndexPage" | "BlogPostPage";
   url: string | null;
 }
 
 export interface Settings_settings_MainContentSettings_header_menu_linksGroups_linksGroups_page {
-  __typename: "Page" | "HomePage" | "BlogPostPage" | "BlogPostIndexPage";
+  __typename: "Page" | "HomePage" | "BlogPostIndexPage" | "BlogPostPage";
   url: string | null;
 }
 
 export interface Settings_settings_MainContentSettings_header_menu_linksGroups_linksGroups_linksGroups_page {
-  __typename: "Page" | "HomePage" | "BlogPostPage" | "BlogPostIndexPage";
+  __typename: "Page" | "HomePage" | "BlogPostIndexPage" | "BlogPostPage";
 }
 
 export interface Settings_settings_MainContentSettings_header_menu_linksGroups_linksGroups_linksGroups {
@@ -362,7 +362,7 @@ export interface Settings_settings_MainContentSettings_footer_menu_FooterMenuLin
 }
 
 export interface Settings_settings_MainContentSettings_footer_menu_FooterMenuLinkPage_page {
-  __typename: "Page" | "HomePage" | "BlogPostPage" | "BlogPostIndexPage";
+  __typename: "Page" | "HomePage" | "BlogPostIndexPage" | "BlogPostPage";
   url: string | null;
 }
 
