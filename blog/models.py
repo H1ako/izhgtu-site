@@ -8,7 +8,7 @@ from grapple.models import (
     GraphQLSnippet,
     GraphQLTag,
     GraphQLForeignKey,
-    GraphQLRichText, GraphQLImage, GraphQLCollection,
+    GraphQLRichText, GraphQLImage, GraphQLCollection, GraphQLField,
 )
 from grapple.utils import resolve_paginated_queryset
 from modelcluster.contrib.taggit import ClusterTaggableManager
@@ -24,6 +24,8 @@ from wagtail.snippets.models import register_snippet
 from wagtail_headless_preview.models import HeadlessMixin
 from instance_selector.edit_handlers import InstanceSelectorPanel
 
+from authentication.models import User
+from blog.schema import FilterListType
 from izhgtuSite.models import TimeStampedModel
 
 
@@ -39,8 +41,6 @@ BLOG_POST_PAGE_RICH_TEXT_FEATURES = [
 ]
 
 BLOG_POST_PAGE_PARAMS = {
-    'post_tags__name__in': graphene.List(graphene.String),
-    'post_category__in': graphene.List(graphene.Int),
     'post_title': graphene.String(),
 }
 
@@ -87,7 +87,6 @@ class BlogPostTag(TaggedItemBase, index.Indexed):
     search_fields = Page.search_fields + [
         index.SearchField('name'),
     ]
-
 
 # use query params for plural query fields
 @register_paginated_query_field("blogPost", "blogPosts", plural_item_required=True, query_params=BLOG_POST_PAGE_PARAMS)
@@ -161,8 +160,8 @@ class BlogPostIndexPage(HeadlessMixin, Page):
         'blog.BlogPostPage',
     ]
 
-    faceTitle = models.CharField(_("Face Title"), max_length=100, blank=True, null=True)
-    facePicture = models.ForeignKey(
+    face_title = models.CharField(_("Face Title"), max_length=100, blank=True, null=True)
+    face_picture = models.ForeignKey(
         Image,
         verbose_name=_('Face Picture'),
         related_name="+",
@@ -171,13 +170,54 @@ class BlogPostIndexPage(HeadlessMixin, Page):
         on_delete=models.SET_NULL
     )
 
+    @property
+    def filters(self):
+        def get_category_values():
+            return [{
+                'name': category.name,
+                'value': category.slug,
+            } for category in BlogPostCategory.objects.all()]
+
+        def get_tag_values():
+            return [{
+                'name': tag.tag.name,
+                'value': tag.tag.slug,
+            } for tag in BlogPostTag.objects.all()]
+
+        def get_author_values():
+            return [{
+                'name': author.full_name,
+                'value': author.id,
+            } for author in User.objects.all()]
+
+        def get_date_values():
+            return [{
+                'name': post.first_published_at.strftime('%d.%m.%Y'),
+                'value': post.first_published_at,
+            } for post in BlogPostPage.objects.live().all()]
+
+        def Filter(name, field_type, values):
+            return {
+                'name': name,
+                'type': field_type,
+                'values': values
+            }
+
+        filters = [
+            Filter('Категории', 'checkbox', get_category_values()),
+            Filter('Теги', 'checkbox', get_tag_values()),
+            Filter('Авторы', 'checkbox', get_author_values()),
+            Filter('Дата', 'date', get_date_values()),
+        ]
+        return filters
+
     content_panels = Page.content_panels + [
-        FieldPanel("faceTitle"),
-        FieldPanel("facePicture"),
+        FieldPanel("face_title"),
+        FieldPanel("face_picture"),
     ]
 
     graphql_fields = [
-        GraphQLString("faceTitle"),
-        GraphQLImage("facePicture"),
+        GraphQLString("face_title"),
+        GraphQLImage("face_picture"),
+        GraphQLField('filters', FilterListType, required=True),
     ]
-

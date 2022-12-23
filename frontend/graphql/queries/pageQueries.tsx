@@ -88,6 +88,14 @@ query Page($url: String!) {
         url
         title
       }
+      filters {
+        type
+        name
+        values {
+          name
+          value
+        }
+      }
     }
   }
 }

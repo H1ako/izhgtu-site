@@ -1,14 +1,5 @@
 // global
 import React from 'react'
-// consts
-import {
-  ANIMATIONS_STOPPED_CLASS,
-  IMAGES_HIDDEN_CLASS,
-  HIGHLITED_FOCUS_CLASS,
-  HIGHLITED_LINKS_CLASS,
-  STANDART_FONT_CLASS,
-  REMOVED_TRANSITIONS_CLASS, DEFAULT_VALUES
-} from "./consts";
 // components
 import Select, {SelectOption} from "../Select/Select";
 import Range from "../Range/Range";
@@ -16,100 +7,53 @@ import Toggle from "../Toggle/Toggle";
 // additional
 import languages from '../../languages.json'
 // styles and icons
-import styles from '../../styles/components/AccessibilityMenu.module.scss';
+import styles from './AccessibilityMenu.module.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGear, faXmark, faRepeat, faEyeSlash} from "@fortawesome/free-solid-svg-icons";
+import useOptions from "./useOptions";
+
 
 function AccessibilityMenu() {
   // menu settings
+  const [ languagesOptions, setLanguagesOptions ] = React.useState<any>(null)
   const [ isMenuVisible, setIsMenuVisible ] = React.useState<boolean>(false)
   const [ isHidden, setIsHidden ] = React.useState<boolean>(false)
-  // options
-  const [ currentLanguage, setCurrentLanguage ] = React.useState<string>(DEFAULT_VALUES.language)
-  const [ saturation, setSaturation ] = React.useState<number | string>(DEFAULT_VALUES.saturation)
-  const [ areLinksHighlighted, setLinksHighlighting ] = React.useState<boolean>(DEFAULT_VALUES.highlightLinks)
-  const [ isFocusHighlited , setFocusHighlighting ] = React.useState<boolean>(DEFAULT_VALUES.highlightFocus)
-  const [ isStandartFont , setIsStandartFont ] = React.useState<boolean>(DEFAULT_VALUES.standartFont)
-  const [ areImagesHidden , setHiddenImages ] = React.useState<boolean>(DEFAULT_VALUES.imagesHidden)
-  const [ areAnimationStopped , setAnimationStop ] = React.useState<boolean>(DEFAULT_VALUES.animationsStopped)
-  const [ areTransitionRemoved , setTransitionRemove ] = React.useState<boolean>(DEFAULT_VALUES.transitionRemoved)
+  const {
+    saturation,
+    setSaturation,
+    currentLanguage,
+    setCurrentLanguage,
+    areLinksHighlighted,
+    setLinksHighlighting,
+    isFocusHighlited,
+    setFocusHighlighting,
+    isStandartFont,
+    setIsStandartFont,
+    areImagesHidden,
+    setHiddenImages,
+    areAnimationStopped,
+    setAnimationStop,
+    areTransitionRemoved,
+    setTransitionRemove,
+    reset
+  } = useOptions()
   
-  const languagesOption = languages.filter(language => language.active).map(language => {
-    const option: SelectOption = {
-      value: language.code,
-      text: language.name,
-      icon: language.icon
-    }
-    return option
-  })
-  
-  const reset = () => {
-    setCurrentLanguage(DEFAULT_VALUES.language)
-    setSaturation(DEFAULT_VALUES.saturation)
-    setLinksHighlighting(DEFAULT_VALUES.highlightLinks)
-    setFocusHighlighting(DEFAULT_VALUES.highlightFocus)
-    setIsStandartFont(DEFAULT_VALUES.standartFont)
-    setHiddenImages(DEFAULT_VALUES.imagesHidden)
-    setAnimationStop(DEFAULT_VALUES.animationsStopped)
-    setTransitionRemove(DEFAULT_VALUES.transitionRemoved)
+  const refactorLanguagesOptions = (): void => {
+    const refactoredLanguages = languages.filter(language => language.active).map(language => {
+      const option: SelectOption = {
+        value: language.code,
+        text: language.name,
+        icon: language.icon
+      }
+      return option
+    })
+    
+    setLanguagesOptions(refactoredLanguages)
   }
-
-  React.useEffect(() => {
-    const htmlElement = document.querySelector('html')
-    if (!htmlElement) return
-
-    
-    htmlElement.style.setProperty('--saturation', `${saturation}%`)
-  }, [saturation])
   
   React.useEffect(() => {
-    const htmlElement = document.querySelector('html')
-    if (!htmlElement) return
-    
-    if (areLinksHighlighted) htmlElement.classList.add(HIGHLITED_LINKS_CLASS)
-    else htmlElement.classList.remove(HIGHLITED_LINKS_CLASS)
-    
-  }, [areLinksHighlighted])
-  
-  React.useEffect(() => {
-    const htmlElement = document.querySelector('html')
-    if (!htmlElement) return
-
-    if (isFocusHighlited) htmlElement.classList.add(HIGHLITED_FOCUS_CLASS)
-    else htmlElement.classList.remove(HIGHLITED_FOCUS_CLASS)
-  }, [isFocusHighlited])
-  
-  React.useEffect(() => {
-    const htmlElement = document.querySelector('html')
-    if (!htmlElement) return
-
-    if (isStandartFont) htmlElement.classList.add(STANDART_FONT_CLASS)
-    else htmlElement.classList.remove(STANDART_FONT_CLASS)
-  }, [isStandartFont])
-  
-  React.useEffect(() => {
-    const htmlElement = document.querySelector('html')
-    if (!htmlElement) return
-
-    if (areImagesHidden) htmlElement.classList.add(IMAGES_HIDDEN_CLASS)
-    else htmlElement.classList.remove(IMAGES_HIDDEN_CLASS)
-  }, [areImagesHidden])
-  
-  React.useEffect(() => {
-    const htmlElement = document.querySelector('html')
-    if (!htmlElement) return
-
-    if (areAnimationStopped) htmlElement.classList.add(ANIMATIONS_STOPPED_CLASS)
-    else htmlElement.classList.remove(ANIMATIONS_STOPPED_CLASS)
-  }, [areAnimationStopped])
-  
-  React.useEffect(() => {
-    const htmlElement = document.querySelector('html')
-    if (!htmlElement) return
-
-    if (areTransitionRemoved) htmlElement.classList.add(REMOVED_TRANSITIONS_CLASS)
-    else htmlElement.classList.remove(REMOVED_TRANSITIONS_CLASS)
-  }, [areTransitionRemoved])
+    refactorLanguagesOptions()
+  }, [])
   
   return (
     <div className={`${styles.accessibilityMenu} ${isHidden ? styles.hidden : ''}`}>
@@ -144,7 +88,7 @@ function AccessibilityMenu() {
               <span className={styles.setting__name}>Язык: </span>
               <span className={styles.setting__value}>
                 <Select
-                  options={languagesOption}
+                  options={languagesOptions}
                   value={currentLanguage}
                   setValue={setCurrentLanguage}
                   name="language"

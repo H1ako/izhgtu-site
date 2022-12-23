@@ -1,4 +1,5 @@
 import '../styles/main/globals.scss'
+import '../styles/main/accessibility.scss'
 import '../styles/main/index.scss'
 import {RecoilRoot} from "recoil";
 import {ApolloProvider} from "@apollo/client";

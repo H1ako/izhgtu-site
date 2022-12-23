@@ -1,0 +1,33 @@
+@import "../../styles/main/mixins";
+
+
+.searchField {
+  position: relative;
+  width: min(30rem, 100%);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border-radius: var(--bdrsBtn);
+  font-size: var(--fontSize3-4);
+  color: var(--colorText);
+  background: var(--colorBgAccent);
+  padding-block: .5rem;
+
+  &__label {
+    height: 100%;
+    //width: 2rem;
+    flex: 0 0 2rem;
+    background: none;
+    display: grid;
+    place-content: center;
+    padding-inline: 1rem;
+  }
+
+  &__input {
+    @include clearedInput;
+
+    height: 100%;
+    width: 100%;
+    background: none;
+  }
+}

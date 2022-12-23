@@ -16,9 +16,10 @@ import {faDownload} from "@fortawesome/free-solid-svg-icons";
 import {GetServerSidePropsContext} from "next";
 import {BlogPosts, BlogPostsVariables, Page_page_BlogPostIndexPage} from "../../graphql/generated";
 import {ColorRing} from "react-loader-spinner";
+import FiltersBar from "../../components/FiltersBar/FiltersBar";
 
 
-function BlogPostIndexPage({faceTitle, facePicture}: Page_page_BlogPostIndexPage) {
+function BlogPostIndexPage({faceTitle, facePicture, filters}: Page_page_BlogPostIndexPage) {
   const {loading, data, error, refetch} = useQuery<BlogPosts, BlogPostsVariables>(BLOG_POSTS_QUERY, {
     variables: {
       page: 1,
@@ -36,7 +37,9 @@ function BlogPostIndexPage({faceTitle, facePicture}: Page_page_BlogPostIndexPage
         <h1>{faceTitle}</h1>
       </FacePictureBlockBlured>
       <div className={styles.content}>
-        <aside className={styles.filtersBar}></aside>
+        <FiltersBar
+          filters={filters}
+        />
         <div className={styles.content__postsArea}>
           { !loading && !error &&
             <ul className={styles.postsArea__posts}>

@@ -1,64 +1,6 @@
-@import "../main/mixins";
+@import "../../styles/main/mixins";
 
-// options styles
-#html :global html {
-  $highlitedLinksColor: #f700ff;
-  $highlitedFocusColor: lime;
 
-  @function saturate($options...) {
-    @return #{'saturate(#{$options})'};
-  }
-
-  filter: saturate(var(--saturation, 100%)) !important;
-
-  &.highlited-links {
-    a {
-      outline: thick solid $highlitedLinksColor !important;
-    }
-  }
-
-  &.highlited-focus {
-    input,
-    button,
-    a,
-    textarea,
-    label {
-      outline: thick solid $highlitedFocusColor !important;
-    }
-  }
-
-  &.standart-font {
-    * {
-      font-family: "Arial", Helvetica, sans-serif !important;
-      font-weight: 300 !important;
-    }
-  }
-
-  &.hidden-images {
-    * {
-      background-image: none !important;
-    }
-
-    img {
-      object-position: 99999px 99999px !important;
-      outline: 3px dashed blueviolet !important;
-    }
-  }
-
-  &.animations-stopped {
-    * {
-      animation-play-state: paused !important;
-    }
-  }
-
-  &.transitions-removed {
-    * {
-      transition: none !important;
-    }
-  }
-}
-
-// menu styles
 .accessibilityMenu {
   $margin: 1rem;
 

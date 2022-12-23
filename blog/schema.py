@@ -1,22 +1,23 @@
-# import graphene
-# from grapple.types.structures import BasePaginatedType
-#
-# from blog.models import BlogPostPage
-#
-# # make a paginated type for Blog Post Page using BasePaginatedType
-# class BlogPostPageType(BasePaginatedType):
-#     class Meta:
-#         model = BlogPostPage
-#
-#
-#
-# class BlogPostsQuery:
-#     blog_posts = graphene.List()
-#
-#     # noinspection PyMethodMayBeStatic
-#     def resolve_auth_user(self, info):
-#         user = info.context.user
-#         if user.is_anonymous:
-#             raise Exception('Not logged in!')
-#
-#         return user
+import graphene
+
+
+class FilterValueType(graphene.ObjectType):
+    name = graphene.String(required=True)
+    value = graphene.String(required=True)
+
+
+class FilterTypeType(graphene.Enum):
+    CHECKBOX = 'checkbox'
+    DATE = 'date'
+
+
+class FilterType(graphene.ObjectType):
+    name = graphene.String(required=True)
+    type = FilterTypeType(required=True)
+    values = graphene.List(graphene.NonNull(FilterValueType), required=True)
+
+    class Meta:
+        interfaces = (graphene.relay.Node, )
+
+
+FilterListType = graphene.List(graphene.NonNull(FilterType))

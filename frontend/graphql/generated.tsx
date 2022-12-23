@@ -151,6 +151,19 @@ export interface Page_page_BlogPostIndexPage_facePicture {
   title: string;
 }
 
+export interface Page_page_BlogPostIndexPage_filters_values {
+  __typename: "FilterValueType";
+  name: string;
+  value: string;
+}
+
+export interface Page_page_BlogPostIndexPage_filters {
+  __typename: "FilterType";
+  type: FilterTypeType;
+  name: string;
+  values: Page_page_BlogPostIndexPage_filters_values[];
+}
+
 export interface Page_page_BlogPostIndexPage {
   __typename: "BlogPostIndexPage";
   id: string | null;
@@ -158,6 +171,7 @@ export interface Page_page_BlogPostIndexPage {
   pageType: string | null;
   faceTitle: string | null;
   facePicture: Page_page_BlogPostIndexPage_facePicture | null;
+  filters: Page_page_BlogPostIndexPage_filters[];
 }
 
 export type Page_page = Page_page_Page | Page_page_HomePage | Page_page_BlogPostPage | Page_page_BlogPostIndexPage;
@@ -505,6 +519,11 @@ export interface AuthUser {
 //==============================================================
 // START Enums and Input Objects
 //==============================================================
+
+export enum FilterTypeType {
+  CHECKBOX = "CHECKBOX",
+  DATE = "DATE",
+}
 
 //==============================================================
 // END Enums and Input Objects
