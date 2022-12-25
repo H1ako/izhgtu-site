@@ -26,10 +26,6 @@ function BlogPostIndexPage({faceTitle, facePicture, filters}: Page_page_BlogPost
       perPage: 30
     },
   })
-  
-  React.useEffect(() => {
-    refetch()
-  }, [])
 
   return (
     <PageLayout>
@@ -39,6 +35,7 @@ function BlogPostIndexPage({faceTitle, facePicture, filters}: Page_page_BlogPost
       <div className={styles.content}>
         <FiltersBar
           filters={filters}
+          onFilterStateChange={() => refetch()}
         />
         <div className={styles.content__postsArea}>
           { !loading && !error &&

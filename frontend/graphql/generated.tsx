@@ -161,7 +161,8 @@ export interface Page_page_BlogPostIndexPage_filters {
   __typename: "FilterType";
   type: FilterTypeType;
   name: string;
-  values: Page_page_BlogPostIndexPage_filters_values[] | null;
+  slug: string;
+  values: Page_page_BlogPostIndexPage_filters_values[];
 }
 
 export interface Page_page_BlogPostIndexPage {

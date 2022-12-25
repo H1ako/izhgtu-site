@@ -2,14 +2,22 @@
 import React from 'react'
 // components
 import SearchField from "../SearchField/SearchField";
+import DateRange from "../DateRange/DateRange";
+// libs
+import useForceRerender from "../../libs/useForceRerender";
 // styles
 import styles from './FiltersBar.module.scss'
-import DateRange from "../DateRange/DateRange";
 
 
-interface FilterValueType {
-  name: string,
-  value: string
+type ChosenFilterDateType = [
+  string,
+  string,
+] | []
+
+type ChosenFilterCheckboxType = string[]
+
+type ChosenFiltersType = {
+  [key: string]: ChosenFilterCheckboxType | ChosenFilterDateType
 }
 
 enum FilterTypeType {
@@ -17,45 +25,103 @@ enum FilterTypeType {
   DATE = 'DATE',
 }
 
-interface FilterCheckboxType {
-  name: string,
-  type: FilterTypeType,
-  values: FilterValueType[]
-}
-
-interface FilterDateType {
-  name: string,
-  type: FilterTypeType,
-  values: []
-}
-
 interface FiltersBarProps {
   className?: string,
-  filters: (FilterDateType | FilterCheckboxType)[]
+  filters: (FilterDateType | FilterCheckboxType)[],
+  onFilterStateChange: (filters: any) => void
 }
 
 interface FilterValuesProps {
   values: FilterValueType[],
+  onFilterValueStateChange?: () => void,
   filterName: string,
+  filterSlug: string,
   filterType: FilterTypeType,
 }
 
 interface FilterDateProps {
+  filterSlug: string,
   endDate: Date | null,
   startDate: Date | null,
   setEndDate: (date: Date | null) => void,
   setStartDate: (date: Date | null) => void,
+  onChange?: () => void,
 }
 
 interface FilterCheckboxProps {
   name: string,
   value: string,
-  checked: boolean,
+  onChange?: () => void,
+}
+
+interface FilterValueType {
+  name: string,
+  value: string
+}
+
+interface FilterType {
+  type: FilterTypeType,
+  name: string,
+  slug: string,
+}
+
+interface FilterCheckboxType extends FilterType {
+  values: FilterValueType[]
+}
+
+interface FilterDateType extends FilterType {
+  values: []
 }
 
 
-function FiltersBar({className='', filters}: FiltersBarProps) {
+function FiltersBar({className='', filters, onFilterStateChange}: FiltersBarProps) {
   const [ searchValue, setSearchValue ] = React.useState('')
+  const { forceRerender, value: forceRerenderValue } = useForceRerender()
+  
+  const getChosenFilters = () => {
+    const chosenFilters: ChosenFiltersType = {}
+    
+    filters.forEach(filter => {
+      chosenFilters[filter.slug] = []
+      
+      if (filter.type === FilterTypeType.CHECKBOX) {
+        const filterCheckedValues = getFilterCheckedValuesBySlug(filter.slug)
+        
+        chosenFilters[filter.slug] = filterCheckedValues
+      }
+      else if (filter.type === FilterTypeType.DATE) {
+        const filterDateValues = getFilterDateValuesBySlug(filter.slug)
+        
+        chosenFilters[filter.slug] = filterDateValues
+      }
+    })
+    
+    return chosenFilters
+  }
+  
+  const getFilterCheckedValuesBySlug = (slug: string): ChosenFilterCheckboxType => {
+    const checkboxes = document.querySelectorAll(`*[id="${`filter-values-${slug}`}"] input:checked`)
+    
+    return Array.from(checkboxes).map(checkbox => (checkbox as HTMLInputElement).value)
+  }
+  
+  const getFilterDateValuesBySlug = (slug: string): ChosenFilterDateType => {
+    const startDate = document.querySelector(`*[id="${`filter-date-start-${slug}`}"]`) as HTMLInputElement
+    const endDate = document.querySelector(`*[id="${`filter-date-end-${slug}`}"]`) as HTMLInputElement
+    
+    const dateRangeStart = startDate?.value || endDate?.value
+    const dateRangeEnd = endDate?.value || startDate?.value
+    
+    if (dateRangeStart && dateRangeEnd) {
+      return [dateRangeStart, dateRangeEnd]
+    }
+    
+    return []
+  }
+  
+  React.useEffect(() => {
+    onFilterStateChange(getChosenFilters())
+  }, [forceRerenderValue])
   
   return (
     <aside className={`${styles.filtersBar} ${className}`}>
@@ -64,7 +130,7 @@ function FiltersBar({className='', filters}: FiltersBarProps) {
         value={searchValue}
         setValue={setSearchValue}
         placeholder={'Поиск фильтра'}
-        className={styles.filtersBar__searchField}
+         className={styles.filtersBar__searchField}
       />
       <ul className={styles.filtersBar__filters}>
         { filters.map(filter => (
@@ -74,6 +140,8 @@ function FiltersBar({className='', filters}: FiltersBarProps) {
               values={filter.values}
               filterName={filter.name}
               filterType={filter.type}
+              filterSlug={filter.slug}
+              onFilterValueStateChange={forceRerender}
             />
           </li>
         )) }
@@ -83,18 +151,16 @@ function FiltersBar({className='', filters}: FiltersBarProps) {
 }
 
 
-function FilterValues({values, filterName, filterType}: FilterValuesProps) {
+function FilterValues({values, filterName, filterType, filterSlug, onFilterValueStateChange}: FilterValuesProps) {
   if (filterType === FilterTypeType.CHECKBOX) {
-    const [ checkedValues, setCheckedValues ] = React.useState<string[]>([])
-    
     return (
-      <ul className={styles.filter__values}>
+      <ul id={`filter-values-${filterSlug}`} className={styles.filter__values}>
         { values.map(value => (
           <li key={`filter-${filterName}-value-${value.name}`} className={styles.values__value}>
             <FilterCheckbox
               name={value.name}
               value={value.value}
-              checked={checkedValues.includes(value.value)}
+              onChange={onFilterValueStateChange}
             />
           </li>
         )) }
@@ -107,10 +173,12 @@ function FilterValues({values, filterName, filterType}: FilterValuesProps) {
     
     return (
       <FilterDate
+        filterSlug={filterSlug}
         startDate={startDate}
         setStartDate={setStartDate}
         endDate={endDate}
         setEndDate={setEndDate}
+        onChange={onFilterValueStateChange}
       />
     )
   }
@@ -125,6 +193,7 @@ function FilterValues({values, filterName, filterType}: FilterValuesProps) {
               className={styles.label__input}
               name={`filter-${filterName}`}
               value={value.value}
+              onChange={onFilterValueStateChange}
             />
             <span className={styles.label__text}>{value.name}</span>
           </label>
@@ -135,7 +204,7 @@ function FilterValues({values, filterName, filterType}: FilterValuesProps) {
 }
 
 
-function FilterDate({startDate, endDate, setStartDate, setEndDate}: FilterDateProps) {
+function FilterDate({startDate, endDate, setStartDate, setEndDate, filterSlug, onChange}: FilterDateProps) {
   return (
     <DateRange
       startDate={startDate}
@@ -143,12 +212,15 @@ function FilterDate({startDate, endDate, setStartDate, setEndDate}: FilterDatePr
       setStartDate={setStartDate}
       setEndDate={setEndDate}
       className={styles.value__dateRange}
+      startDateId={`filter-date-start-${filterSlug}`}
+      endDateId={`filter-date-end-${filterSlug}`}
+      onChange={onChange}
     />
   )
 }
 
 
-function FilterCheckbox({name, value, checked}: FilterCheckboxProps) {
+function FilterCheckbox({name, value, onChange}: FilterCheckboxProps) {
   return (
     <label className={styles.value__label}>
       <input
@@ -156,6 +228,7 @@ function FilterCheckbox({name, value, checked}: FilterCheckboxProps) {
         className={styles.label__input}
         name={`filter-checkbox-${name}`}
         value={value}
+        onChange={onChange}
       />
       <span className={styles.label__text}>{name}</span>
     </label>

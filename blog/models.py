@@ -65,10 +65,10 @@ class BlogPostIndexPage(HeadlessMixin, Page):
     @property
     def filters(self):
         filters = [
-            Filter('Категории', 'checkbox', get_category_values()),
-            Filter('Теги', 'checkbox', get_tag_values()),
-            Filter('Авторы', 'checkbox', get_author_values()),
-            Filter('Дата', 'date'),
+            Filter('Категории', 'checkbox', 'categories', values=get_category_values()),
+            Filter('Теги', 'checkbox', 'tags', values=get_tag_values()),
+            Filter('Авторы', 'checkbox', 'authors', values=get_author_values()),
+            Filter('Дата', 'date', 'post_date'),
         ]
 
         return filters
@@ -191,13 +191,14 @@ class BlogPostTag(TaggedItemBase, index.Indexed):
     ]
 
 
-def Filter(name, field_type, values=None):
+def Filter(name, field_type, slug, values=None):
     if values is None:
         values = []
 
     return {
         'name': name,
         'type': field_type,
+        'slug': slug,
         'values': values
     }
 

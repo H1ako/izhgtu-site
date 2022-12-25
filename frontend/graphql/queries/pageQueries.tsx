@@ -91,6 +91,7 @@ query Page($url: String!) {
       filters {
         type
         name
+        slug
         values {
           name
           value
