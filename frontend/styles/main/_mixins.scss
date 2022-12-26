@@ -1,8 +1,8 @@
-@mixin clearedInput {
+@mixin clearedInput($fontSize: var(--fontSize4)) {
   outline: none;
   border: none;
   color: var(--colorText);
-  font-size: var(--fontSize4);
+  font-size: $fontSize;
 
   &::placeholder {
     color: var(--colorTextDark);

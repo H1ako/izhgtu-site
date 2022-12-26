@@ -1,0 +1,39 @@
+.checkboxWithText {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+
+  &__nativeInput {
+    display: none;
+
+    &:checked ~ .checkboxWithText__input {
+      background: var(--colorMain);
+
+      .input__icon {
+        opacity: 1;
+      }
+    }
+  }
+
+  &__input {
+    aspect-ratio: 1;
+    display: grid;
+    place-content: center;
+    width: 1.5rem;
+    //height: 1.5rem;
+    background: var(--colorBgDark);
+    border-radius: var(--bdrsBtn);
+    overflow: visible;
+    transition: var(--transitionDefault);
+
+    .input__icon {
+      opacity: 0;
+      transition: var(--transitionDefault);
+      font-size: var(--fontSize4);
+    }
+  }
+
+  &__text {
+
+  }
+}

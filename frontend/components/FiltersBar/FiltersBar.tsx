@@ -7,6 +7,7 @@ import DateRange from "../DateRange/DateRange";
 import useForceRerender from "../../libs/useForceRerender";
 // styles
 import styles from './FiltersBar.module.scss'
+import CheckboxWithText from "../CheckboxWithText/CheckboxWithText";
 
 
 type ChosenFilterDateType = [
@@ -48,11 +49,6 @@ interface FilterDateProps {
   onChange?: () => void,
 }
 
-interface FilterCheckboxProps {
-  name: string,
-  value: string,
-  onChange?: () => void,
-}
 
 interface FilterValueType {
   name: string,
@@ -136,13 +132,15 @@ function FiltersBar({className='', filters, onFilterStateChange}: FiltersBarProp
         { filters.map(filter => (
           <li key={`filter-${filter.name}`} className={styles.filters__filter}>
             <h2 className={styles.filter__heading}>{filter.name}</h2>
-            <FilterValues
-              values={filter.values}
-              filterName={filter.name}
-              filterType={filter.type}
-              filterSlug={filter.slug}
-              onFilterValueStateChange={forceRerender}
-            />
+            <div className={styles.filter__valuesWrapper}>
+              <FilterValues
+                values={filter.values}
+                filterName={filter.name}
+                filterType={filter.type}
+                filterSlug={filter.slug}
+                onFilterValueStateChange={forceRerender}
+              />
+            </div>
           </li>
         )) }
       </ul>
@@ -154,12 +152,13 @@ function FiltersBar({className='', filters, onFilterStateChange}: FiltersBarProp
 function FilterValues({values, filterName, filterType, filterSlug, onFilterValueStateChange}: FilterValuesProps) {
   if (filterType === FilterTypeType.CHECKBOX) {
     return (
-      <ul id={`filter-values-${filterSlug}`} className={styles.filter__values}>
+      <ul id={`filter-values-${filterSlug}`} className={styles.valuesWrapper__values}>
         { values.map(value => (
           <li key={`filter-${filterName}-value-${value.name}`} className={styles.values__value}>
-            <FilterCheckbox
-              name={value.name}
+            <CheckboxWithText
+              name={`filter-checkbox-${value.name}`}
               value={value.value}
+              text={value.name}
               onChange={onFilterValueStateChange}
             />
           </li>
@@ -172,19 +171,21 @@ function FilterValues({values, filterName, filterType, filterSlug, onFilterValue
     const [ endDate, setEndDate ] = React.useState<Date | null>(null)
     
     return (
-      <FilterDate
-        filterSlug={filterSlug}
+      <DateRange
         startDate={startDate}
-        setStartDate={setStartDate}
         endDate={endDate}
+        setStartDate={setStartDate}
         setEndDate={setEndDate}
+        className={styles.valuesWrapper__dateRange}
+        startDateId={`filter-date-start-${filterSlug}`}
+        endDateId={`filter-date-end-${filterSlug}`}
         onChange={onFilterValueStateChange}
       />
     )
   }
   
   return (
-    <ul className={styles.filter__values}>
+    <ul className={styles.valuesWrapper__values}>
       { values.map(value => (
         <li key={`filter-${filterName}-value-${value.name}`} className={styles.values__value}>
           <label className={styles.value__label}>
@@ -211,7 +212,7 @@ function FilterDate({startDate, endDate, setStartDate, setEndDate, filterSlug, o
       endDate={endDate}
       setStartDate={setStartDate}
       setEndDate={setEndDate}
-      className={styles.value__dateRange}
+      className={styles.valuesWrapper__dateRange}
       startDateId={`filter-date-start-${filterSlug}`}
       endDateId={`filter-date-end-${filterSlug}`}
       onChange={onChange}
@@ -219,20 +220,5 @@ function FilterDate({startDate, endDate, setStartDate, setEndDate, filterSlug, o
   )
 }
 
-
-function FilterCheckbox({name, value, onChange}: FilterCheckboxProps) {
-  return (
-    <label className={styles.value__label}>
-      <input
-        type="checkbox"
-        className={styles.label__input}
-        name={`filter-checkbox-${name}`}
-        value={value}
-        onChange={onChange}
-      />
-      <span className={styles.label__text}>{name}</span>
-    </label>
-  )
-}
 
 export default FiltersBar

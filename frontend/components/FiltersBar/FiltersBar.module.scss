@@ -7,4 +7,26 @@
   &__heading {
     text-transform: uppercase;
   }
+
+  &__filters {
+    .filters__filter {
+      display: flex;
+      flex-direction: column;
+      gap: .25rem;
+
+      .filter__valuesWrapper {
+        margin-left: 1rem;
+
+        .valuesWrapper__values {
+          display: flex;
+          flex-direction: column;
+          gap: .25rem;
+
+          .values__value {
+
+          }
+        }
+      }
+    }
+  }
 }

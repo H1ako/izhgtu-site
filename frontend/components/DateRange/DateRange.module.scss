@@ -1,9 +1,27 @@
+@import "../../styles/main/mixins";
+
+
 .dateRange {
   display: flex;
   position: relative;
   width: 100%;
+  border-radius: var(--bdrsBtn);
+  overflow: hidden;
 
-  &__datePicker {
+  & > div {
     width: 100%;
+
+    &:not(:first-child) .dateRange__input {
+      border-left: 2px solid var(--colorMain);
+    }
+
+    .dateRange__input {
+      @include clearedInput();
+
+      width: 100%;
+      background: var(--colorBgDark);
+      padding: .5rem 1rem;
+      text-align: center;
+    }
   }
 }
