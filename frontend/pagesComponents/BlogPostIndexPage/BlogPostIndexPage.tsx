@@ -8,7 +8,7 @@ import {BLOG_POSTS_QUERY} from "../../graphql/queries/pageQueries";
 import PageLayout from "../../containers/PageLayout/PageLayout";
 import FacePictureBlockBlured from "../../components/FacePictureBlockBlured/FacePictureBlockBlured";
 import BlogPostCard from "../../components/BlogPostCard/BlogPostCard";
-// styles
+// styles and icons
 import styles from './BlogPostIndexPage.module.scss'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDownload} from "@fortawesome/free-solid-svg-icons";
@@ -17,9 +17,11 @@ import {GetServerSidePropsContext} from "next";
 import {BlogPosts, BlogPostsVariables, Page_page_BlogPostIndexPage} from "../../graphql/generated";
 import {ColorRing} from "react-loader-spinner";
 import FiltersBar from "../../components/FiltersBar/FiltersBar";
+import SearchField from "../../components/SearchField/SearchField";
 
 
 function BlogPostIndexPage({faceTitle, facePicture, filters}: Page_page_BlogPostIndexPage) {
+  const [ searchQuery, setSearchQuery ] = React.useState<string>('')
   const {loading, data, error, refetch} = useQuery<BlogPosts, BlogPostsVariables>(BLOG_POSTS_QUERY, {
     variables: {
       page: 1,
@@ -30,7 +32,13 @@ function BlogPostIndexPage({faceTitle, facePicture, filters}: Page_page_BlogPost
   return (
     <PageLayout>
       <FacePictureBlockBlured className={styles.faceBlock} bgImage={facePicture?.url}>
-        <h1>{faceTitle}</h1>
+        <h1 className={styles.faceBlock__heading}>{faceTitle}</h1>
+        <SearchField
+          className={styles.faceBlock__searchField}
+          placeholder="ПОИСК"
+          value={searchQuery}
+          setValue={setSearchQuery}
+        />
       </FacePictureBlockBlured>
       <div className={styles.content}>
         <FiltersBar

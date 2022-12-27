@@ -10,12 +10,11 @@
   border-radius: var(--bdrsBtn);
   font-size: var(--fontSize3-4);
   color: var(--colorText);
-  background: var(--colorBgAccent);
+  background: var(--colorBgDark);
   padding-block: .5rem;
 
   &__label {
     height: 100%;
-    //width: 2rem;
     flex: 0 0 2rem;
     background: none;
     display: grid;

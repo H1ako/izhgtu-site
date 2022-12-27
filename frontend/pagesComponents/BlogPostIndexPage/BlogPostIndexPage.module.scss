@@ -1,15 +1,19 @@
 @import "../../styles/main/mixins";
 
 
-.filtersBar {
-  width: 30rem;
-  background: red;
-  height: 40rem;
-  //display: none;
-}
-
 .faceBlock {
   height: 50vh;
+
+  .faceBlock__heading {
+    text-transform: uppercase;
+  }
+
+  .faceBlock__searchField {
+    background: var(--colorBgDarkTransparentLight);
+    backdrop-filter: blur(20px);
+    height: 3.25rem;
+    width: min(50rem, 100%);
+  }
 }
 
 .content {

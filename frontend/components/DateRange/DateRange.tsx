@@ -33,7 +33,7 @@ function DateRange({startDate, endDate, setStartDate, setEndDate, className='', 
   return (
     <div className={`${styles.dateRange} ${className}`}>
       <ReactDatePicker
-        // wrapperClassName={styles.dateRange__wrapper}
+        todayButton="Сегодня"
         enableTabLoop={false}
         className={styles.dateRange__input}
         selected={startDate}
@@ -45,6 +45,7 @@ function DateRange({startDate, endDate, setStartDate, setEndDate, className='', 
         id={startDateId}
       />
       <ReactDatePicker
+        todayButton="Сегодня"
         selected={endDate}
         className={styles.dateRange__input}
         onChange={date => dateChangeHandler(date, setEndDate)}

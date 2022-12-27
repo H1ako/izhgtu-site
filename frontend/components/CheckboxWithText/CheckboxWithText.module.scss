@@ -2,6 +2,7 @@
   display: flex;
   align-items: center;
   gap: .5rem;
+  font-size: var(--fontSize4);
 
   &__nativeInput {
     display: none;
@@ -20,7 +21,6 @@
     display: grid;
     place-content: center;
     width: 1.5rem;
-    //height: 1.5rem;
     background: var(--colorBgDark);
     border-radius: var(--bdrsBtn);
     overflow: visible;
@@ -29,11 +29,11 @@
     .input__icon {
       opacity: 0;
       transition: var(--transitionDefault);
-      font-size: var(--fontSize4);
+
     }
   }
 
   &__text {
-
+    text-transform: uppercase;
   }
 }

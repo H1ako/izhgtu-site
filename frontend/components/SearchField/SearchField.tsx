@@ -18,13 +18,13 @@ function SearchField({value, setValue, className='', placeholder='Поиск'}: 
   const id = React.useId()
   
   return (
-    <div className={styles.searchField}>
+    <div className={`${styles.searchField} ${className}`}>
       <label htmlFor={`search-${id}`} className={styles.searchField__label}>
         <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.label__icon} />
       </label>
       <input
         id={`search-${id}`}
-        className={`${styles.searchField__input} ${className}`}
+        className={styles.searchField__input}
         placeholder={placeholder}
         value={value}
         onChange={e => setValue(e.target.value)}

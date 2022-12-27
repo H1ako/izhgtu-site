@@ -190,6 +190,8 @@ class BlogPostTag(TaggedItemBase, index.Indexed):
         index.SearchField('tag', partial_match=True),
     ]
 
+    # how to disable upper case saving for tags?
+
 
 def Filter(name, field_type, slug, values=None):
     if values is None:
