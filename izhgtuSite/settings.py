@@ -128,6 +128,7 @@ INSTALLED_APPS = [
     "wagtailmedia",
     "graphql_ws.django",
     "grapple",
+    # "django_filters",
     "graphene_django",
     "wagtail_headless_preview",
     "graphene",

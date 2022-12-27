@@ -25,7 +25,7 @@ from instance_selector.edit_handlers import InstanceSelectorPanel
 
 from authentication.models import User
 from blog.schema import FilterListType
-
+from blog.utils import custom_register_paginated_query_field
 
 BLOG_POST_PAGE_RICH_TEXT_FEATURES = [
     'h1', 'h2', 'h3',
@@ -39,7 +39,10 @@ BLOG_POST_PAGE_RICH_TEXT_FEATURES = [
 ]
 
 BLOG_POST_PAGE_PARAMS = {
-    'post_title': graphene.String(),
+    'post_title__icontains': graphene.String(),
+    'post_category__id__in': graphene.List(graphene.Int),
+    'post_tags__tag__slug__in': graphene.List(graphene.String),
+    'post_author__id__in': graphene.List(graphene.Int),
 }
 
 
@@ -85,7 +88,7 @@ class BlogPostIndexPage(HeadlessMixin, Page):
     ]
 
 
-@register_paginated_query_field("blogPost", "blogPosts", plural_item_required=True, query_params=BLOG_POST_PAGE_PARAMS)
+@custom_register_paginated_query_field("blogPost", "blogPosts", plural_item_required=True, query_params=BLOG_POST_PAGE_PARAMS)
 class BlogPostPage(HeadlessMixin, Page):
     subpage_types = []
     parent_page_types = [
@@ -146,6 +149,10 @@ class BlogPostPage(HeadlessMixin, Page):
         GraphQLSnippet("post_category", "blog.BlogPostCategory"),
     ]
 
+    class Meta(Page.Meta):
+        verbose_name = _("Blog Post")
+        verbose_name_plural = _("Blog Posts")
+
 
 @register_snippet
 class BlogPostCategory(models.Model, index.Indexed):
@@ -190,8 +197,6 @@ class BlogPostTag(TaggedItemBase, index.Indexed):
         index.SearchField('tag', partial_match=True),
     ]
 
-    # how to disable upper case saving for tags?
-
 
 def Filter(name, field_type, slug, values=None):
     if values is None:
@@ -210,7 +215,7 @@ def get_category_values():
 
     return [{
         'name': category.name,
-        'value': category.slug,
+        'value': category.id,
     } for category in valuesEntries]
 
 
