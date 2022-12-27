@@ -9,6 +9,9 @@ from grapple.utils import resolve_paginated_queryset
 from wagtail.models import Page
 
 
+PAGINATION_PARAMS = ['page', 'per_page', 'search_query', 'order']
+
+
 def custom_register_paginated_query_field(
     field_name,
     plural_field_name=None,
@@ -39,7 +42,7 @@ def custom_register_paginated_query_field(
                 )
 
         def Mixin():
-            # Generic methods to get all and query one model instance.
+            # Generic methods to get filtered and query one model instance.
             def resolve_singular(self, _, info, **kwargs):
                 # If no filters then return nothing.
                 if not kwargs:
@@ -74,9 +77,7 @@ def custom_register_paginated_query_field(
                     if "order" not in kwargs:
                         kwargs["order"] = "-first_published_at"
 
-                    # make an array of kwargs without 'page', 'per_page', 'search_query', 'order'
-                    # and pass it to resolve_paginated_queryset
-                    kwargs_without_pagination = {k: v for k, v in kwargs.items() if k not in ['page', 'per_page', 'search_query', 'order']}
+                    kwargs_without_pagination = {k: v for k, v in kwargs.items() if k not in PAGINATION_PARAMS}
                     qs = qs.filter(**kwargs_without_pagination)
 
                 return resolve_paginated_queryset(qs, info, **kwargs)

@@ -1,7 +1,6 @@
 import graphene
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from grapple.helpers import register_paginated_query_field
 
 from grapple.models import (
     GraphQLString,
@@ -41,7 +40,7 @@ BLOG_POST_PAGE_RICH_TEXT_FEATURES = [
 BLOG_POST_PAGE_PARAMS = {
     'post_title__icontains': graphene.String(),
     'post_category__id__in': graphene.List(graphene.Int),
-    'post_tags__tag__slug__in': graphene.List(graphene.String),
+    'post_tags__slug__in': graphene.List(graphene.String),
     'post_author__id__in': graphene.List(graphene.Int),
 }
 
@@ -198,15 +197,15 @@ class BlogPostTag(TaggedItemBase, index.Indexed):
     ]
 
 
-def Filter(name, field_type, slug, values=None):
+def Filter(name, filter_type, slug, values=None):
     if values is None:
         values = []
 
     return {
         'name': name,
-        'type': field_type,
+        'type': filter_type,
         'slug': slug,
-        'values': values
+        'values': values,
     }
 
 

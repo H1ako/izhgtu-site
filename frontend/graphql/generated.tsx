@@ -247,6 +247,9 @@ export interface BlogPosts {
 export interface BlogPostsVariables {
   perPage?: any | null;
   page?: any | null;
+  tags?: string[] | null;
+  categories?: number[] | null;
+  authors?: number[] | null;
 }
 
 /* tslint:disable */

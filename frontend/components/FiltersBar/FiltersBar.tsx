@@ -17,7 +17,7 @@ type ChosenFilterDateType = [
 
 type ChosenFilterCheckboxType = string[]
 
-type ChosenFiltersType = {
+export type ChosenFiltersType = {
   [key: string]: ChosenFilterCheckboxType | ChosenFilterDateType
 }
 
@@ -29,7 +29,7 @@ enum FilterTypeType {
 interface FiltersBarProps {
   className?: string,
   filters: (FilterDateType | FilterCheckboxType)[],
-  onFilterStateChange: (filters: any) => void
+  onFilterStateChange: (filters: ChosenFiltersType) => void
 }
 
 interface FilterValuesProps {
@@ -78,15 +78,15 @@ function FiltersBar({className='', filters, onFilterStateChange}: FiltersBarProp
     const chosenFilters: ChosenFiltersType = {}
     
     filters.forEach(filter => {
-      chosenFilters[filter.slug] = []
-      
       if (filter.type === FilterTypeType.CHECKBOX) {
         const filterCheckedValues = getFilterCheckedValuesBySlug(filter.slug)
+        if (!filterCheckedValues.length) return
         
         chosenFilters[filter.slug] = filterCheckedValues
       }
       else if (filter.type === FilterTypeType.DATE) {
         const filterDateValues = getFilterDateValuesBySlug(filter.slug)
+        if (!filterDateValues.length) return
         
         chosenFilters[filter.slug] = filterDateValues
       }
