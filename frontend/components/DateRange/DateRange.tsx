@@ -43,6 +43,7 @@ function DateRange({startDate, endDate, setStartDate, setEndDate, className='', 
         withPortal
         endDate={endDate}
         id={startDateId}
+        placeholderText={'ОТ'}
       />
       <ReactDatePicker
         todayButton="Сегодня"
@@ -54,6 +55,7 @@ function DateRange({startDate, endDate, setStartDate, setEndDate, className='', 
         startDate={startDate}
         endDate={endDate}
         id={endDateId}
+        placeholderText={'ПО'}
       />
     </div>
   )

@@ -24,7 +24,7 @@ from instance_selector.edit_handlers import InstanceSelectorPanel
 
 from authentication.models import User
 from blog.schema import FilterListType
-from blog.utils import custom_register_paginated_query_field
+from blog.utils import custom_register_query_field, custom_register_paginated_query_field
 
 BLOG_POST_PAGE_RICH_TEXT_FEATURES = [
     'h1', 'h2', 'h3',

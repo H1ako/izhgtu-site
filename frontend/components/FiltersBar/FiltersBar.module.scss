@@ -1,3 +1,6 @@
+@import "../../styles/main/mixins";
+
+
 .filtersBar {
   width: 20rem;
   display: flex;
@@ -14,8 +17,31 @@
       flex-direction: column;
       gap: .25rem;
 
+      .filter__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        width: 100%;
+
+        .header__heading {
+          text-transform: uppercase;
+        }
+
+        .header__toggle {
+          @include iconBtn();
+        }
+      }
+
       .filter__valuesWrapper {
         margin-left: 1rem;
+        max-height: 25rem;
+        overflow-y: auto !important;
+        transition: height var(--transitionDefault) ease-in-out;
+
+        &[aria-hidden="true"] {
+          overflow: hidden !important;
+        }
 
         .valuesWrapper__values {
           display: flex;

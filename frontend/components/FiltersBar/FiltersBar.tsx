@@ -1,13 +1,16 @@
 // global
 import React from 'react'
+import {Collapse} from "react-collapse";
 // components
 import SearchField from "../SearchField/SearchField";
 import DateRange from "../DateRange/DateRange";
+import CheckboxWithText from "../CheckboxWithText/CheckboxWithText";
 // libs
 import useForceRerender from "../../libs/useForceRerender";
 // styles
 import styles from './FiltersBar.module.scss'
-import CheckboxWithText from "../CheckboxWithText/CheckboxWithText";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";
 
 
 type ChosenFilterDateType = [
@@ -32,6 +35,14 @@ interface FiltersBarProps {
   onFilterStateChange: (filters: ChosenFiltersType) => void
 }
 
+interface FilterProps {
+  filterName: string,
+  filterSlug: string,
+  filterType: FilterTypeType,
+  filterValues: FilterValueType[],
+  onFilterValueStateChange?: () => void
+}
+
 interface FilterValuesProps {
   values: FilterValueType[],
   onFilterValueStateChange?: () => void,
@@ -48,7 +59,6 @@ interface FilterDateProps {
   setStartDate: (date: Date | null) => void,
   onChange?: () => void,
 }
-
 
 interface FilterValueType {
   name: string,
@@ -128,21 +138,46 @@ function FiltersBar({className='', filters, onFilterStateChange}: FiltersBarProp
       />
       <ul className={styles.filtersBar__filters}>
         { filters.map(filter => (
-          <li key={`filter-${filter.name}`} className={styles.filters__filter}>
-            <h2 className={styles.filter__heading}>{filter.name}</h2>
-            <div className={styles.filter__valuesWrapper}>
-              <FilterValues
-                values={filter.values}
-                filterName={filter.name}
-                filterType={filter.type}
-                filterSlug={filter.slug}
-                onFilterValueStateChange={forceRerender}
-              />
-            </div>
-          </li>
+          <Filter
+            key={filter.slug}
+            filterName={filter.name}
+            filterSlug={filter.slug}
+            filterType={filter.type}
+            filterValues={filter.values}
+            onFilterValueStateChange={forceRerender}
+          />
         )) }
       </ul>
     </aside>
+  )
+}
+
+
+function Filter({filterName, filterSlug, filterType, filterValues, onFilterValueStateChange}: FilterProps) {
+  const [ isFilterOpen, setIsFilterOpen ] = React.useState(true)
+  
+  const toggleFilter = () => {
+    setIsFilterOpen(value => !value)
+  }
+  
+  return (
+    <li key={`filter-${filterName}`} className={styles.filters__filter}>
+      <div className={styles.filter__header}>
+        <h2 className={styles.header__heading}>{filterName}</h2>
+        <button className={styles.header__toggle} onClick={toggleFilter}>
+          <FontAwesomeIcon icon={isFilterOpen ? faChevronUp : faChevronDown} />
+        </button>
+      </div>
+      <Collapse theme={{collapse: styles.filter__valuesWrapper}} isOpened={isFilterOpen}>
+        <FilterValues
+          values={filterValues}
+          filterName={filterName}
+          filterType={filterType}
+          filterSlug={filterSlug}
+          onFilterValueStateChange={onFilterValueStateChange}
+        />
+      </Collapse>
+    </li>
   )
 }
 
@@ -181,24 +216,8 @@ function FilterValues({values, filterName, filterType, filterSlug, onFilterValue
       />
     )
   }
-  
   return (
-    <ul className={styles.valuesWrapper__values}>
-      { values.map(value => (
-        <li key={`filter-${filterName}-value-${value.name}`} className={styles.values__value}>
-          <label className={styles.value__label}>
-            <input
-              type={filterType}
-              className={styles.label__input}
-              name={`filter-${filterName}`}
-              value={value.value}
-              onChange={onFilterValueStateChange}
-            />
-            <span className={styles.label__text}>{value.name}</span>
-          </label>
-        </li>
-      )) }
-    </ul>
+    <>Wrong Type</>
   )
 }
 

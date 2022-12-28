@@ -18,6 +18,7 @@ import {faDownload} from "@fortawesome/free-solid-svg-icons";
 // types
 import {GetServerSidePropsContext} from "next";
 import {BlogPosts, BlogPostsVariables, Page_page_BlogPostIndexPage} from "../../graphql/generated";
+import {useInView} from "react-intersection-observer";
 
 
 const PER_PAGE = 30
@@ -26,28 +27,46 @@ const PER_PAGE = 30
 function BlogPostIndexPage({faceTitle, facePicture, filters}: Page_page_BlogPostIndexPage) {
   const [ faceSearchQuery, setFaceSearchQuery ] = React.useState<string>('')
   const [ page, setPage ] = React.useState<number>(1)
-  const {loading, data, error, refetch, } = useQuery<BlogPosts, BlogPostsVariables>(BLOG_POSTS_QUERY, {
+  const {ref: loadMoreRef, inView} = useInView({
+    threshold: 0,
+  })
+  const {loading, data, error, refetch, fetchMore} = useQuery<BlogPosts, BlogPostsVariables>(BLOG_POSTS_QUERY, {
     variables: {
       page: page,
-      perPage: PER_PAGE
+      perPage: PER_PAGE,
     },
   })
-  
   const onFilterChange = (filters: ChosenFiltersType) => {
     setPage(1)
-    
-    console.log({
-      page: 1,
-      perPage: PER_PAGE,
-      ...filters
-    })
  
+    // fetchMore({
+    //   variables: {
+    //     page: page,
+    //     ...filters
+    //   }
+    // })
     refetch({
       page: 1,
-      perPage: PER_PAGE,
       ...filters
-    }).then(console.log)
+    })
   }
+  
+  React.useEffect(() => {
+    if (!inView) return
+    
+    setPage(curPage => {
+      const newPage = curPage + 1
+      
+      fetchMore({
+        variables: {
+          page: newPage,
+          ...filters
+        }
+      })
+      
+      return newPage
+    })
+  }, [inView])
 
   return (
     <PageLayout>
@@ -79,15 +98,18 @@ function BlogPostIndexPage({faceTitle, facePicture, filters}: Page_page_BlogPost
               ))}
             </ul>
           }
-          <button className={styles.postsArea__loadMore}>
-            <ColorRing
-              visible={true}
-              ariaLabel="blocks-loading"
-              wrapperClass={styles.loadMore__spinner}
-              colors={['white', 'white', 'white', 'white', 'white']}
-            />
-            Загрузить ещё
-          </button>
+          {console.log(data?.blogPosts?.pagination?.totalPages, data?.blogPosts?.pagination?.totalPages > page)}
+          { data?.blogPosts?.pagination?.totalPages && data.blogPosts.pagination.totalPages > page &&
+            <button className={styles.postsArea__loadMore} ref={loadMoreRef} onClick={() => refetch()}>
+              <ColorRing
+                visible={true}
+                ariaLabel="blocks-loading"
+                wrapperClass={styles.loadMore__spinner}
+                colors={['white', 'white', 'white', 'white', 'white']}
+              />
+              Загрузить ещё
+            </button>
+          }
         </div>
       </div>
     </PageLayout>

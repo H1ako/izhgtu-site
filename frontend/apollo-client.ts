@@ -9,11 +9,36 @@ const graphqlLink = new HttpLink({
 })
 
 const client = new ApolloClient({
-    cache: new InMemoryCache(),
-    defaultOptions: { query: { fetchPolicy: 'no-cache', context: {
-      errorPolicy: 'ignore',
-    }} },
-    link: graphqlLink
+    cache: new InMemoryCache({
+      typePolicies: {
+        Query: {
+          fields: {
+            blogPosts: {
+              keyArgs: false,
+              merge(existing = {
+                items: [],
+                pagination: {}
+              }, incoming) {
+                const items = [...existing.items]
+                for (const item of incoming.items) {
+                  if (!existing.items.find((i: any) => i.__ref === item.__ref)) {
+                    items.push(item)
+                  }
+                }
+                return {
+                  items: items,
+                  pagination: incoming.pagination,
+                };
+              },
+            }
+          }
+        }
+      }
+    }),
+  defaultOptions: { query: { fetchPolicy: 'no-cache', context: {
+    errorPolicy: 'ignore',
+  }} },
+  link: graphqlLink
 });
 
 export default client;
