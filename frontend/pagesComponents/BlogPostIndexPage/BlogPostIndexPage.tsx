@@ -21,7 +21,7 @@ import {BlogPosts, BlogPostsVariables, Page_page_BlogPostIndexPage} from "../../
 import {useInView} from "react-intersection-observer";
 
 
-const PER_PAGE = 30
+const PER_PAGE = 1
 
 
 function BlogPostIndexPage({faceTitle, facePicture, filters}: Page_page_BlogPostIndexPage) {
@@ -36,18 +36,12 @@ function BlogPostIndexPage({faceTitle, facePicture, filters}: Page_page_BlogPost
       perPage: PER_PAGE,
     },
   })
-  const onFilterChange = (filters: ChosenFiltersType) => {
+  const onFilterChange = (chosenFilters: ChosenFiltersType) => {
     setPage(1)
  
-    // fetchMore({
-    //   variables: {
-    //     page: page,
-    //     ...filters
-    //   }
-    // })
     refetch({
       page: 1,
-      ...filters
+      ...chosenFilters
     })
   }
   
@@ -56,11 +50,9 @@ function BlogPostIndexPage({faceTitle, facePicture, filters}: Page_page_BlogPost
     
     setPage(curPage => {
       const newPage = curPage + 1
-      
       fetchMore({
         variables: {
           page: newPage,
-          ...filters
         }
       })
       
@@ -98,7 +90,6 @@ function BlogPostIndexPage({faceTitle, facePicture, filters}: Page_page_BlogPost
               ))}
             </ul>
           }
-          {console.log(data?.blogPosts?.pagination?.totalPages, data?.blogPosts?.pagination?.totalPages > page)}
           { data?.blogPosts?.pagination?.totalPages && data.blogPosts.pagination.totalPages > page &&
             <button className={styles.postsArea__loadMore} ref={loadMoreRef} onClick={() => refetch()}>
               <ColorRing
