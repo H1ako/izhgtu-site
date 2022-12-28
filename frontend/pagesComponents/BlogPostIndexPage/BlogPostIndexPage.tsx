@@ -26,7 +26,7 @@ const PER_PAGE = 30
 function BlogPostIndexPage({faceTitle, facePicture, filters}: Page_page_BlogPostIndexPage) {
   const [ faceSearchQuery, setFaceSearchQuery ] = React.useState<string>('')
   const [ page, setPage ] = React.useState<number>(1)
-  const {loading, data, error, refetch} = useQuery<BlogPosts, BlogPostsVariables>(BLOG_POSTS_QUERY, {
+  const {loading, data, error, refetch, } = useQuery<BlogPosts, BlogPostsVariables>(BLOG_POSTS_QUERY, {
     variables: {
       page: page,
       perPage: PER_PAGE
@@ -35,6 +35,12 @@ function BlogPostIndexPage({faceTitle, facePicture, filters}: Page_page_BlogPost
   
   const onFilterChange = (filters: ChosenFiltersType) => {
     setPage(1)
+    
+    console.log({
+      page: 1,
+      perPage: PER_PAGE,
+      ...filters
+    })
  
     refetch({
       page: 1,
