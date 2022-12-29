@@ -103,8 +103,8 @@ query Page($url: String!) {
 `
   
 export const BLOG_POSTS_QUERY = gql`
-query BlogPosts($perPage: PositiveInt, $page: PositiveInt, $tags: [String!], $categories: [Int!], $authors: [Int!]) {
-  blogPosts(perPage: $perPage, page: $page, postTags_Slug_In: $tags, postCategory_Id_In: $categories, postAuthor_Id_In: $authors) {
+query BlogPosts($perPage: PositiveInt, $page: PositiveInt, $tags: [String!], $categories: [Int!], $authors: [Int!], $searchQuery: String) {
+  blogPosts(perPage: $perPage, page: $page, postTags_Slug_In: $tags, postCategory_Id_In: $categories, postAuthor_Id_In: $authors, searchQuery: $searchQuery) {
     items {
       id
       url

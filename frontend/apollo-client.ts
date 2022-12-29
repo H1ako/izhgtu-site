@@ -36,7 +36,7 @@ const client = new ApolloClient({
       }
     }),
   defaultOptions: { query: { fetchPolicy: 'no-cache', context: {
-    errorPolicy: 'ignore',
+    errorPolicy: 'all',
   }} },
   link: graphqlLink
 });

@@ -24,7 +24,7 @@ from instance_selector.edit_handlers import InstanceSelectorPanel
 
 from authentication.models import User
 from blog.schema import FilterListType
-from blog.utils import custom_register_query_field, custom_register_paginated_query_field
+from blog.utils import custom_register_paginated_query_field
 
 BLOG_POST_PAGE_RICH_TEXT_FEATURES = [
     'h1', 'h2', 'h3',
@@ -87,7 +87,8 @@ class BlogPostIndexPage(HeadlessMixin, Page):
     ]
 
 
-@custom_register_paginated_query_field("blogPost", "blogPosts", plural_item_required=True, query_params=BLOG_POST_PAGE_PARAMS)
+@custom_register_paginated_query_field("blogPost", "blogPosts", plural_item_required=True,
+                                       query_params=BLOG_POST_PAGE_PARAMS)
 class BlogPostPage(HeadlessMixin, Page):
     subpage_types = []
     parent_page_types = [
@@ -136,6 +137,9 @@ class BlogPostPage(HeadlessMixin, Page):
         index.SearchField("post_tags", partial_match=True),
         index.SearchField("post_author", partial_match=True),
         index.SearchField("first_published_at", partial_match=True),
+        index.FilterField("post_category_id", partial_match=True),
+        index.FilterField("slug", partial_match=True),
+        index.FilterField("post_author_id", partial_match=True),
     ]
 
     graphql_fields = [

@@ -3,6 +3,8 @@ import React from 'react'
 import Link from "next/link";
 import {ColorRing} from "react-loader-spinner";
 import {useQuery} from "@apollo/client";
+import {useInView} from "react-intersection-observer";
+import {debounce} from "lodash";
 // queries
 import {BLOG_POSTS_QUERY} from "../../graphql/queries/pageQueries";
 // components
@@ -18,10 +20,9 @@ import {faDownload} from "@fortawesome/free-solid-svg-icons";
 // types
 import {GetServerSidePropsContext} from "next";
 import {BlogPosts, BlogPostsVariables, Page_page_BlogPostIndexPage} from "../../graphql/generated";
-import {useInView} from "react-intersection-observer";
 
 
-const PER_PAGE = 1
+const PER_PAGE = 30
 
 
 function BlogPostIndexPage({faceTitle, facePicture, filters}: Page_page_BlogPostIndexPage) {
@@ -41,9 +42,19 @@ function BlogPostIndexPage({faceTitle, facePicture, filters}: Page_page_BlogPost
  
     refetch({
       page: 1,
+      searchQuery: faceSearchQuery,
       ...chosenFilters
     })
   }
+  
+  const debouncedSearch = React.useCallback(debounce((searchQuery: string) => {
+    setPage(1)
+    console.log('searchQuery', searchQuery)
+    refetch({
+      page: 1,
+      searchQuery: searchQuery,
+    })
+  }, 300), [])
   
   React.useEffect(() => {
     if (!inView) return
@@ -59,6 +70,10 @@ function BlogPostIndexPage({faceTitle, facePicture, filters}: Page_page_BlogPost
       return newPage
     })
   }, [inView])
+  
+  React.useEffect(() => {
+    debouncedSearch(faceSearchQuery)
+  }, [faceSearchQuery])
 
   return (
     <PageLayout>

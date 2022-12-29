@@ -250,6 +250,7 @@ export interface BlogPostsVariables {
   tags?: string[] | null;
   categories?: number[] | null;
   authors?: number[] | null;
+  searchQuery?: string | null;
 }
 
 /* tslint:disable */
