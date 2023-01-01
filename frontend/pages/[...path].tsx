@@ -4,111 +4,138 @@ import React from "react";
 import {useSetRecoilState} from "recoil";
 import {loadingScreenAtom} from "../recoilAtoms/loadingAtom";
 import {settingsAtom} from "../recoilAtoms/settingsAtom";
+import {authUserAtom} from "../recoilAtoms/authUserrAtom";
 // extra
 import client from "../apollo-client";
 import LAZY_PAGES from "../pagesComponents";
 import {SETTINGS_GETTER_QUERY} from "../graphql/queries/settingsQueries";
 import {PAGE_GETTER_QUERY} from "../graphql/queries/pageQueries";
+import {AUTH_USER_GETTER_QUERY} from "../graphql/queries/userQueries";
 // types
 import type {GetServerSidePropsContext} from "next";
 import type {
-    BlogPosts,
-    BlogPostsVariables,
-    Page,
-    Page_page,
-    PageVariables,
-    Settings, Settings_settings,
-    Settings_settings_MainContentSettings
+  AuthUser,
+  AuthUser_authUser,
+  Page,
+  Page_page,
+  PageVariables,
+  Settings,
+  Settings_settings,
+  Settings_settings_MainContentSettings
 } from "../graphql/generated";
 
 
 interface CurrentPageProps {
-    componentName: string | null,
-    componentProps: Page_page | null,
-    settings: Settings_settings[] | null
+  componentName: string | null,
+  componentProps: Page_page | null,
+  settings: Settings_settings[] | null,
+  authUser: AuthUser_authUser | null,
 }
 
 
-export default function CurrentPage({ componentName, componentProps, settings }: CurrentPageProps) {
-    const setSettings = useSetRecoilState(settingsAtom)
-    const setIsLoading = useSetRecoilState(loadingScreenAtom)
-    // @ts-ignore
-    const Component = LAZY_PAGES[componentName]
-    
-    
-    React.useEffect(() => {
-        if (componentName !== null) {
-            setIsLoading(false)
-        }
-    }, [componentName])
-    
-    React.useEffect(() => {
-        const refactoredSettings = getRefactoredSettings(settings)
-        if (refactoredSettings) {
-            setSettings((prev) => ({...prev, ...refactoredSettings}))
-        }
-    }, [settings])
-    
-    if (!Component) {
-        return <h1>Component {componentName} not found</h1>
+export default function CurrentPage({componentName, componentProps, settings, authUser}: CurrentPageProps) {
+  const setSettings = useSetRecoilState(settingsAtom)
+  const setIsLoading = useSetRecoilState(loadingScreenAtom)
+  const setAuthUser = useSetRecoilState(authUserAtom)
+  // @ts-ignore
+  const Component = LAZY_PAGES[componentName]
+  
+  
+  React.useEffect(() => {
+    if (componentName !== null) {
+      setIsLoading(false)
     }
-    return <Component {...componentProps} />
+  }, [componentName])
+  
+  React.useEffect(() => {
+    const refactoredSettings = getRefactoredSettings(settings)
+    
+    if (refactoredSettings) {
+      setSettings((prev) => ({...prev, ...refactoredSettings}))
+    }
+  }, [settings])
+  
+  React.useEffect(() => {
+    if (!authUser) return
+    
+    setAuthUser(authUser)
+  }, [authUser])
+  
+  if (!Component) {
+    return <h1>Component {componentName} not found</h1>
+  }
+  return <Component {...componentProps} />
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-    const pageData = await getPageData(context.resolvedUrl)
-    const page = pageData.page
-    const componentName = page?.pageType ?? null
-    const settings = await getSettings()
-
-    const propsForCurrentPage: CurrentPageProps = {
-        componentName,
-        componentProps: page,
-        settings
-    }
-    
-    return {
-        props: propsForCurrentPage
-    }
+  const pageData = await getPageData(context.resolvedUrl)
+  const page = pageData.page
+  const componentName = page?.pageType ?? null
+  const settings = await getSettings()
+  const authUser = await getAuthUser(context.req.headers.cookie)
+  
+  const propsForCurrentPage: CurrentPageProps = {
+    componentName,
+    componentProps: page,
+    settings,
+    authUser: authUser.authUser
+  }
+  
+  return {
+    props: propsForCurrentPage
+  }
 }
 
 const getPageData = async (resolvedUrl: string) => {
-    const url = getUrlWithoutQuery(resolvedUrl)
-    const {data, errors} = await client.query<Page, PageVariables>({
-        query: PAGE_GETTER_QUERY,
-        variables: {url},
-    })
-    return data
+  const url = getUrlWithoutQuery(resolvedUrl)
+  
+  const {data, errors} = await client.query<Page, PageVariables>({
+    query: PAGE_GETTER_QUERY,
+    variables: {url},
+  })
+  
+  return data
 }
 
 const getUrlWithoutQuery = (url: string) => {
-    const urlWithoutQuery = url.split('?')[0]
-    
-    return urlWithoutQuery
-}
-
-
-const getSettingByType = (settings: Settings_settings[], type: string) => {
-    const setting = settings.find((setting) => setting.__typename === type) ?? null
-    
-    return setting
-}
-
-
-const getRefactoredSettings = (settings: Settings_settings[] | null) => {
-    if (!settings) return null
-    
-    const mainContentSettings = getSettingByType(settings, 'MainContentSettings') as Settings_settings_MainContentSettings
-    
-    return {
-        mainContent: mainContentSettings
-    }
+  const urlWithoutQuery = url.split('?')[0]
+  
+  return urlWithoutQuery
 }
 
 const getSettings = async () => {
-    const {data} = await client.query<Settings>({
-        query: SETTINGS_GETTER_QUERY
-    })
-    return data.settings
+  const {data, errors} = await client.query<Settings>({
+    query: SETTINGS_GETTER_QUERY
+  })
+  
+  return data.settings
 }
 
+const getSettingByType = (settings: Settings_settings[], type: string) => {
+  const setting = settings.find((setting) => setting.__typename === type) ?? null
+  
+  return setting
+}
+
+const getRefactoredSettings = (settings: Settings_settings[] | null) => {
+  if (!settings) return null
+  
+  const mainContentSettings = getSettingByType(settings, 'MainContentSettings') as Settings_settings_MainContentSettings
+  
+  return {
+    mainContent: mainContentSettings
+  }
+}
+
+const getAuthUser = async (cookie: string = '') => {
+  const {data, errors} = await client.query<AuthUser>({
+    query: AUTH_USER_GETTER_QUERY,
+    context: {
+      headers: {
+        Cookie: cookie
+      },
+    }
+  })
+  
+  return data
+}

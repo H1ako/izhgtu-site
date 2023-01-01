@@ -284,11 +284,13 @@ export interface Settings_settings_MainContentSettings_header_menu_linksGroups_l
 
 export interface Settings_settings_MainContentSettings_header_menu_linksGroups_linksGroups_linksGroups_page {
   __typename: "Page" | "HomePage" | "BlogPostIndexPage" | "BlogPostPage";
+  url: string | null;
 }
 
 export interface Settings_settings_MainContentSettings_header_menu_linksGroups_linksGroups_linksGroups {
   __typename: "MenuItemLink";
   url: string | null;
+  name: string;
   page: Settings_settings_MainContentSettings_header_menu_linksGroups_linksGroups_linksGroups_page | null;
   openInNewTab: boolean | null;
 }
@@ -296,6 +298,7 @@ export interface Settings_settings_MainContentSettings_header_menu_linksGroups_l
 export interface Settings_settings_MainContentSettings_header_menu_linksGroups_linksGroups {
   __typename: "MenuItemLinkGroup";
   url: string | null;
+  name: string;
   page: Settings_settings_MainContentSettings_header_menu_linksGroups_linksGroups_page | null;
   openInNewTab: boolean | null;
   linksGroups: Settings_settings_MainContentSettings_header_menu_linksGroups_linksGroups_linksGroups[] | null;
@@ -304,6 +307,7 @@ export interface Settings_settings_MainContentSettings_header_menu_linksGroups_l
 export interface Settings_settings_MainContentSettings_header_menu_linksGroups {
   __typename: "MenuItem";
   url: string | null;
+  name: string;
   page: Settings_settings_MainContentSettings_header_menu_linksGroups_page | null;
   openInNewTab: boolean | null;
   linksGroups: Settings_settings_MainContentSettings_header_menu_linksGroups_linksGroups[] | null;
@@ -327,6 +331,7 @@ export interface Settings_settings_MainContentSettings_header_locations {
 export interface Settings_settings_MainContentSettings_header_contacts {
   __typename: "Contact";
   id: number;
+  name: string;
   address: string;
   type: string;
 }
@@ -339,7 +344,7 @@ export interface Settings_settings_MainContentSettings_header_socials_icon {
 
 export interface Settings_settings_MainContentSettings_header_socials {
   __typename: "Social";
-  id: string | null;
+  id: number;
   name: string;
   url: string;
   icon: Settings_settings_MainContentSettings_header_socials_icon | null;
@@ -353,6 +358,20 @@ export interface Settings_settings_MainContentSettings_header {
   locations: Settings_settings_MainContentSettings_header_locations[];
   contacts: Settings_settings_MainContentSettings_header_contacts[];
   socials: Settings_settings_MainContentSettings_header_socials[];
+}
+
+export interface Settings_settings_MainContentSettings_footer_socials_icon {
+  __typename: "SvgTyped";
+  url: string;
+  title: string;
+}
+
+export interface Settings_settings_MainContentSettings_footer_socials {
+  __typename: "Social";
+  id: number;
+  name: string;
+  url: string;
+  icon: Settings_settings_MainContentSettings_footer_socials_icon | null;
 }
 
 export interface Settings_settings_MainContentSettings_footer_menu_BlockQuoteBlock {
@@ -373,6 +392,7 @@ export interface Settings_settings_MainContentSettings_footer_menu_FooterMenuLin
 
 export interface Settings_settings_MainContentSettings_footer_menu_FooterMenuLinkPage {
   __typename: "FooterMenuLinkPage";
+  id: string | null;
   name: string;
   page: Settings_settings_MainContentSettings_footer_menu_FooterMenuLinkPage_page;
 }
@@ -384,12 +404,15 @@ export interface Settings_settings_MainContentSettings_footer {
   name: string;
   rightDescription: any | null;
   showContactForm: boolean;
+  socials: Settings_settings_MainContentSettings_footer_socials[];
   menu: (Settings_settings_MainContentSettings_footer_menu | null)[] | null;
 }
 
 export interface Settings_settings_MainContentSettings {
   __typename: "MainContentSettings";
   yandexMapUrl: string | null;
+  orgName: string | null;
+  shortOrgName: string | null;
   logo: Settings_settings_MainContentSettings_logo | null;
   header: Settings_settings_MainContentSettings_header | null;
   footer: Settings_settings_MainContentSettings_footer | null;

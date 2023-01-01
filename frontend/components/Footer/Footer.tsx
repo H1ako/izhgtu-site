@@ -1,62 +1,77 @@
 // global
 import React from 'react'
 import Link from "next/link";
+import {useRecoilValue} from "recoil";
+// recoil
+import {settingsAtom} from "../../recoilAtoms/settingsAtom";
 // components
 import ContactForm from "../forms/ContactForm/ContactForm";
-import SocialsList from "../SocialsList/SocialsList";
+import SocialList from "../SocialList/SocialList";
 import InnerBlockHeading from "../InnerBlockHeading/InnerBlockHeading";
 // styles and icons
 import styles from './Footer.module.scss';
+// types
+import {Settings_settings_MainContentSettings_footer_menu} from "../../graphql/generated";
+
+interface FooterNavProps {
+  menu: (Settings_settings_MainContentSettings_footer_menu | null)[]
+}
 
 function Footer() {
+  const {mainContent} = useRecoilValue(settingsAtom)
+  
   return (
       <footer className={styles.mainFooter}>
         <InnerBlockHeading className={styles.mainFooter__heading}>
-          ИЖГТУ
+          {mainContent?.shortOrgName ?? 'ИЖГТУ'}
         </InnerBlockHeading>
         <div className={styles.mainFooter__content}>
           <div className={styles.content__leftSide}>
-            <nav className={styles.leftSide__usefulLinks}>
-              <ul className={styles.usefulLinks__list}>
-                <li>
-                  <Link className={styles.list__link} href='/'>Главная</Link>
-                </li>
-                <li>
-                  <Link className={styles.list__link} href='/'>электронный журнал</Link>
-                </li>
-                <li>
-                  <Link className={styles.list__link} href='/'>расписание</Link>
-                </li>
-                <li>
-                  <Link className={styles.list__link} href='/'>частые вопросы</Link>
-                </li>
-                <li>
-                  <Link className={styles.list__link} href='/'>образование</Link>
-                </li>
-                <li>
-                  <Link className={styles.list__link} href='/'>Новости</Link>
-                </li>
-                <li>
-                  <Link className={styles.list__link} href='/'>Контакты</Link>
-                </li>
-              </ul>
-            </nav>
-            <SocialsList />
+            { mainContent?.footer?.menu ?
+              <FooterNav menu={mainContent.footer.menu} />
+              : null
+            }
+            { mainContent?.footer?.socials.length ?
+              <SocialList socials={mainContent.footer.socials} />
+              : null
+            }
           </div>
-          <ContactForm />
+          { mainContent?.footer?.showContactForm ?
+            <ContactForm />
+            : null
+          }
         </div>
-        <div className={styles.mainFooter__rights}>
-          <h5 className={styles.rights__right}>
-            Использование материалов, размещенных на сайте, допускается только с письменного разрешения ИжГТУ им. М.Т. Калашникова или соответствующего правообладателя
-          </h5>
-          <h5 className={styles.rights__right}>
-            Запрещается автоматизированное извлечение размещенной информации любыми сервисами без официального разрешения ИжГТУ им. М.Т. Калашникова
-          </h5>
-        </div>
+        <div className={styles.mainFooter__rights} dangerouslySetInnerHTML={{__html: mainContent?.footer?.rightDescription}} />
         <h5 className={styles.mainFooter__siteDeveloper}>
           developed by sobolev nikita
         </h5>
       </footer>
+  )
+}
+
+function FooterNav({menu}: FooterNavProps) {
+  return (
+    <nav className={styles.leftSide__usefulLinks}>
+      <ul className={styles.usefulLinks__list}>
+        {menu.map((link) => {
+          if (!link) return <></>
+          else if (link.__typename === 'FooterMenuLinkUrl') {
+            return (
+              <li key={`footer-link-${link.id ?? link.name}`}>
+                <Link className={styles.list__link} href={link.url}>{link.name}</Link>
+              </li>
+            )
+          }
+          else if (link.__typename === 'FooterMenuLinkPage') {
+            return (
+              <li key={`footer-link-${link.id ?? link.name}`}>
+                <Link className={styles.list__link} href={link.page.url ?? ''}>{link.name}</Link>
+              </li>
+            )
+          }
+        })}
+      </ul>
+    </nav>
   )
 }
 

@@ -85,6 +85,7 @@ class Social(models.Model):
     ]
 
     graphql_fields = [
+        GraphQLInt('id', required=True),
         GraphQLString('name', required=True),
         GraphQLString('url', required=True),
         GraphQLForeignKey('icon', content_type=SvgTyped),
@@ -113,7 +114,7 @@ class Header(models.Model):
         on_delete=models.SET_NULL,
         null=True,
     )
-    socials = ParentalManyToManyField(
+    socials = models.ManyToManyField(
         'core.Social',
         verbose_name=_('Socials'),
         blank=True,
@@ -201,7 +202,7 @@ class Footer(models.Model):
         'hr',
         'blockquote'
     ))
-    socials = ParentalManyToManyField(
+    socials = models.ManyToManyField(
         'core.Social',
         verbose_name=_('Socials'),
         blank=True,

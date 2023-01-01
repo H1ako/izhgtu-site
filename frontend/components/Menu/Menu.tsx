@@ -1,20 +1,28 @@
 // global
 import React from 'react'
 import Link from 'next/link';
+import {useRecoilValue} from "recoil";
+// recoil
+import {settingsAtom} from "../../recoilAtoms/settingsAtom";
 // components
 import WindowWithHeaderLayout from "../../containers/WindowWithHeaderLayout/WindowWithHeaderLayout";
 import MainActionBtns from "../MainActionBtns/MainActionBtns";
-import SocialsList from "../SocialsList/SocialsList";
+import SocialList from "../SocialList/SocialList";
+import ContactList from "../ContactList/ContactList";
 // styles and icons
 import styles from './Menu.module.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBars} from "@fortawesome/free-solid-svg-icons";
+import LocationList from "../LocationList/LocationList";
+
 
 interface MenuProps {
   className?: string
 }
 
 function Menu({className}: MenuProps) {
+  const { mainContent }  = useRecoilValue(settingsAtom)
+  
   return (
     <WindowWithHeaderLayout heading="Меню" className={`${styles.menu} ${className}`} ToggleButton={
       <button className={styles.menu__toggle}>
@@ -25,54 +33,49 @@ function Menu({className}: MenuProps) {
       <MainActionBtns />
       <nav className={styles.menu__nav}>
         <ul className={styles.nav__links}>
-          <li className={styles.links__linksGroup}>
-            <Link href='/' className={styles.linksGroup__link}>Об Университете</Link>
-            <ul className={styles.linksGroup__links}>
-              <li className={`${styles.links__linksGroup} ${styles.noLinks}`}>
-                <Link href='/' className={styles.linksGroup__link}>Персонал</Link>
-              </li>
-            </ul>
-          </li>
-          <li className={styles.links__linksGroup}>
-            <Link href='/' className={styles.linksGroup__link}>Новости</Link>
-            <ul className={styles.linksGroup__links}>
-              <li className={`${styles.links__linksGroup} ${styles.noLinks}`}>
-                <Link href='/' className={styles.linksGroup__link}>О Поступлении</Link>
-              </li>
-            </ul>
-          </li>
+          { mainContent?.header?.menu && mainContent.header.menu.linksGroups.map((linkGroup) => (
+            <li className={styles.links__linksGroup}>
+              <Link target={linkGroup.openInNewTab ? '_blank' : '_self'} href={linkGroup.url ?? linkGroup.page?.url ?? ''} className={styles.linksGroup__link}>{linkGroup.name}</Link>
+              <ul className={styles.linksGroup__links}>
+                { linkGroup.linksGroups && linkGroup.linksGroups.map((linkGroup) => (
+                  <li className={`${styles.links__linksGroup} ${linkGroup.linksGroups?.length == 0 ? styles.noLinks : ''}`}>
+                    <Link target={linkGroup.openInNewTab ? '_blank' : '_self'} href={linkGroup.url ?? linkGroup.page?.url ?? ''} className={styles.linksGroup__link}>{linkGroup.name}</Link>
+                    <ul className={styles.linksGroup__links}>
+                      { linkGroup.linksGroups && linkGroup.linksGroups.map((linkGroup) => (
+                        <li className={`${styles.links__linksGroup} ${styles.noLinks}`}>
+                          <Link target={linkGroup.openInNewTab ? '_blank' : '_self'} href={linkGroup.url ?? linkGroup.page?.url ?? ''} className={styles.linksGroup__link}>{linkGroup.name}</Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
         </ul>
       </nav>
       <div className={styles.menu__info}>
-        <div className={styles.info__group}>
-          <h3 className={styles.group__heading}>Мы в Соц Сетях</h3>
-          <SocialsList />
-        </div>
-        <div className={styles.info__group}>
-          <h3 className={styles.group__heading}>Наши Контакты</h3>
-            <ul className={styles.group__list}>
-              <li className={styles.list__part}>
-                <Link href='/' className={styles.part__text}>
-                  +(3412) 77-60-55
-                </Link>
-              </li>
-              <li className={styles.list__part}>
-                <Link href='/' className={styles.part__text}>
-                  info@istu.ru
-                </Link>
-              </li>
-            </ul>
-        </div>
-        <div className={styles.info__group}>
-          <h3 className={styles.group__heading}>Где Мы Находимся</h3>
-            <ul className={styles.group__list}>
-              <li className={styles.list__part}>
-                <Link href='/' className={styles.part__text}>
-                  426069, Удмуртская Республика, г. Ижевск, ул. Студенческая, 7
-                </Link>
-              </li>
-            </ul>
-        </div>
+        { mainContent?.header?.socials.length ?
+          <div className={styles.info__group}>
+            <h3 className={styles.group__heading}>Мы в Соц Сетях</h3>
+            <SocialList socials={mainContent.header.socials} />
+          </div>
+          : null
+        }
+        { mainContent?.header?.contacts.length ?
+          <div className={styles.info__group}>
+            <h3 className={styles.group__heading}>Наши Контакты</h3>
+            <ContactList contacts={mainContent.header.contacts} />
+          </div>
+          : null
+        }
+        { mainContent?.header?.locations.length ?
+          <div className={styles.info__group}>
+            <h3 className={styles.group__heading}>Где Мы Находимся</h3>
+              <LocationList locations={mainContent.header.locations} />
+          </div>
+          : null
+        }
       </div>
     </WindowWithHeaderLayout>
   )

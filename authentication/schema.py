@@ -41,7 +41,7 @@ class AuthUserQuery:
     # noinspection PyMethodMayBeStatic
     def resolve_auth_user(self, info):
         user = info.context.user
-        if user.is_anonymous:
-            raise Exception('Not logged in!')
 
+        if user.is_anonymous:
+            return None
         return user

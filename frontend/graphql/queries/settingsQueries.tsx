@@ -5,6 +5,8 @@ query Settings {
   settings {
     ... on MainContentSettings {
       yandexMapUrl
+      orgName
+      shortOrgName
       logo {
         url
         title
@@ -16,22 +18,23 @@ query Settings {
           title
           linksGroups {
             url
+            name
             page {
-              __typename
               url
             }
             openInNewTab
             linksGroups {
               url
+              name
               page {
-                __typename
                 url
               }
               openInNewTab
               linksGroups {
                 url
+                name
                 page {
-                  __typename
+                  url
                 }
                 openInNewTab
               }
@@ -47,6 +50,7 @@ query Settings {
         }
         contacts {
           id
+          name
           address
           type
         }
@@ -64,6 +68,15 @@ query Settings {
         name
         rightDescription
         showContactForm
+        socials {
+          id
+          name
+          url
+          icon {
+            url
+            title
+          }
+        }
         menu {
           __typename
           ... on FooterMenuLinkUrl {
@@ -72,6 +85,7 @@ query Settings {
             url
           }
           ... on FooterMenuLinkPage {
+            id
             name
             page {
               url

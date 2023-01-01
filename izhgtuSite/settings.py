@@ -78,15 +78,6 @@ WAGTAILSEARCH_BACKENDS = {
         'BACKEND': 'wagtail.search.backends.database',
         'AUTO_UPDATE': True,
     },
-    # 'elastic': {
-    #     'BACKEND': 'wagtail.search.backends.elasticsearch7',
-    #     'URLS': ['http://localhost:9200'],
-    #     'INDEX': 'wagtail',
-    #     'TIMEOUT': 5,
-    #     'OPTIONS': {},
-    #     'INDEX_SETTINGS': {},
-    #     'AUTO_UPDATE': False,
-    # },
 }
 
 WAGTAIL_HEADLESS_PREVIEW = {

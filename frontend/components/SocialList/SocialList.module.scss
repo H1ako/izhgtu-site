@@ -1,6 +1,7 @@
-@import "../main/mixins";
+@import "../../styles/main/mixins";
 
-.socialsList {
+
+.socialList {
   gap: .5rem 1rem;
   display: grid;
   justify-content: space-between;
@@ -9,10 +10,10 @@
   grid-template-columns: repeat(4, auto);
   grid-template-rows: auto;
 
-  &__part {
+  &__social {
     position: relative;
 
-    .part__text {
+    .social__text {
       @include clearedLink($fontSize: var(--fontSize4));
 
       &:hover,

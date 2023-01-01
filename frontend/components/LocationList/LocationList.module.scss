@@ -1,0 +1,23 @@
+@import '../../styles/main/mixins';
+
+
+.locationList {
+  gap: .5rem 1rem;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(4, auto);
+  justify-content: space-between;
+
+  &__location {
+    position: relative;
+
+    .location__text {
+      @include clearedLink($fontSize: var(--fontSize4));
+
+      &:hover,
+      &:focus-within {
+        color: var(--colorMainLight);
+      }
+    }
+  }
+}

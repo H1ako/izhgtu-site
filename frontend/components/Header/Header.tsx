@@ -1,17 +1,20 @@
 // global
 import React from 'react'
 import Link from "next/link";
+import {useRecoilState, useRecoilValue} from "recoil";
+import {useQuery} from "@apollo/client";
+// recoil
+import {settingsAtom} from "../../recoilAtoms/settingsAtom";
+import {headerActiveStateAtom} from "../../recoilAtoms/headerAtoms";
 // components
 import AppLogo from "../AppLogo/AppLogo";
 import Menu from "../Menu/Menu";
 import Profile from "../Profile/Profile";
 import NewsMarquee from "../NewsMarquee/NewsMarquee";
+// libs
 import useScrollDirection from "../../libs/useScrollDirection";
 // styles and icons
 import styles from './Header.module.scss';
-import {useRecoilState, useRecoilValue} from "recoil";
-import {headerActiveStateAtom} from "../../recoilAtoms/headerAtoms";
-import {settingsAtom} from "../../recoilAtoms/settingsAtom";
 
 interface HeaderProps {
   className?: string
