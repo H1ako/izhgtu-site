@@ -20,6 +20,7 @@ export const AUTH_USER_GETTER_QUERY = gql`
         }
         group {
           name
+          year
           educationForm {
             name
           }

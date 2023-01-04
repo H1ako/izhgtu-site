@@ -475,6 +475,7 @@ export interface AuthUser_authUser_student_group_subjects {
 export interface AuthUser_authUser_student_group {
   __typename: "SpecializationGroup";
   name: string | null;
+  year: number | null;
   educationForm: AuthUser_authUser_student_group_educationForm | null;
   specialization: AuthUser_authUser_student_group_specialization | null;
   leader: AuthUser_authUser_student_group_leader | null;

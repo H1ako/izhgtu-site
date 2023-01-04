@@ -12,10 +12,11 @@ interface CheckboxWithTextProps {
   onChange?: () => void,
   className?: string,
   value: string,
+  checked?: boolean
 }
 
 
-function CheckboxWithText({text, name, value, onChange, className}: CheckboxWithTextProps) {
+function CheckboxWithText({text, name, value, onChange, className, checked}: CheckboxWithTextProps) {
   return (
     <label className={styles.checkboxWithText}>
       <input
@@ -24,6 +25,7 @@ function CheckboxWithText({text, name, value, onChange, className}: CheckboxWith
         name={name}
         value={value}
         onChange={onChange}
+        checked={checked}
       />
       <span className={styles.checkboxWithText__input}>
         <FontAwesomeIcon icon={faCheck} className={styles.input__icon} />
