@@ -4,6 +4,7 @@ import Link from "next/link";
 import {useRecoilValue} from "recoil";
 // components
 import WindowWithHeaderLayout from "../../containers/WindowWithHeaderLayout/WindowWithHeaderLayout";
+import CheckboxWithText from "../CheckboxWithText/CheckboxWithText";
 // recoil
 import {authUserAtom} from "../../recoilAtoms/authUserrAtom";
 // styles and icons
@@ -12,7 +13,6 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faAward, faXmark} from "@fortawesome/free-solid-svg-icons";
 // types
 import {AuthUser_authUser} from "../../graphql/generated";
-import CheckboxWithText from "../CheckboxWithText/CheckboxWithText";
 
 interface ProfileProps {
   className?: string
@@ -30,7 +30,7 @@ interface NavTabProps {
 interface ProfileAchievementProps {
   id: IdType,
   title: string,
-  description: string,
+  description: string | null,
   icon: any,
   showInProfile: boolean,
 }
@@ -38,10 +38,10 @@ interface ProfileAchievementProps {
 interface ProfileUserCardProps {
   name: string,
   email: string,
-  phone?: string,
+  phone?: string | null,
   picture?: string | null,
   role?: string,
-  id: IdType
+  profileUrl: string,
 }
 
 interface NavTab {
@@ -135,22 +135,28 @@ function ProfileInfoTab({user}: NavTabProps) {
     <div className={styles.content__tab}>
       <div className={styles.tab__panel}>
         <h4 className={styles.panel__item}>
-          Группа: <span className={styles.item__value}>{user?.student?.group?.name}</span>
+          Группа:
+          <span className={styles.item__value}>{user?.student?.group?.name}</span>
         </h4>
         <h4 className={styles.panel__item}>
-          Курс: <span className={styles.item__value}>{user?.student?.group?.year}</span>
+          Курс:
+          <span className={styles.item__value}>{user?.student?.group?.year}</span>
         </h4>
         <h4 className={styles.panel__item}>
-          Специализация: <span className={styles.item__value}>{user?.student?.group?.specialization?.name}</span>
+          Специализация:
+          <span className={styles.item__value}>{user?.student?.group?.specialization?.name}</span>
         </h4>
         <h4 className={styles.panel__item}>
-          Факультет: <span className={styles.item__value}>{user?.student?.group?.specialization?.faculty?.name}</span>
+          Факультет:
+          <span className={styles.item__value}>{user?.student?.group?.specialization?.faculty?.name}</span>
         </h4>
         <h4 className={styles.panel__item}>
-          Квалицикация: <span className={styles.item__value}>{user?.student?.group?.specialization?.faculty?.educationType?.name}</span>
+          Квалицикация:
+          <span className={styles.item__value}>{user?.student?.group?.specialization?.faculty?.educationType?.name}</span>
         </h4>
         <h4 className={styles.panel__item}>
           Корпус Обучения:
+          <span className={styles.item__value}>{user?.student?.learningBuilding}</span>
         </h4>
       </div>
       <div className={styles.tab__panel}>
@@ -159,7 +165,7 @@ function ProfileInfoTab({user}: NavTabProps) {
         </h3>
         <p className={styles.panel__text}>
           Salesian College Chadstone is a welcoming Catholic community renowned for its integrity and creative learning approaches that bring out the best in boys. Our rich Salesian charism underpinned by the educational principles of founder, St John Bosco, provides the foundation of a future focused pedagogical vision.
-          {/*{user?.profile?.aboutMe}*/}
+          {user?.profile?.aboutMe}
         </p>
       </div>
       <div className={styles.tab__panel}>
@@ -181,29 +187,7 @@ function ProfileInfoTab({user}: NavTabProps) {
 }
 
 function ProfileAchievementsTab({user}: NavTabProps) {
-  const achievements: ProfileAchievementProps[] = [
-    {
-      id: 1,
-      title: 'Спортивный',
-      description: 'Победитель в соревнованиях по баскетболу',
-      icon: '',
-      showInProfile: true
-    },
-    {
-      id: 2,
-      title: 'Спортивный',
-      description: 'Победитель в соревнованиях по баскетболу',
-      icon: '',
-      showInProfile: true
-    },
-    {
-      id: 3,
-      title: 'Спортивный',
-      description: 'Победитель в соревнованиях по баскетболу',
-      icon: '',
-      showInProfile: true
-    },
-    ]
+  const achievements = user?.profile?.achievements ?? []
     
   return (
     <div className={styles.content__tab}>
@@ -213,9 +197,9 @@ function ProfileAchievementsTab({user}: NavTabProps) {
             <ProfileAchievement
               key={achievement.id}
               id={achievement.id}
-              title={achievement.title}
-              description={achievement.description}
-              icon={achievement.icon}
+              title={achievement.achievement.title}
+              description={achievement.achievement.shortDescription}
+              icon={achievement.achievement.icon?.url}
               showInProfile={achievement.showInProfile}
             />
           ))}
@@ -248,41 +232,27 @@ function ProfileAchievement({showInProfile, id, title, description, icon}: Profi
       </span>
       <span className={styles.item__rightSide}>
         <h3 className={styles.rightSide__title}>{title}</h3>
-        <div className={styles.rightSide__description} dangerouslySetInnerHTML={{__html: description}} />
+        <div className={styles.rightSide__description}>{description}</div>
       </span>
     </li>
   )
 }
 
 function ProfileGroupTab({user}: NavTabProps) {
-  const users: ProfileUserCardProps[] = [
-    {
-      id: 1,
-      name: 'Иванов Иван Иванович',
-      picture: '',
-      email: '',
-      phone: '',
-    },
-    {
-      id: 2,
-      name: 'Иванов Иван Иванович',
-      picture: '',
-      email: '',
-      phone: '',
-    },
-    ]
+  const students = user?.student?.group?.students ?? []
+  
   return (
     <div className={styles.content__tab}>
       <div className={styles.tab__panel}>
         <ul className={styles.panel__userList}>
-          { users.map(user => (
+          { students.map(student => (
             <ProfileUserCard
-              key={user.id}
-              id={user.id}
-              name={user.name}
-              picture={user.picture}
-              email={user.email}
-              phone={user.phone}
+              key={student.id}
+              profileUrl={student.user.profileUrl}
+              name={student.user.fullName}
+              picture={student.user.pictureUrl}
+              email={student.user.email}
+              phone={student.user.phone}
             />
           ))}
         </ul>
@@ -292,37 +262,21 @@ function ProfileGroupTab({user}: NavTabProps) {
 }
 
 function ProfileTeachersTab({user}: NavTabProps) {
-  const users: ProfileUserCardProps[] = [
-    {
-      id: 1,
-      name: 'Иванов Иван Иванович',
-      picture: '',
-      email: '',
-      phone: '',
-      role: 'Математика'
-    },
-    {
-      id: 2,
-      name: 'Иванов Иван Иванович',
-      picture: '',
-      email: '',
-      phone: '',
-      role: 'Математика'
-    },
-    ]
+  const groupTeachers = user?.student?.group.teachers ?? []
+  
   return (
     <div className={styles.content__tab}>
       <div className={styles.tab__panel}>
         <ul className={styles.panel__userList}>
-          { users.map(user => (
+          { groupTeachers.map(groupTeacher => (
             <ProfileUserCard
-              key={user.id}
-              id={user.id}
-              name={user.name}
-              picture={user.picture}
-              email={user.email}
-              phone={user.phone}
-              role={user.role}
+              key={groupTeacher.id}
+              name={groupTeacher.teacher.user.fullName}
+              picture={groupTeacher.teacher.user.pictureUrl}
+              email={groupTeacher.teacher.user.email}
+              phone={groupTeacher.teacher.user.phone}
+              profileUrl={groupTeacher.teacher.user.profileUrl}
+              // role={}
             />
           ))}
         </ul>
@@ -331,7 +285,7 @@ function ProfileTeachersTab({user}: NavTabProps) {
   )
 }
 
-function ProfileUserCard({name, email, phone, picture, id, role}: ProfileUserCardProps) {
+function ProfileUserCard({name, email, phone, picture, profileUrl, role}: ProfileUserCardProps) {
   return (
     <li className={styles.userList__item}>
       <span className={styles.item__leftSide}>

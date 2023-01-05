@@ -13,8 +13,8 @@ export const AUTH_USER_GETTER_QUERY = gql`
       isTeacher
       pictureUrl
       bgPictureUrl
+      profileUrl
       profile {
-        id
         aboutMe
         achievements {
           id
@@ -44,6 +44,32 @@ export const AUTH_USER_GETTER_QUERY = gql`
         group {
           name
           year
+          teachers {
+            id
+            teacher {
+              user {
+                fullName
+                pictureUrl
+                profileUrl
+                email
+                phone
+              }
+              subjects {
+                id
+                name
+              }
+            }
+          }
+          students {
+            id
+            user {
+              fullName
+              pictureUrl
+              profileUrl
+              email
+              phone
+            }
+          }
           educationForm {
             name
           }

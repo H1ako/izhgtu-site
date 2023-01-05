@@ -55,6 +55,10 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
     objects = CustomUserManager()
 
     @property
+    def profile_url(self):
+        return f"/profile/{self.id}"
+
+    @property
     def picture_url(self):
         return self.picture.url
 
@@ -86,9 +90,9 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
     def info(self):
         return f"{self.full_name} - {self.email}"
 
-    search_fields = [
-        GraphQLString('first_name', required=True),
-    ]
+    # search_fields = [
+    #     GraphQLString('first_name', required=True),
+    # ]
 
     panels = [
         FieldPanel("email"),
@@ -128,6 +132,7 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
         GraphQLBoolean('is_entrant', required=True),
         GraphQLBoolean('is_student', required=True),
         GraphQLBoolean('is_teacher', required=True),
+        GraphQLString('profile_url', required=True),
     ]
 
     def __str__(self):

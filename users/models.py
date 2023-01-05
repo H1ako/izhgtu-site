@@ -3,7 +3,8 @@ from django import forms
 from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.utils.translation import gettext_lazy as _
-from grapple.models import GraphQLForeignKey, GraphQLString, GraphQLCollection, GraphQLBoolean, GraphQLRichText
+from grapple.models import GraphQLForeignKey, GraphQLString, GraphQLCollection, GraphQLBoolean, GraphQLRichText, \
+    GraphQLInt
 from instance_selector.edit_handlers import InstanceSelectorPanel
 from wagtail.admin.panels import FieldPanel
 from wagtail.fields import RichTextField
@@ -36,6 +37,7 @@ class Achievement(TimeStampedModel):
     ]
 
     graphql_fields = [
+        GraphQLInt('id', required=True),
         GraphQLString('title', required=True),
         GraphQLRichText('description'),
         GraphQLString('short_description'),
@@ -51,63 +53,63 @@ class Achievement(TimeStampedModel):
 
 
 class UserAchievement(TimeStampedModel):
-    user = models.ForeignKey('authentication.User', on_delete=models.CASCADE, related_name='achievements')
+    user_profile = models.ForeignKey('users.Profile', on_delete=models.CASCADE, related_name='achievements')
     achievement = models.ForeignKey('users.Achievement', on_delete=models.CASCADE, related_name='users_achievements')
     show_in_profile = models.BooleanField(default=True)
 
     panels = [
-        InstanceSelectorPanel('user'),
+        InstanceSelectorPanel('user_profile'),
         InstanceSelectorPanel('achievement'),
         FieldPanel('show_in_profile'),
     ]
 
     graphql_fields = [
-        GraphQLForeignKey('user', 'authentication.User', required=True),
+        GraphQLInt('id', required=True),
+        GraphQLForeignKey('user_profile', 'users.Profile', required=True),
         GraphQLForeignKey('achievement', 'users.Achievement', required=True),
         GraphQLBoolean('show_in_profile', required=True),
     ]
 
     def __str__(self):
-        return f'{self.user} - {self.achievement}'
+        return f'{self.user_profile.user} - {self.achievement}'
 
     class Meta:
         verbose_name = _('Достижение пользователя')
         verbose_name_plural = _('Достижения пользователей')
-        unique_together = ('user', 'achievement')
+        unique_together = ('user_profile', 'achievement')
 
 
 class UserContact(TimeStampedModel):
-    user = models.ForeignKey('authentication.User', on_delete=models.CASCADE, related_name='contacts')
+    user_profile = models.ForeignKey('users.Profile', on_delete=models.CASCADE, related_name='contacts')
     title = models.CharField(max_length=255)
     value = models.CharField(max_length=255)
 
     panels = [
-        InstanceSelectorPanel('user'),
+        InstanceSelectorPanel('user_profile'),
         FieldPanel('title'),
         FieldPanel('value'),
     ]
 
     graphql_fields = [
-        GraphQLForeignKey('user', 'authentication.User', required=True),
+        GraphQLInt('id', required=True),
+        GraphQLForeignKey('user_profile', 'users.Profile', required=True),
         GraphQLString('title', required=True),
         GraphQLString('value', required=True),
     ]
 
     def __str__(self):
-        return f'{self.user} - {self.title}'
+        return f'{self.user_profile.user} - {self.title}'
 
     class Meta:
         verbose_name = _('Контакт пользователя')
         verbose_name_plural = _('Контакты пользователей')
-        unique_together = ('user', 'title')
+        unique_together = ('user_profile', 'title')
 
 
 class Profile(models.Model):
     user = AutoOneToOneField(User, verbose_name=_('User'), on_delete=models.CASCADE, related_name='profile',
                              primary_key=True)
     about_me = models.TextField(_('About me'), blank=True, null=True)
-    achievements = models.ManyToManyField('users.UserAchievement', verbose_name=_('Достижения'), blank=True)
-    contacts = models.ManyToManyField('users.UserContact', verbose_name=_('Контакты'), blank=True)
 
     panels = [
         FieldPanel('user'),
@@ -117,6 +119,7 @@ class Profile(models.Model):
     ]
 
     graphql_fields = [
+        GraphQLInt('id', required=True),
         GraphQLForeignKey('user', 'authentication.User', required=True),
         GraphQLString('about_me'),
         GraphQLCollection(
@@ -156,12 +159,14 @@ class Student(TimeStampedModel):
     learning_building = models.CharField(_('Learning building'), max_length=255, blank=True, null=True)
 
     panels = [
+        GraphQLInt('id', required=True),
         InstanceSelectorPanel("user"),
         InstanceSelectorPanel("group"),
         FieldPanel("learning_building"),
     ]
 
     graphql_fields = [
+        GraphQLInt('id', required=True),
         GraphQLForeignKey('user', content_type='authentication.User', required=True),
         GraphQLForeignKey("group", content_type='education.SpecializationGroup', required=True),
         GraphQLForeignKey("student_card", required=True, content_type='users.StudentCard'),

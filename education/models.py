@@ -160,15 +160,29 @@ class SpecializationGroup(TimeStampedModel):
     ]
 
     graphql_fields = [
-        GraphQLString("name"),
-        GraphQLInt("year"),
-        GraphQLForeignKey("education_form", content_type='education.EducationForm'),
-        GraphQLForeignKey("specialization", content_type='education.Specialization'),
-        GraphQLForeignKey("leader", content_type='authentication.User'),
+        GraphQLString("name", required=True),
+        GraphQLInt("year", required=True),
+        GraphQLForeignKey("education_form", content_type='education.EducationForm', required=True),
+        GraphQLForeignKey("specialization", content_type='education.Specialization', required=True),
+        GraphQLForeignKey("leader", content_type='authentication.User', required=True),
         GraphQLCollection(
             GraphQLForeignKey,
             "subjects",
             'education.Subject',
+            required=True,
+            item_required=True
+        ),
+        GraphQLCollection(
+            GraphQLForeignKey,
+            "students",
+            'users.Student',
+            required=True,
+            item_required=True
+        ),
+        GraphQLCollection(
+            GraphQLForeignKey,
+            "teachers",
+            'education.GroupTeacher',
             required=True,
             item_required=True
         ),
@@ -206,8 +220,9 @@ class GroupTeacher(models.Model):
     ]
 
     graphql_fields = [
-        GraphQLForeignKey("group", content_type='education.SpecializationGroup', requried=True),
-        GraphQLForeignKey("teacher", content_type='authentication.User', requried=True),
+        GraphQLInt("id", required=True),
+        GraphQLForeignKey("group", 'education.SpecializationGroup', required=True),
+        GraphQLForeignKey("teacher", 'users.Teacher', required=True),
         GraphQLCollection(
             GraphQLForeignKey,
             "subjects",

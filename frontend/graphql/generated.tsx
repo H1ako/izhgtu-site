@@ -449,21 +449,20 @@ export interface AuthUser_authUser_profile_achievements_achievement {
 
 export interface AuthUser_authUser_profile_achievements {
   __typename: "UserAchievement";
-  id: string | null;
+  id: number;
   showInProfile: boolean;
   achievement: AuthUser_authUser_profile_achievements_achievement;
 }
 
 export interface AuthUser_authUser_profile_contacts {
   __typename: "UserContact";
-  id: string | null;
+  id: number;
   title: string;
   value: string;
 }
 
 export interface AuthUser_authUser_profile {
   __typename: "Profile";
-  id: string | null;
   aboutMe: string | null;
   achievements: AuthUser_authUser_profile_achievements[];
   contacts: AuthUser_authUser_profile_contacts[];
@@ -472,6 +471,48 @@ export interface AuthUser_authUser_profile {
 export interface AuthUser_authUser_student_studentCard {
   __typename: "StudentCard";
   cardId: string;
+}
+
+export interface AuthUser_authUser_student_group_teachers_teacher_user {
+  __typename: "User";
+  fullName: string;
+  pictureUrl: string | null;
+  profileUrl: string;
+  email: string;
+  phone: string | null;
+}
+
+export interface AuthUser_authUser_student_group_teachers_teacher_subjects {
+  __typename: "Subject";
+  id: string | null;
+  name: string;
+}
+
+export interface AuthUser_authUser_student_group_teachers_teacher {
+  __typename: "Teacher";
+  user: AuthUser_authUser_student_group_teachers_teacher_user;
+  subjects: AuthUser_authUser_student_group_teachers_teacher_subjects[];
+}
+
+export interface AuthUser_authUser_student_group_teachers {
+  __typename: "GroupTeacher";
+  id: number;
+  teacher: AuthUser_authUser_student_group_teachers_teacher;
+}
+
+export interface AuthUser_authUser_student_group_students_user {
+  __typename: "User";
+  fullName: string;
+  pictureUrl: string | null;
+  profileUrl: string;
+  email: string;
+  phone: string | null;
+}
+
+export interface AuthUser_authUser_student_group_students {
+  __typename: "Student";
+  id: number;
+  user: AuthUser_authUser_student_group_students_user;
 }
 
 export interface AuthUser_authUser_student_group_educationForm {
@@ -510,17 +551,19 @@ export interface AuthUser_authUser_student_group_subjects {
 
 export interface AuthUser_authUser_student_group {
   __typename: "SpecializationGroup";
-  name: string | null;
-  year: number | null;
-  educationForm: AuthUser_authUser_student_group_educationForm | null;
-  specialization: AuthUser_authUser_student_group_specialization | null;
-  leader: AuthUser_authUser_student_group_leader | null;
+  name: string;
+  year: number;
+  teachers: AuthUser_authUser_student_group_teachers[];
+  students: AuthUser_authUser_student_group_students[];
+  educationForm: AuthUser_authUser_student_group_educationForm;
+  specialization: AuthUser_authUser_student_group_specialization;
+  leader: AuthUser_authUser_student_group_leader;
   subjects: AuthUser_authUser_student_group_subjects[];
 }
 
 export interface AuthUser_authUser_student {
   __typename: "Student";
-  id: string | null;
+  id: number;
   learningBuilding: string | null;
   studentCard: AuthUser_authUser_student_studentCard;
   group: AuthUser_authUser_student_group;
@@ -572,6 +615,7 @@ export interface AuthUser_authUser {
   isTeacher: boolean;
   pictureUrl: string | null;
   bgPictureUrl: string | null;
+  profileUrl: string;
   profile: AuthUser_authUser_profile | null;
   student: AuthUser_authUser_student | null;
   teacher: AuthUser_authUser_teacher | null;

@@ -9,11 +9,15 @@ class UserType(DjangoObjectType):
     is_student = graphene.Boolean(required=True)
     is_teacher = graphene.Boolean(required=True)
     is_entrant = graphene.Boolean(required=True)
+    profile_url = graphene.String(required=True)
     picture_url = graphene.String()
     bg_picture_url = graphene.String()
 
     def resolve_picture_url(self: User, info):
         return self.picture.url
+
+    def resolve_profile_url(self: User, info):
+        return self.profile_url
 
     def resolve_bg_picture_url(self: User, info):
         return self.bg_picture.url
