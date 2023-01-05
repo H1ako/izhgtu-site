@@ -433,6 +433,42 @@ export interface Settings {
 // GraphQL query operation: AuthUser
 // ====================================================
 
+export interface AuthUser_authUser_profile_achievements_achievement_icon {
+  __typename: "SvgTyped";
+  url: string;
+  title: string;
+}
+
+export interface AuthUser_authUser_profile_achievements_achievement {
+  __typename: "Achievement";
+  title: string;
+  description: any | null;
+  shortDescription: string | null;
+  icon: AuthUser_authUser_profile_achievements_achievement_icon | null;
+}
+
+export interface AuthUser_authUser_profile_achievements {
+  __typename: "UserAchievement";
+  id: string | null;
+  showInProfile: boolean;
+  achievement: AuthUser_authUser_profile_achievements_achievement;
+}
+
+export interface AuthUser_authUser_profile_contacts {
+  __typename: "UserContact";
+  id: string | null;
+  title: string;
+  value: string;
+}
+
+export interface AuthUser_authUser_profile {
+  __typename: "Profile";
+  id: string | null;
+  aboutMe: string | null;
+  achievements: AuthUser_authUser_profile_achievements[];
+  contacts: AuthUser_authUser_profile_contacts[];
+}
+
 export interface AuthUser_authUser_student_studentCard {
   __typename: "StudentCard";
   cardId: string;
@@ -485,6 +521,7 @@ export interface AuthUser_authUser_student_group {
 export interface AuthUser_authUser_student {
   __typename: "Student";
   id: string | null;
+  learningBuilding: string | null;
   studentCard: AuthUser_authUser_student_studentCard;
   group: AuthUser_authUser_student_group;
 }
@@ -495,10 +532,15 @@ export interface AuthUser_authUser_teacher_subjects {
   name: string;
 }
 
-export interface AuthUser_authUser_teacher_groups {
-  __typename: "SpecializationGroup";
+export interface AuthUser_authUser_teacher_groups_subjects {
+  __typename: "Subject";
   id: string | null;
-  name: string | null;
+  name: string;
+}
+
+export interface AuthUser_authUser_teacher_groups {
+  __typename: "GroupTeacher";
+  subjects: AuthUser_authUser_teacher_groups_subjects[];
 }
 
 export interface AuthUser_authUser_teacher {
@@ -530,6 +572,7 @@ export interface AuthUser_authUser {
   isTeacher: boolean;
   pictureUrl: string | null;
   bgPictureUrl: string | null;
+  profile: AuthUser_authUser_profile | null;
   student: AuthUser_authUser_student | null;
   teacher: AuthUser_authUser_teacher | null;
   entrant: AuthUser_authUser_entrant | null;

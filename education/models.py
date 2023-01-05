@@ -180,3 +180,46 @@ class SpecializationGroup(TimeStampedModel):
 
     def __str__(self):
         return f"{self.name}"
+
+
+class GroupTeacher(models.Model):
+    group = models.ForeignKey(
+        'education.SpecializationGroup',
+        verbose_name=_("Group"),
+        related_name="teachers",
+        on_delete=models.CASCADE,
+    )
+    teacher = models.ForeignKey(
+        'users.Teacher',
+        verbose_name=_("Teacher"),
+        related_name="groups",
+        on_delete=models.CASCADE,
+    )
+    subjects = models.ManyToManyField(
+        'education.Subject', verbose_name=_("Subjects"), related_name="group_teachers"
+    )
+
+    panels = [
+        InstanceSelectorPanel("group"),
+        InstanceSelectorPanel("teacher"),
+        FieldPanel("subjects", widget=forms.CheckboxSelectMultiple),
+    ]
+
+    graphql_fields = [
+        GraphQLForeignKey("group", content_type='education.SpecializationGroup', requried=True),
+        GraphQLForeignKey("teacher", content_type='authentication.User', requried=True),
+        GraphQLCollection(
+            GraphQLForeignKey,
+            "subjects",
+            'education.Subject',
+            required=True,
+            item_required=True
+        ),
+    ]
+
+    class Meta:
+        verbose_name = _("Group Teacher")
+        verbose_name_plural = _("Group Teachers")
+
+    def __str__(self):
+        return f"{self.group} - {self.teacher}"

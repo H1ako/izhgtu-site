@@ -145,6 +145,7 @@ INSTALLED_APPS = [
     "wagtailsvg",
     # libraries
     "drfpasswordless",
+    "annoying",
     # apps
     "core",
     "svg",

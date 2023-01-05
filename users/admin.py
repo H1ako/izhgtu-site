@@ -44,13 +44,13 @@ class TeacherAdmin(ModelAdmin):
     model = Teacher
     menu_label = _("Teachers")
     menu_icon = "user"
-    list_display = ("user", "group", "student_card")
-    list_filter = ("subjects", "groups")
+    list_display = ("user",)
+    list_filter = ("subjects", "groups__group__name")
     ordering = (
         "user__last_name",
         "user__first_name",
         "user__patronymic",
-        "groups__name",
+        "groups__group__name",
         "subjects__name",
     )
 

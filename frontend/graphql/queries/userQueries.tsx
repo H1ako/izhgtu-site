@@ -13,8 +13,31 @@ export const AUTH_USER_GETTER_QUERY = gql`
       isTeacher
       pictureUrl
       bgPictureUrl
+      profile {
+        id
+        aboutMe
+        achievements {
+          id
+          showInProfile
+          achievement {
+            title
+            description
+            shortDescription
+            icon {
+              url
+              title
+            }
+          }
+        }
+        contacts {
+          id
+          title
+          value
+        }
+      }
       student {
         id
+        learningBuilding
         studentCard {
           cardId
         }
@@ -49,8 +72,10 @@ export const AUTH_USER_GETTER_QUERY = gql`
           name
         }
         groups {
-          id
-          name
+          subjects {
+            id
+            name
+          }
         }
       }
       entrant {

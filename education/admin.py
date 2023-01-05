@@ -12,7 +12,7 @@ from education.models import (
     Specialization,
     SpecializationGroup,
     Subject,
-    EducationForm,
+    EducationForm, GroupTeacher,
 )
 
 
@@ -99,6 +99,21 @@ class SpecializationGroupAdmin(ModelAdmin):
     )
 
 
+class GroupTeacherAdmin(ModelAdmin):
+    model = GroupTeacher
+    menu_label = _("Group teachers")
+    menu_icon = "user"
+    list_display = ("teacher", "subjects", "group")
+    list_filter = ("subjects", "group__name", "teacher__user")
+    ordering = (
+        "teacher__user__last_name",
+        "teacher__user__first_name",
+        "teacher__user__patronymic",
+        "group__name",
+        "subjects__name",
+    )
+
+
 @modeladmin_register
 class EducationGroupAdmin(ModelAdminGroup):
     menu_label = _("Education")
@@ -111,6 +126,7 @@ class EducationGroupAdmin(ModelAdminGroup):
         SpecializationAdmin,
         SpecializationGroupAdmin,
         EducationFormAdmin,
+        GroupTeacherAdmin
     )
 
 

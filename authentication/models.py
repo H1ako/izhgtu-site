@@ -36,7 +36,6 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
     picture = models.ImageField(
         _("Profile Picture"), upload_to="userPictures/", blank=True, null=True
     )
-
     bg_picture = models.ImageField(
         _("Profile Background Picture"),
         upload_to="userBgPictures/",
@@ -62,6 +61,30 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
     @property
     def bg_picture_url(self):
         return self.bg_picture.url
+
+    @property
+    def is_entrant(self):
+        return hasattr(self, "entrant")
+
+    @property
+    def is_teacher(self):
+        return hasattr(self, "teacher")
+
+    @property
+    def is_student(self):
+        return hasattr(self, "student")
+
+    @property
+    def main_name(self):
+        return f"{self.last_name} {self.first_name}"
+
+    @property
+    def full_name(self):
+        return f"{self.main_name} {self.patronymic}"
+
+    @property
+    def info(self):
+        return f"{self.full_name} - {self.email}"
 
     search_fields = [
         GraphQLString('first_name', required=True),
@@ -109,30 +132,6 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return f"{self.info}"
-
-    @property
-    def is_entrant(self):
-        return hasattr(self, "entrant")
-
-    @property
-    def is_teacher(self):
-        return hasattr(self, "teacher")
-
-    @property
-    def is_student(self):
-        return hasattr(self, "student")
-
-    @property
-    def main_name(self):
-        return f"{self.last_name} {self.first_name}"
-
-    @property
-    def full_name(self):
-        return f"{self.main_name} {self.patronymic}"
-
-    @property
-    def info(self):
-        return f"{self.full_name} - {self.email}"
 
     class Meta:
         verbose_name = _("User")
