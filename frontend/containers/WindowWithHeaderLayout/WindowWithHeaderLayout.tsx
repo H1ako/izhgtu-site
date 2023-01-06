@@ -7,12 +7,14 @@ import styles from './WindowWithHeaderLayout.module.scss';
 
 interface WindowWithHeaderLayoutProps {
   className?: string,
+  wrapperClassName?: string,
   children: React.ReactNode,
   ToggleButton: React.ReactElement,
   heading?: string
 }
 
-function WindowWithHeaderLayout({children, ToggleButton, heading='', className=''}: WindowWithHeaderLayoutProps) {
+function WindowWithHeaderLayout(
+  {children, ToggleButton, heading='', className='', wrapperClassName=''}: WindowWithHeaderLayoutProps) {
   const [ isActive, setActivity ] = React.useState<boolean>(false)
   
   const toggleMenu = () => {
@@ -28,7 +30,7 @@ function WindowWithHeaderLayout({children, ToggleButton, heading='', className='
               {heading}
             </InnerBlockHeading>
           }
-          <div className={styles.content__wrapper}>
+          <div className={`${styles.content__wrapper} ${wrapperClassName}`}>
             {children}
           </div>
         </div>

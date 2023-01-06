@@ -24,11 +24,15 @@ function Menu({className}: MenuProps) {
   const { mainContent }  = useRecoilValue(settingsAtom)
   
   return (
-    <WindowWithHeaderLayout heading="Меню" className={`${styles.menu} ${className}`} ToggleButton={
-      <button className={styles.menu__toggle}>
-        <FontAwesomeIcon icon={faBars} className={styles.toggle__icon} />
-        <span className={styles.toggle__text}>Меню</span>
-      </button>
+    <WindowWithHeaderLayout
+      heading="Меню"
+      className={`${styles.menu} ${className}`}
+      wrapperClassName={styles.menu__wrapper}
+      ToggleButton={
+        <button className={styles.menu__toggle}>
+          <FontAwesomeIcon icon={faBars} className={styles.toggle__icon} />
+          <span className={styles.toggle__text}>Меню</span>
+        </button>
     }>
       <MainActionBtns />
       <nav className={styles.menu__nav}>

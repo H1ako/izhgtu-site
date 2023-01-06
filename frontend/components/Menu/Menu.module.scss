@@ -16,6 +16,10 @@
     }
   }
 
+  &__wrapper {
+    padding: var(--paddingInlineMain);
+  }
+
   &__nav {
     position: relative;
     width: 100%;
