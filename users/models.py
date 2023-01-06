@@ -9,101 +9,13 @@ from instance_selector.edit_handlers import InstanceSelectorPanel
 from wagtail.admin.panels import FieldPanel
 from wagtail.fields import RichTextField
 from wagtail.images.models import Image
+from wagtailsvg.edit_handlers import SvgChooserPanel
+from wagtailsvg.models import Svg
 
 from authentication.models import User
 from education.models import SpecializationGroup, Subject
 from izhgtuSite.models import TimeStampedModel
 from svg.models import SvgTyped
-
-
-class Achievement(TimeStampedModel):
-    title = models.CharField(_('Title'), max_length=255)
-    description = RichTextField(verbose_name=_('Description'), blank=True, null=True,
-                                features=['bold', 'italic', 'link', 'hr', 'document-link'])
-    short_description = models.CharField(max_length=100, blank=True, null=True)
-    icon = models.ForeignKey(
-        SvgTyped,
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
-    )
-
-    panels = [
-        FieldPanel('title'),
-        FieldPanel('description'),
-        FieldPanel('short_description'),
-        FieldPanel('icon'),
-    ]
-
-    graphql_fields = [
-        GraphQLInt('id', required=True),
-        GraphQLString('title', required=True),
-        GraphQLRichText('description'),
-        GraphQLString('short_description'),
-        GraphQLForeignKey('icon', SvgTyped),
-    ]
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        verbose_name = _('Достижение')
-        verbose_name_plural = _('Достижения')
-
-
-class UserAchievement(TimeStampedModel):
-    user_profile = models.ForeignKey('users.Profile', on_delete=models.CASCADE, related_name='achievements')
-    achievement = models.ForeignKey('users.Achievement', on_delete=models.CASCADE, related_name='users_achievements')
-    show_in_profile = models.BooleanField(default=True)
-
-    panels = [
-        InstanceSelectorPanel('user_profile'),
-        InstanceSelectorPanel('achievement'),
-        FieldPanel('show_in_profile'),
-    ]
-
-    graphql_fields = [
-        GraphQLInt('id', required=True),
-        GraphQLForeignKey('user_profile', 'users.Profile', required=True),
-        GraphQLForeignKey('achievement', 'users.Achievement', required=True),
-        GraphQLBoolean('show_in_profile', required=True),
-    ]
-
-    def __str__(self):
-        return f'{self.user_profile.user} - {self.achievement}'
-
-    class Meta:
-        verbose_name = _('Достижение пользователя')
-        verbose_name_plural = _('Достижения пользователей')
-        unique_together = ('user_profile', 'achievement')
-
-
-class UserContact(TimeStampedModel):
-    user_profile = models.ForeignKey('users.Profile', on_delete=models.CASCADE, related_name='contacts')
-    title = models.CharField(max_length=255)
-    value = models.CharField(max_length=255)
-
-    panels = [
-        InstanceSelectorPanel('user_profile'),
-        FieldPanel('title'),
-        FieldPanel('value'),
-    ]
-
-    graphql_fields = [
-        GraphQLInt('id', required=True),
-        GraphQLForeignKey('user_profile', 'users.Profile', required=True),
-        GraphQLString('title', required=True),
-        GraphQLString('value', required=True),
-    ]
-
-    def __str__(self):
-        return f'{self.user_profile.user} - {self.title}'
-
-    class Meta:
-        verbose_name = _('Контакт пользователя')
-        verbose_name_plural = _('Контакты пользователей')
-        unique_together = ('user_profile', 'title')
 
 
 class Profile(models.Model):
@@ -114,8 +26,6 @@ class Profile(models.Model):
     panels = [
         FieldPanel('user'),
         FieldPanel('about_me'),
-        FieldPanel('achievements', widget=forms.CheckboxSelectMultiple),
-        FieldPanel('contacts', widget=forms.CheckboxSelectMultiple),
     ]
 
     graphql_fields = [
@@ -142,8 +52,98 @@ class Profile(models.Model):
         return self.user.full_name
 
     class Meta:
-        verbose_name = _('Профиль')
-        verbose_name_plural = _('Профили')
+        verbose_name = _('Profile')
+        verbose_name_plural = _('Profiles')
+
+
+class Achievement(TimeStampedModel):
+    title = models.CharField(_('Title'), max_length=255)
+    description = RichTextField(verbose_name=_('Description'), blank=True, null=True,
+                                features=['bold', 'italic', 'link', 'hr', 'document-link'])
+    short_description = models.CharField(max_length=100, blank=True, null=True)
+    icon = models.ForeignKey(
+        SvgTyped,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
+    panels = [
+        FieldPanel('title'),
+        FieldPanel('description'),
+        FieldPanel('short_description'),
+        SvgChooserPanel('icon'),
+    ]
+
+    graphql_fields = [
+        GraphQLInt('id', required=True),
+        GraphQLString('title', required=True),
+        GraphQLRichText('description'),
+        GraphQLString('short_description'),
+        GraphQLForeignKey('icon', SvgTyped),
+    ]
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = _('Achievement')
+        verbose_name_plural = _('Achievements')
+
+
+class UserAchievement(TimeStampedModel):
+    user_profile = models.ForeignKey('users.Profile', on_delete=models.CASCADE, related_name='achievements')
+    achievement = models.ForeignKey('users.Achievement', on_delete=models.CASCADE, related_name='users_achievements')
+    show_in_profile = models.BooleanField(default=True)
+
+    panels = [
+        InstanceSelectorPanel('user_profile'),
+        InstanceSelectorPanel('achievement'),
+        FieldPanel('show_in_profile'),
+    ]
+
+    graphql_fields = [
+        GraphQLInt('id', required=True),
+        GraphQLForeignKey('user_profile', 'users.Profile', required=True),
+        GraphQLForeignKey('achievement', 'users.Achievement', required=True),
+        GraphQLBoolean('show_in_profile', required=True),
+    ]
+
+    def __str__(self):
+        return f'{self.user_profile.user} - {self.achievement}'
+
+    class Meta:
+        verbose_name = _('User achievement')
+        verbose_name_plural = _('User achievements')
+        unique_together = ('user_profile', 'achievement')
+
+
+class UserContact(TimeStampedModel):
+    user_profile = models.ForeignKey('users.Profile', on_delete=models.CASCADE, related_name='contacts')
+    title = models.CharField(max_length=50)
+    value = models.CharField(max_length=500)
+
+    panels = [
+        InstanceSelectorPanel('user_profile'),
+        FieldPanel('title'),
+        FieldPanel('value'),
+    ]
+
+    graphql_fields = [
+        GraphQLInt('id', required=True),
+        GraphQLForeignKey('user_profile', 'users.Profile', required=True),
+        GraphQLString('title', required=True),
+        GraphQLString('value', required=True),
+    ]
+
+    def __str__(self):
+        return f'{self.user_profile.user} - {self.title}'
+
+    class Meta:
+        verbose_name = _('User contact')
+        verbose_name_plural = _('User contacts')
+        unique_together = ('user_profile', 'title', 'value')
 
 
 class Student(TimeStampedModel):

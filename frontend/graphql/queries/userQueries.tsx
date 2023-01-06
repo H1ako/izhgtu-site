@@ -25,6 +25,7 @@ export const AUTH_USER_GETTER_QUERY = gql`
             shortDescription
             icon {
               url
+              fullUrl
               title
             }
           }
@@ -46,6 +47,10 @@ export const AUTH_USER_GETTER_QUERY = gql`
           year
           teachers {
             id
+            subjects {
+              id
+              name
+            }
             teacher {
               user {
                 fullName

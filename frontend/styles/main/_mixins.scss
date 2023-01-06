@@ -1,3 +1,8 @@
+@mixin svgColor($color) {
+  fill: $color;
+  color: $color;
+}
+
 @mixin clearedInput($fontSize: var(--fontSize4)) {
   outline: none;
   border: none;

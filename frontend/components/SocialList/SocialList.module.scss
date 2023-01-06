@@ -9,21 +9,28 @@
   grid-auto-flow: row dense;
   grid-template-columns: repeat(4, auto);
   grid-template-rows: auto;
+  align-items: center;
 
   &__social {
     position: relative;
+    display: flex;
 
     .social__text {
       @include clearedLink($fontSize: var(--fontSize4));
 
       &:hover,
       &:focus-within {
-        color: var(--colorMainLight);
+        .text__icon {
+          @include svgColor(var(--colorMainLight));
+        }
       }
 
       .text__icon {
+        @include svgColor(var(--colorText));
+
         flex: 1 1 0;
-        font-size: var(--fontSize1);
+        width: 2.75rem;
+        transition: var(--transitionDefault);
       }
     }
   }

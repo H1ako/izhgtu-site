@@ -269,6 +269,7 @@ export interface Settings_settings_SocialSettings {
 export interface Settings_settings_MainContentSettings_logo {
   __typename: "SvgTyped";
   url: string;
+  fullUrl: string;
   title: string;
 }
 
@@ -289,6 +290,7 @@ export interface Settings_settings_MainContentSettings_header_menu_linksGroups_l
 
 export interface Settings_settings_MainContentSettings_header_menu_linksGroups_linksGroups_linksGroups {
   __typename: "MenuItemLink";
+  id: number;
   url: string | null;
   name: string;
   page: Settings_settings_MainContentSettings_header_menu_linksGroups_linksGroups_linksGroups_page | null;
@@ -297,6 +299,7 @@ export interface Settings_settings_MainContentSettings_header_menu_linksGroups_l
 
 export interface Settings_settings_MainContentSettings_header_menu_linksGroups_linksGroups {
   __typename: "MenuItemLinkGroup";
+  id: number;
   url: string | null;
   name: string;
   page: Settings_settings_MainContentSettings_header_menu_linksGroups_linksGroups_page | null;
@@ -306,6 +309,7 @@ export interface Settings_settings_MainContentSettings_header_menu_linksGroups_l
 
 export interface Settings_settings_MainContentSettings_header_menu_linksGroups {
   __typename: "MenuItem";
+  id: number;
   url: string | null;
   name: string;
   page: Settings_settings_MainContentSettings_header_menu_linksGroups_page | null;
@@ -315,7 +319,7 @@ export interface Settings_settings_MainContentSettings_header_menu_linksGroups {
 
 export interface Settings_settings_MainContentSettings_header_menu {
   __typename: "Menu";
-  id: string | null;
+  id: number;
   title: string;
   linksGroups: Settings_settings_MainContentSettings_header_menu_linksGroups[];
 }
@@ -340,6 +344,7 @@ export interface Settings_settings_MainContentSettings_header_socials_icon {
   __typename: "SvgTyped";
   url: string;
   title: string;
+  fullUrl: string;
 }
 
 export interface Settings_settings_MainContentSettings_header_socials {
@@ -364,6 +369,7 @@ export interface Settings_settings_MainContentSettings_footer_socials_icon {
   __typename: "SvgTyped";
   url: string;
   title: string;
+  fullUrl: string;
 }
 
 export interface Settings_settings_MainContentSettings_footer_socials {
@@ -436,6 +442,7 @@ export interface Settings {
 export interface AuthUser_authUser_profile_achievements_achievement_icon {
   __typename: "SvgTyped";
   url: string;
+  fullUrl: string;
   title: string;
 }
 
@@ -473,6 +480,12 @@ export interface AuthUser_authUser_student_studentCard {
   cardId: string;
 }
 
+export interface AuthUser_authUser_student_group_teachers_subjects {
+  __typename: "Subject";
+  id: string | null;
+  name: string;
+}
+
 export interface AuthUser_authUser_student_group_teachers_teacher_user {
   __typename: "User";
   fullName: string;
@@ -497,6 +510,7 @@ export interface AuthUser_authUser_student_group_teachers_teacher {
 export interface AuthUser_authUser_student_group_teachers {
   __typename: "GroupTeacher";
   id: number;
+  subjects: AuthUser_authUser_student_group_teachers_subjects[];
   teacher: AuthUser_authUser_student_group_teachers_teacher;
 }
 

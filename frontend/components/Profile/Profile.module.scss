@@ -15,4 +15,379 @@
       height: min(100%, 3.5rem);
     }
   }
+
+  &__content {
+    $userPictureSize: 20rem;
+    $contentGridColumns: $userPictureSize 1fr;
+    $contentGridLayout: "L R";
+
+    z-index: 1;
+
+    .content__profileHeader {
+      position: relative;
+      height: 35vh;
+      z-index: -1;
+      display: flex;
+      align-items: flex-end;
+
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: var(--colorBgDarkTransparentLight);
+        z-index: 0;
+      }
+
+      .profileHeader__bgPicture {
+        @include image;
+
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        z-index: -1;
+      }
+
+      .profileHeader__mainUserInfo {
+        padding: 0 var(--paddingInlineMain);
+        z-index: 2;
+        min-height: 50%;
+        width: 100%;
+        background: var(--colorBgDarkTransparent);
+        backdrop-filter: blur(10px);
+
+        display: grid;
+        grid-auto-columns: $contentGridColumns;
+        grid-template-areas: $contentGridLayout;
+        grid-auto-rows: auto;
+        align-content: flex-end;
+
+        .mainUserInfo__wrapper {
+          grid-area: R;
+          display: flex;
+          flex-direction: column;
+          gap: .25rem;
+          padding: 2rem var(--paddingInlineMain);
+
+          .wrapper__name,
+          .wrapper__specialization,
+          .wrapper__group {
+            text-transform: uppercase;
+          }
+
+          .wrapper__specialization {
+            color: var(--colorMain);
+          }
+        }
+      }
+    }
+
+    .content__profileBody {
+      padding-inline: var(--paddingInlineMain);
+      display: grid;
+      grid-auto-columns: $contentGridColumns;
+      grid-template-areas: $contentGridLayout;
+      grid-auto-rows: auto;
+      z-index: 99;
+      gap: var(--paddingInlineMain);
+
+      .profileBody__leftSide {
+        grid-area: L;
+        translate: 0 calc(-1 * $userPictureSize * 3 / 4);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: .5rem;
+
+        .leftSide__userPicture {
+          @include roundedImage($borderColor: var(--colorBgDark));
+
+          width: $userPictureSize;
+        }
+
+        .leftSide__userEmail {
+          text-align: center;
+        }
+
+        .leftSide__btn {
+          @include clearedLink;
+          @include btnMain();
+          width: 100%;
+
+          &.btn_accent {
+            @include btnAccent;
+          }
+        }
+      }
+
+      .profileBody__rightSide {
+        grid-area: R;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+
+        .rightSide__nav {
+          --highlighterWidth: 0;
+          --highlighterLeft: 0;
+
+          position: sticky;
+          background: var(--colorBgDark);
+          overflow-x: auto;
+          padding-inline: var(--paddingInlineMain);
+          z-index: 1;
+          top: 0;
+          left: 0;
+
+          &::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-bottom: 1px solid var(--colorText);
+            z-index: -1;
+          }
+
+          &::after {
+            content: '';
+            position: absolute;
+            border-bottom: 2px solid var(--colorMain);
+            height: 100%;
+            width: var(--highlighterWidth);
+            top: 0;
+            left: var(--highlighterLeft);
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+            transition: var(--transitionDefault);
+          }
+
+          .nav__list {
+            display: flex;
+            align-items: center;
+
+            .list__item {
+              .item__btn {
+                @include clearedBtn;
+
+                background: none;
+                text-transform: uppercase;
+                padding: 1.5rem 1rem;
+                position: sticky;
+                top: var(--heightHeader);
+              }
+            }
+          }
+        }
+
+        .rightSide__content {
+          padding-block: 1rem;
+
+          .content__tab {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            position: relative;
+
+            .tab__panel {
+              background: var(--colorBg);
+              padding: 1rem var(--paddingInlineMain);
+              display: flex;
+              flex-direction: column;
+              gap: .5rem;
+              border-radius: var(--bdrsWindow);
+
+              .panel__title {
+                text-transform: uppercase;
+                color: var(--colorMain);
+              }
+
+              .panel__text {
+                font-size: var(--fontSize4);
+                font-weight: regular;
+              }
+            }
+
+            &.tab_info {
+              .panel__item {
+                display: flex;
+                gap: 1ch;
+
+                .item__label {
+                  color: var(--colorMain);
+                  text-transform: uppercase;
+                }
+              }
+
+              .panel__contactList {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+
+                .contactList__item {
+                  display: flex;
+                  align-items: center;
+                  gap: 1rem;
+
+                  .item__input {
+                    @include input($background: var(--colorBgDark));
+
+                    width: 100%;
+
+                    &:first-child {
+                      width: 50%;
+                    }
+                  }
+
+                  .item__iconBtn {
+                    @include iconBtn($fontSize: var(--fontSize2));
+
+                    &:hover,
+                    &:focus-within {
+                      color: var(--colorAccent);
+                    }
+                  }
+                }
+              }
+            }
+
+            &.tab_achievements {
+              .panel__achievementList {
+                position: relative;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(30rem, min(50%, 40rem)));
+
+                .achievementList__item {
+                  background: var(--colorBgDark);
+                  border-radius: var(--bdrsWindow);
+                  padding: 1rem;
+                  display: flex;
+                  align-items: center;
+                  gap: 1rem;
+                  height: 10rem;
+
+                  .item__leftSide {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 1rem;
+
+                    .leftSide__icon {
+                      position: relative;
+                      background: var(--colorBg);
+                      border-radius: 50%;
+                      width: 6rem;
+                      aspect-ratio: 1;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+
+                      .icon__icon {
+                        @include svgColor(var(--colorMain));
+
+                        width: 70%;
+                        height: 70%;
+                      }
+                    }
+                  }
+
+                  .item__rightSide {
+                    display: flex;
+                    flex-direction: column;
+                    gap: .5rem;
+
+                    .rightSide__title {
+                      text-transform: uppercase;
+                      color: var(--colorMain);
+                    }
+
+                    .rightSide__description {
+                      font-size: var(--fontSize4);
+                    }
+                  }
+                }
+              }
+            }
+
+            &.tab_group,
+            &.tab_teachers {
+              .panel__userList {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(30rem, 40rem));
+                grid-template-rows: repeat(auto-fill, minmax(10rem, 1fr));
+
+                .userList__item {
+                  display: flex;
+                  align-items: center;
+                  gap: 1rem;
+                  background: var(--colorBgDark);
+                  border-radius: var(--bdrsWindow);
+                  padding: 1rem;
+
+                  .item__leftSide {
+                    display: flex;
+                    flex-direction: column;
+                    gap: .5rem;
+                    height: 100%;
+
+                    .leftSide__userImg {
+                      @include roundedImage($borderColor: var(--colorBg));
+
+                      width: 6rem;
+                      flex-shrink: 1;
+                    }
+
+                    .leftSide__roles {
+                      display: flex;
+                      flex-direction: column;
+                      align-items: center;
+                      flex-shrink: 0;
+
+                      .roles__item {
+                        text-transform: uppercase;
+                        color: var(--colorMainLight);
+                        font-size: var(--fontSize4-5);
+                      }
+                    }
+                  }
+
+                  .item__rightSide {
+                    display: flex;
+                    flex-direction: column;
+                    gap: .5rem;
+
+                    .rightSide__name {
+                      text-transform: uppercase;
+                      color: var(--colorMain);
+                    }
+                  }
+                }
+              }
+            }
+
+            &.tab_settings {
+              .panel__password {
+                display: flex;
+                gap: 1rem;
+
+                .password__input {
+                  @include input($background: var(--colorBgDark));
+
+                  flex-grow: 1;
+                }
+              }
+
+              .panel__contacts {
+                display: flex;
+                gap: 1rem;
+
+                .contacts__input {
+                  @include input($background: var(--colorBgDark));
+
+                  flex-grow: 1;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }

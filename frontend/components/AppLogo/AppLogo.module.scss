@@ -1,3 +1,11 @@
+@import "../../styles/main/mixins";
+
 .appLogo {
+  @include image;
+  @include svgColor(var(--colorText));
+
   aspect-ratio: 1;
+  user-select: none;
+  pointer-events: none;
+  height: 100%;
 }

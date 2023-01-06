@@ -6,7 +6,8 @@ from wagtail.contrib.modeladmin.options import (
 )
 from django.utils.translation import gettext_lazy as _
 
-from users.models import Student, Teacher, Entrant, StudentCard, UserDocument
+from users.models import Student, Teacher, Entrant, StudentCard, UserDocument, Profile, Achievement, UserAchievement, \
+    UserContact
 from users.snippets import UserTag, Quote
 
 
@@ -63,6 +64,14 @@ class EntrantAdmin(ModelAdmin):
     ordering = ("user__last_name", "user__first_name", "user__patronymic")
 
 
+class AchievementAdmin(ModelAdmin):
+    model = Achievement
+    menu_label = _("Achievements")
+    menu_icon = "success"
+    list_display = ("title", "short_description")
+    ordering = ("title", )
+
+
 @modeladmin_register
 class UsersGroupAdmin(ModelAdminGroup):
     menu_label = _("Users")
@@ -74,6 +83,43 @@ class UsersGroupAdmin(ModelAdminGroup):
         EntrantAdmin,
         TeacherAdmin,
         UserDocumentAdmin,
+        AchievementAdmin,
+    )
+
+
+class ProfileAdmin(ModelAdmin):
+    model = Profile
+    menu_label = _("Profiles")
+    menu_icon = "user"
+    list_display = ("user", )
+    ordering = ("user__last_name", "user__first_name", "user__patronymic")
+
+
+class UserAchievementAdmin(ModelAdmin):
+    model = UserAchievement
+    menu_label = _("User Achievements")
+    menu_icon = "success"
+    list_display = ("user_profile", "achievement", )
+    ordering = ("achievement", "user_profile", )
+
+
+class UserContactAdmin(ModelAdmin):
+    model = UserContact
+    menu_label = _("User Contacts")
+    menu_icon = "group"
+    list_display = ("user_profile", "title", "value", )
+    ordering = ("title", "user_profile", )
+
+
+@modeladmin_register
+class ProfileGroupAdmin(ModelAdminGroup):
+    menu_label = _("Profile Settings")
+    menu_icon = "user"
+    add_to_settings_menu = False
+    items = (
+        ProfileAdmin,
+        UserAchievementAdmin,
+        UserContactAdmin,
     )
 
 

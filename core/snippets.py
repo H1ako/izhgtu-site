@@ -9,7 +9,6 @@ from grapple.models import GraphQLString, GraphQLBoolean, GraphQLSnippet, GraphQ
     GraphQLPage, GraphQLCollection, GraphQLInt, GraphQLForeignKey
 from wagtail.blocks import StructBlock, PageChooserBlock, URLBlock, CharBlock
 from wagtail.fields import RichTextField, StreamField
-from modelcluster.fields import ParentalManyToManyField
 from wagtail.admin.panels import FieldPanel
 
 from svg.models import SvgTyped
@@ -131,6 +130,7 @@ class Header(models.Model):
     ]
 
     graphql_fields = [
+        GraphQLInt('id', required=True),
         GraphQLString('name', required=True),
         GraphQLCollection(
             GraphQLSnippet,
@@ -173,6 +173,7 @@ class FooterMenuLinkPage(FooterMenuLinkAbstract):
     page = PageChooserBlock(help_text=_('Page'))
 
     graphql_fields = [
+        # GraphQLString('id', required=True),
         GraphQLString('name', required=True),
         GraphQLPage('page', required=True),
     ]
@@ -183,6 +184,7 @@ class FooterMenuLinkUrl(FooterMenuLinkAbstract):
     url = URLBlock(_('Url'))
 
     graphql_fields = [
+        # GraphQLString('id', required=True),
         GraphQLString('name', required=True),
         GraphQLString('url', required=True),
     ]
@@ -223,6 +225,7 @@ class Footer(models.Model):
     ]
 
     graphql_fields = [
+        GraphQLInt('id', required=True),
         GraphQLString('name', required=True),
         GraphQLCollection(
             GraphQLSnippet,

@@ -12,7 +12,12 @@ import styles from './Profile.module.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faAward, faXmark} from "@fortawesome/free-solid-svg-icons";
 // types
-import {AuthUser_authUser} from "../../graphql/generated";
+import {
+  AuthUser_authUser,
+  AuthUser_authUser_student_group_teachers,
+  AuthUser_authUser_student_group_teachers_teacher
+} from "../../graphql/generated";
+import UrlSvg from "../UrlSvg/UrlSvg";
 
 interface ProfileProps {
   className?: string
@@ -40,7 +45,7 @@ interface ProfileUserCardProps {
   email: string,
   phone?: string | null,
   picture?: string | null,
-  role?: string,
+  roles?: string[] | null,
   profileUrl: string,
 }
 
@@ -48,6 +53,11 @@ interface NavTab {
   id: number,
   title: string,
   component: React.FC<NavTabProps>
+}
+
+interface ActiveTabWidthAndLeft {
+  width: number,
+  left: number
 }
 
 const NAV_TABS: NavTab[] = [
@@ -62,31 +72,64 @@ const NAV_TABS: NavTab[] = [
 function Profile({className=''}: ProfileProps) {
   const authUser = useRecoilValue(authUserAtom)
   const [ currentTabIndex, setCurrentTabIndex ] = React.useState<number>(0)
+  const tabNav = React.useRef<HTMLDivElement>(null)
+  
+  const getActiveTabWidthAndLeft = (): ActiveTabWidthAndLeft => {
+    const activeTab = document.querySelector(`.${styles.nav__list} .item_active`)
+    if (!activeTab || !tabNav.current) return {
+      width: 0,
+      left: 0
+    }
+    
+    const left = (activeTab as HTMLDivElement).offsetLeft
+    // we don't use offsetWidth because it's not working with initial width because of scrollbar
+    const { width } = activeTab.getBoundingClientRect()
+    
+    return { width, left }
+  }
+  
+  const setPropertyToTabNav = (property: string, value: string) => {
+    if (!tabNav.current) return
+    
+    tabNav.current.style.setProperty(property, value)
+  }
+  
+  React.useEffect(() => {
+    const { width, left } = getActiveTabWidthAndLeft()
+    
+    setPropertyToTabNav('--highlighterWidth', `${width}px`)
+    setPropertyToTabNav('--highlighterLeft', `${left}px`)
+  }, [currentTabIndex])
   
   return (
-    <WindowWithHeaderLayout heading="Профиль" className={`${styles.profile} ${className}`} ToggleButton={
-      <button className={styles.profile__toggle}>
-        <img className={styles.toggle__userPicture} src={authUser?.pictureUrl ?? ''} alt={authUser?.fullName}/>
-      </button>
+    <WindowWithHeaderLayout
+      heading="Профиль"
+      className={`${styles.profile} ${className}`}
+      ToggleButton={
+        <button className={styles.profile__toggle}>
+          <img className={styles.toggle__userPicture} src={authUser?.pictureUrl ?? ''} alt={authUser?.fullName}/>
+        </button>
     }>
       <div className={styles.profile__content}>
         <div className={styles.content__profileHeader}>
           <img src={authUser?.bgPictureUrl ?? ''} alt="" className={styles.profileHeader__bgPicture}/>
           <div className={styles.profileHeader__mainUserInfo}>
-            <h2 className={styles.mainUserInfo__name}>{authUser?.fullName}</h2>
-            { authUser?.student?.group &&
-              <>
-                <h3 className={styles.mainUserInfo__specialization}>{authUser.student.group.specialization?.name}</h3>
-                <h3 className={styles.mainUserInfo__group}>{authUser.student.group.name}</h3>
-              </>
-            }
+            <div className={styles.mainUserInfo__wrapper}>
+              <h1 className={styles.wrapper__name}>{authUser?.fullName}</h1>
+              { authUser?.student?.group &&
+                <>
+                  <h2 className={styles.wrapper__specialization}>{authUser.student.group.specialization?.name}</h2>
+                  <h2 className={styles.wrapper__group}>{authUser.student.group.name}</h2>
+                </>
+              }
+            </div>
           </div>
         </div>
         <div className={styles.content__profileBody}>
           <div className={styles.profileBody__leftSide}>
             <img className={styles.leftSide__userPicture} src={authUser?.pictureUrl ?? ''} alt='' />
             <h4 className={styles.leftSide__userEmail}>{authUser?.email}</h4>
-            <Link href={'/profile/'} className={styles.leftSide__btn}>
+            <Link href={authUser?.profileUrl ?? '#'} className={styles.leftSide__btn}>
               Профиль
             </Link>
             <button className={styles.leftSide__btn}>
@@ -97,14 +140,14 @@ function Profile({className=''}: ProfileProps) {
             </button>
           </div>
           <div className={styles.profileBody__rightSide}>
-            <nav className={styles.rightSide__nav}>
+            <nav ref={tabNav} className={styles.rightSide__nav}>
               <ul className={styles.nav__list}>
                 {NAV_TABS.map(tab => (
-                  <li key={tab.id} className={styles.list__item}>
-                    <button
-                      className={`${styles.item__btn} ${currentTabIndex === tab.id ? styles.btn_active : ''}`}
-                      onClick={() => setCurrentTabIndex(tab.id)}
-                    >
+                  <li
+                    key={tab.id}
+                    className={`${styles.list__item} ${tab.id === currentTabIndex ? 'item_active' : ''}`}
+                  >
+                    <button className={styles.item__btn} onClick={() => setCurrentTabIndex(tab.id)}>
                       {tab.title}
                     </button>
                   </li>
@@ -132,47 +175,53 @@ function ProfileBodyContent({currentTabId, user}: ProfileBodyContentProps) {
 
 function ProfileInfoTab({user}: NavTabProps) {
   return (
-    <div className={styles.content__tab}>
+    <div className={`${styles.content__tab} ${styles.tab_info}`}>
       <div className={styles.tab__panel}>
         <h4 className={styles.panel__item}>
-          Группа:
-          <span className={styles.item__value}>{user?.student?.group?.name}</span>
+          <span className={styles.item__label}>Группа:</span>
+          {user?.student?.group?.name}
         </h4>
         <h4 className={styles.panel__item}>
-          Курс:
-          <span className={styles.item__value}>{user?.student?.group?.year}</span>
+          <span className={styles.item__label}>Курс:</span>
+          {user?.student?.group?.year}
         </h4>
         <h4 className={styles.panel__item}>
-          Специализация:
-          <span className={styles.item__value}>{user?.student?.group?.specialization?.name}</span>
+          <span className={styles.item__label}>Специализация:</span>
+          {user?.student?.group?.specialization?.name}
         </h4>
         <h4 className={styles.panel__item}>
-          Факультет:
-          <span className={styles.item__value}>{user?.student?.group?.specialization?.faculty?.name}</span>
+          <span className={styles.item__label}>Факультет:</span>
+          {user?.student?.group?.specialization?.faculty?.name}
         </h4>
         <h4 className={styles.panel__item}>
-          Квалицикация:
-          <span className={styles.item__value}>{user?.student?.group?.specialization?.faculty?.educationType?.name}</span>
+          <span className={styles.item__label}>Квалицикация:</span>
+          {user?.student?.group?.specialization?.faculty?.educationType?.name}
         </h4>
         <h4 className={styles.panel__item}>
-          Корпус Обучения:
-          <span className={styles.item__value}>{user?.student?.learningBuilding}</span>
+          <span className={styles.item__label}>Корпус Обучения:</span>
+          {user?.student?.learningBuilding}
         </h4>
       </div>
       <div className={styles.tab__panel}>
-        <h3 className={styles.panel__title}>
+        <h1 className={styles.panel__title}>
           Обо мне
-        </h3>
+        </h1>
         <p className={styles.panel__text}>
-          Salesian College Chadstone is a welcoming Catholic community renowned for its integrity and creative learning approaches that bring out the best in boys. Our rich Salesian charism underpinned by the educational principles of founder, St John Bosco, provides the foundation of a future focused pedagogical vision.
           {user?.profile?.aboutMe}
         </p>
       </div>
       <div className={styles.tab__panel}>
-        <h3 className={styles.panel__title}>
+        <h1 className={styles.panel__title}>
           Контакты
-        </h3>
+        </h1>
         <ul className={styles.panel__contactList}>
+          <li className={styles.contactList__item}>
+            <input className={styles.item__input} type="text" placeholder="НАЗВАНИЕ" />
+            <input className={styles.item__input} type="text" placeholder="КОНТАКТ" />
+            <button className={styles.item__iconBtn}>
+              <FontAwesomeIcon icon={faXmark} className={styles.iconBtn__icon} />
+            </button>
+          </li>
           <li className={styles.contactList__item}>
             <input className={styles.item__input} type="text" placeholder="НАЗВАНИЕ" />
             <input className={styles.item__input} type="text" placeholder="КОНТАКТ" />
@@ -190,7 +239,7 @@ function ProfileAchievementsTab({user}: NavTabProps) {
   const achievements = user?.profile?.achievements ?? []
     
   return (
-    <div className={styles.content__tab}>
+    <div className={`${styles.content__tab} ${styles.tab_achievements}`}>
       <div className={styles.tab__panel}>
         <ul className={styles.panel__achievementList}>
           { achievements.map(achievement => (
@@ -199,7 +248,7 @@ function ProfileAchievementsTab({user}: NavTabProps) {
               id={achievement.id}
               title={achievement.achievement.title}
               description={achievement.achievement.shortDescription}
-              icon={achievement.achievement.icon?.url}
+              icon={achievement.achievement.icon?.fullUrl}
               showInProfile={achievement.showInProfile}
             />
           ))}
@@ -220,7 +269,7 @@ function ProfileAchievement({showInProfile, id, title, description, icon}: Profi
     <li className={styles.achievementList__item}>
       <span className={styles.item__leftSide}>
         <div className={styles.leftSide__icon}>
-          <FontAwesomeIcon icon={faAward} className={styles.icon__icon} />
+          <UrlSvg url={icon} className={styles.icon__icon} />
         </div>
         <CheckboxWithText
           text='ПОКАЗЫВАТЬ'
@@ -232,7 +281,7 @@ function ProfileAchievement({showInProfile, id, title, description, icon}: Profi
       </span>
       <span className={styles.item__rightSide}>
         <h3 className={styles.rightSide__title}>{title}</h3>
-        <div className={styles.rightSide__description}>{description}</div>
+        <p className={styles.rightSide__description}>{description}</p>
       </span>
     </li>
   )
@@ -242,7 +291,7 @@ function ProfileGroupTab({user}: NavTabProps) {
   const students = user?.student?.group?.students ?? []
   
   return (
-    <div className={styles.content__tab}>
+    <div className={`${styles.content__tab} ${styles.tab_group}`}>
       <div className={styles.tab__panel}>
         <ul className={styles.panel__userList}>
           { students.map(student => (
@@ -264,8 +313,14 @@ function ProfileGroupTab({user}: NavTabProps) {
 function ProfileTeachersTab({user}: NavTabProps) {
   const groupTeachers = user?.student?.group.teachers ?? []
   
+  function getRolesFromTeacherSubjects(groupTeacher: AuthUser_authUser_student_group_teachers): string[] {
+    const roles: string[] = groupTeacher.subjects.map(subject => subject.name)
+    
+    return roles
+  }
+  
   return (
-    <div className={styles.content__tab}>
+    <div className={`${styles.content__tab} ${styles.tab_teachers}`}>
       <div className={styles.tab__panel}>
         <ul className={styles.panel__userList}>
           { groupTeachers.map(groupTeacher => (
@@ -276,7 +331,7 @@ function ProfileTeachersTab({user}: NavTabProps) {
               email={groupTeacher.teacher.user.email}
               phone={groupTeacher.teacher.user.phone}
               profileUrl={groupTeacher.teacher.user.profileUrl}
-              // role={}
+              roles={getRolesFromTeacherSubjects(groupTeacher) ?? null}
             />
           ))}
         </ul>
@@ -285,15 +340,21 @@ function ProfileTeachersTab({user}: NavTabProps) {
   )
 }
 
-function ProfileUserCard({name, email, phone, picture, profileUrl, role}: ProfileUserCardProps) {
+function ProfileUserCard({name, email, phone, picture, profileUrl, roles}: ProfileUserCardProps) {
   return (
     <li className={styles.userList__item}>
       <span className={styles.item__leftSide}>
         <img className={styles.leftSide__userImg} src={picture ?? ''} alt="user" />
-        <h4 className={styles.leftSide__role}>{role}</h4>
+        <ul className={styles.leftSide__roles}>
+          { roles && roles.map(role => (
+            <li className={styles.roles__item} key={`role-${role}`}>
+              {role}
+            </li>
+          ))}
+        </ul>
       </span>
       <span className={styles.item__rightSide}>
-        <h3 className={styles.rightSide__name}>{name}</h3>
+        <h2 className={styles.rightSide__name}>{name}</h2>
         <h4 className={styles.rightSide__email}>{email}</h4>
         <h4 className={styles.rightSide__phone}>{phone}</h4>
       </span>
@@ -303,9 +364,9 @@ function ProfileUserCard({name, email, phone, picture, profileUrl, role}: Profil
 
 function ProfileSettingsTab({user}: NavTabProps) {
   return (
-    <div className={styles.content__tab}>
+    <div className={`${styles.content__tab} ${styles.tab_settings}`}>
       <div className={styles.tab__panel}>
-        <h3 className={styles.panel__title}>Обновить пароль</h3>
+        <h1 className={styles.panel__title}>Обновить пароль</h1>
         <div className={styles.panel__password}>
           <input type="password" className={styles.password__input} placeholder="Старый пароль" />
           <input type="password" className={styles.password__input} placeholder="Новый пароль" />
@@ -313,7 +374,7 @@ function ProfileSettingsTab({user}: NavTabProps) {
         </div>
       </div>
       <div className={styles.tab__panel}>
-        <h3 className={styles.panel__title}>Обновить контакты для авторизации</h3>
+        <h1 className={styles.panel__title}>Обновить контакты для авторизации</h1>
         <div className={styles.panel__contacts}>
           <input type="text" className={styles.contacts__input} placeholder="Новый email" />
           <input type="text" className={styles.contacts__input} placeholder="Новый телефон" />

@@ -5,8 +5,7 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 from grapple.helpers import register_query_field
-from grapple.models import GraphQLBoolean, GraphQLString, GraphQLCollection, GraphQLForeignKey, GraphQLInt, \
-    GraphQLImage, GraphQLField
+from grapple.models import GraphQLBoolean, GraphQLString, GraphQLCollection, GraphQLForeignKey, GraphQLInt
 from wagtail.admin.panels import FieldPanel
 
 from authentication.managers import CustomUserManager
@@ -89,10 +88,6 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
     @property
     def info(self):
         return f"{self.full_name} - {self.email}"
-
-    # search_fields = [
-    #     GraphQLString('first_name', required=True),
-    # ]
 
     panels = [
         FieldPanel("email"),

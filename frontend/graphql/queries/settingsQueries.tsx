@@ -9,6 +9,7 @@ query Settings {
       shortOrgName
       logo {
         url
+        fullUrl
         title
       }
       header {
@@ -17,6 +18,7 @@ query Settings {
           id
           title
           linksGroups {
+            id
             url
             name
             page {
@@ -24,6 +26,7 @@ query Settings {
             }
             openInNewTab
             linksGroups {
+              id
               url
               name
               page {
@@ -31,6 +34,7 @@ query Settings {
               }
               openInNewTab
               linksGroups {
+                id
                 url
                 name
                 page {
@@ -61,6 +65,7 @@ query Settings {
           icon {
             url
             title
+            fullUrl
           }
         }
       }
@@ -75,6 +80,7 @@ query Settings {
           icon {
             url
             title
+            fullUrl
           }
         }
         menu {

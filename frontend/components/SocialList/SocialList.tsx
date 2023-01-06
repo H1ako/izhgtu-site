@@ -1,5 +1,7 @@
 // global
 import React from 'react'
+// components
+import UrlSvg from "../UrlSvg/UrlSvg";
 // styles and icons
 import styles from './SocialList.module.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -21,6 +23,7 @@ interface Social {
 interface SocialIcon {
   __typename?: "SvgTyped",
   url: string,
+  fullUrl: string,
   title: string,
 }
 
@@ -30,7 +33,7 @@ function SocialList({socials, className=''}: SocialListProps) {
       { socials.map((social) => (
         <li key={`social-${social.id}`} className={styles.socialList__social}>
           <a href={social.url} target="_blank" className={styles.social__text}>
-            <FontAwesomeIcon icon={faVk} className={styles.text__icon} />
+            <UrlSvg url={social.icon?.fullUrl ?? ''} className={styles.text__icon} />
           </a>
         </li>
       ))}

@@ -38,15 +38,15 @@ function Menu({className}: MenuProps) {
       <nav className={styles.menu__nav}>
         <ul className={styles.nav__links}>
           { mainContent?.header?.menu && mainContent.header.menu.linksGroups.map((linkGroup) => (
-            <li className={styles.links__linksGroup}>
+            <li key={`link-group-${linkGroup.id}`} className={styles.links__linksGroup}>
               <Link target={linkGroup.openInNewTab ? '_blank' : '_self'} href={linkGroup.url ?? linkGroup.page?.url ?? ''} className={styles.linksGroup__link}>{linkGroup.name}</Link>
               <ul className={styles.linksGroup__links}>
                 { linkGroup.linksGroups && linkGroup.linksGroups.map((linkGroup) => (
-                  <li className={`${styles.links__linksGroup} ${linkGroup.linksGroups?.length == 0 ? styles.noLinks : ''}`}>
+                  <li key={`link-group-2-${linkGroup.id}`} className={`${styles.links__linksGroup} ${linkGroup.linksGroups?.length == 0 ? styles.noLinks : ''}`}>
                     <Link target={linkGroup.openInNewTab ? '_blank' : '_self'} href={linkGroup.url ?? linkGroup.page?.url ?? ''} className={styles.linksGroup__link}>{linkGroup.name}</Link>
                     <ul className={styles.linksGroup__links}>
                       { linkGroup.linksGroups && linkGroup.linksGroups.map((linkGroup) => (
-                        <li className={`${styles.links__linksGroup} ${styles.noLinks}`}>
+                        <li key={`link-group-3-${linkGroup.id}`} className={`${styles.links__linksGroup} ${styles.noLinks}`}>
                           <Link target={linkGroup.openInNewTab ? '_blank' : '_self'} href={linkGroup.url ?? linkGroup.page?.url ?? ''} className={styles.linksGroup__link}>{linkGroup.name}</Link>
                         </li>
                       ))}

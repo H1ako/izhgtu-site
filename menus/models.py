@@ -1,5 +1,5 @@
 from django.db import models
-from grapple.models import GraphQLString, GraphQLCollection, GraphQLPage, GraphQLBoolean, GraphQLForeignKey
+from grapple.models import GraphQLString, GraphQLCollection, GraphQLPage, GraphQLBoolean, GraphQLForeignKey, GraphQLInt
 from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import (
     MultiFieldPanel,
@@ -28,6 +28,7 @@ class Menu(ClusterableModel):
     ]
 
     graphql_fields = [
+        GraphQLInt('id', required=True),
         GraphQLString('title', required=True),
         GraphQLCollection(
             GraphQLForeignKey,
@@ -65,6 +66,7 @@ class MenuItem(ClusterableModel):
     ]
 
     graphql_fields = [
+        GraphQLInt('id', required=True),
         GraphQLString('name', required=True),
         GraphQLString('url'),
         GraphQLPage('page'),
@@ -106,6 +108,7 @@ class MenuItemLinkGroup(ClusterableModel):
     ]
 
     graphql_fields = [
+        GraphQLInt('id', required=True),
         GraphQLString('name', required=True),
         GraphQLString('url'),
         GraphQLPage('page'),
@@ -144,6 +147,7 @@ class MenuItemLink(Orderable):
     ]
 
     graphql_fields = [
+        GraphQLInt('id', required=True),
         GraphQLString('name', required=True),
         GraphQLString('url'),
         GraphQLPage('page'),

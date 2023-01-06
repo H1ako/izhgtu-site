@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
 from grapple.models import GraphQLString
@@ -9,7 +10,14 @@ class SvgTyped(Svg):
     def url(self):
         return self.file.url
 
+    @property
+    def full_url(self):
+        base_url = settings.BASE_URL
+
+        return f"{base_url}{self.file.url}"
+
     graphql_fields = [
+        GraphQLString('full_url', required=True),
         GraphQLString("title", required=True),
         GraphQLString("file", required=True),
         GraphQLString("url", required=True),
