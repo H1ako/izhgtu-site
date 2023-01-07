@@ -1,11 +1,14 @@
 // global
 import React from 'react'
+import {useRecoilState, useSetRecoilState} from "recoil";
+// recoil
+import {headerActiveHeaderWindowStateAtom, headerActiveStateAtom} from "../../recoilAtoms/headerAtoms";
 // components
 import InnerBlockHeading from "../../components/InnerBlockHeading/InnerBlockHeading";
+// libs
+import useScrollbarLock from "../../libs/useScrollbarLock";
 // styles and icons
 import styles from './WindowWithHeaderLayout.module.scss';
-import {useRecoilState, useSetRecoilState} from "recoil";
-import {headerBlockStateAtom} from "../../recoilAtoms/headerAtoms";
 
 interface WindowWithHeaderLayoutProps {
   className?: string,
@@ -17,28 +20,35 @@ interface WindowWithHeaderLayoutProps {
 
 function WindowWithHeaderLayout(
   {children, ToggleButton, heading='', className='', wrapperClassName=''}: WindowWithHeaderLayoutProps) {
-  const [ isHeaderBlocked, setHeaderBlock ] = useRecoilState(headerBlockStateAtom)
-  const setIsHeaderActive = useSetRecoilState(headerBlockStateAtom)
-  const [ isActive, setActivity ] = React.useState<boolean>(false)
+  const windowId = React.useId()
+  const [ activeHeaderWindow, setActiveHeaderWindow ] = useRecoilState(headerActiveHeaderWindowStateAtom);
+  const setIsHeaderActive = useSetRecoilState(headerActiveStateAtom)
+  const windowRef = React.useRef<HTMLDivElement>(null)
+  const {enableScroll, disableScroll} = useScrollbarLock(windowRef)
   
   const toggleMenu = () => {
     setIsHeaderActive(true)
-    toggleHeaderBlockOnActivity()
+    toggleScrollLockOnActivity()
     
-    setActivity(state => !state)
-  }
-  
-  const toggleHeaderBlockOnActivity = () => {
-    if (isActive) {
-      setHeaderBlock(false)
+    if (activeHeaderWindow === windowId) {
+      setActiveHeaderWindow(null)
     }
     else {
-      setHeaderBlock(true)
+      setActiveHeaderWindow(windowId)
+    }
+  }
+  
+  const toggleScrollLockOnActivity = () => {
+    if (activeHeaderWindow === windowId) {
+      enableScroll()
+    }
+    else {
+      disableScroll()
     }
   }
   
   return (
-      <div className={`${styles.windowWithHeader} ${className} ${isActive ? styles.active : ''}`}>
+      <div ref={windowRef} className={`${styles.windowWithHeader} ${className} ${activeHeaderWindow === windowId ? styles.active : ''}`}>
         {React.cloneElement(ToggleButton, {onClick: toggleMenu})}
         <div className={styles.windowWithHeader__content}>
           { heading?.length &&

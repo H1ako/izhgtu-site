@@ -5,6 +5,7 @@
   position: relative;
   width: 100%;
   z-index: 1;
+  background: var(--colorBgDark);
 
   &.active .newsList__news:not(.active) .news__info {
     opacity: 0;

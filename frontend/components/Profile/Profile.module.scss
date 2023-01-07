@@ -22,6 +22,7 @@
     $contentGridLayout: "L R";
 
     z-index: 1;
+    scrollbar-gutter: stable both-edges;
 
     .content__profileHeader {
       position: relative;
@@ -201,7 +202,6 @@
 
               .panel__text {
                 font-size: var(--fontSize4);
-                font-weight: regular;
               }
             }
 
@@ -209,10 +209,12 @@
               .panel__item {
                 display: flex;
                 gap: 1ch;
+                font-weight: 300;
 
                 .item__label {
                   color: var(--colorMain);
                   text-transform: uppercase;
+                  font-weight: bold;
                 }
               }
 
@@ -322,8 +324,11 @@
                   padding: 1rem;
 
                   .item__leftSide {
+                    @include clearedLink($fontSize: var(--fontSize4-5));
+
                     display: flex;
                     flex-direction: column;
+                    justify-content: center;
                     gap: .5rem;
                     height: 100%;
 
@@ -341,9 +346,7 @@
                       flex-shrink: 0;
 
                       .roles__item {
-                        text-transform: uppercase;
                         color: var(--colorMainLight);
-                        font-size: var(--fontSize4-5);
                       }
                     }
                   }
@@ -354,8 +357,10 @@
                     gap: .5rem;
 
                     .rightSide__name {
-                      text-transform: uppercase;
+                      @include clearedLink($fontSize: var(--fontSize2));
+
                       color: var(--colorMain);
+                      font-weight: bold;
                     }
                   }
                 }

@@ -5,7 +5,7 @@ import {useRecoilState, useRecoilValue} from "recoil";
 import {useQuery} from "@apollo/client";
 // recoil
 import {settingsAtom} from "../../recoilAtoms/settingsAtom";
-import {headerActiveStateAtom, headerBlockStateAtom} from "../../recoilAtoms/headerAtoms";
+import {headerActiveHeaderWindowStateAtom, headerActiveStateAtom} from "../../recoilAtoms/headerAtoms";
 // components
 import AppLogo from "../AppLogo/AppLogo";
 import Menu from "../Menu/Menu";
@@ -25,7 +25,7 @@ function Header({className}: HeaderProps) {
   const { mainContent }  = useRecoilValue(settingsAtom)
   const [ isNewsMarqueeActive, setIsNewsMarqueeActive ] = React.useState<boolean>(true)
   const [ isActive, setIsActive ] = useRecoilState<boolean>(headerActiveStateAtom)
-  const isBlocked = useRecoilValue<boolean>(headerBlockStateAtom)
+  const activeHeaderWindow = useRecoilValue(headerActiveHeaderWindowStateAtom)
   const scrollDirection = useScrollDirection()
   
   const closeNewsMarquee = () => {
@@ -37,7 +37,7 @@ function Header({className}: HeaderProps) {
   }
   
   const toggleOnScroll = (): void => {
-    if (isBlocked) return
+    if (activeHeaderWindow !== null) return
     
     setIsActive(getIsActive())
   }

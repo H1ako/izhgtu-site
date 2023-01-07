@@ -4,7 +4,7 @@ import React from 'react'
 import BlockHeading from "../BlockHeading/BlockHeading";
 import News from "../News/News";
 // styles and icons
-import styles from '../../styles/components/NewsBlock.module.scss';
+import styles from './NewsBlock.module.scss';
 
 interface NewsBlockProps {
   newsList: News[],

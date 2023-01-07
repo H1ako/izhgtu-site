@@ -343,7 +343,7 @@ function ProfileTeachersTab({user}: NavTabProps) {
 function ProfileUserCard({name, email, phone, picture, profileUrl, roles}: ProfileUserCardProps) {
   return (
     <li className={styles.userList__item}>
-      <span className={styles.item__leftSide}>
+      <Link href={profileUrl} className={styles.item__leftSide}>
         <img className={styles.leftSide__userImg} src={picture ?? ''} alt="user" />
         <ul className={styles.leftSide__roles}>
           { roles && roles.map(role => (
@@ -352,9 +352,9 @@ function ProfileUserCard({name, email, phone, picture, profileUrl, roles}: Profi
             </li>
           ))}
         </ul>
-      </span>
+      </Link>
       <span className={styles.item__rightSide}>
-        <h2 className={styles.rightSide__name}>{name}</h2>
+        <Link href={profileUrl} className={styles.rightSide__name}>{name}</Link>
         <h4 className={styles.rightSide__email}>{email}</h4>
         <h4 className={styles.rightSide__phone}>{phone}</h4>
       </span>

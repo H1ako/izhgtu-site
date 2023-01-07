@@ -1,6 +1,12 @@
 .windowWithHeader {
-  &.active .windowWithHeader__content {
-    height: calc(100vh - var(--heightHeader));
+  z-index: 20;
+
+  &.active {
+    z-index: 10;
+
+    .windowWithHeader__content {
+      height: calc(100vh - var(--heightHeader));
+    }
   }
 
   &__content {
