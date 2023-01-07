@@ -32,7 +32,7 @@ function ContactList({contacts, className=''}: ContactListProps) {
               +{contact.address}
             </a>
           :
-            <a target="_blank" href={contact.address} className={styles.contact__text}>
+            <a rel="noreferrer" target="_blank" href={contact.address} className={styles.contact__text}>
               {contact.name}
             </a>
           }
