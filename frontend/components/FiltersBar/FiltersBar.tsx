@@ -183,6 +183,9 @@ function Filter({filterName, filterSlug, filterType, filterValues, onFilterValue
 
 
 function FilterValues({values, filterName, filterType, filterSlug, onFilterValueStateChange}: FilterValuesProps) {
+  const [ startDate, setStartDate ] = React.useState<Date | null>(null)
+  const [ endDate, setEndDate ] = React.useState<Date | null>(null)
+  
   if (filterType === FilterTypeType.CHECKBOX) {
     return (
       <ul id={`filter-values-${filterSlug}`} className={styles.valuesWrapper__values}>
@@ -200,9 +203,6 @@ function FilterValues({values, filterName, filterType, filterSlug, onFilterValue
     )
   }
   else if (filterType === FilterTypeType.DATE) {
-    const [ startDate, setStartDate ] = React.useState<Date | null>(null)
-    const [ endDate, setEndDate ] = React.useState<Date | null>(null)
-    
     return (
       <DateRange
         startDate={startDate}

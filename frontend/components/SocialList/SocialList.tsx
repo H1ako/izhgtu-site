@@ -32,7 +32,7 @@ function SocialList({socials, className=''}: SocialListProps) {
     <ul className={`${styles.socialList} ${className}`}>
       { socials.map((social) => (
         <li key={`social-${social.id}`} className={styles.socialList__social}>
-          <a href={social.url} target="_blank" className={styles.social__text}>
+          <a rel="noreferrer" href={social.url} target="_blank" className={styles.social__text}>
             <UrlSvg url={social.icon?.fullUrl ?? ''} className={styles.text__icon} />
           </a>
         </li>

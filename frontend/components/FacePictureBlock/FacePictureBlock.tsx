@@ -9,16 +9,15 @@ interface FacePictureBlockProps {
   children?: React.ReactNode,
 }
 
-const FacePictureBlock = React.forwardRef<HTMLDivElement, FacePictureBlockProps>(
-  ({className='', bgImage, children}, ref) => {
+function FacePictureBlock({className='', bgImage, children}: FacePictureBlockProps) {
   return (
-    <div ref={ref} className={`${styles.facePictureBlock} ${className}`}>
+    <div className={`${styles.facePictureBlock} ${className}`}>
       <img src={bgImage ?? ''} alt="" className={styles.facePictureBlock__picture}/>
       <div className={styles.facePictureBlock__inner}>
         {children}
       </div>
     </div>
   )
-})
+}
 
 export default FacePictureBlock
