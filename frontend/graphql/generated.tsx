@@ -262,8 +262,9 @@ export interface BlogPostsVariables {
 // GraphQL query operation: Settings
 // ====================================================
 
-export interface Settings_settings_SocialSettings {
-  __typename: "SocialSettings";
+export interface Settings_settings_MainUrlsSettings {
+  __typename: "MainUrlsSettings";
+  logoutUrl: string | null;
 }
 
 export interface Settings_settings_MainContentSettings_logo {
@@ -424,7 +425,7 @@ export interface Settings_settings_MainContentSettings {
   footer: Settings_settings_MainContentSettings_footer | null;
 }
 
-export type Settings_settings = Settings_settings_SocialSettings | Settings_settings_MainContentSettings;
+export type Settings_settings = Settings_settings_MainUrlsSettings | Settings_settings_MainContentSettings;
 
 export interface Settings {
   settings: Settings_settings[];

@@ -21,7 +21,7 @@ import type {
   PageVariables,
   Settings,
   Settings_settings,
-  Settings_settings_MainContentSettings
+  Settings_settings_MainContentSettings, Settings_settings_MainUrlsSettings
 } from "../graphql/generated";
 
 
@@ -121,9 +121,11 @@ const getRefactoredSettings = (settings: Settings_settings[] | null) => {
   if (!settings) return null
   
   const mainContentSettings = getSettingByType(settings, 'MainContentSettings') as Settings_settings_MainContentSettings
+  const mainUrlsSettings = getSettingByType(settings, 'MainUrlsSettings') as Settings_settings_MainUrlsSettings
   
   return {
-    mainContent: mainContentSettings
+    mainContent: mainContentSettings,
+    mainUrls: mainUrlsSettings
   }
 }
 

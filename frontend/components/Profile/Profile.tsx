@@ -5,6 +5,7 @@ import {useRecoilValue} from "recoil";
 // components
 import WindowWithHeaderLayout from "../../containers/WindowWithHeaderLayout/WindowWithHeaderLayout";
 import CheckboxWithText from "../CheckboxWithText/CheckboxWithText";
+import UrlSvg from "../UrlSvg/UrlSvg";
 // recoil
 import {authUserAtom} from "../../recoilAtoms/authUserrAtom";
 // styles and icons
@@ -17,10 +18,15 @@ import {
   AuthUser_authUser_student_group_teachers,
   AuthUser_authUser_student_group_teachers_teacher
 } from "../../graphql/generated";
-import UrlSvg from "../UrlSvg/UrlSvg";
+import {settingsAtom} from "../../recoilAtoms/settingsAtom";
 
 interface ProfileProps {
   className?: string
+}
+
+interface ToggleButtonProps {
+  user: AuthUser_authUser | null,
+  toggle: () => void
 }
 
 interface ProfileBodyContentProps {
@@ -70,9 +76,11 @@ const NAV_TABS: NavTab[] = [
 
 
 function Profile({className=''}: ProfileProps) {
+  const { mainUrls } = useRecoilValue(settingsAtom)
   const authUser = useRecoilValue(authUserAtom)
   const [ currentTabIndex, setCurrentTabIndex ] = React.useState<number>(0)
   const tabNav = React.useRef<HTMLDivElement>(null)
+  const [ data, setData ] = React.useState<any>(null)
   
   const getActiveTabWidthAndLeft = (): ActiveTabWidthAndLeft => {
     const activeTab = document.querySelector(`.${styles.nav__list} .item_active`)
@@ -105,11 +113,8 @@ function Profile({className=''}: ProfileProps) {
     <WindowWithHeaderLayout
       heading="Профиль"
       className={`${styles.profile} ${className}`}
-      ToggleButton={
-        <button className={styles.profile__toggle}>
-          <img className={styles.toggle__userPicture} src={authUser?.pictureUrl ?? ''} alt={authUser?.fullName}/>
-        </button>
-    }>
+      setExportedData={setData}
+      ToggleButton={<ToggleButton user={authUser} toggle={data?.toggleMenu} />}>
       <div className={styles.profile__content}>
         <div className={styles.content__profileHeader}>
           <img src={authUser?.bgPictureUrl ?? ''} alt="" className={styles.profileHeader__bgPicture}/>
@@ -135,9 +140,9 @@ function Profile({className=''}: ProfileProps) {
             <button className={styles.leftSide__btn}>
               Сохранить изменения
             </button>
-            <button className={`${styles.leftSide__btn} ${styles.btn_accent}`}>
+            <Link href={mainUrls?.logoutUrl ?? '/auth/log-out/'} className={`${styles.leftSide__btn} ${styles.btn_accent}`}>
               Выйти
-            </button>
+            </Link>
           </div>
           <div className={styles.profileBody__rightSide}>
             <nav ref={tabNav} className={styles.rightSide__nav}>
@@ -159,6 +164,20 @@ function Profile({className=''}: ProfileProps) {
         </div>
       </div>
     </WindowWithHeaderLayout>
+  )
+}
+
+function ToggleButton({user, toggle}: ToggleButtonProps) {
+  return (
+    <button className={`${styles.profile__toggle} ${styles.toggle_authed}`} onClick={toggle}>
+      { user ?
+        <img className={styles.toggle__userPicture} src={user.pictureUrl ?? ''} alt={user.fullName}/>
+        :
+        <>
+          Войти в личный кабинет
+        </>
+      }
+    </button>
   )
 }
 

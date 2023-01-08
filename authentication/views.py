@@ -1,3 +1,13 @@
-from django.shortcuts import render
+from django.contrib.auth import logout
+from django.http import HttpResponseRedirect, JsonResponse
 
-# Create your views here.
+
+def back(request):
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+def logout_and_back(request):
+    print(request.META.get('HTTP_REFERER'))
+    logout(request)
+
+    return JsonResponse({'status': 'ok'})

@@ -40,6 +40,7 @@ def loginAuth(request):
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api-authentication/", include("rest_framework.urls")),
+    path('api/auth/', include('authentication.urls')),
     path("", include("drfpasswordless.urls")),
     # wagtail cms
     path(r"api/", include(grapple_urls)),

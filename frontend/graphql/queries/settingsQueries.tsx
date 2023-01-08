@@ -3,6 +3,9 @@ import gql from "graphql-tag";
 export const SETTINGS_GETTER_QUERY = gql`
 query Settings {
   settings {
+    ... on MainUrlsSettings {
+      logoutUrl
+    }
     ... on MainContentSettings {
       yandexMapUrl
       orgName

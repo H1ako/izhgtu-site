@@ -3778,24 +3778,24 @@
             "deprecationReason": null
           },
           {
-            "name": "socialsettings",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "OBJECT",
-              "name": "SocialSettings",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "maincontentsettings",
             "description": null,
             "args": [],
             "type": {
               "kind": "OBJECT",
               "name": "MainContentSettings",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "mainurlssettings",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "MainUrlsSettings",
               "ofType": null
             },
             "isDeprecated": false,
@@ -3944,29 +3944,6 @@
             "type": {
               "kind": "INTERFACE",
               "name": "PageInterface",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "OBJECT",
-        "name": "SocialSettings",
-        "description": null,
-        "fields": [
-          {
-            "name": "id",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "ID",
               "ofType": null
             },
             "isDeprecated": false,
@@ -5697,6 +5674,41 @@
             "ofType": null
           }
         ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "MainUrlsSettings",
+        "description": null,
+        "fields": [
+          {
+            "name": "id",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "ID",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "logoutUrl",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
       },
       {
         "kind": "OBJECT",
@@ -12948,12 +12960,12 @@
           },
           {
             "kind": "OBJECT",
-            "name": "SocialSettings",
+            "name": "MainContentSettings",
             "ofType": null
           },
           {
             "kind": "OBJECT",
-            "name": "MainContentSettings",
+            "name": "MainUrlsSettings",
             "ofType": null
           }
         ]
@@ -13015,12 +13027,12 @@
         "possibleTypes": [
           {
             "kind": "OBJECT",
-            "name": "SocialSettings",
+            "name": "MainContentSettings",
             "ofType": null
           },
           {
             "kind": "OBJECT",
-            "name": "MainContentSettings",
+            "name": "MainUrlsSettings",
             "ofType": null
           }
         ]

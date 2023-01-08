@@ -15,11 +15,12 @@ interface WindowWithHeaderLayoutProps {
   wrapperClassName?: string,
   children: React.ReactNode,
   ToggleButton: React.ReactElement,
+  setExportedData?: any,
   heading?: string
 }
 
 function WindowWithHeaderLayout(
-  {children, ToggleButton, heading='', className='', wrapperClassName=''}: WindowWithHeaderLayoutProps) {
+  {children, ToggleButton, heading='', className='', wrapperClassName='', setExportedData}: WindowWithHeaderLayoutProps) {
   const windowId = React.useId()
   const [ activeHeaderWindow, setActiveHeaderWindow ] = useRecoilState(headerActiveHeaderWindowStateAtom);
   const setIsHeaderActive = useSetRecoilState(headerActiveStateAtom)
@@ -30,12 +31,12 @@ function WindowWithHeaderLayout(
     setIsHeaderActive(true)
     toggleScrollLockOnActivity()
     
-    if (activeHeaderWindow === windowId) {
-      setActiveHeaderWindow(null)
-    }
-    else {
-      setActiveHeaderWindow(windowId)
-    }
+    setActiveHeaderWindow(state => {
+      if (state === windowId) {
+        return null
+      }
+      return windowId
+    })
   }
   
   const toggleScrollLockOnActivity = () => {
@@ -47,9 +48,19 @@ function WindowWithHeaderLayout(
     }
   }
   
+  React.useEffect(() => {
+    if (!setExportedData) return
+    
+    const data = {
+      toggleMenu
+    }
+    
+    setExportedData(data)
+  }, [setExportedData])
+  
   return (
       <div ref={windowRef} className={`${styles.windowWithHeader} ${className} ${activeHeaderWindow === windowId ? styles.active : ''}`}>
-        {React.cloneElement(ToggleButton, {onClick: toggleMenu})}
+        {React.cloneElement(ToggleButton)}
         <div className={styles.windowWithHeader__content}>
           { heading?.length &&
             <InnerBlockHeading>

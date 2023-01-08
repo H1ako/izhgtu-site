@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from grapple.models import GraphQLSnippet, GraphQLForeignKey, GraphQLString
@@ -10,21 +11,6 @@ from wagtailsvg.edit_handlers import SvgChooserPanel
 
 from core.snippets import Header, Footer
 from svg.models import SvgTyped
-
-
-@register_setting
-class SocialSettings(BaseSetting):
-    vk = models.URLField('VK', null=True, blank=True, max_length=500)
-    telegram = models.URLField('Telegram', null=True, blank=True, max_length=500)
-    youtube = models.URLField('YouTube', null=True, blank=True, max_length=500)
-
-    panels = [
-        MultiFieldPanel((
-            FieldPanel('vk'),
-            FieldPanel('telegram'),
-            FieldPanel('youtube'),
-        ))
-    ]
 
 
 @register_setting
@@ -73,4 +59,14 @@ class MainContentSettings(BaseSetting):
         GraphQLString('yandex_map_url'),
         GraphQLString('short_org_name'),
         GraphQLString('org_name'),
+    ]
+
+
+class MainUrlsSettings(BaseSetting):
+    @property
+    def logout_url(self):
+        return reverse('logout')
+
+    graphql_fields = [
+        GraphQLString('logout_url'),
     ]
