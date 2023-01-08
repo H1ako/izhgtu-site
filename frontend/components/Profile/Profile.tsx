@@ -3,11 +3,14 @@ import React from 'react'
 import Link from "next/link";
 import {useRecoilValue} from "recoil";
 // components
-import WindowWithHeaderLayout from "../../containers/WindowWithHeaderLayout/WindowWithHeaderLayout";
+import WindowWithHeaderLayout, {
+  WindowWithHeaderLayoutExportedDataType
+} from "../../containers/WindowWithHeaderLayout/WindowWithHeaderLayout";
 import CheckboxWithText from "../CheckboxWithText/CheckboxWithText";
 import UrlSvg from "../UrlSvg/UrlSvg";
 // recoil
 import {authUserAtom} from "../../recoilAtoms/authUserrAtom";
+import {settingsAtom} from "../../recoilAtoms/settingsAtom";
 // styles and icons
 import styles from './Profile.module.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -16,9 +19,8 @@ import {faAward, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {
   AuthUser_authUser,
   AuthUser_authUser_student_group_teachers,
-  AuthUser_authUser_student_group_teachers_teacher
+  AuthUser_authUser_student_group_teachers_teacher, Settings_settings_MainUrlsSettings
 } from "../../graphql/generated";
-import {settingsAtom} from "../../recoilAtoms/settingsAtom";
 
 interface ProfileProps {
   className?: string
@@ -26,7 +28,24 @@ interface ProfileProps {
 
 interface ToggleButtonProps {
   user: AuthUser_authUser | null,
-  toggle: () => void
+  toggle?: () => void
+}
+
+interface ProfileHeaderProps {
+  user: AuthUser_authUser | null,
+}
+
+interface ProfileBodyProps {
+  user: AuthUser_authUser | null,
+}
+
+interface ProfileBodyLeftSideProps {
+  user: AuthUser_authUser | null,
+  mainUrls: Settings_settings_MainUrlsSettings | null,
+}
+
+interface ProfileBodyRightSideProps {
+  user: AuthUser_authUser | null,
 }
 
 interface ProfileBodyContentProps {
@@ -74,13 +93,97 @@ const NAV_TABS: NavTab[] = [
   {id: 4, title: 'Настройки', component: ProfileSettingsTab},
 ]
 
-
 function Profile({className=''}: ProfileProps) {
-  const { mainUrls } = useRecoilValue(settingsAtom)
   const authUser = useRecoilValue(authUserAtom)
-  const [ currentTabIndex, setCurrentTabIndex ] = React.useState<number>(0)
+  const [ windowData, setWindowData ] = React.useState<WindowWithHeaderLayoutExportedDataType>(null)
+  
+  return (
+    <WindowWithHeaderLayout
+      heading="Профиль"
+      className={`${styles.profile} ${className}`}
+      setExportedData={setWindowData}
+      ToggleButton={<ToggleButton user={authUser} toggle={windowData?.toggleMenu} />}
+    >
+      <div className={styles.profile__content}>
+        <ProfileHeader user={authUser} />
+        <ProfileBody
+          user={authUser}
+        />
+      </div>
+    </WindowWithHeaderLayout>
+  )
+}
+
+function ToggleButton({user, toggle}: ToggleButtonProps) {
+  return (
+    <button className={`${styles.profile__toggle} ${styles.toggle_authed}`} onClick={toggle}>
+      { user ?
+        <img className={styles.toggle__userPicture} src={user.pictureUrl ?? ''} alt={user.fullName}/>
+        :
+        <>
+          Войти в личный кабинет
+        </>
+      }
+    </button>
+  )
+}
+
+function ProfileHeader({user}: ProfileHeaderProps) {
+  return (
+    <div className={styles.content__profileHeader}>
+      <img src={user?.bgPictureUrl ?? ''} alt="" className={styles.profileHeader__bgPicture}/>
+      <div className={styles.profileHeader__mainUserInfo}>
+        <div className={styles.mainUserInfo__wrapper}>
+          <h1 className={styles.wrapper__name}>{user?.fullName}</h1>
+          { user?.student?.group &&
+            <>
+              <h2 className={styles.wrapper__specialization}>{user.student.group.specialization?.name}</h2>
+              <h2 className={styles.wrapper__group}>{user.student.group.name}</h2>
+            </>
+          }
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function ProfileBody({user}: ProfileBodyProps) {
+  const { mainUrls } = useRecoilValue(settingsAtom)
+  
+  return (
+    <div className={styles.content__profileBody}>
+      <ProfileBodyLeftSide
+        user={user}
+        mainUrls={mainUrls}
+      />
+      <ProfileBodyRightSide
+        user={user}
+      />
+    </div>
+  )
+}
+
+function ProfileBodyLeftSide({mainUrls, user}: ProfileBodyLeftSideProps) {
+  return (
+    <div className={styles.profileBody__leftSide}>
+      <img className={styles.leftSide__userPicture} src={user?.pictureUrl ?? ''} alt='' />
+      <h4 className={styles.leftSide__userEmail}>{user?.email}</h4>
+      <Link href={user?.profileUrl ?? '#'} className={styles.leftSide__btn}>
+        Профиль
+      </Link>
+      <button className={styles.leftSide__btn}>
+        Сохранить изменения
+      </button>
+      <Link href={mainUrls?.logoutUrl ?? '/auth/log-out/'} className={`${styles.leftSide__btn} ${styles.btn_accent}`}>
+        Выйти
+      </Link>
+    </div>
+  )
+}
+
+function ProfileBodyRightSide({user}: ProfileBodyRightSideProps) {
+  const [ currentTabId, setCurrentTabId ] = React.useState<number>(0)
   const tabNav = React.useRef<HTMLDivElement>(null)
-  const [ data, setData ] = React.useState<any>(null)
   
   const getActiveTabWidthAndLeft = (): ActiveTabWidthAndLeft => {
     const activeTab = document.querySelector(`.${styles.nav__list} .item_active`)
@@ -107,77 +210,26 @@ function Profile({className=''}: ProfileProps) {
     
     setPropertyToTabNav('--highlighterWidth', `${width}px`)
     setPropertyToTabNav('--highlighterLeft', `${left}px`)
-  }, [currentTabIndex])
+  }, [currentTabId])
   
   return (
-    <WindowWithHeaderLayout
-      heading="Профиль"
-      className={`${styles.profile} ${className}`}
-      setExportedData={setData}
-      ToggleButton={<ToggleButton user={authUser} toggle={data?.toggleMenu} />}>
-      <div className={styles.profile__content}>
-        <div className={styles.content__profileHeader}>
-          <img src={authUser?.bgPictureUrl ?? ''} alt="" className={styles.profileHeader__bgPicture}/>
-          <div className={styles.profileHeader__mainUserInfo}>
-            <div className={styles.mainUserInfo__wrapper}>
-              <h1 className={styles.wrapper__name}>{authUser?.fullName}</h1>
-              { authUser?.student?.group &&
-                <>
-                  <h2 className={styles.wrapper__specialization}>{authUser.student.group.specialization?.name}</h2>
-                  <h2 className={styles.wrapper__group}>{authUser.student.group.name}</h2>
-                </>
-              }
-            </div>
-          </div>
-        </div>
-        <div className={styles.content__profileBody}>
-          <div className={styles.profileBody__leftSide}>
-            <img className={styles.leftSide__userPicture} src={authUser?.pictureUrl ?? ''} alt='' />
-            <h4 className={styles.leftSide__userEmail}>{authUser?.email}</h4>
-            <Link href={authUser?.profileUrl ?? '#'} className={styles.leftSide__btn}>
-              Профиль
-            </Link>
-            <button className={styles.leftSide__btn}>
-              Сохранить изменения
-            </button>
-            <Link href={mainUrls?.logoutUrl ?? '/auth/log-out/'} className={`${styles.leftSide__btn} ${styles.btn_accent}`}>
-              Выйти
-            </Link>
-          </div>
-          <div className={styles.profileBody__rightSide}>
-            <nav ref={tabNav} className={styles.rightSide__nav}>
-              <ul className={styles.nav__list}>
-                {NAV_TABS.map(tab => (
-                  <li
-                    key={tab.id}
-                    className={`${styles.list__item} ${tab.id === currentTabIndex ? 'item_active' : ''}`}
-                  >
-                    <button className={styles.item__btn} onClick={() => setCurrentTabIndex(tab.id)}>
-                      {tab.title}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-            <ProfileBodyContent user={authUser} currentTabId={currentTabIndex} />
-          </div>
-        </div>
-      </div>
-    </WindowWithHeaderLayout>
-  )
-}
-
-function ToggleButton({user, toggle}: ToggleButtonProps) {
-  return (
-    <button className={`${styles.profile__toggle} ${styles.toggle_authed}`} onClick={toggle}>
-      { user ?
-        <img className={styles.toggle__userPicture} src={user.pictureUrl ?? ''} alt={user.fullName}/>
-        :
-        <>
-          Войти в личный кабинет
-        </>
-      }
-    </button>
+    <div className={styles.profileBody__rightSide}>
+      <nav ref={tabNav} className={styles.rightSide__nav}>
+        <ul className={styles.nav__list}>
+          {NAV_TABS.map(tab => (
+            <li
+              key={tab.id}
+              className={`${styles.list__item} ${tab.id === currentTabId ? 'item_active' : ''}`}
+            >
+              <button className={styles.item__btn} onClick={() => setCurrentTabId(tab.id)}>
+                {tab.title}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      <ProfileBodyContent user={user} currentTabId={currentTabId} />
+    </div>
   )
 }
 

@@ -19,28 +19,32 @@ interface WindowWithHeaderLayoutProps {
   heading?: string
 }
 
+interface WindowWithHeaderLayoutExportedData {
+  toggleMenu: () => void
+}
+
+export type WindowWithHeaderLayoutExportedDataType = WindowWithHeaderLayoutExportedData | null
+
 function WindowWithHeaderLayout(
   {children, ToggleButton, heading='', className='', wrapperClassName='', setExportedData}: WindowWithHeaderLayoutProps) {
   const windowId = React.useId()
   const [ activeHeaderWindow, setActiveHeaderWindow ] = useRecoilState(headerActiveHeaderWindowStateAtom);
-  const setIsHeaderActive = useSetRecoilState(headerActiveStateAtom)
   const windowRef = React.useRef<HTMLDivElement>(null)
+  const setIsHeaderActive = useSetRecoilState(headerActiveStateAtom)
   const {enableScroll, disableScroll} = useScrollbarLock(windowRef)
   
   const toggleMenu = () => {
     setIsHeaderActive(true)
-    toggleScrollLockOnActivity()
     
     setActiveHeaderWindow(state => {
-      if (state === windowId) {
-        return null
-      }
-      return windowId
+      toggleScrollLockOnState(state)
+      
+      return state === windowId ? null : windowId
     })
   }
   
-  const toggleScrollLockOnActivity = () => {
-    if (activeHeaderWindow === windowId) {
+  const toggleScrollLockOnState = (state: IdType | null) => {
+    if (state === windowId) {
       enableScroll()
     }
     else {
@@ -51,7 +55,7 @@ function WindowWithHeaderLayout(
   React.useEffect(() => {
     if (!setExportedData) return
     
-    const data = {
+    const data: WindowWithHeaderLayoutExportedData = {
       toggleMenu
     }
     

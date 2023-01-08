@@ -7,7 +7,6 @@ def back(request):
 
 
 def logout_and_back(request):
-    print(request.META.get('HTTP_REFERER'))
     logout(request)
 
     return JsonResponse({'status': 'ok'})
