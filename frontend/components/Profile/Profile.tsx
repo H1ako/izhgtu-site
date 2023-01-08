@@ -17,7 +17,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faAward, faXmark} from "@fortawesome/free-solid-svg-icons";
 // types
 import {
-  AuthUser_authUser,
+  AuthUser_authUser, AuthUser_authUser_profile_contacts,
   AuthUser_authUser_student_group_teachers,
   AuthUser_authUser_student_group_teachers_teacher, Settings_settings_MainUrlsSettings
 } from "../../graphql/generated";
@@ -55,6 +55,26 @@ interface ProfileBodyContentProps {
 
 interface NavTabProps {
   user: AuthUser_authUser | null,
+}
+
+interface InfoTabMainInfoPanelProps {
+  user: AuthUser_authUser | null,
+}
+
+interface InfoTabAboutPanelProps {
+  about?: string | null,
+}
+
+interface InfoTabContactsPanelProps {
+  contacts?: AuthUser_authUser_profile_contacts[] | null,
+}
+
+interface SettingsTabPasswordPanelProps {
+
+}
+
+interface SettingsTabAuthContactsPanelProps {
+
 }
 
 interface ProfileAchievementProps {
@@ -247,61 +267,79 @@ function ProfileBodyContent({currentTabId, user}: ProfileBodyContentProps) {
 function ProfileInfoTab({user}: NavTabProps) {
   return (
     <div className={`${styles.content__tab} ${styles.tab_info}`}>
-      <div className={styles.tab__panel}>
-        <h4 className={styles.panel__item}>
-          <span className={styles.item__label}>Группа:</span>
-          {user?.student?.group?.name}
-        </h4>
-        <h4 className={styles.panel__item}>
-          <span className={styles.item__label}>Курс:</span>
-          {user?.student?.group?.year}
-        </h4>
-        <h4 className={styles.panel__item}>
-          <span className={styles.item__label}>Специализация:</span>
-          {user?.student?.group?.specialization?.name}
-        </h4>
-        <h4 className={styles.panel__item}>
-          <span className={styles.item__label}>Факультет:</span>
-          {user?.student?.group?.specialization?.faculty?.name}
-        </h4>
-        <h4 className={styles.panel__item}>
-          <span className={styles.item__label}>Квалицикация:</span>
-          {user?.student?.group?.specialization?.faculty?.educationType?.name}
-        </h4>
-        <h4 className={styles.panel__item}>
-          <span className={styles.item__label}>Корпус Обучения:</span>
-          {user?.student?.learningBuilding}
-        </h4>
-      </div>
-      <div className={styles.tab__panel}>
-        <h1 className={styles.panel__title}>
-          Обо мне
-        </h1>
-        <p className={styles.panel__text}>
-          {user?.profile?.aboutMe}
-        </p>
-      </div>
-      <div className={styles.tab__panel}>
-        <h1 className={styles.panel__title}>
-          Контакты
-        </h1>
-        <ul className={styles.panel__contactList}>
-          <li className={styles.contactList__item}>
-            <input className={styles.item__input} type="text" placeholder="НАЗВАНИЕ" />
-            <input className={styles.item__input} type="text" placeholder="КОНТАКТ" />
-            <button className={styles.item__iconBtn}>
-              <FontAwesomeIcon icon={faXmark} className={styles.iconBtn__icon} />
-            </button>
-          </li>
-          <li className={styles.contactList__item}>
-            <input className={styles.item__input} type="text" placeholder="НАЗВАНИЕ" />
-            <input className={styles.item__input} type="text" placeholder="КОНТАКТ" />
-            <button className={styles.item__iconBtn}>
-              <FontAwesomeIcon icon={faXmark} className={styles.iconBtn__icon} />
-            </button>
-          </li>
-        </ul>
-      </div>
+      <InfoTabMainInfoPanel user={user} />
+      <InfoTabAboutPanel about={user?.profile?.aboutMe} />
+      <InfoTabContactsPanel contacts={user?.profile?.contacts} />
+    </div>
+  )
+}
+
+function InfoTabMainInfoPanel({user}: InfoTabMainInfoPanelProps) {
+  return (
+    <div className={styles.tab__panel}>
+      <h4 className={styles.panel__item}>
+        <span className={styles.item__label}>Группа:</span>
+        {user?.student?.group?.name}
+      </h4>
+      <h4 className={styles.panel__item}>
+        <span className={styles.item__label}>Курс:</span>
+        {user?.student?.group?.year}
+      </h4>
+      <h4 className={styles.panel__item}>
+        <span className={styles.item__label}>Специализация:</span>
+        {user?.student?.group?.specialization?.name}
+      </h4>
+      <h4 className={styles.panel__item}>
+        <span className={styles.item__label}>Факультет:</span>
+        {user?.student?.group?.specialization?.faculty?.name}
+      </h4>
+      <h4 className={styles.panel__item}>
+        <span className={styles.item__label}>Квалицикация:</span>
+        {user?.student?.group?.specialization?.faculty?.educationType?.name}
+      </h4>
+      <h4 className={styles.panel__item}>
+        <span className={styles.item__label}>Корпус Обучения:</span>
+        {user?.student?.learningBuilding}
+      </h4>
+    </div>
+  )
+}
+
+function InfoTabAboutPanel({about}: InfoTabAboutPanelProps) {
+  return (
+    <div className={styles.tab__panel}>
+      <h1 className={styles.panel__title}>
+        Обо мне
+      </h1>
+      <p className={styles.panel__text}>
+        {about}
+      </p>
+    </div>
+  )
+}
+
+function InfoTabContactsPanel({contacts}: InfoTabContactsPanelProps) {
+  return (
+    <div className={styles.tab__panel}>
+      <h1 className={styles.panel__title}>
+        Контакты
+      </h1>
+      <ul className={styles.panel__contactList}>
+        <li className={styles.contactList__item}>
+          <input className={styles.item__input} type="text" placeholder="НАЗВАНИЕ" />
+          <input className={styles.item__input} type="text" placeholder="КОНТАКТ" />
+          <button className={styles.item__iconBtn}>
+            <FontAwesomeIcon icon={faXmark} className={styles.iconBtn__icon} />
+          </button>
+        </li>
+        <li className={styles.contactList__item}>
+          <input className={styles.item__input} type="text" placeholder="НАЗВАНИЕ" />
+          <input className={styles.item__input} type="text" placeholder="КОНТАКТ" />
+          <button className={styles.item__iconBtn}>
+            <FontAwesomeIcon icon={faXmark} className={styles.iconBtn__icon} />
+          </button>
+        </li>
+      </ul>
     </div>
   )
 }
@@ -436,20 +474,32 @@ function ProfileUserCard({name, email, phone, picture, profileUrl, roles}: Profi
 function ProfileSettingsTab({user}: NavTabProps) {
   return (
     <div className={`${styles.content__tab} ${styles.tab_settings}`}>
-      <div className={styles.tab__panel}>
-        <h1 className={styles.panel__title}>Обновить пароль</h1>
-        <div className={styles.panel__password}>
-          <input type="password" className={styles.password__input} placeholder="Старый пароль" />
-          <input type="password" className={styles.password__input} placeholder="Новый пароль" />
-          <input type="password" className={styles.password__input} placeholder="Повторите новый пароль" />
-        </div>
+      <SettingsTabPasswordPanel />
+      <SettingsTabAuthContactsPanel />
+    </div>
+  )
+}
+
+function SettingsTabPasswordPanel({}: SettingsTabPasswordPanelProps) {
+  return (
+    <div className={styles.tab__panel}>
+      <h1 className={styles.panel__title}>Обновить пароль</h1>
+      <div className={styles.panel__password}>
+        <input type="password" className={styles.password__input} placeholder="Старый пароль" />
+        <input type="password" className={styles.password__input} placeholder="Новый пароль" />
+        <input type="password" className={styles.password__input} placeholder="Повторите новый пароль" />
       </div>
-      <div className={styles.tab__panel}>
-        <h1 className={styles.panel__title}>Обновить контакты для авторизации</h1>
-        <div className={styles.panel__contacts}>
-          <input type="text" className={styles.contacts__input} placeholder="Новый email" />
-          <input type="text" className={styles.contacts__input} placeholder="Новый телефон" />
-        </div>
+    </div>
+  )
+}
+
+function SettingsTabAuthContactsPanel({}: SettingsTabPasswordPanelProps) {
+  return (
+    <div className={styles.tab__panel}>
+      <h1 className={styles.panel__title}>Обновить контакты для авторизации</h1>
+      <div className={styles.panel__contacts}>
+        <input type="text" className={styles.contacts__input} placeholder="Новый email" />
+        <input type="text" className={styles.contacts__input} placeholder="Новый телефон" />
       </div>
     </div>
   )
