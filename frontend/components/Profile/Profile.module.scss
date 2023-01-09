@@ -239,14 +239,22 @@
                   }
 
                   .item__iconBtn {
+                    --color: var(--colorAccent);
+
                     @include iconBtn($fontSize: var(--fontSize2));
 
-                    width: 2rem;
+                    width: 3rem;
                     overflow: hidden;
+                    display: grid;
+                    place-content: center;
+
+                    &.iconBtn_accent {
+                      --color: var(--colorMain);
+                    }
 
                     &:hover,
                     &:focus-within {
-                      color: var(--colorAccent);
+                      color: var(--color);
                     }
                   }
                 }

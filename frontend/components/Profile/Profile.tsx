@@ -21,6 +21,7 @@ import {
   AuthUser_authUser_student_group_teachers,
   AuthUser_authUser_student_group_teachers_teacher, Settings_settings_MainUrlsSettings
 } from "../../graphql/generated";
+import {element} from "prop-types";
 
 interface ProfileProps {
   className?: string
@@ -66,7 +67,8 @@ interface InfoTabAboutPanelProps {
 }
 
 interface InfoTabContactsPanelProps {
-  contacts?: AuthUser_authUser_profile_contacts[] | null,
+  initialContacts?: AuthUser_authUser_profile_contacts[] | null,
+  user: AuthUser_authUser | null,
 }
 
 interface InfoTabContactsContactProps {
@@ -109,6 +111,13 @@ interface NavTab {
 interface ActiveTabWidthAndLeft {
   width: number,
   left: number
+}
+
+interface InfoTabContactsContact {
+  id: IdType,
+  title: string,
+  value: string,
+  __typename?: "UserContact"
 }
 
 const NAV_TABS: NavTab[] = [
@@ -278,7 +287,7 @@ function ProfileInfoTab({user}: NavTabProps) {
     <div className={`${styles.content__tab} ${styles.tab_info}`}>
       <InfoTabMainInfoPanel user={user} />
       <InfoTabAboutPanel about={aboutMe} />
-      <InfoTabContactsPanel contacts={contacts} />
+      <InfoTabContactsPanel user={user} initialContacts={contacts} />
     </div>
   )
 }
@@ -327,16 +336,73 @@ function InfoTabAboutPanel({about}: InfoTabAboutPanelProps) {
   )
 }
 
-function InfoTabContactsPanel({contacts}: InfoTabContactsPanelProps) {
-  const newContactValueRef = React.useRef<HTMLInputElement>(null)
-  const newContactTitleRef = React.useRef<HTMLInputElement>(null)
+function InfoTabContactsPanel({initialContacts, user}: InfoTabContactsPanelProps) {
+  const [ contacts, setContacts ] = React.useState<InfoTabContactsContact[]>(initialContacts ?? [])
+  const [ newContactId, setNewContactId ] = React.useState<number>(0)
+  const contactListRef = React.useRef<HTMLUListElement>(null)
+  const newContactRef = React.useRef<HTMLLIElement>(null)
+  
+  const getContacts = () => {
+    if (!contactListRef.current) return []
+    
+    const contacts = contactListRef.current.querySelectorAll(`.${styles.contactList__item}:not(.item_new)`)
+    
+    return Array.from(contacts).map(contact => {
+      return getContactData(contact as HTMLLIElement)
+    })
+  }
+  
+  const addNewContact = () => {
+    if (!newContactRef.current) return
+    
+    const newContact = getContactData(newContactRef.current as HTMLLIElement)
+    
+    setContacts(prevContacts => {
+      const newContacts = [...prevContacts, newContact]
+      
+      return newContacts
+    })
+    
+    clearElementsInputs(newContactRef.current)
+  }
+  
+  const getContactData = (contactElement: HTMLLIElement) => {
+    const contactTitleInput = contactElement.querySelector('.input_title') as HTMLInputElement
+    const contactValueInput = contactElement.querySelector('.input_value') as HTMLInputElement
+    const contactIdInput = contactElement.querySelector('.input_id') as (HTMLInputElement | null)
+    
+    const contactTitle = contactTitleInput?.value
+    const contactValue = contactValueInput?.value
+    const contactId = contactIdInput?.value !== undefined ? contactIdInput?.value : `newContact-${newContactId}`
+    
+    setNewContactId(prevId => prevId + 1)
+    
+    return {
+      title: contactTitle,
+      value: contactValue,
+      id: contactId
+    }
+  }
+  
+  const clearElementsInputs = (element: HTMLElement) => {
+    element.querySelectorAll('input').forEach(input => {
+      input.value = ''
+    })
+  }
+  
+  React.useEffect(() => {
+    setContacts(initialContacts ?? [])
+  }, [user === null])
   
   return (
     <div className={styles.tab__panel}>
       <h1 className={styles.panel__title}>
         Контакты
       </h1>
-      <ul className={styles.panel__contactList}>
+      <button className={styles.panel__addBtn} onClick={() => console.log(getContacts())}>
+        Log
+      </button>
+      <ul ref={contactListRef} className={styles.panel__contactList}>
         { contacts && contacts.map(contact => (
           <InfoTabContactsContact
             key={contact.id}
@@ -345,10 +411,10 @@ function InfoTabContactsPanel({contacts}: InfoTabContactsPanelProps) {
             value={contact.value}
           />
         ))}
-        <li className={styles.contactList__item}>
-          <input ref={newContactTitleRef} className={`${styles.item__input} ${styles.input_title}`} type="text" placeholder="НАЗВАНИЕ" />
-          <input ref={newContactValueRef} className={styles.item__input} type="text" placeholder="КОНТАКТ" />
-          <button className={styles.item__iconBtn}>
+        <li ref={newContactRef} className={`${styles.contactList__item} item_new`}>
+          <input className={`${styles.item__input} input_title`} type="text" placeholder="НАЗВАНИЕ" />
+          <input className={`${styles.item__input} input_value`} type="text" placeholder="КОНТАКТ" />
+          <button onClick={addNewContact} title="Добавить" className={`${styles.item__iconBtn} ${styles.iconBtn_accent}`}>
             <FontAwesomeIcon icon={faPlus} className={styles.iconBtn__icon} />
           </button>
         </li>
@@ -358,15 +424,12 @@ function InfoTabContactsPanel({contacts}: InfoTabContactsPanelProps) {
 }
 
 function InfoTabContactsContact({id, title, value}: InfoTabContactsContactProps) {
-  const valueRef = React.useRef<HTMLInputElement>(null)
-  const titleRef = React.useRef<HTMLInputElement>(null)
-  
   return (
     <li className={styles.contactList__item}>
-      <input type="hidden" name={`contacts[${id}][id]`} value={id} />
-      <input ref={titleRef} required className={`${styles.item__input} ${styles.input_title}`} defaultValue={title} type="text" placeholder="НАЗВАНИЕ" />
-      <input ref={valueRef} required className={styles.item__input} defaultValue={value} type="text" placeholder="КОНТАКТ" />
-      <button className={styles.item__iconBtn}>
+      <input className={`${styles.item__input} input_id`} type="hidden" name={`contacts[${id}][id]`} value={id} />
+      <input required className={`${styles.item__input} input_title`} defaultValue={title} type="text" placeholder="НАЗВАНИЕ" />
+      <input required className={`${styles.item__input} input_value`} defaultValue={value} type="text" placeholder="КОНТАКТ" />
+      <button title="Удалить" className={styles.item__iconBtn}>
         <FontAwesomeIcon icon={faXmark} className={styles.iconBtn__icon} />
       </button>
     </li>
