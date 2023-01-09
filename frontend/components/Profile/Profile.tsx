@@ -391,7 +391,9 @@ function InfoTabContactsPanel({initialContacts, user}: InfoTabContactsPanelProps
   }
   
   React.useEffect(() => {
-    setContacts(initialContacts ?? [])
+    if (!initialContacts) return
+    
+    setContacts(initialContacts)
   }, [user === null])
   
   return (
