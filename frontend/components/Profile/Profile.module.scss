@@ -233,13 +233,16 @@
 
                     width: 100%;
 
-                    &:first-child {
+                    &.input_title {
                       width: 50%;
                     }
                   }
 
                   .item__iconBtn {
                     @include iconBtn($fontSize: var(--fontSize2));
+
+                    width: 2rem;
+                    overflow: hidden;
 
                     &:hover,
                     &:focus-within {

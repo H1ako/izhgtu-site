@@ -14,7 +14,7 @@ import {settingsAtom} from "../../recoilAtoms/settingsAtom";
 // styles and icons
 import styles from './Profile.module.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAward, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {faAward, faPlus, faXmark} from "@fortawesome/free-solid-svg-icons";
 // types
 import {
   AuthUser_authUser, AuthUser_authUser_profile_contacts,
@@ -67,6 +67,12 @@ interface InfoTabAboutPanelProps {
 
 interface InfoTabContactsPanelProps {
   contacts?: AuthUser_authUser_profile_contacts[] | null,
+}
+
+interface InfoTabContactsContactProps {
+  value: string,
+  title: string,
+  id: IdType,
 }
 
 interface SettingsTabPasswordPanelProps {
@@ -265,11 +271,14 @@ function ProfileBodyContent({currentTabId, user}: ProfileBodyContentProps) {
 }
 
 function ProfileInfoTab({user}: NavTabProps) {
+  const aboutMe = user?.profile?.aboutMe
+  const contacts = user?.profile?.contacts
+  
   return (
     <div className={`${styles.content__tab} ${styles.tab_info}`}>
       <InfoTabMainInfoPanel user={user} />
-      <InfoTabAboutPanel about={user?.profile?.aboutMe} />
-      <InfoTabContactsPanel contacts={user?.profile?.contacts} />
+      <InfoTabAboutPanel about={aboutMe} />
+      <InfoTabContactsPanel contacts={contacts} />
     </div>
   )
 }
@@ -319,28 +328,48 @@ function InfoTabAboutPanel({about}: InfoTabAboutPanelProps) {
 }
 
 function InfoTabContactsPanel({contacts}: InfoTabContactsPanelProps) {
+  const newContactValueRef = React.useRef<HTMLInputElement>(null)
+  const newContactTitleRef = React.useRef<HTMLInputElement>(null)
+  
   return (
     <div className={styles.tab__panel}>
       <h1 className={styles.panel__title}>
         Контакты
       </h1>
       <ul className={styles.panel__contactList}>
+        { contacts && contacts.map(contact => (
+          <InfoTabContactsContact
+            key={contact.id}
+            id={contact.id}
+            title={contact.title}
+            value={contact.value}
+          />
+        ))}
         <li className={styles.contactList__item}>
-          <input className={styles.item__input} type="text" placeholder="НАЗВАНИЕ" />
-          <input className={styles.item__input} type="text" placeholder="КОНТАКТ" />
+          <input ref={newContactTitleRef} className={`${styles.item__input} ${styles.input_title}`} type="text" placeholder="НАЗВАНИЕ" />
+          <input ref={newContactValueRef} className={styles.item__input} type="text" placeholder="КОНТАКТ" />
           <button className={styles.item__iconBtn}>
-            <FontAwesomeIcon icon={faXmark} className={styles.iconBtn__icon} />
-          </button>
-        </li>
-        <li className={styles.contactList__item}>
-          <input className={styles.item__input} type="text" placeholder="НАЗВАНИЕ" />
-          <input className={styles.item__input} type="text" placeholder="КОНТАКТ" />
-          <button className={styles.item__iconBtn}>
-            <FontAwesomeIcon icon={faXmark} className={styles.iconBtn__icon} />
+            <FontAwesomeIcon icon={faPlus} className={styles.iconBtn__icon} />
           </button>
         </li>
       </ul>
     </div>
+  )
+}
+
+function InfoTabContactsContact({id, title, value}: InfoTabContactsContactProps) {
+  const valueRef = React.useRef<HTMLInputElement>(null)
+  const titleRef = React.useRef<HTMLInputElement>(null)
+  
+  return (
+    <li className={styles.contactList__item}>
+      <input type="hidden" name={`contacts[${id}][id]`} value={id} />
+      <input ref={titleRef} required className={`${styles.item__input} ${styles.input_title}`} defaultValue={title} type="text" placeholder="НАЗВАНИЕ" />
+      <input ref={valueRef} required className={styles.item__input} defaultValue={value} type="text" placeholder="КОНТАКТ" />
+      <button className={styles.item__iconBtn}>
+        <FontAwesomeIcon icon={faXmark} className={styles.iconBtn__icon} />
+      </button>
+    </li>
   )
 }
 
