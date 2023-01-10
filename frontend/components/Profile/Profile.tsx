@@ -1,7 +1,7 @@
 // global
 import React from 'react'
 import Link from "next/link";
-import {useRecoilValue} from "recoil";
+import {useRecoilState, useRecoilValue} from "recoil";
 // components
 import WindowWithHeaderLayout, {
   WindowWithHeaderLayoutExportedDataType
@@ -54,8 +54,15 @@ interface ProfileBodyContentProps {
   user: AuthUser_authUser | null
 }
 
+interface NavTabLayoutProps {
+  children: React.ReactNode,
+  className?: string,
+  isActive: boolean,
+}
+
 interface NavTabProps {
   user: AuthUser_authUser | null,
+  isActive: boolean,
 }
 
 interface InfoTabMainInfoPanelProps {
@@ -75,6 +82,7 @@ interface InfoTabContactsContactProps {
   value: string,
   title: string,
   id: IdType,
+  remove: (id: IdType) => void,
 }
 
 interface SettingsTabPasswordPanelProps {
@@ -113,7 +121,7 @@ interface ActiveTabWidthAndLeft {
   left: number
 }
 
-interface InfoTabContactsContact {
+export interface InfoTabContactsContact {
   id: IdType,
   title: string,
   value: string,
@@ -269,26 +277,37 @@ function ProfileBodyRightSide({user}: ProfileBodyRightSideProps) {
 }
 
 function ProfileBodyContent({currentTabId, user}: ProfileBodyContentProps) {
-  const Tab = NAV_TABS.find(tab => tab.id === currentTabId)?.component
-  if (!Tab) return null
-  
   return (
     <div className={styles.rightSide__content}>
-      <Tab user={user} />
+      { NAV_TABS.map(tab => (
+        React.createElement(tab.component, {
+          key: tab.id,
+          user,
+          isActive: tab.id === currentTabId
+        })
+      ))}
     </div>
   )
 }
 
-function ProfileInfoTab({user}: NavTabProps) {
+function NavTabLayout({isActive, children, className=''}: NavTabLayoutProps) {
+  return (
+    <div className={`${styles.content__tab} ${isActive ? styles.tab_active : ''} ${className}`}>
+      {children}
+    </div>
+  )
+}
+
+function ProfileInfoTab({user, isActive}: NavTabProps) {
   const aboutMe = user?.profile?.aboutMe
   const contacts = user?.profile?.contacts
   
   return (
-    <div className={`${styles.content__tab} ${styles.tab_info}`}>
+    <NavTabLayout className={styles.tab_info} isActive={isActive}>
       <InfoTabMainInfoPanel user={user} />
       <InfoTabAboutPanel about={aboutMe} />
       <InfoTabContactsPanel user={user} initialContacts={contacts} />
-    </div>
+    </NavTabLayout>
   )
 }
 
@@ -337,7 +356,7 @@ function InfoTabAboutPanel({about}: InfoTabAboutPanelProps) {
 }
 
 function InfoTabContactsPanel({initialContacts, user}: InfoTabContactsPanelProps) {
-  const [ contacts, setContacts ] = React.useState<InfoTabContactsContact[]>(initialContacts ?? [])
+  const [ contacts, setContacts ] = React.useState<InfoTabContactsContact[]>([])
   const [ newContactId, setNewContactId ] = React.useState<number>(0)
   const contactListRef = React.useRef<HTMLUListElement>(null)
   const newContactRef = React.useRef<HTMLLIElement>(null)
@@ -364,12 +383,13 @@ function InfoTabContactsPanel({initialContacts, user}: InfoTabContactsPanelProps
     })
     
     clearElementsInputs(newContactRef.current)
+    focusOnNewContactForm()
   }
   
   const getContactData = (contactElement: HTMLLIElement) => {
     const contactTitleInput = contactElement.querySelector('.input_title') as HTMLInputElement
     const contactValueInput = contactElement.querySelector('.input_value') as HTMLInputElement
-    const contactIdInput = contactElement.querySelector('.input_id') as (HTMLInputElement | null)
+    const contactIdInput = contactElement.querySelector('.input_id') as HTMLInputElement
     
     const contactTitle = contactTitleInput?.value
     const contactValue = contactValueInput?.value
@@ -384,26 +404,44 @@ function InfoTabContactsPanel({initialContacts, user}: InfoTabContactsPanelProps
     }
   }
   
+  const focusOnNewContactForm = () => {
+    if (!newContactRef.current) return
+    
+    const input = newContactRef.current.querySelector('.input_title')
+    if (!input) return
+    
+    (input as HTMLInputElement).focus()
+  }
+  
+  const removeContact = (id: IdType) => {
+    setContacts(prevContacts => {
+      const newContacts = prevContacts.filter(contact => contact.id !== id)
+      
+      return newContacts
+    })
+  }
+  
   const clearElementsInputs = (element: HTMLElement) => {
     element.querySelectorAll('input').forEach(input => {
       input.value = ''
     })
   }
   
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     if (!initialContacts) return
     
     setContacts(initialContacts)
-  }, [user === null])
+  }, [user?.id])
+  
+  React.useEffect(() => {
+    return () => console.log(getContacts())
+  }, [])
   
   return (
     <div className={styles.tab__panel}>
       <h1 className={styles.panel__title}>
         Контакты
       </h1>
-      <button className={styles.panel__addBtn} onClick={() => console.log(getContacts())}>
-        Log
-      </button>
       <ul ref={contactListRef} className={styles.panel__contactList}>
         { contacts && contacts.map(contact => (
           <InfoTabContactsContact
@@ -411,6 +449,7 @@ function InfoTabContactsPanel({initialContacts, user}: InfoTabContactsPanelProps
             id={contact.id}
             title={contact.title}
             value={contact.value}
+            remove={removeContact}
           />
         ))}
         <li ref={newContactRef} className={`${styles.contactList__item} item_new`}>
@@ -425,26 +464,41 @@ function InfoTabContactsPanel({initialContacts, user}: InfoTabContactsPanelProps
   )
 }
 
-function InfoTabContactsContact({id, title, value}: InfoTabContactsContactProps) {
+function InfoTabContactsContact({id, title, value, remove}: InfoTabContactsContactProps) {
   return (
     <li className={styles.contactList__item}>
       <input className={`${styles.item__input} input_id`} type="hidden" name={`contacts[${id}][id]`} value={id} />
       <input required className={`${styles.item__input} input_title`} defaultValue={title} type="text" placeholder="НАЗВАНИЕ" />
       <input required className={`${styles.item__input} input_value`} defaultValue={value} type="text" placeholder="КОНТАКТ" />
-      <button title="Удалить" className={styles.item__iconBtn}>
+      <button title="Удалить" className={styles.item__iconBtn} onClick={() => remove(id)}>
         <FontAwesomeIcon icon={faXmark} className={styles.iconBtn__icon} />
       </button>
     </li>
   )
 }
 
-function ProfileAchievementsTab({user}: NavTabProps) {
+function ProfileAchievementsTab({user, isActive}: NavTabProps) {
+  const achievementListRef = React.useRef<HTMLUListElement>(null)
   const achievements = user?.profile?.achievements ?? []
+  
+  const getCheckedAchievements = () => {
+    const achievementList = achievementListRef.current
+    if (!achievementList) return []
+    
+    const achievementsInputs = achievementList.querySelectorAll<HTMLInputElement>(`.${styles.achievementList__item} input:checked`)
+    const checkedAchievements = getInputsValues(achievementsInputs)
+    
+    return checkedAchievements
+  }
+  
+  const getInputsValues = (inputs: NodeListOf<HTMLInputElement>) => {
+    return Array.from(inputs).map(input => (input as HTMLInputElement).value)
+  }
     
   return (
-    <div className={`${styles.content__tab} ${styles.tab_achievements}`}>
+    <NavTabLayout className={styles.tab_achievements} isActive={isActive}>
       <div className={styles.tab__panel}>
-        <ul className={styles.panel__achievementList}>
+        <ul ref={achievementListRef} className={styles.panel__achievementList}>
           { achievements.map(achievement => (
             <ProfileAchievement
               key={achievement.id}
@@ -457,7 +511,7 @@ function ProfileAchievementsTab({user}: NavTabProps) {
           ))}
         </ul>
       </div>
-    </div>
+    </NavTabLayout>
   )
 }
 
@@ -477,7 +531,7 @@ function ProfileAchievement({showInProfile, id, title, description, icon}: Profi
         <CheckboxWithText
           text='ПОКАЗЫВАТЬ'
           className={styles.leftSide__checkbox}
-          value={`achievement-${id}`}
+          value={id}
           checked={checked}
           onChange={() => setChecked(!checked)}
         />
@@ -490,11 +544,11 @@ function ProfileAchievement({showInProfile, id, title, description, icon}: Profi
   )
 }
 
-function ProfileGroupTab({user}: NavTabProps) {
+function ProfileGroupTab({user, isActive}: NavTabProps) {
   const students = user?.student?.group?.students ?? []
   
   return (
-    <div className={`${styles.content__tab} ${styles.tab_group}`}>
+    <NavTabLayout className={styles.tab_group} isActive={isActive}>
       <div className={styles.tab__panel}>
         <ul className={styles.panel__userList}>
           { students.map(student => (
@@ -509,11 +563,11 @@ function ProfileGroupTab({user}: NavTabProps) {
           ))}
         </ul>
       </div>
-    </div>
+    </NavTabLayout>
   )
 }
 
-function ProfileTeachersTab({user}: NavTabProps) {
+function ProfileTeachersTab({user, isActive}: NavTabProps) {
   const groupTeachers = user?.student?.group.teachers ?? []
   
   function getRolesFromTeacherSubjects(groupTeacher: AuthUser_authUser_student_group_teachers): string[] {
@@ -523,7 +577,7 @@ function ProfileTeachersTab({user}: NavTabProps) {
   }
   
   return (
-    <div className={`${styles.content__tab} ${styles.tab_teachers}`}>
+    <NavTabLayout className={styles.tab_teachers} isActive={isActive}>
       <div className={styles.tab__panel}>
         <ul className={styles.panel__userList}>
           { groupTeachers.map(groupTeacher => (
@@ -539,7 +593,7 @@ function ProfileTeachersTab({user}: NavTabProps) {
           ))}
         </ul>
       </div>
-    </div>
+    </NavTabLayout>
   )
 }
 
@@ -565,12 +619,12 @@ function ProfileUserCard({name, email, phone, picture, profileUrl, roles}: Profi
   )
 }
 
-function ProfileSettingsTab({user}: NavTabProps) {
+function ProfileSettingsTab({user, isActive}: NavTabProps) {
   return (
-    <div className={`${styles.content__tab} ${styles.tab_settings}`}>
+    <NavTabLayout className={styles.tab_settings} isActive={isActive}>
       <SettingsTabPasswordPanel />
       <SettingsTabAuthContactsPanel />
-    </div>
+    </NavTabLayout>
   )
 }
 

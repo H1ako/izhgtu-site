@@ -182,10 +182,14 @@
           padding-block: 1rem;
 
           .content__tab {
-            display: flex;
+            display: none;
             flex-direction: column;
             gap: 2rem;
             position: relative;
+
+            &.tab_active {
+              display: flex;
+            }
 
             .tab__panel {
               background: var(--colorBg);

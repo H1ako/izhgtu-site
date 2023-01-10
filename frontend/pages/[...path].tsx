@@ -40,25 +40,31 @@ export default function CurrentPage({componentName, componentProps, settings, au
   // @ts-ignore
   const Component = LAZY_PAGES[componentName]
   
-  
-  React.useEffect(() => {
-    if (componentName !== null) {
-      setIsLoading(false)
-    }
-  }, [componentName])
-  
-  React.useEffect(() => {
-    const refactoredSettings = getRefactoredSettings(settings)
-    
-    if (refactoredSettings) {
-      setSettings((prev) => ({...prev, ...refactoredSettings}))
-    }
-  }, [settings])
-  
-  React.useEffect(() => {
+  const setUser = (user: AuthUser_authUser | null) => {
     if (!authUser) return
     
     setAuthUser(authUser)
+  }
+  
+  const updateSettings = () => {
+    const refactoredSettings = getRefactoredSettings(settings)
+    if (!refactoredSettings) return
+    
+    setSettings((prev) => ({...prev, ...refactoredSettings}))
+  }
+  
+  React.useEffect(() => {
+    if (!componentName === null) return
+    
+    setIsLoading(false)
+  }, [componentName])
+  
+  React.useEffect(() => {
+    updateSettings()
+  }, [settings])
+  
+  React.useEffect(() => {
+    setUser(authUser)
   }, [authUser])
   
   if (!Component) {

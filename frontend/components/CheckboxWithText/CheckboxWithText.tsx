@@ -11,7 +11,7 @@ interface CheckboxWithTextProps {
   name?: string,
   onChange?: () => void,
   className?: string,
-  value: string,
+  value: string | number,
   checked?: boolean
 }
 
