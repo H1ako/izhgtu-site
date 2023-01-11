@@ -86,11 +86,11 @@ interface InfoTabContactsContactProps {
 }
 
 interface SettingsTabPasswordPanelProps {
-
+  passwordRef?: React.RefObject<HTMLDivElement>
 }
 
 interface SettingsTabAuthContactsPanelProps {
-
+  contactsRef?: React.RefObject<HTMLDivElement>
 }
 
 interface ProfileAchievementProps {
@@ -620,19 +620,46 @@ function ProfileUserCard({name, email, phone, picture, profileUrl, roles}: Profi
 }
 
 function ProfileSettingsTab({user, isActive}: NavTabProps) {
+  const passwordRef = React.useRef<HTMLDivElement>(null)
+  const contactsRef = React.useRef<HTMLDivElement>(null)
+  
+  const getPasswords = () => {
+    const passwordElement = contactsRef.current
+    if (!passwordElement) return []
+    
+    return getElementsInputsData(passwordElement)
+  }
+  
+  const getElementsInputsData = (element: HTMLDivElement) => {
+    const inputs = element.querySelectorAll<HTMLInputElement>('input')
+    
+    return Array.from(inputs).map(input => {
+      const { name, value } = input
+      
+      return { name, value }
+    })
+  }
+  
+  const getAuthContacts = () => {
+    const contactsElement = contactsRef.current
+    if (!contactsElement) return []
+    
+    return getElementsInputsData(contactsElement)
+  }
+  
   return (
     <NavTabLayout className={styles.tab_settings} isActive={isActive}>
-      <SettingsTabPasswordPanel />
-      <SettingsTabAuthContactsPanel />
+      <SettingsTabPasswordPanel passwordRef={passwordRef} />
+      <SettingsTabAuthContactsPanel contactsRef={contactsRef} />
     </NavTabLayout>
   )
 }
 
-function SettingsTabPasswordPanel({}: SettingsTabPasswordPanelProps) {
+function SettingsTabPasswordPanel({passwordRef}: SettingsTabPasswordPanelProps) {
   return (
     <div className={styles.tab__panel}>
       <h1 className={styles.panel__title}>Обновить пароль</h1>
-      <div className={styles.panel__password}>
+      <div ref={passwordRef} className={styles.panel__password}>
         <input type="password" className={styles.password__input} placeholder="Старый пароль" />
         <input type="password" className={styles.password__input} placeholder="Новый пароль" />
         <input type="password" className={styles.password__input} placeholder="Повторите новый пароль" />
@@ -641,13 +668,13 @@ function SettingsTabPasswordPanel({}: SettingsTabPasswordPanelProps) {
   )
 }
 
-function SettingsTabAuthContactsPanel({}: SettingsTabPasswordPanelProps) {
+function SettingsTabAuthContactsPanel({contactsRef}: SettingsTabAuthContactsPanelProps) {
   return (
     <div className={styles.tab__panel}>
       <h1 className={styles.panel__title}>Обновить контакты для авторизации</h1>
-      <div className={styles.panel__contacts}>
-        <input type="text" className={styles.contacts__input} placeholder="Новый email" />
-        <input type="text" className={styles.contacts__input} placeholder="Новый телефон" />
+      <div ref={contactsRef} className={styles.panel__contacts}>
+        <input type="email" className={styles.contacts__input} name="email" placeholder="Новый email" />
+        <input type="phone" className={styles.contacts__input} name="phone" placeholder="Новый телефон" />
       </div>
     </div>
   )

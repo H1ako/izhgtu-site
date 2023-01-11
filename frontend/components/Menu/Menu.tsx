@@ -29,7 +29,8 @@ interface ToggleButtonProps {
 }
 
 interface NavbarProps {
-  mainContent: Settings_settings_MainContentSettings | null
+  mainContent: Settings_settings_MainContentSettings | null,
+  toggle?: () => void
 }
 
 interface InfoBlockProps {
@@ -49,7 +50,7 @@ function Menu({className}: MenuProps) {
       ToggleButton={<ToggleButton toggle={windowData?.toggleMenu} />}
     >
       <MainActionBtns />
-      <Navbar mainContent={mainContent} />
+      <Navbar mainContent={mainContent} toggle={windowData?.toggleMenu} />
       <InfoBlock mainContent={mainContent} />
     </WindowWithHeaderLayout>
   )
@@ -64,21 +65,45 @@ function ToggleButton({toggle}: ToggleButtonProps) {
   )
 }
 
-function Navbar({mainContent}: NavbarProps) {
+function Navbar({mainContent, toggle}: NavbarProps) {
   return (
     <nav className={styles.menu__nav}>
       <ul className={styles.nav__links}>
         { mainContent?.header?.menu && mainContent.header.menu.linksGroups.map((linkGroup) => (
           <li key={`link-group-${linkGroup.id}`} className={styles.links__linksGroup}>
-            <Link rel={linkGroup.openInNewTab ? "noreferrer" : ''} target={linkGroup.openInNewTab ? '_blank' : '_self'} href={linkGroup.url ?? linkGroup.page?.url ?? ''} className={styles.linksGroup__link}>{linkGroup.name}</Link>
+            <Link
+              onClick={toggle}
+              rel={linkGroup.openInNewTab ? "noreferrer" : ''}
+              target={linkGroup.openInNewTab ? '_blank' : '_self'}
+              href={linkGroup.url ?? linkGroup.page?.url ?? ''}
+              className={styles.linksGroup__link}
+            >
+              {linkGroup.name}
+            </Link>
             <ul className={styles.linksGroup__links}>
               { linkGroup.linksGroups && linkGroup.linksGroups.map((linkGroup) => (
                 <li key={`link-group-2-${linkGroup.id}`} className={`${styles.links__linksGroup} ${linkGroup.linksGroups?.length == 0 ? styles.noLinks : ''}`}>
-                  <Link rel={linkGroup.openInNewTab ? "noreferrer" : ''} target={linkGroup.openInNewTab ? '_blank' : '_self'} href={linkGroup.url ?? linkGroup.page?.url ?? ''} className={styles.linksGroup__link}>{linkGroup.name}</Link>
+                  <Link
+                    onClick={toggle}
+                    rel={linkGroup.openInNewTab ? "noreferrer" : ''}
+                    target={linkGroup.openInNewTab ? '_blank' : '_self'}
+                    href={linkGroup.url ?? linkGroup.page?.url ?? ''}
+                    className={styles.linksGroup__link}
+                  >
+                    {linkGroup.name}
+                  </Link>
                   <ul className={styles.linksGroup__links}>
                     { linkGroup.linksGroups && linkGroup.linksGroups.map((linkGroup) => (
                       <li key={`link-group-3-${linkGroup.id}`} className={`${styles.links__linksGroup} ${styles.noLinks}`}>
-                        <Link rel={linkGroup.openInNewTab ? "noreferrer" : ''} target={linkGroup.openInNewTab ? '_blank' : '_self'} href={linkGroup.url ?? linkGroup.page?.url ?? ''} className={styles.linksGroup__link}>{linkGroup.name}</Link>
+                        <Link
+                          onClick={toggle}
+                          rel={linkGroup.openInNewTab ? "noreferrer" : ''}
+                          target={linkGroup.openInNewTab ? '_blank' : '_self'}
+                          href={linkGroup.url ?? linkGroup.page?.url ?? ''}
+                          className={styles.linksGroup__link}
+                        >
+                          {linkGroup.name}
+                        </Link>
                       </li>
                     ))}
                   </ul>

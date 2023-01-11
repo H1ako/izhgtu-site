@@ -63,7 +63,10 @@ function WindowWithHeaderLayout(
   }, [setExportedData])
   
   return (
-      <div ref={windowRef} className={`${styles.windowWithHeader} ${className} ${activeHeaderWindow === windowId ? styles.active : ''}`}>
+      <div
+        ref={windowRef}
+        className={`${styles.windowWithHeader} ${className} ${activeHeaderWindow === windowId ? styles.active : ''}`}
+      >
         {React.cloneElement(ToggleButton)}
         <div className={styles.windowWithHeader__content}>
           { heading?.length &&

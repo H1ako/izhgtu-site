@@ -23,9 +23,9 @@ interface HeaderProps {
 // TODO: make skip header button
 function Header({className}: HeaderProps) {
   const { mainContent }  = useRecoilValue(settingsAtom)
-  const [ isNewsMarqueeActive, setIsNewsMarqueeActive ] = React.useState<boolean>(true)
   const [ isActive, setIsActive ] = useRecoilState<boolean>(headerActiveStateAtom)
   const activeHeaderWindow = useRecoilValue(headerActiveHeaderWindowStateAtom)
+  const [ isNewsMarqueeActive, setIsNewsMarqueeActive ] = React.useState<boolean>(true)
   const scrollDirection = useScrollDirection()
   
   const closeNewsMarquee = () => {
@@ -33,20 +33,21 @@ function Header({className}: HeaderProps) {
   }
   
   const getIsActive = () : boolean=> {
-    return scrollDirection !== 'down'
+    const scrollPosition = document.querySelector<HTMLHtmlElement>('html')?.scrollTop
+    
+    return scrollDirection !== 'down' || scrollPosition === 0
   }
   
-  const toggleOnScroll = (): void => {
+  const toggleOnScrollOrPosition0 = (): void => {
     if (activeHeaderWindow !== null) return
     
     setIsActive(getIsActive())
   }
 
   React.useEffect(() => {
-    window.addEventListener('scroll', toggleOnScroll)
+    window.addEventListener('scroll', toggleOnScrollOrPosition0)
     
-    return () => window.removeEventListener('scroll', toggleOnScroll)
-  
+    return () => window.removeEventListener('scroll', toggleOnScrollOrPosition0)
   }, [scrollDirection])
   
   return (
