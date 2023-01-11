@@ -28,11 +28,11 @@ function Header({className}: HeaderProps) {
   const [ isNewsMarqueeActive, setIsNewsMarqueeActive ] = React.useState<boolean>(true)
   const scrollDirection = useScrollDirection()
   
-  const closeNewsMarquee = () => {
+  const closeNewsMarquee = (): void => {
     setIsNewsMarqueeActive(false)
   }
   
-  const getIsActive = () : boolean=> {
+  const getIsActive = (): boolean=> {
     const scrollPosition = document.querySelector<HTMLHtmlElement>('html')?.scrollTop
     
     return scrollDirection !== 'down' || scrollPosition === 0

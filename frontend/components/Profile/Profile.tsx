@@ -21,112 +21,23 @@ import {
   AuthUser_authUser_student_group_teachers,
   AuthUser_authUser_student_group_teachers_teacher, Settings_settings_MainUrlsSettings
 } from "../../graphql/generated";
-import {element} from "prop-types";
-
-interface ProfileProps {
-  className?: string
-}
-
-interface ToggleButtonProps {
-  user: AuthUser_authUser | null,
-  toggle?: () => void
-}
-
-interface ProfileHeaderProps {
-  user: AuthUser_authUser | null,
-}
-
-interface ProfileBodyProps {
-  user: AuthUser_authUser | null,
-}
-
-interface ProfileBodyLeftSideProps {
-  user: AuthUser_authUser | null,
-  mainUrls: Settings_settings_MainUrlsSettings | null,
-}
-
-interface ProfileBodyRightSideProps {
-  user: AuthUser_authUser | null,
-}
-
-interface ProfileBodyContentProps {
-  currentTabId: number,
-  user: AuthUser_authUser | null
-}
-
-interface NavTabLayoutProps {
-  children: React.ReactNode,
-  className?: string,
-  isActive: boolean,
-}
-
-interface NavTabProps {
-  user: AuthUser_authUser | null,
-  isActive: boolean,
-}
-
-interface InfoTabMainInfoPanelProps {
-  user: AuthUser_authUser | null,
-}
-
-interface InfoTabAboutPanelProps {
-  about?: string | null,
-}
-
-interface InfoTabContactsPanelProps {
-  initialContacts?: AuthUser_authUser_profile_contacts[] | null,
-  user: AuthUser_authUser | null,
-}
-
-interface InfoTabContactsContactProps {
-  value: string,
-  title: string,
-  id: IdType,
-  remove: (id: IdType) => void,
-}
-
-interface SettingsTabPasswordPanelProps {
-  passwordRef?: React.RefObject<HTMLDivElement>
-}
-
-interface SettingsTabAuthContactsPanelProps {
-  contactsRef?: React.RefObject<HTMLDivElement>
-}
-
-interface ProfileAchievementProps {
-  id: IdType,
-  title: string,
-  description: string | null,
-  icon: any,
-  showInProfile: boolean,
-}
-
-interface ProfileUserCardProps {
-  name: string,
-  email: string,
-  phone?: string | null,
-  picture?: string | null,
-  roles?: string[] | null,
-  profileUrl: string,
-}
-
-interface NavTab {
-  id: number,
-  title: string,
-  component: React.FC<NavTabProps>
-}
-
-interface ActiveTabWidthAndLeft {
-  width: number,
-  left: number
-}
-
-export interface InfoTabContactsContact {
-  id: IdType,
-  title: string,
-  value: string,
-  __typename?: "UserContact"
-}
+import {
+  ActiveTabWidthAndLeft,
+  InfoTabAboutPanelProps,
+  InfoTabContactsContact, InfoTabContactsContactProps,
+  InfoTabContactsPanelProps,
+  InfoTabMainInfoPanelProps,
+  NavTab,
+  NavTabLayoutProps,
+  NavTabProps, ProfileAchievementProps,
+  ProfileBodyContentProps,
+  ProfileBodyLeftSideProps,
+  ProfileBodyProps,
+  ProfileBodyRightSideProps,
+  ProfileHeaderProps,
+  ProfileProps, ProfileUserCardProps, SettingsTabAuthContactsPanelProps, SettingsTabPasswordPanelProps,
+  ToggleButtonProps
+} from './types';
 
 const NAV_TABS: NavTab[] = [
   {id: 0, title: 'Информация', component: ProfileInfoTab},
