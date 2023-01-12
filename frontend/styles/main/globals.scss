@@ -51,14 +51,16 @@ p {
 
 html {
   scrollbar-color: #454a4d var(--colorBgDark);
+  background: var(--colorBgDark);
 }
 
 body {
+  position: relative;
   background: var(--colorBg);
   color: var(--colorText);
   overflow: overlay;
   -webkit-overflow-scrolling: touch;
-  border-right: var(--scrollbar-padding, 0px) solid var(--colorBgDark);
+  border-right: var(--padding-right, 0px) solid var(--colorBgDark);
 }
 
 ul {

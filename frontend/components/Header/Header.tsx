@@ -29,6 +29,8 @@ function Header({className}: HeaderProps) {
   const scrollDirection = useScrollDirection()
   
   const closeNewsMarquee = (): void => {
+    localStorage.setItem('newsMarqueeClosed', 'true')
+    localStorage.setItem('newsMarqueeData', 'data')
     setIsNewsMarqueeActive(false)
   }
   
@@ -43,12 +45,31 @@ function Header({className}: HeaderProps) {
     
     setIsActive(getIsActive())
   }
+  
+  const toggleNewsMarqueeIfNewData = (): void => {
+    const isMarqueeWasClosed = localStorage.getItem('newsMarqueeClosed') === 'true' ? true : false
+    if (!isMarqueeWasClosed) return
+    
+    const oldMarqueeData = localStorage.getItem('newsMarqueeData')
+    if (oldMarqueeData !== 'data') return
+    
+    setIsNewsMarqueeActive(false)
+  }
 
   React.useEffect(() => {
     window.addEventListener('scroll', toggleOnScrollOrPosition0)
     
     return () => window.removeEventListener('scroll', toggleOnScrollOrPosition0)
   }, [scrollDirection])
+  
+  React.useEffect(() => {
+    toggleNewsMarqueeIfNewData()
+
+    return () => {
+      localStorage.setItem('newsMarqueeClosed', isNewsMarqueeActive.toString())
+      localStorage.setItem('newsMarqueeData', 'data')
+    }
+  }, [])
   
   return (
     <header className={`${styles.mainHeader} ${isActive ? '' : styles.active} ${className}`}>
