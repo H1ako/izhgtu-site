@@ -37,18 +37,20 @@ function WindowWithHeaderLayout(
     setIsHeaderActive(true)
     
     setActiveHeaderWindow(state => {
-      toggleScrollLockOnState(state)
+      const newState = state === windowId ? null : windowId
       
-      return state === windowId ? null : windowId
+      toggleScrollLockOnState(newState)
+      
+      return newState
     })
   }
   
   const toggleScrollLockOnState = (state: IdType | null) => {
-    if (state === windowId) {
-      enableScroll()
+    if (state !== null) {
+      disableScroll()
     }
     else {
-      disableScroll()
+      enableScroll()
     }
   }
   

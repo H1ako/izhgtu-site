@@ -13,12 +13,14 @@ export default function useScrollbarLock(allowedElement: React.RefObject<HTMLEle
   const disableScroll = () => {
     if (!allowedElement.current) return
     
-    addBodyScrollbarPadding()
+    setBodyScrollbarPaddingIfNot()
     disableBodyScroll(allowedElement.current)
   }
   
-  
-  const addBodyScrollbarPadding = () => {
+  const setBodyScrollbarPaddingIfNot = () => {
+    const isPaddingSet = document.body.style.getPropertyValue('--scrollbar-padding') ?? false
+    if (isPaddingSet) return
+    
     const scrollBarCompensation = window.innerWidth - document.body.offsetWidth
     const padding = `${scrollBarCompensation}px`
     
@@ -29,12 +31,8 @@ export default function useScrollbarLock(allowedElement: React.RefObject<HTMLEle
     document.body.style.removeProperty('--scrollbar-padding')
   }
   
-  
-  
   React.useEffect(() => {
-    return () => {
-      clearAllBodyScrollLocks();
-    }
+    return () => clearAllBodyScrollLocks()
   }, [])
   
   return {
