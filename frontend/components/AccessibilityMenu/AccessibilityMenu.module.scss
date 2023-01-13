@@ -8,6 +8,7 @@
   bottom: $margin;
   right: $margin;
   z-index: var(--zIndexSettingsMenu);
+  margin-right: var(--scroll-padding, 0px);
 
   &.hidden {
     display: none;

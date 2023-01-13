@@ -18,17 +18,17 @@ export default function useScrollbarLock(allowedElement: React.RefObject<HTMLEle
   }
   
   const setBodyScrollbarPaddingIfNot = () => {
-    const isPaddingSet = document.body.style.getPropertyValue('--padding-right') ?? false
+    const isPaddingSet = document.body.style.getPropertyValue('--scroll-padding') ?? false
     if (isPaddingSet) return
     
     const scrollBarCompensation = window.innerWidth - document.body.offsetWidth
     const padding = `${scrollBarCompensation}px`
     
-    document.body.style.setProperty('--padding-right', padding)
+    document.body.style.setProperty('--scroll-padding', padding)
   }
   
   const removeBodyScrollbarPadding = () => {
-    document.body.style.removeProperty('--padding-right')
+    document.body.style.removeProperty('--scroll-padding')
   }
   
   React.useEffect(() => {
