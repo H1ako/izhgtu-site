@@ -4,7 +4,7 @@ import {
   AuthUser_authUser_profile_contacts,
   Settings_settings_MainUrlsSettings
 } from "../../graphql/generated";
-import {FC} from "react";
+import {FC, SetStateAction} from "react";
 
 export interface ProfileProps {
   className?: string
@@ -25,16 +25,18 @@ export interface ProfileBodyProps {
 
 export interface ProfileBodyLeftSideProps {
   user: AuthUser_authUser | null,
-  mainUrls: Settings_settings_MainUrlsSettings | null,
+  tabsData: TabsData,
 }
 
 export interface ProfileBodyRightSideProps {
   user: AuthUser_authUser | null,
+  setTabsData: React.Dispatch<React.SetStateAction<TabsData>>
 }
 
 export interface ProfileBodyContentProps {
   currentTabId: number,
-  user: AuthUser_authUser | null
+  user: AuthUser_authUser | null,
+  setTabsData: React.Dispatch<React.SetStateAction<TabsData>>
 }
 
 export interface NavTabLayoutProps {
@@ -46,17 +48,22 @@ export interface NavTabLayoutProps {
 export interface NavTabProps {
   user: AuthUser_authUser | null,
   isActive: boolean,
+  setTabsData: React.Dispatch<React.SetStateAction<TabsData>>
+}
+
+interface TabPanelProps {
+  setTabsData: React.Dispatch<React.SetStateAction<TabsData>>
 }
 
 export interface InfoTabMainInfoPanelProps {
   user: AuthUser_authUser | null,
 }
 
-export interface InfoTabAboutPanelProps {
+export interface InfoTabAboutPanelProps extends TabPanelProps {
   about?: string | null,
 }
 
-export interface InfoTabContactsPanelProps {
+export interface InfoTabContactsPanelProps extends TabPanelProps {
   initialContacts?: AuthUser_authUser_profile_contacts[] | null,
   user: AuthUser_authUser | null,
 }
@@ -91,6 +98,24 @@ export interface ProfileUserCardProps {
   picture?: string | null,
   roles?: string[] | null,
   profileUrl: string,
+}
+
+export interface TabsData {
+  getAchievements?: () => IdType[],
+  getAbout?: () => string | null,
+  getContacts?: () => InfoTabContactsContact[],
+  getAuthContacts?: () => SettingsAuthContact[],
+  getPasswords?: () => SettingsPassword[],
+}
+
+export interface SettingsAuthContact {
+  name: string,
+  value: string,
+}
+
+export interface SettingsPassword {
+  name: string,
+  value: string,
 }
 
 export interface NavTab {

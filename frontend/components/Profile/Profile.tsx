@@ -24,18 +24,25 @@ import {
 import {
   ActiveTabWidthAndLeft,
   InfoTabAboutPanelProps,
-  InfoTabContactsContact, InfoTabContactsContactProps,
+  InfoTabContactsContact,
+  InfoTabContactsContactProps,
   InfoTabContactsPanelProps,
   InfoTabMainInfoPanelProps,
   NavTab,
   NavTabLayoutProps,
-  NavTabProps, ProfileAchievementProps,
+  NavTabProps,
+  ProfileAchievementProps,
   ProfileBodyContentProps,
   ProfileBodyLeftSideProps,
   ProfileBodyProps,
   ProfileBodyRightSideProps,
   ProfileHeaderProps,
-  ProfileProps, ProfileUserCardProps, SettingsTabAuthContactsPanelProps, SettingsTabPasswordPanelProps,
+  ProfileProps,
+  ProfileUserCardProps,
+  SettingsAuthContact, SettingsPassword,
+  SettingsTabAuthContactsPanelProps,
+  SettingsTabPasswordPanelProps,
+  TabsData,
   ToggleButtonProps
 } from './types';
 
@@ -102,22 +109,48 @@ function ProfileHeader({user}: ProfileHeaderProps) {
 }
 
 function ProfileBody({user}: ProfileBodyProps) {
-  const { mainUrls } = useRecoilValue(settingsAtom)
-  
+  const [ tabsData, setTabsData ] = React.useState<TabsData>({})
+
   return (
     <div className={styles.content__profileBody}>
       <ProfileBodyLeftSide
         user={user}
-        mainUrls={mainUrls}
+        tabsData={tabsData}
       />
       <ProfileBodyRightSide
         user={user}
+        setTabsData={setTabsData}
       />
     </div>
   )
 }
 
-function ProfileBodyLeftSide({mainUrls, user}: ProfileBodyLeftSideProps) {
+function ProfileBodyLeftSide({user, tabsData}: ProfileBodyLeftSideProps) {
+  const { mainUrls } = useRecoilValue(settingsAtom)
+  
+  const saveChanges = (): void => {
+    if (!tabsData) return
+    
+    const dataToUpdate: any = {}
+    if (tabsData.getAbout) {
+      dataToUpdate.about = tabsData.getAbout()
+    }
+    if (tabsData.getContacts) {
+      dataToUpdate.contacts = tabsData.getContacts()
+    }
+    if (tabsData.getAuthContacts) {
+      dataToUpdate.authContacts = tabsData.getAuthContacts()
+    }
+    if (tabsData.getPasswords) {
+      dataToUpdate.passwords = tabsData.getPasswords()
+    }
+    if (tabsData.getAchievements) {
+      dataToUpdate.visibleAchievements = tabsData.getAchievements()
+    }
+    
+    return dataToUpdate
+  }
+  
   return (
     <div className={styles.profileBody__leftSide}>
       <img className={styles.leftSide__userPicture} src={user?.pictureUrl ?? ''} alt='' />
@@ -125,7 +158,7 @@ function ProfileBodyLeftSide({mainUrls, user}: ProfileBodyLeftSideProps) {
       <Link href={user?.profileUrl ?? '#'} className={styles.leftSide__btn}>
         Профиль
       </Link>
-      <button className={styles.leftSide__btn}>
+      <button onClick={() => console.log(saveChanges())} className={styles.leftSide__btn}>
         Сохранить изменения
       </button>
       <Link href={mainUrls?.logoutUrl ?? '/auth/log-out/'} className={`${styles.leftSide__btn} ${styles.btn_accent}`}>
@@ -135,7 +168,7 @@ function ProfileBodyLeftSide({mainUrls, user}: ProfileBodyLeftSideProps) {
   )
 }
 
-function ProfileBodyRightSide({user}: ProfileBodyRightSideProps) {
+function ProfileBodyRightSide({user, setTabsData}: ProfileBodyRightSideProps) {
   const [ currentTabId, setCurrentTabId ] = React.useState<number>(0)
   const tabNav = React.useRef<HTMLDivElement>(null)
   
@@ -182,19 +215,24 @@ function ProfileBodyRightSide({user}: ProfileBodyRightSideProps) {
           ))}
         </ul>
       </nav>
-      <ProfileBodyContent user={user} currentTabId={currentTabId} />
+      <ProfileBodyContent
+        user={user}
+        currentTabId={currentTabId}
+        setTabsData={setTabsData}
+      />
     </div>
   )
 }
 
-function ProfileBodyContent({currentTabId, user}: ProfileBodyContentProps) {
+function ProfileBodyContent({currentTabId, user, setTabsData}: ProfileBodyContentProps) {
   return (
     <div className={styles.rightSide__content}>
       { NAV_TABS.map(tab => (
         React.createElement(tab.component, {
           key: tab.id,
           user,
-          isActive: tab.id === currentTabId
+          isActive: tab.id === currentTabId,
+          setTabsData
         })
       ))}
     </div>
@@ -209,15 +247,15 @@ function NavTabLayout({isActive, children, className=''}: NavTabLayoutProps) {
   )
 }
 
-function ProfileInfoTab({user, isActive}: NavTabProps) {
+function ProfileInfoTab({user, isActive, setTabsData}: NavTabProps) {
   const aboutMe = user?.profile?.aboutMe
   const contacts = user?.profile?.contacts
   
   return (
     <NavTabLayout className={styles.tab_info} isActive={isActive}>
       <InfoTabMainInfoPanel user={user} />
-      <InfoTabAboutPanel about={aboutMe} />
-      <InfoTabContactsPanel user={user} initialContacts={contacts} />
+      <InfoTabAboutPanel setTabsData={setTabsData} about={aboutMe} />
+      <InfoTabContactsPanel setTabsData={setTabsData} user={user} initialContacts={contacts} />
     </NavTabLayout>
   )
 }
@@ -253,7 +291,7 @@ function InfoTabMainInfoPanel({user}: InfoTabMainInfoPanelProps) {
   )
 }
 
-function InfoTabAboutPanel({about}: InfoTabAboutPanelProps) {
+function InfoTabAboutPanel({about, setTabsData}: InfoTabAboutPanelProps) {
   return (
     <div className={styles.tab__panel}>
       <h1 className={styles.panel__title}>
@@ -266,13 +304,13 @@ function InfoTabAboutPanel({about}: InfoTabAboutPanelProps) {
   )
 }
 
-function InfoTabContactsPanel({initialContacts, user}: InfoTabContactsPanelProps) {
+function InfoTabContactsPanel({initialContacts, user, setTabsData}: InfoTabContactsPanelProps) {
   const [ contacts, setContacts ] = React.useState<InfoTabContactsContact[]>([])
   const [ newContactId, setNewContactId ] = React.useState<number>(0)
   const contactListRef = React.useRef<HTMLUListElement>(null)
   const newContactRef = React.useRef<HTMLLIElement>(null)
   
-  const getContacts = () => {
+  const getContacts = (): InfoTabContactsContact[] => {
     if (!contactListRef.current) return []
     
     const contacts = contactListRef.current.querySelectorAll(`.${styles.contactList__item}:not(.item_new)`)
@@ -338,6 +376,13 @@ function InfoTabContactsPanel({initialContacts, user}: InfoTabContactsPanelProps
     })
   }
   
+  const getAbout = (): string | null => {
+    const aboutElement = document.querySelector(`.${styles.tab_info} .${styles.panel__text}`)
+    if (!aboutElement) return ''
+    
+    return aboutElement.textContent
+  }
+  
   React.useLayoutEffect(() => {
     if (!initialContacts) return
     
@@ -345,8 +390,14 @@ function InfoTabContactsPanel({initialContacts, user}: InfoTabContactsPanelProps
   }, [user?.id])
   
   React.useEffect(() => {
-    return () => console.log(getContacts())
-  }, [])
+    setTabsData(prevTabsData => {
+      return {
+        ...prevTabsData,
+        getContacts: getContacts,
+        getAbout: getAbout
+      }
+    })
+  }, [setTabsData])
   
   return (
     <div className={styles.tab__panel}>
@@ -388,11 +439,11 @@ function InfoTabContactsContact({id, title, value, remove}: InfoTabContactsConta
   )
 }
 
-function ProfileAchievementsTab({user, isActive}: NavTabProps) {
+function ProfileAchievementsTab({user, isActive, setTabsData}: NavTabProps) {
   const achievementListRef = React.useRef<HTMLUListElement>(null)
   const achievements = user?.profile?.achievements ?? []
   
-  const getCheckedAchievements = () => {
+  const getCheckedAchievements = (): IdType[] => {
     const achievementList = achievementListRef.current
     if (!achievementList) return []
     
@@ -405,10 +456,20 @@ function ProfileAchievementsTab({user, isActive}: NavTabProps) {
   const getInputsValues = (inputs: NodeListOf<HTMLInputElement>) => {
     return Array.from(inputs).map(input => (input as HTMLInputElement).value)
   }
+  
+  React.useEffect(() => {
+    setTabsData(prevTabsData => {
+      return {
+        ...prevTabsData,
+        getAchievements: getCheckedAchievements,
+      }
+    })
+  }, [setTabsData])
     
   return (
     <NavTabLayout className={styles.tab_achievements} isActive={isActive}>
       <div className={styles.tab__panel}>
+        <button onClick={() => console.log(getCheckedAchievements())}>Получить</button>
         <ul ref={achievementListRef} className={styles.panel__achievementList}>
           { achievements.map(achievement => (
             <ProfileAchievement
@@ -530,12 +591,12 @@ function ProfileUserCard({name, email, phone, picture, profileUrl, roles}: Profi
   )
 }
 
-function ProfileSettingsTab({user, isActive}: NavTabProps) {
+function ProfileSettingsTab({user, isActive, setTabsData}: NavTabProps) {
   const passwordRef = React.useRef<HTMLDivElement>(null)
   const contactsRef = React.useRef<HTMLDivElement>(null)
   
-  const getPasswords = () => {
-    const passwordElement = contactsRef.current
+  const getPasswords = (): SettingsPassword[] => {
+    const passwordElement = passwordRef.current
     if (!passwordElement) return []
     
     return getElementsInputsData(passwordElement)
@@ -551,12 +612,22 @@ function ProfileSettingsTab({user, isActive}: NavTabProps) {
     })
   }
   
-  const getAuthContacts = () => {
+  const getAuthContacts = (): SettingsAuthContact[] => {
     const contactsElement = contactsRef.current
     if (!contactsElement) return []
     
     return getElementsInputsData(contactsElement)
   }
+  
+  React.useEffect(() => {
+    setTabsData(prevTabsData => {
+      return {
+        ...prevTabsData,
+        getPasswords: getPasswords,
+        getAuthContacts: getAuthContacts,
+      }
+    })
+  }, [setTabsData])
   
   return (
     <NavTabLayout className={styles.tab_settings} isActive={isActive}>
@@ -571,9 +642,9 @@ function SettingsTabPasswordPanel({passwordRef}: SettingsTabPasswordPanelProps) 
     <div className={styles.tab__panel}>
       <h1 className={styles.panel__title}>Обновить пароль</h1>
       <div ref={passwordRef} className={styles.panel__password}>
-        <input type="password" className={styles.password__input} placeholder="Старый пароль" />
-        <input type="password" className={styles.password__input} placeholder="Новый пароль" />
-        <input type="password" className={styles.password__input} placeholder="Повторите новый пароль" />
+        <input type="password" className={styles.password__input} name="oldPassword" placeholder="Старый пароль" />
+        <input type="password" className={styles.password__input} name="newPassword" placeholder="Новый пароль" />
+        <input type="password" className={styles.password__input} name="newPasswordAgain" placeholder="Повторите новый пароль" />
       </div>
     </div>
   )

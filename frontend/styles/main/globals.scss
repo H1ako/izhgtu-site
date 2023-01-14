@@ -61,6 +61,7 @@ body {
   overflow: overlay;
   -webkit-overflow-scrolling: touch;
   border-right: var(--scroll-padding, 0px) solid var(--colorBgDark);
+  overflow-x: hidden;
 }
 
 ul {

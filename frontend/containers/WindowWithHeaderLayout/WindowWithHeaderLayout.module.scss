@@ -16,8 +16,8 @@
     top: 100%;
     overflow: hidden;
     height: 0;
-    transition: var(--transitionDefault);
-    width: 100%;
+    transition: all var(--transitionDefault), width 0ms;
+    width: 100vw;
     background: var(--colorBgDark);
 
     .content__wrapper {
