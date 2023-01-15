@@ -21,7 +21,6 @@ export interface Page_page_LoginPage {
   pageType: string | null;
   isPasswordEnabled: boolean;
   isGosUslugiEnabled: boolean;
-  isEmailCodeEnabled: boolean;
   isPhoneCodeEnabled: boolean;
 }
 

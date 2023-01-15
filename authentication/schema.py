@@ -16,22 +16,22 @@ class UserType(DjangoObjectType):
     def resolve_picture_url(self: User, info):
         return self.picture.url
 
-    def resolve_profile_url(self: User, info):
+    def resolve_profile_url(self, info):
         return self.profile_url
 
     def resolve_bg_picture_url(self: User, info):
         return self.bg_picture.url
 
-    def resolve_is_student(self: User, info):
+    def resolve_is_student(self, info):
         return self.is_student
 
-    def resolve_is_teacher(self: User, info):
+    def resolve_is_teacher(self, info):
         return self.is_teacher
 
-    def resolve_is_entrant(self: User, info):
+    def resolve_is_entrant(self, info):
         return self.is_entrant
 
-    def resolve_full_name(self: User, info):
+    def resolve_full_name(self, info):
         return self.full_name
 
     class Meta:
@@ -49,3 +49,15 @@ class AuthUserQuery:
         if user.is_anonymous:
             return None
         return user
+
+
+class LoginMethodType(graphene.ObjectType):
+    name = graphene.String(required=True)
+    label = graphene.String(required=True)
+    enabled = graphene.Boolean(required=True)
+
+    class Meta:
+        interfaces = (graphene.relay.Node, )
+
+
+LoginMethodListType = graphene.List(graphene.NonNull(LoginMethodType))

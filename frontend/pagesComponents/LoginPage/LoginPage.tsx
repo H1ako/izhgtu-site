@@ -20,12 +20,12 @@ const NAV_TABS: NavTab[] = [
   {
     id: 1,
     title: 'Зарегистрироваться',
-    component: SignInTab
+    component: SignUpTab
   }
 ]
 
 function LoginPage(
-  {isEmailCodeEnabled, isPhoneCodeEnabled, isPasswordEnabled, isGosUslugiEnabled}: Page_page_LoginPage) {
+  {isPhoneCodeEnabled, isPasswordEnabled, isGosUslugiEnabled}: Page_page_LoginPage) {
   const [ currentTabId, setCurrentTabId ] = React.useState<number>(0)
   
   return (
@@ -50,8 +50,32 @@ function SignInTab({isActive}: SignInTabProps) {
   const [ chosenSignInMethod, setChosenSignInMethod ] = React.useState<number | null>(null)
   
   return (
-    <NavTabLayout isActive={isActive}>
-      asdas
+    <NavTabLayout className={`${styles.content__tab} ${styles.tab_signIn}`} isActive={isActive}>
+      <SignInTabBody />
+    </NavTabLayout>
+  )
+}
+
+function SignInTabBody() {
+  return (
+    <div></div>
+  )
+}
+
+function SignInMethodChooser() {
+  return (
+    <ul className={styles.tab}>
+    
+    </ul>
+  )
+}
+
+function SignUpTab({isActive}: SignInTabProps) {
+  const [ chosenSignUpMethod, setChosenSignUpMethod ] = React.useState<number | null>(null)
+  
+  return (
+    <NavTabLayout className={`${styles.content__tab} ${styles.tab_signUp}`} isActive={isActive}>
+      sign up
     </NavTabLayout>
   )
 }

@@ -10,7 +10,6 @@ query Page($url: String!) {
     ... on LoginPage {
       isPasswordEnabled
       isGosUslugiEnabled
-      isEmailCodeEnabled
       isPhoneCodeEnabled
     }
     ... on HomePage {

@@ -5,7 +5,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 import graphene
 from grapple.helpers import register_query_field
-from grapple.models import GraphQLBoolean, GraphQLString, GraphQLCollection, GraphQLForeignKey, GraphQLInt
+from grapple.models import GraphQLBoolean, GraphQLString, GraphQLCollection, GraphQLForeignKey, GraphQLInt, GraphQLField
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.models import Page
 from wagtail_headless_preview.models import HeadlessMixin
@@ -23,6 +23,18 @@ user_params = {
     "email": graphene.String(),
     "phone": graphene.String(),
 }
+
+
+class LoginMethodType(graphene.ObjectType):
+    name = graphene.String(required=True)
+    label = graphene.String(required=True)
+    enabled = graphene.Boolean(required=True)
+
+    class Meta:
+        interfaces = (graphene.relay.Node, )
+
+
+LoginMethodListType = graphene.List(graphene.NonNull(LoginMethodType))
 
 
 @register_query_field("user", 'users', plural_item_required=True, query_params=user_params)
@@ -147,24 +159,50 @@ class LoginPage(HeadlessMixin, Page):
     ]
     subpage_types = []
 
-    is_gos_uslugi_enabled = models.BooleanField(
-        _("Enable GosUslugi Login"), default=True
-    )
     is_password_enabled = models.BooleanField(
         _("Enable Password Login"), default=True
-    )
-    is_email_code_enabled = models.BooleanField(
-        _("Enable Email Code Login"), default=True
     )
     is_phone_code_enabled = models.BooleanField(
         _("Enable Phone Code Login"), default=True
     )
+    is_gos_uslugi_enabled = models.BooleanField(
+        _("Enable GosUslugi Login"), default=True
+    )
+    is_vkontakte_enabled = models.BooleanField(
+        _("Enable VKontakte Login"), default=True
+    )
+
+    @property
+    def login_methods(self):
+        methods = (
+            {
+                "name": "loginAndPassword",
+                "label": "Через логин и пароль",
+                "enabled": self.is_password_enabled,
+            },
+            {
+                "name": "phoneCode",
+                "label": "Через номер телефона",
+                "enabled": self.is_phone_code_enabled,
+            },
+            {
+                "name": "gosUslugi",
+                "label": "Через Госуслуги",
+                "enabled": self.is_gos_uslugi_enabled,
+            },
+            {
+                "name": "vkontakte",
+                "label": "Через ВКонтакте",
+                "enabled": self.is_vkontakte_enabled,
+            },
+        )
+
+        return [method for method in methods if method["enabled"]]
 
     content_panels = Page.content_panels + [
         MultiFieldPanel([
             FieldPanel("is_gos_uslugi_enabled"),
             FieldPanel("is_password_enabled"),
-            FieldPanel("is_email_code_enabled"),
             FieldPanel("is_phone_code_enabled"),
         ], heading="Login Methods"),
     ]
@@ -172,6 +210,6 @@ class LoginPage(HeadlessMixin, Page):
     graphql_fields = [
         GraphQLBoolean('is_gos_uslugi_enabled', required=True),
         GraphQLBoolean('is_password_enabled', required=True),
-        GraphQLBoolean('is_email_code_enabled', required=True),
         GraphQLBoolean('is_phone_code_enabled', required=True),
+        GraphQLField('login_methods', LoginMethodListType, required=True),
     ]
