@@ -7,6 +7,12 @@ query Page($url: String!) {
     id
     url
     pageType
+    ... on LoginPage {
+      isPasswordEnabled
+      isGosUslugiEnabled
+      isEmailCodeEnabled
+      isPhoneCodeEnabled
+    }
     ... on HomePage {
       lastNews {
         id

@@ -4,12 +4,13 @@ import React from 'react'
 import styles from './PageLayout.module.scss';
 
 interface PageLayoutProps {
-    children: React.ReactNode
+  children: React.ReactNode,
+  className?: string,
 }
 
-function PageLayout({ children }: PageLayoutProps) {
+function PageLayout({children, className}: PageLayoutProps) {
   return (
-    <div className={styles.page}>
+    <div className={`${styles.page} ${className}`}>
       {children}
     </div>
   )

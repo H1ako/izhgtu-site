@@ -126,283 +126,218 @@
         flex-direction: column;
         gap: 2rem;
 
-        .rightSide__nav {
-          --highlighterWidth: 0;
-          --highlighterLeft: 0;
-
-          position: sticky;
-          background: var(--colorBgDark);
-          overflow-x: auto;
-          padding-inline: var(--paddingInlineMain);
-          z-index: 1;
-          top: 0;
-          left: 0;
-
-          &::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-bottom: 1px solid var(--colorText);
-            z-index: -1;
-          }
-
-          &::after {
-            content: '';
-            position: absolute;
-            border-bottom: 2px solid var(--colorMain);
-            height: 100%;
-            width: var(--highlighterWidth);
-            top: 0;
-            left: var(--highlighterLeft);
-            z-index: 0;
-            pointer-events: none;
-            user-select: none;
-            transition: var(--transitionDefault);
-          }
-
-          .nav__list {
+        .rightSide__content {
+          .tab__panel {
+            background: var(--colorBg);
+            padding: 1rem var(--paddingInlineMain);
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            gap: .5rem;
+            border-radius: var(--bdrsWindow);
 
-            .list__item {
-              .item__btn {
-                @include clearedBtn;
+            .panel__title {
+              text-transform: uppercase;
+              color: var(--colorMain);
+            }
 
-                background: none;
+            .panel__text {
+              font-size: var(--fontSize4);
+            }
+          }
+
+          .tab_info {
+            .panel__item {
+              display: flex;
+              gap: 1ch;
+              font-weight: 300;
+
+              .item__label {
+                color: var(--colorMain);
                 text-transform: uppercase;
-                padding: 1.5rem 1rem;
-                position: sticky;
-                top: var(--heightHeader);
+                font-weight: bold;
               }
             }
-          }
-        }
 
-        .rightSide__content {
-          padding-block: 1rem;
-
-          .content__tab {
-            display: none;
-            flex-direction: column;
-            gap: 2rem;
-            position: relative;
-
-            &.tab_active {
-              display: flex;
-            }
-
-            .tab__panel {
-              background: var(--colorBg);
-              padding: 1rem var(--paddingInlineMain);
+            .panel__contactList {
               display: flex;
               flex-direction: column;
-              gap: .5rem;
-              border-radius: var(--bdrsWindow);
+              gap: 1rem;
 
-              .panel__title {
-                text-transform: uppercase;
-                color: var(--colorMain);
-              }
-
-              .panel__text {
-                font-size: var(--fontSize4);
-              }
-            }
-
-            &.tab_info {
-              .panel__item {
+              .contactList__item {
                 display: flex;
-                gap: 1ch;
-                font-weight: 300;
-
-                .item__label {
-                  color: var(--colorMain);
-                  text-transform: uppercase;
-                  font-weight: bold;
-                }
-              }
-
-              .panel__contactList {
-                display: flex;
-                flex-direction: column;
+                align-items: center;
                 gap: 1rem;
 
-                .contactList__item {
-                  display: flex;
-                  align-items: center;
-                  gap: 1rem;
+                .item__input {
+                  @include input($background: var(--colorBgDark));
 
-                  .item__input {
-                    @include input($background: var(--colorBgDark));
+                  width: 100%;
 
-                    width: 100%;
+                  &.input_title {
+                    width: 50%;
+                  }
+                }
 
-                    &.input_title {
-                      width: 50%;
-                    }
+                .item__iconBtn {
+                  --color: var(--colorAccent);
+
+                  @include iconBtn($fontSize: var(--fontSize2));
+
+                  width: 3rem;
+                  overflow: hidden;
+                  display: grid;
+                  place-content: center;
+
+                  &.iconBtn_accent {
+                    --color: var(--colorMain);
                   }
 
-                  .item__iconBtn {
-                    --color: var(--colorAccent);
-
-                    @include iconBtn($fontSize: var(--fontSize2));
-
-                    width: 3rem;
-                    overflow: hidden;
-                    display: grid;
-                    place-content: center;
-
-                    &.iconBtn_accent {
-                      --color: var(--colorMain);
-                    }
-
-                    &:hover,
-                    &:focus-within {
-                      color: var(--color);
-                    }
+                  &:hover,
+                  &:focus-within {
+                    color: var(--color);
                   }
                 }
               }
             }
+          }
 
-            &.tab_achievements {
-              .panel__achievementList {
-                position: relative;
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(30rem, min(50%, 40rem)));
+          .tab_achievements {
+            .panel__achievementList {
+              position: relative;
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(30rem, min(50%, 40rem)));
 
-                .achievementList__item {
-                  background: var(--colorBgDark);
-                  border-radius: var(--bdrsWindow);
-                  padding: 1rem;
+              .achievementList__item {
+                background: var(--colorBgDark);
+                border-radius: var(--bdrsWindow);
+                padding: 1rem;
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                height: 10rem;
+
+                .item__leftSide {
                   display: flex;
+                  flex-direction: column;
                   align-items: center;
                   gap: 1rem;
-                  height: 10rem;
 
-                  .item__leftSide {
+                  .leftSide__icon {
+                    position: relative;
+                    background: var(--colorBg);
+                    border-radius: 50%;
+                    width: 6rem;
+                    aspect-ratio: 1;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    .icon__icon {
+                      @include svgColor(var(--colorMain));
+
+                      width: 70%;
+                      height: 70%;
+                    }
+                  }
+                }
+
+                .item__rightSide {
+                  display: flex;
+                  flex-direction: column;
+                  gap: .5rem;
+
+                  .rightSide__title {
+                    text-transform: uppercase;
+                    color: var(--colorMain);
+                  }
+
+                  .rightSide__description {
+                    font-size: var(--fontSize4);
+                  }
+                }
+              }
+            }
+          }
+
+          .tab_group,
+          .tab_teachers {
+            .panel__userList {
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(30rem, 40rem));
+              grid-template-rows: repeat(auto-fill, minmax(10rem, 1fr));
+
+              .userList__item {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                background: var(--colorBgDark);
+                border-radius: var(--bdrsWindow);
+                padding: 1rem;
+
+                .item__leftSide {
+                  @include clearedLink($fontSize: var(--fontSize4-5));
+
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  gap: .5rem;
+                  height: 100%;
+
+                  .leftSide__userImg {
+                    @include roundedImage($borderColor: var(--colorBg));
+
+                    width: 6rem;
+                    flex-shrink: 1;
+                  }
+
+                  .leftSide__roles {
                     display: flex;
                     flex-direction: column;
                     align-items: center;
-                    gap: 1rem;
+                    flex-shrink: 0;
 
-                    .leftSide__icon {
-                      position: relative;
-                      background: var(--colorBg);
-                      border-radius: 50%;
-                      width: 6rem;
-                      aspect-ratio: 1;
-                      display: flex;
-                      justify-content: center;
-                      align-items: center;
-
-                      .icon__icon {
-                        @include svgColor(var(--colorMain));
-
-                        width: 70%;
-                        height: 70%;
-                      }
-                    }
-                  }
-
-                  .item__rightSide {
-                    display: flex;
-                    flex-direction: column;
-                    gap: .5rem;
-
-                    .rightSide__title {
-                      text-transform: uppercase;
-                      color: var(--colorMain);
-                    }
-
-                    .rightSide__description {
-                      font-size: var(--fontSize4);
+                    .roles__item {
+                      color: var(--colorMainLight);
                     }
                   }
                 }
-              }
-            }
 
-            &.tab_group,
-            &.tab_teachers {
-              .panel__userList {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(30rem, 40rem));
-                grid-template-rows: repeat(auto-fill, minmax(10rem, 1fr));
-
-                .userList__item {
+                .item__rightSide {
                   display: flex;
-                  align-items: center;
-                  gap: 1rem;
-                  background: var(--colorBgDark);
-                  border-radius: var(--bdrsWindow);
-                  padding: 1rem;
+                  flex-direction: column;
+                  gap: .5rem;
 
-                  .item__leftSide {
-                    @include clearedLink($fontSize: var(--fontSize4-5));
+                  .rightSide__name {
+                    @include clearedLink($fontSize: var(--fontSize2));
 
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    gap: .5rem;
-                    height: 100%;
-
-                    .leftSide__userImg {
-                      @include roundedImage($borderColor: var(--colorBg));
-
-                      width: 6rem;
-                      flex-shrink: 1;
-                    }
-
-                    .leftSide__roles {
-                      display: flex;
-                      flex-direction: column;
-                      align-items: center;
-                      flex-shrink: 0;
-
-                      .roles__item {
-                        color: var(--colorMainLight);
-                      }
-                    }
-                  }
-
-                  .item__rightSide {
-                    display: flex;
-                    flex-direction: column;
-                    gap: .5rem;
-
-                    .rightSide__name {
-                      @include clearedLink($fontSize: var(--fontSize2));
-
-                      color: var(--colorMain);
-                      font-weight: bold;
-                    }
+                    color: var(--colorMain);
+                    font-weight: bold;
                   }
                 }
               }
             }
+          }
 
-            &.tab_settings {
-              .panel__password {
-                display: flex;
-                gap: 1rem;
+          .tab_settings {
+            .panel__password {
+              display: flex;
+              gap: 1rem;
 
-                .password__input {
-                  @include input($background: var(--colorBgDark));
+              .password__input {
+                @include input($background: var(--colorBgDark));
 
-                  flex-grow: 1;
-                }
+                flex-grow: 1;
               }
+            }
 
-              .panel__contacts {
-                display: flex;
-                gap: 1rem;
+            .panel__contacts {
+              display: flex;
+              gap: 1rem;
 
-                .contacts__input {
-                  @include input($background: var(--colorBgDark));
+              .contacts__input {
+                @include input($background: var(--colorBgDark));
 
-                  flex-grow: 1;
-                }
+                flex-grow: 1;
               }
             }
           }

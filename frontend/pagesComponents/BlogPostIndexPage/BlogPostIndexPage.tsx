@@ -49,7 +49,6 @@ function BlogPostIndexPage({faceTitle, facePicture, filters}: Page_page_BlogPost
   
   const debouncedSearch = React.useCallback(debounce((searchQuery: string) => {
     setPage(1)
-    console.log('searchQuery', searchQuery)
     refetch({
       page: 1,
       searchQuery: searchQuery,

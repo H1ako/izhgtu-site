@@ -5,6 +5,7 @@ import {
   Settings_settings_MainUrlsSettings
 } from "../../graphql/generated";
 import {FC, SetStateAction} from "react";
+import {NavTabLayoutProps} from "../TabNav/TabNav";
 
 export interface ProfileProps {
   className?: string
@@ -33,21 +34,8 @@ export interface ProfileBodyRightSideProps {
   setTabsData: React.Dispatch<React.SetStateAction<TabsData>>
 }
 
-export interface ProfileBodyContentProps {
-  currentTabId: number,
+export interface NavTabProps extends NavTabLayoutProps {
   user: AuthUser_authUser | null,
-  setTabsData: React.Dispatch<React.SetStateAction<TabsData>>
-}
-
-export interface NavTabLayoutProps {
-  children: React.ReactNode,
-  className?: string,
-  isActive: boolean,
-}
-
-export interface NavTabProps {
-  user: AuthUser_authUser | null,
-  isActive: boolean,
   setTabsData: React.Dispatch<React.SetStateAction<TabsData>>
 }
 
@@ -116,17 +104,6 @@ export interface SettingsAuthContact {
 export interface SettingsPassword {
   name: string,
   value: string,
-}
-
-export interface NavTab {
-  id: number,
-  title: string,
-  component: FC<NavTabProps>
-}
-
-export interface ActiveTabWidthAndLeft {
-  width: number,
-  left: number
 }
 
 export interface InfoTabContactsContact {

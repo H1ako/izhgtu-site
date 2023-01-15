@@ -1,0 +1,75 @@
+@import "../../styles/main/mixins";
+
+.tabNav {
+  &__nav {
+    --highlighterWidth: 0;
+    --highlighterLeft: 0;
+
+    position: sticky;
+    background: var(--colorBgDark);
+    overflow-x: auto;
+    padding-inline: var(--paddingInlineMain);
+    z-index: 1;
+    top: 0;
+    left: 0;
+    transition: var(--transitionDefault);
+
+
+    &.nav_headerActive {
+      top: var(--heightHeader);
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-bottom: 1px solid var(--colorText);
+      z-index: -1;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      border-bottom: 2px solid var(--colorMain);
+      height: 100%;
+      width: var(--highlighterWidth);
+      top: 0;
+      left: var(--highlighterLeft);
+      z-index: 0;
+      pointer-events: none;
+      user-select: none;
+      transition: var(--transitionDefault);
+    }
+
+    .nav__list {
+      display: flex;
+      align-items: center;
+
+      .list__item {
+        .item__btn {
+          @include clearedBtn;
+
+          background: none;
+          text-transform: uppercase;
+          padding: 1.5rem 1rem;
+          position: sticky;
+          top: var(--heightHeader);
+        }
+      }
+    }
+  }
+  &__content {
+    padding-block: 1rem;
+
+    .content__tab {
+      display: none;
+      flex-direction: column;
+      gap: 2rem;
+      position: relative;
+
+      &.tab_active {
+        display: flex;
+      }
+    }
+  }
+}

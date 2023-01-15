@@ -1,12 +1,14 @@
-import graphene
 from django import forms
 from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import gettext_lazy as _
+import graphene
 from grapple.helpers import register_query_field
 from grapple.models import GraphQLBoolean, GraphQLString, GraphQLCollection, GraphQLForeignKey, GraphQLInt
-from wagtail.admin.panels import FieldPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from wagtail.models import Page
+from wagtail_headless_preview.models import HeadlessMixin
 
 from authentication.managers import CustomUserManager
 from izhgtuSite.models import TimeStampedModel
@@ -137,3 +139,39 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
         verbose_name = _("User")
         verbose_name_plural = _("Users")
 
+
+class LoginPage(HeadlessMixin, Page):
+    max_count = 1
+    parent_page_types = [
+        'home.HomePage',
+    ]
+    subpage_types = []
+
+    is_gos_uslugi_enabled = models.BooleanField(
+        _("Enable GosUslugi Login"), default=True
+    )
+    is_password_enabled = models.BooleanField(
+        _("Enable Password Login"), default=True
+    )
+    is_email_code_enabled = models.BooleanField(
+        _("Enable Email Code Login"), default=True
+    )
+    is_phone_code_enabled = models.BooleanField(
+        _("Enable Phone Code Login"), default=True
+    )
+
+    content_panels = Page.content_panels + [
+        MultiFieldPanel([
+            FieldPanel("is_gos_uslugi_enabled"),
+            FieldPanel("is_password_enabled"),
+            FieldPanel("is_email_code_enabled"),
+            FieldPanel("is_phone_code_enabled"),
+        ], heading="Login Methods"),
+    ]
+
+    graphql_fields = [
+        GraphQLBoolean('is_gos_uslugi_enabled', required=True),
+        GraphQLBoolean('is_password_enabled', required=True),
+        GraphQLBoolean('is_email_code_enabled', required=True),
+        GraphQLBoolean('is_phone_code_enabled', required=True),
+    ]

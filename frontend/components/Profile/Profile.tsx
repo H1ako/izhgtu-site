@@ -22,17 +22,13 @@ import {
   AuthUser_authUser_student_group_teachers_teacher, Settings_settings_MainUrlsSettings
 } from "../../graphql/generated";
 import {
-  ActiveTabWidthAndLeft,
   InfoTabAboutPanelProps,
   InfoTabContactsContact,
   InfoTabContactsContactProps,
   InfoTabContactsPanelProps,
   InfoTabMainInfoPanelProps,
-  NavTab,
-  NavTabLayoutProps,
   NavTabProps,
   ProfileAchievementProps,
-  ProfileBodyContentProps,
   ProfileBodyLeftSideProps,
   ProfileBodyProps,
   ProfileBodyRightSideProps,
@@ -45,6 +41,7 @@ import {
   TabsData,
   ToggleButtonProps
 } from './types';
+import {NavTab, NavTabLayout, TabNav, TabNavContent} from "../TabNav/TabNav";
 
 const NAV_TABS: NavTab[] = [
   {id: 0, title: 'Информация', component: ProfileInfoTab},
@@ -170,79 +167,24 @@ function ProfileBodyLeftSide({user, tabsData}: ProfileBodyLeftSideProps) {
 
 function ProfileBodyRightSide({user, setTabsData}: ProfileBodyRightSideProps) {
   const [ currentTabId, setCurrentTabId ] = React.useState<number>(0)
-  const tabNav = React.useRef<HTMLDivElement>(null)
-  
-  const getActiveTabWidthAndLeft = (): ActiveTabWidthAndLeft => {
-    const activeTab = document.querySelector(`.${styles.nav__list} .item_active`)
-    if (!activeTab || !tabNav.current) return {
-      width: 0,
-      left: 0
-    }
-    
-    const left = (activeTab as HTMLDivElement).offsetLeft
-    // we don't use offsetWidth because it's not working with initial width because of scrollbar
-    const { width } = activeTab.getBoundingClientRect()
-    
-    return { width, left }
-  }
-  
-  const setPropertyToTabNav = (property: string, value: string) => {
-    if (!tabNav.current) return
-    
-    tabNav.current.style.setProperty(property, value)
-  }
-  
-  React.useEffect(() => {
-    const { width, left } = getActiveTabWidthAndLeft()
-    
-    setPropertyToTabNav('--highlighterWidth', `${width}px`)
-    setPropertyToTabNav('--highlighterLeft', `${left}px`)
-  }, [currentTabId])
   
   return (
     <div className={styles.profileBody__rightSide}>
-      <nav ref={tabNav} className={styles.rightSide__nav}>
-        <ul className={styles.nav__list}>
-          {NAV_TABS.map(tab => (
-            <li
-              key={tab.id}
-              className={`${styles.list__item} ${tab.id === currentTabId ? 'item_active' : ''}`}
-            >
-              <button className={styles.item__btn} onClick={() => setCurrentTabId(tab.id)}>
-                {tab.title}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </nav>
-      <ProfileBodyContent
-        user={user}
+      <TabNav
+        navTabs={NAV_TABS}
         currentTabId={currentTabId}
-        setTabsData={setTabsData}
+        setCurrentTabId={setCurrentTabId}
       />
-    </div>
-  )
-}
-
-function ProfileBodyContent({currentTabId, user, setTabsData}: ProfileBodyContentProps) {
-  return (
-    <div className={styles.rightSide__content}>
-      { NAV_TABS.map(tab => (
-        React.createElement(tab.component, {
-          key: tab.id,
+      <TabNavContent
+        navTabs={NAV_TABS}
+        currentTabId={currentTabId}
+        className={styles.rightSide__content}
+        tabProps={{
           user,
-          isActive: tab.id === currentTabId,
-          setTabsData
-        })
-      ))}
-    </div>
-  )
-}
-
-function NavTabLayout({isActive, children, className=''}: NavTabLayoutProps) {
-  return (
-    <div className={`${styles.content__tab} ${isActive ? styles.tab_active : ''} ${className}`}>
-      {children}
+          setTabsData,
+          className: styles.content__tab,
+        }}
+      />
     </div>
   )
 }
@@ -469,7 +411,6 @@ function ProfileAchievementsTab({user, isActive, setTabsData}: NavTabProps) {
   return (
     <NavTabLayout className={styles.tab_achievements} isActive={isActive}>
       <div className={styles.tab__panel}>
-        <button onClick={() => console.log(getCheckedAchievements())}>Получить</button>
         <ul ref={achievementListRef} className={styles.panel__achievementList}>
           { achievements.map(achievement => (
             <ProfileAchievement

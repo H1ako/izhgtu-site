@@ -14,8 +14,19 @@ export interface Page_page_Page {
   pageType: string | null;
 }
 
+export interface Page_page_LoginPage {
+  __typename: "LoginPage";
+  id: string | null;
+  url: string | null;
+  pageType: string | null;
+  isPasswordEnabled: boolean;
+  isGosUslugiEnabled: boolean;
+  isEmailCodeEnabled: boolean;
+  isPhoneCodeEnabled: boolean;
+}
+
 export interface Page_page_HomePage_lastNews_post {
-  __typename: "Page" | "HomePage" | "BlogPostIndexPage" | "BlogPostPage";
+  __typename: "Page" | "LoginPage" | "HomePage" | "BlogPostIndexPage" | "BlogPostPage";
   url: string | null;
 }
 
@@ -175,7 +186,7 @@ export interface Page_page_BlogPostIndexPage {
   filters: Page_page_BlogPostIndexPage_filters[];
 }
 
-export type Page_page = Page_page_Page | Page_page_HomePage | Page_page_BlogPostPage | Page_page_BlogPostIndexPage;
+export type Page_page = Page_page_Page | Page_page_LoginPage | Page_page_HomePage | Page_page_BlogPostPage | Page_page_BlogPostIndexPage;
 
 export interface Page {
   page: Page_page | null;
@@ -275,17 +286,17 @@ export interface Settings_settings_MainContentSettings_logo {
 }
 
 export interface Settings_settings_MainContentSettings_header_menu_linksGroups_page {
-  __typename: "Page" | "HomePage" | "BlogPostIndexPage" | "BlogPostPage";
+  __typename: "Page" | "LoginPage" | "HomePage" | "BlogPostIndexPage" | "BlogPostPage";
   url: string | null;
 }
 
 export interface Settings_settings_MainContentSettings_header_menu_linksGroups_linksGroups_page {
-  __typename: "Page" | "HomePage" | "BlogPostIndexPage" | "BlogPostPage";
+  __typename: "Page" | "LoginPage" | "HomePage" | "BlogPostIndexPage" | "BlogPostPage";
   url: string | null;
 }
 
 export interface Settings_settings_MainContentSettings_header_menu_linksGroups_linksGroups_linksGroups_page {
-  __typename: "Page" | "HomePage" | "BlogPostIndexPage" | "BlogPostPage";
+  __typename: "Page" | "LoginPage" | "HomePage" | "BlogPostIndexPage" | "BlogPostPage";
   url: string | null;
 }
 
@@ -393,7 +404,7 @@ export interface Settings_settings_MainContentSettings_footer_menu_FooterMenuLin
 }
 
 export interface Settings_settings_MainContentSettings_footer_menu_FooterMenuLinkPage_page {
-  __typename: "Page" | "HomePage" | "BlogPostIndexPage" | "BlogPostPage";
+  __typename: "Page" | "LoginPage" | "HomePage" | "BlogPostIndexPage" | "BlogPostPage";
   url: string | null;
 }
 
