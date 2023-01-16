@@ -25,7 +25,7 @@ user_params = {
 }
 
 
-class LoginMethodType(graphene.ObjectType):
+class SignMethodType(graphene.ObjectType):
     name = graphene.String(required=True)
     label = graphene.String(required=True)
     enabled = graphene.Boolean(required=True)
@@ -34,7 +34,8 @@ class LoginMethodType(graphene.ObjectType):
         interfaces = (graphene.relay.Node, )
 
 
-LoginMethodListType = graphene.List(graphene.NonNull(LoginMethodType))
+SignMethodListType = graphene.List(graphene.NonNull(SignMethodType))
+
 
 
 @register_query_field("user", 'users', plural_item_required=True, query_params=user_params)
@@ -173,7 +174,7 @@ class LoginPage(HeadlessMixin, Page):
     )
 
     @property
-    def login_methods(self):
+    def sign_in_methods(self):
         methods = (
             {
                 "name": "loginAndPassword",
@@ -199,9 +200,32 @@ class LoginPage(HeadlessMixin, Page):
 
         return [method for method in methods if method["enabled"]]
 
+    @property
+    def sign_up_methods(self):
+        methods = (
+            {
+                "name": "phoneCode",
+                "label": "Добавить номер телефона",
+                "enabled": self.is_phone_code_enabled,
+            },
+            {
+                "name": "gosUslugi",
+                "label": "Через Госуслуги",
+                "enabled": self.is_gos_uslugi_enabled,
+            },
+            {
+                "name": "vkontakte",
+                "label": "Через ВКонтакте",
+                "enabled": self.is_vkontakte_enabled,
+            },
+        )
+
+        return [method for method in methods if method["enabled"]]
+
     content_panels = Page.content_panels + [
         MultiFieldPanel([
             FieldPanel("is_gos_uslugi_enabled"),
+            FieldPanel("is_vkontakte_enabled"),
             FieldPanel("is_password_enabled"),
             FieldPanel("is_phone_code_enabled"),
         ], heading="Login Methods"),
@@ -211,5 +235,7 @@ class LoginPage(HeadlessMixin, Page):
         GraphQLBoolean('is_gos_uslugi_enabled', required=True),
         GraphQLBoolean('is_password_enabled', required=True),
         GraphQLBoolean('is_phone_code_enabled', required=True),
-        GraphQLField('login_methods', LoginMethodListType, required=True),
+        GraphQLBoolean('is_vkontakte_enabled', required=True),
+        GraphQLField('sign_in_methods', SignMethodListType, required=True),
+        GraphQLField('sign_up_methods', SignMethodListType, required=True),
     ]

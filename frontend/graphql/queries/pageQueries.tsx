@@ -11,6 +11,19 @@ query Page($url: String!) {
       isPasswordEnabled
       isGosUslugiEnabled
       isPhoneCodeEnabled
+      isVkontakteEnabled
+      signInMethods {
+        id
+        name
+        label
+        enabled
+      }
+      signUpMethods {
+        id
+        name
+        label
+        enabled
+      }
     }
     ... on HomePage {
       lastNews {
