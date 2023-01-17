@@ -16,6 +16,7 @@ urlpatterns = [
     path("api-authentication/", include("rest_framework.urls")),
     path('api/auth/', include('authentication.urls')),
     path("", include("drfpasswordless.urls")),
+    path('', include('social_django.urls')),
     # wagtail cms
     path(r"api/", include(grapple_urls)),
     path("api/v2/", apiRouter.urls),

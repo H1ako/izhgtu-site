@@ -13,16 +13,16 @@ query Page($url: String!) {
       isPhoneCodeEnabled
       isVkontakteEnabled
       signInMethods {
-        id
         name
         label
         enabled
+        url
       }
-      signUpMethods {
-        id
+      signUpSocialMethods {
         name
         label
         enabled
+        url
       }
     }
     ... on HomePage {

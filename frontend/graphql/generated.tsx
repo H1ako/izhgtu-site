@@ -16,24 +16,18 @@ export interface Page_page_Page {
 
 export interface Page_page_LoginPage_signInMethods {
   __typename: "SignMethodType";
-  /**
-   * The ID of the object.
-   */
-  id: string;
   name: string;
   label: string;
   enabled: boolean;
+  url: string | null;
 }
 
-export interface Page_page_LoginPage_signUpMethods {
+export interface Page_page_LoginPage_signUpSocialMethods {
   __typename: "SignMethodType";
-  /**
-   * The ID of the object.
-   */
-  id: string;
   name: string;
   label: string;
   enabled: boolean;
+  url: string | null;
 }
 
 export interface Page_page_LoginPage {
@@ -46,7 +40,7 @@ export interface Page_page_LoginPage {
   isPhoneCodeEnabled: boolean;
   isVkontakteEnabled: boolean;
   signInMethods: Page_page_LoginPage_signInMethods[];
-  signUpMethods: Page_page_LoginPage_signUpMethods[];
+  signUpSocialMethods: Page_page_LoginPage_signUpSocialMethods[];
 }
 
 export interface Page_page_HomePage_lastNews_post {

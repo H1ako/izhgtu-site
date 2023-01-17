@@ -7,17 +7,15 @@ import styles from './LoginPage.module.scss';
 // types
 import {
   Page_page_LoginPage,
-  Page_page_LoginPage_signInMethods,
-  Page_page_LoginPage_signUpMethods
+  Page_page_LoginPage_signInMethods, Page_page_LoginPage_signUpSocialMethods,
 } from "../../graphql/generated";
 import {NavTab, NavTabLayout, NavTabLayoutProps, TabNav, TabNavContent} from "../../components/TabNav/TabNav";
 
-
-type SignMethodsType = Page_page_LoginPage_signInMethods[] | Page_page_LoginPage_signUpMethods[]
+type SignMethodsType = Page_page_LoginPage_signInMethods[] | Page_page_LoginPage_signUpSocialMethods[]
 
 interface NavTabProps extends NavTabLayoutProps {
   signInMethods: Page_page_LoginPage_signInMethods[],
-  signUpMethods: Page_page_LoginPage_signUpMethods[],
+  signUpMethods: Page_page_LoginPage_signUpSocialMethods[],
 }
 
 interface TabBodyProps {
@@ -49,14 +47,7 @@ const SIGN_IN_METHODS_COMPONENTS = {
   'vkontakte': VkontakteSignIn
 }
 
-const SIGN_UP_METHODS_COMPONENTS = {
-  'loginAndPassword': PasswordSignUp,
-  'gosUslugi': GosuslugiSignUp,
-  'phoneCode': PhoneSignUp,
-  'vkontakte': VkontakteSignUp
-}
-
-function LoginPage({signInMethods, signUpMethods}: Page_page_LoginPage) {
+function LoginPage({signInMethods, signUpSocialMethods}: Page_page_LoginPage) {
   const [ currentTabId, setCurrentTabId ] = React.useState<number>(0)
   
   return (
@@ -74,14 +65,14 @@ function LoginPage({signInMethods, signUpMethods}: Page_page_LoginPage) {
         className={styles.content}
         tabProps={{
           signInMethods,
-          signUpMethods
+          signUpMethods: signUpSocialMethods
         }}
       />
     </PageLayout>
   )
 }
 
-function SignInTab({isActive, signUpMethods, signInMethods}: NavTabProps) {
+function SignInTab({isActive, signInMethods}: NavTabProps) {
   return (
     <NavTabLayout className={`${styles.content__tab} ${styles.tab_signIn}`} isActive={isActive}>
       <SignInTabBody methods={signInMethods} />
@@ -152,7 +143,7 @@ function VkontakteSignIn() {
   )
 }
 
-function SignUpTab({isActive, signUpMethods, signInMethods}: NavTabProps) {
+function SignUpTab({isActive, signUpMethods}: NavTabProps) {
   return (
     <NavTabLayout className={`${styles.content__tab} ${styles.tab_signUp}`} isActive={isActive}>
       <SignUpTabBody methods={signUpMethods} />
@@ -161,64 +152,28 @@ function SignUpTab({isActive, signUpMethods, signInMethods}: NavTabProps) {
 }
 
 function SignUpTabBody({methods}: TabBodyProps) {
-  const [ chosenSignUpMethod, setChosenSignUpMethod ] = React.useState<string | null>(null)
+  const [ chosenSignUpSocial, setChosenSignUpSocial ] = React.useState<string | null>(null)
   
-  if (chosenSignUpMethod === null) {
-    return (
-      <SignUpMethodChooser methods={methods} setMethod={setChosenSignUpMethod} />
-    )
-  }
-  
-  // @ts-ignore
-  const Component = SIGN_UP_METHODS_COMPONENTS[chosenSignUpMethod]
-  
-  return <Component />
+  return (
+    <div className={styles.tab__body}>
+      
+      <SignUpSocialMethods methods={methods} setMethod={setChosenSignUpSocial} />
+    </div>
+  )
 }
 
-function SignUpMethodChooser({methods, setMethod}: MethodChooserProps) {
+function SignUpSocialMethods({methods, setMethod}: MethodChooserProps) {
   return (
     <div className={styles.tab__body}>
       <ul className={styles.body__methodChooser}>
         {methods.map(method => (
           <li key={method.name} className={styles.methodChooser__item}>
             <button onClick={() => setMethod(method.name)} className={styles.item__button}>
-              {method.label}
+              Через {method.label}
             </button>
           </li>
         ))}
       </ul>
-    </div>
-  )
-}
-
-function VkontakteSignUp() {
-  return (
-    <div className={styles.tab__body}>
-      vk sign up
-    </div>
-  )
-}
-
-function PasswordSignUp() {
-  return (
-    <div className={styles.tab__body}>
-      password sign up
-    </div>
-  )
-}
-
-function GosuslugiSignUp() {
-  return (
-    <div className={styles.tab__body}>
-      gosuslugi sign up
-    </div>
-  )
-}
-
-function PhoneSignUp() {
-  return (
-    <div className={styles.tab__body}>
-      phone sign up
     </div>
   )
 }

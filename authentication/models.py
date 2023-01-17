@@ -2,6 +2,7 @@ from django import forms
 from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 import graphene
 from grapple.helpers import register_query_field
@@ -29,13 +30,13 @@ class SignMethodType(graphene.ObjectType):
     name = graphene.String(required=True)
     label = graphene.String(required=True)
     enabled = graphene.Boolean(required=True)
+    url = graphene.String()
 
     class Meta:
         interfaces = (graphene.relay.Node, )
 
 
 SignMethodListType = graphene.List(graphene.NonNull(SignMethodType))
-
 
 
 @register_query_field("user", 'users', plural_item_required=True, query_params=user_params)
@@ -201,22 +202,19 @@ class LoginPage(HeadlessMixin, Page):
         return [method for method in methods if method["enabled"]]
 
     @property
-    def sign_up_methods(self):
+    def sign_up_social_methods(self):
         methods = (
             {
-                "name": "phoneCode",
-                "label": "Добавить номер телефона",
-                "enabled": self.is_phone_code_enabled,
-            },
-            {
                 "name": "gosUslugi",
-                "label": "Через Госуслуги",
+                "label": "Госуслуги",
                 "enabled": self.is_gos_uslugi_enabled,
+                "url": "/gosuslugi/signup/",
             },
             {
                 "name": "vkontakte",
-                "label": "Через ВКонтакте",
+                "label": "ВКонтакте",
                 "enabled": self.is_vkontakte_enabled,
+                "url": reverse("social:begin", args=["vk-oauth2"]),
             },
         )
 
@@ -237,5 +235,5 @@ class LoginPage(HeadlessMixin, Page):
         GraphQLBoolean('is_phone_code_enabled', required=True),
         GraphQLBoolean('is_vkontakte_enabled', required=True),
         GraphQLField('sign_in_methods', SignMethodListType, required=True),
-        GraphQLField('sign_up_methods', SignMethodListType, required=True),
+        GraphQLField('sign_up_social_methods', SignMethodListType, required=True),
     ]

@@ -24,6 +24,7 @@ ALLOWED_HOSTS = [
     "izhgtu.herokuapp.com",
 ]
 
+# rest framework
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://127.0.0.1:8000',
@@ -44,7 +45,16 @@ CORS_ALLOW_CREDENTIALS = True
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
 
+# social auth
+# VKontakte
+SOCIAL_AUTH_VK_OAUTH2_KEY = "51527667"
+SOCIAL_AUTH_VK_OAUTH2_SECRET = "2yX2kQDCsoDzsP0UOCsP"
+SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
+
+LOGIN_REDIRECT_URL = '/'
+
 AUTHENTICATION_BACKENDS = (
+    'social_core.backends.vk.VKOAuth2',
     "authentication.backends.StudentCardIdOrEmailBackend",
     "django.contrib.auth.backends.ModelBackend",  # fallback to default authentication backend if first fails
 )
@@ -97,7 +107,7 @@ REST_FRAMEWORK = {
 
 # passwordless authentication
 PASSWORDLESS_AUTH = {
-    "PASSWORDLESS_AUTH_TYPES": ["EMAIL"],  # 'MOBILE'
+    "PASSWORDLESS_AUTH_TYPES": ["MOBILE"],  # 'MOBILE'
     "PASSWORDLESS_EMAIL_NOREPLY_ADDRESS": "noreply@istu.com",
     # 'PASSWORDLESS_MOBILE_NOREPLY_NUMBER': '+79123456789'
     # 'PASSWORDLESS_EMAIL_TOKEN_HTML_TEMPLATE_NAME': "mytemplate.html"
@@ -147,6 +157,7 @@ INSTALLED_APPS = [
     "wagtailsvg",
     # libraries
     "drfpasswordless",
+    'social_django',
     "annoying",
     # apps
     "core",
