@@ -1,4 +1,5 @@
 from django import forms
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
@@ -203,18 +204,20 @@ class LoginPage(HeadlessMixin, Page):
 
     @property
     def sign_up_social_methods(self):
+        base_url = settings.BASE_URL
+
         methods = (
             {
                 "name": "gosUslugi",
                 "label": "Госуслуги",
                 "enabled": self.is_gos_uslugi_enabled,
-                "url": "/gosuslugi/signup/",
+                "url": f"{base_url}/gosuslugi/signup/",
             },
             {
                 "name": "vkontakte",
                 "label": "ВКонтакте",
                 "enabled": self.is_vkontakte_enabled,
-                "url": reverse("social:begin", args=["vk-oauth2"]),
+                "url": f"{reverse('social:begin', args=['vk-oauth2'])}",
             },
         )
 

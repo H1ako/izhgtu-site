@@ -10,6 +10,7 @@ import {
   Page_page_LoginPage_signInMethods, Page_page_LoginPage_signUpSocialMethods,
 } from "../../graphql/generated";
 import {NavTab, NavTabLayout, NavTabLayoutProps, TabNav, TabNavContent} from "../../components/TabNav/TabNav";
+import Link from "next/link";
 
 type SignMethodsType = Page_page_LoginPage_signInMethods[] | Page_page_LoginPage_signUpSocialMethods[]
 
@@ -168,9 +169,9 @@ function SignUpSocialMethods({methods, setMethod}: MethodChooserProps) {
       <ul className={styles.body__methodChooser}>
         {methods.map(method => (
           <li key={method.name} className={styles.methodChooser__item}>
-            <button onClick={() => setMethod(method.name)} className={styles.item__button}>
+            <Link href={`${method.url}` ?? ''} className={styles.item__button}>
               Через {method.label}
-            </button>
+            </Link>
           </li>
         ))}
       </ul>

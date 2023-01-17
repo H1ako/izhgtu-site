@@ -73,16 +73,18 @@ function Profile({className=''}: ProfileProps) {
 }
 
 function ToggleButton({user, toggle}: ToggleButtonProps) {
-  return (
-    <button className={`${styles.profile__toggle} ${styles.toggle_authed}`} onClick={toggle}>
-      { user ?
+  if (user) {
+    return (
+      <button className={`${styles.profile__toggle} ${styles.toggle_authed}`} onClick={toggle}>
         <img className={styles.toggle__userPicture} src={user.pictureUrl ?? ''} alt={user.fullName}/>
-        :
-        <>
-          Войти в личный кабинет
-        </>
-      }
-    </button>
+      </button>
+    )
+  }
+  
+  return (
+    <Link href={'/login'} className={`${styles.profile__toggle} ${styles.toggle_authed}`}>
+        Войти в личный кабинет
+    </Link>
   )
 }
 

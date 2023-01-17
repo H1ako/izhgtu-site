@@ -1,5 +1,6 @@
 from django.contrib.auth import logout, authenticate, login
 from django.http import HttpResponseRedirect, JsonResponse
+from django.shortcuts import redirect
 
 from authentication.models import User
 
@@ -35,3 +36,28 @@ def loginAuth(request):
     }
 
     return JsonResponse(user, safe=False)
+
+
+def getUser(request):
+    user = request.user
+    print(user)
+
+    if user.is_authenticated:
+        user = {
+            "id": user.id,
+            "email": user.email,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "is_active": user.is_active,
+            "is_student": user.is_student,
+            "is_teacher": user.is_teacher,
+            "is_entrant": user.is_entrant,
+            "is_superuser": user.is_superuser,
+            "is_staff": user.is_staff
+        }
+
+        return redirect('http://localhost:3000/login')
+        return JsonResponse(user, safe=False)
+
+    return redirect('http://localhost:3000/login')
+    # return JsonResponse({'status': 'not authenticated'}, safe=False)
