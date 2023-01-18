@@ -76,7 +76,7 @@ function ToggleButton({user, toggle}: ToggleButtonProps) {
   if (user) {
     return (
       <button className={`${styles.profile__toggle} ${styles.toggle_authed}`} onClick={toggle}>
-        <img className={styles.toggle__userPicture} src={user.pictureUrl ?? ''} alt={user.fullName}/>
+        <img className={styles.toggle__userPicture} src={user?.profile?.pictureUrl ?? ''} alt={user?.profile?.fullName}/>
       </button>
     )
   }
@@ -91,10 +91,10 @@ function ToggleButton({user, toggle}: ToggleButtonProps) {
 function ProfileHeader({user}: ProfileHeaderProps) {
   return (
     <div className={styles.content__profileHeader}>
-      <img src={user?.bgPictureUrl ?? ''} alt="" className={styles.profileHeader__bgPicture}/>
+      <img src={user?.profile?.bgPictureUrl ?? ''} alt="" className={styles.profileHeader__bgPicture}/>
       <div className={styles.profileHeader__mainUserInfo}>
         <div className={styles.mainUserInfo__wrapper}>
-          <h1 className={styles.wrapper__name}>{user?.fullName}</h1>
+          <h1 className={styles.wrapper__name}>{user?.profile?.fullName}</h1>
           { user?.student?.group &&
             <>
               <h2 className={styles.wrapper__specialization}>{user.student.group.specialization?.name}</h2>
@@ -152,7 +152,7 @@ function ProfileBodyLeftSide({user, tabsData}: ProfileBodyLeftSideProps) {
   
   return (
     <div className={styles.profileBody__leftSide}>
-      <img className={styles.leftSide__userPicture} src={user?.pictureUrl ?? ''} alt='' />
+      <img className={styles.leftSide__userPicture} src={user?.profile?.pictureUrl ?? ''} alt='' />
       <h4 className={styles.leftSide__userEmail}>{user?.email}</h4>
       <Link href={user?.profileUrl ?? '#'} className={styles.leftSide__btn}>
         Профиль
@@ -470,8 +470,8 @@ function ProfileGroupTab({user, isActive}: NavTabProps) {
             <ProfileUserCard
               key={student.id}
               profileUrl={student.user.profileUrl}
-              name={student.user.fullName}
-              picture={student.user.pictureUrl}
+              name={student.user.profile.fullName}
+              picture={student.user.profile.pictureUrl}
               email={student.user.email}
               phone={student.user.phone}
             />
@@ -498,8 +498,8 @@ function ProfileTeachersTab({user, isActive}: NavTabProps) {
           { groupTeachers.map(groupTeacher => (
             <ProfileUserCard
               key={groupTeacher.id}
-              name={groupTeacher.teacher.user.fullName}
-              picture={groupTeacher.teacher.user.pictureUrl}
+              name={groupTeacher.teacher.user.profile.fullName}
+              picture={groupTeacher.teacher.user.profile.pictureUrl}
               email={groupTeacher.teacher.user.email}
               phone={groupTeacher.teacher.user.phone}
               profileUrl={groupTeacher.teacher.user.profileUrl}

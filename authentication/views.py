@@ -12,21 +12,21 @@ def back(request):
 def logout_and_back(request):
     logout(request)
 
-    return JsonResponse({'status': 'ok'})
+    return back(request)
 
 
 def loginAuth(request):
-    user = User.objects.get(last_name="Соболев")
+    user = User.objects.get(profile__last_name="Соболев")
     user = authenticate(request, username=user.email, password="25256789")
     login(request, user)
-    user = request.user
+    user: User = request.user
 
     # fix Object of type User is not JSON serializable
-    user = {
+    userData = {
         "id": user.id,
         "email": user.email,
-        "first_name": user.first_name,
-        "last_name": user.last_name,
+        "first_name": user.profile.first_name,
+        "last_name": user.profile.last_name,
         "is_active": user.is_active,
         "is_student": user.is_student,
         "is_teacher": user.is_teacher,
@@ -35,19 +35,18 @@ def loginAuth(request):
         "is_staff": user.is_staff
     }
 
-    return JsonResponse(user, safe=False)
+    return JsonResponse(userData, safe=False)
 
 
 def getUser(request):
-    user = request.user
-    print(user)
+    user: User = request.user
 
     if user.is_authenticated:
-        user = {
+        userData = {
             "id": user.id,
             "email": user.email,
-            "first_name": user.first_name,
-            "last_name": user.last_name,
+            "first_name": user.profile.first_name,
+            "last_name": user.profile.last_name,
             "is_active": user.is_active,
             "is_student": user.is_student,
             "is_teacher": user.is_teacher,
@@ -56,8 +55,6 @@ def getUser(request):
             "is_staff": user.is_staff
         }
 
-        return redirect('http://localhost:3000/login')
-        return JsonResponse(user, safe=False)
+        return JsonResponse(userData, safe=False)
 
-    return redirect('http://localhost:3000/login')
-    # return JsonResponse({'status': 'not authenticated'}, safe=False)
+    return JsonResponse({'status': 'not authenticated'}, safe=False)

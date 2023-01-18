@@ -43,9 +43,7 @@ const NAV_TABS: NavTab[] = [
 
 const SIGN_IN_METHODS_COMPONENTS = {
   'loginAndPassword': PasswordSignIn,
-  'gosUslugi': GosuslugiSignIn,
   'phoneCode': PhoneSignIn,
-  'vkontakte': VkontakteSignIn
 }
 
 function LoginPage({signInMethods, signUpSocialMethods}: Page_page_LoginPage) {
@@ -92,6 +90,7 @@ function SignInTabBody({methods}: TabBodyProps) {
   
   // @ts-ignore
   const Component = SIGN_IN_METHODS_COMPONENTS[chosenSignInMethod]
+  if (!Component) return null
   
   return <Component />
 }
@@ -102,9 +101,15 @@ function SignInMethodChooser({methods, setMethod}: MethodChooserProps) {
       <ul className={styles.body__methodChooser}>
         {methods.map(method => (
           <li key={method.name} className={styles.methodChooser__item}>
-            <button onClick={() => setMethod(method.name)} className={styles.item__button}>
-              {method.label}
-            </button>
+            { method.url === null ?
+              <button onClick={() => setMethod(method.name)} className={styles.item__button}>
+                Через {method.label}
+              </button>
+              :
+              <Link href={method.url} className={styles.item__button}>
+                Через {method.label}
+              </Link>
+            }
           </li>
         ))}
       </ul>
@@ -120,26 +125,10 @@ function PasswordSignIn() {
   )
 }
 
-function GosuslugiSignIn() {
-  return (
-    <div className={styles.tab__body}>
-      gosuslugi sign in
-    </div>
-  )
-}
-
 function PhoneSignIn() {
   return (
     <div className={styles.tab__body}>
       phone sign in
-    </div>
-  )
-}
-
-function VkontakteSignIn() {
-  return (
-    <div className={styles.tab__body}>
-      vk sign in
     </div>
   )
 }
@@ -159,6 +148,14 @@ function SignUpTabBody({methods}: TabBodyProps) {
     <div className={styles.tab__body}>
       
       <SignUpSocialMethods methods={methods} setMethod={setChosenSignUpSocial} />
+    </div>
+  )
+}
+
+function SignUpForm() {
+  return (
+    <div className={styles.tab__body}>
+      sign up form
     </div>
   )
 }

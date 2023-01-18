@@ -28,7 +28,7 @@ function BlogPostPage({postBody, postAuthor, postCategory, postTags, postPicture
         <div className={styles.bottomBlock__content}>
           <div className={styles.content__inlineWrapper}>
             { postAuthor &&
-              <UserMiniCard userName={postAuthor.fullName} userPicture={postAuthor.pictureUrl}/>
+              <UserMiniCard userName={postAuthor.profile.fullName} userPicture={postAuthor.profile.pictureUrl}/>
             }
             <div className={styles.inlineWrapper__btns}>
               <button className={styles.btns__btn}>

@@ -21,11 +21,33 @@ from svg.models import SvgTyped
 class Profile(models.Model):
     user = AutoOneToOneField(User, verbose_name=_('User'), on_delete=models.CASCADE, related_name='profile',
                              primary_key=True)
+    first_name = models.CharField(_("Name"), max_length=40)
+    last_name = models.CharField(_("Surname"), max_length=80)
+    patronymic = models.CharField(_("Patronymic"), max_length=80)
+    picture = models.ImageField(
+        _("Profile Picture"), upload_to="userPictures/", blank=True, null=True
+    )
+    bg_picture = models.ImageField(
+        _("Profile Background Picture"),
+        upload_to="userBgPictures/",
+        blank=True,
+        null=True,
+    )
+    tags = models.ManyToManyField(
+        "users.UserTag", verbose_name=_("Tags"), related_name="usersProfiles"
+    )
     about_me = models.TextField(_('About me'), blank=True, null=True)
+
+    REQUIRED_FIELDS = ["first_name", "last_name", "patronymic"]
 
     panels = [
         FieldPanel('user'),
         FieldPanel('about_me'),
+        FieldPanel("first_name"),
+        FieldPanel("last_name"),
+        FieldPanel("picture"),
+        FieldPanel("bg_picture"),
+        FieldPanel("tags", widget=forms.CheckboxSelectMultiple),
     ]
 
     graphql_fields = [
@@ -46,7 +68,46 @@ class Profile(models.Model):
             item_required=True,
             required=True
         ),
+        GraphQLString('first_name', required=True),
+        GraphQLString('last_name', required=True),
+        GraphQLString('patronymic', required=True),
+        GraphQLString('full_name', required=True),
+        GraphQLString('main_name', required=True),
+        GraphQLString('picture'),
+        GraphQLString('bg_picture'),
+        GraphQLString('picture_url'),
+        GraphQLString('bg_picture_url'),
+        GraphQLCollection(
+            GraphQLForeignKey,
+            'tags',
+            'users.UserTag',
+            required=True,
+            is_queryset=True,
+            item_required=True
+        ),
     ]
+
+    @property
+    def main_name(self):
+        return f"{self.last_name} {self.first_name}"
+
+    @property
+    def full_name(self):
+        return f"{self.main_name} {self.patronymic}"
+
+    @property
+    def picture_url(self):
+        if self.picture:
+            return self.picture.url
+
+        return None
+
+    @property
+    def bg_picture_url(self):
+        if self.bg_picture:
+            return self.bg_picture.url
+
+        return None
 
     def __str__(self):
         return self.user.full_name

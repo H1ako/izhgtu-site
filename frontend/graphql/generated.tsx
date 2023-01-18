@@ -142,11 +142,17 @@ export interface Page_page_BlogPostPage_postPicture {
   url: string;
 }
 
+export interface Page_page_BlogPostPage_postAuthor_profile {
+  __typename: "Profile";
+  fullName: string;
+  pictureUrl: string | null;
+}
+
 export interface Page_page_BlogPostPage_postAuthor {
   __typename: "User";
   id: number;
-  fullName: string;
-  pictureUrl: string | null;
+  profileUrl: string;
+  profile: Page_page_BlogPostPage_postAuthor_profile;
 }
 
 export interface Page_page_BlogPostPage_postTags {
@@ -469,6 +475,13 @@ export interface Settings {
 // GraphQL query operation: AuthUser
 // ====================================================
 
+export interface AuthUser_authUser_profile_tags {
+  __typename: "UserTag";
+  id: string | null;
+  name: string;
+  description: any | null;
+}
+
 export interface AuthUser_authUser_profile_achievements_achievement_icon {
   __typename: "SvgTyped";
   url: string;
@@ -500,6 +513,10 @@ export interface AuthUser_authUser_profile_contacts {
 
 export interface AuthUser_authUser_profile {
   __typename: "Profile";
+  tags: AuthUser_authUser_profile_tags[];
+  fullName: string;
+  pictureUrl: string | null;
+  bgPictureUrl: string | null;
   aboutMe: string | null;
   achievements: AuthUser_authUser_profile_achievements[];
   contacts: AuthUser_authUser_profile_contacts[];
@@ -516,11 +533,16 @@ export interface AuthUser_authUser_student_group_teachers_subjects {
   name: string;
 }
 
-export interface AuthUser_authUser_student_group_teachers_teacher_user {
-  __typename: "User";
+export interface AuthUser_authUser_student_group_teachers_teacher_user_profile {
+  __typename: "Profile";
   fullName: string;
   pictureUrl: string | null;
+}
+
+export interface AuthUser_authUser_student_group_teachers_teacher_user {
+  __typename: "User";
   profileUrl: string;
+  profile: AuthUser_authUser_student_group_teachers_teacher_user_profile;
   email: string;
   phone: string | null;
 }
@@ -544,11 +566,16 @@ export interface AuthUser_authUser_student_group_teachers {
   teacher: AuthUser_authUser_student_group_teachers_teacher;
 }
 
-export interface AuthUser_authUser_student_group_students_user {
-  __typename: "User";
+export interface AuthUser_authUser_student_group_students_user_profile {
+  __typename: "Profile";
   fullName: string;
   pictureUrl: string | null;
+}
+
+export interface AuthUser_authUser_student_group_students_user {
+  __typename: "User";
   profileUrl: string;
+  profile: AuthUser_authUser_student_group_students_user_profile;
   email: string;
   phone: string | null;
 }
@@ -581,9 +608,16 @@ export interface AuthUser_authUser_student_group_specialization {
   faculty: AuthUser_authUser_student_group_specialization_faculty | null;
 }
 
+export interface AuthUser_authUser_student_group_leader_profile {
+  __typename: "Profile";
+  fullName: string;
+  pictureUrl: string | null;
+}
+
 export interface AuthUser_authUser_student_group_leader {
   __typename: "User";
-  fullName: string;
+  profileUrl: string;
+  profile: AuthUser_authUser_student_group_leader_profile;
   isTeacher: boolean;
 }
 
@@ -641,30 +675,19 @@ export interface AuthUser_authUser_entrant {
   id: string | null;
 }
 
-export interface AuthUser_authUser_tags {
-  __typename: "UserTag";
-  id: string | null;
-  name: string;
-  description: any | null;
-}
-
 export interface AuthUser_authUser {
   __typename: "UserType";
   id: string;
-  fullName: string;
   email: string;
   phone: string | null;
   isEntrant: boolean;
   isStudent: boolean;
   isTeacher: boolean;
-  pictureUrl: string | null;
-  bgPictureUrl: string | null;
   profileUrl: string;
   profile: AuthUser_authUser_profile | null;
   student: AuthUser_authUser_student | null;
   teacher: AuthUser_authUser_teacher | null;
   entrant: AuthUser_authUser_entrant | null;
-  tags: AuthUser_authUser_tags[];
 }
 
 export interface AuthUser {

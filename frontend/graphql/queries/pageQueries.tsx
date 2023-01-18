@@ -86,8 +86,11 @@ query Page($url: String!) {
       }
       postAuthor {
         id
-        fullName
-        pictureUrl
+        profileUrl
+        profile {
+          fullName
+          pictureUrl
+        }
       }
       postTags {
         id

@@ -5,16 +5,21 @@ export const AUTH_USER_GETTER_QUERY = gql`
   query AuthUser {
     authUser {
       id
-      fullName
       email
       phone
       isEntrant
       isStudent
       isTeacher
-      pictureUrl
-      bgPictureUrl
       profileUrl
       profile {
+        tags {
+          id
+          name
+          description
+        }
+        fullName
+        pictureUrl
+        bgPictureUrl
         aboutMe
         achievements {
           id
@@ -53,9 +58,11 @@ export const AUTH_USER_GETTER_QUERY = gql`
             }
             teacher {
               user {
-                fullName
-                pictureUrl
                 profileUrl
+                profile {
+                  fullName
+                  pictureUrl
+                }
                 email
                 phone
               }
@@ -68,9 +75,11 @@ export const AUTH_USER_GETTER_QUERY = gql`
           students {
             id
             user {
-              fullName
-              pictureUrl
               profileUrl
+              profile {
+                fullName
+                pictureUrl
+              }
               email
               phone
             }
@@ -88,7 +97,11 @@ export const AUTH_USER_GETTER_QUERY = gql`
             }
           }
           leader {
-            fullName
+            profileUrl
+            profile {
+              fullName
+              pictureUrl
+            }
             isTeacher
           }
           subjects {
@@ -111,11 +124,6 @@ export const AUTH_USER_GETTER_QUERY = gql`
       }
       entrant {
         id
-      }
-      tags {
-        id
-        name
-        description
       }
     }
   }
