@@ -9,11 +9,23 @@
 
     position: relative;
     height: 90%;
+    display: flex;
+    align-items: center;
 
     .toggle__userPicture {
       @include roundedImage(var(--colorBgDark));
 
       height: min(100%, 3.5rem);
+      background-color: transparent;
+
+      &::before {
+        position: absolute !important;
+        translate: -50% -50%;
+        left: 50%;
+        top: 50%;
+        color: var(--colorMainLight);
+        font-size: var(--fontSize2);
+      }
     }
   }
 
@@ -32,14 +44,6 @@
       display: flex;
       align-items: flex-end;
 
-      &::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: var(--colorBgDarkTransparentLight);
-        z-index: 0;
-      }
-
       .profileHeader__bgPicture {
         @include image;
 
@@ -47,6 +51,21 @@
         height: 100%;
         width: 100%;
         z-index: -1;
+        background: var(--colorGradientMain);
+
+        &::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: var(--colorBgDarkTransparentLight);
+          z-index: 0;
+          user-select: none;
+          pointer-events: none;
+        }
+
+        .bgPicture__content {
+          justify-content: flex-start;
+        }
       }
 
       .profileHeader__mainUserInfo {
@@ -56,12 +75,12 @@
         width: 100%;
         background: var(--colorBgDarkTransparent);
         backdrop-filter: blur(10px);
-
         display: grid;
         grid-auto-columns: $contentGridColumns;
         grid-template-areas: $contentGridLayout;
         grid-auto-rows: auto;
         align-content: flex-end;
+        pointer-events: none;
 
         .mainUserInfo__wrapper {
           grid-area: R;
@@ -101,9 +120,19 @@
         gap: .5rem;
 
         .leftSide__userPicture {
-          @include roundedImage($borderColor: var(--colorBgDark));
-
+          border-radius: 50%;
+          aspect-ratio: 1;
           width: $userPictureSize;
+          background: var(--colorGradientMain);
+
+          .userPicture__content {
+            border-radius: 50%;
+          }
+
+          .userPicture__image {
+            border: 2px solid var(--colorBgDark);
+            border-radius: 50%;
+          }
         }
 
         .leftSide__userEmail {

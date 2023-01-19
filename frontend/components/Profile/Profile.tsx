@@ -42,6 +42,7 @@ import {
   ToggleButtonProps
 } from './types';
 import {NavTab, NavTabLayout, TabNav, TabNavContent} from "../TabNav/TabNav";
+import PictureUpload from "../PictureUpload/PictureUpload";
 
 const NAV_TABS: NavTab[] = [
   {id: 0, title: 'Информация', component: ProfileInfoTab},
@@ -76,7 +77,7 @@ function ToggleButton({user, toggle}: ToggleButtonProps) {
   if (user) {
     return (
       <button className={`${styles.profile__toggle} ${styles.toggle_authed}`} onClick={toggle}>
-        <img className={styles.toggle__userPicture} src={user?.profile?.pictureUrl ?? ''} alt={user?.profile?.fullName}/>
+        <img className={styles.toggle__userPicture} src={user?.profile?.pictureUrl ?? ''} alt={'Профиль'}/>
       </button>
     )
   }
@@ -89,9 +90,18 @@ function ToggleButton({user, toggle}: ToggleButtonProps) {
 }
 
 function ProfileHeader({user}: ProfileHeaderProps) {
+  const [ uploadedPicture, setUploadedPicture ] = React.useState<File | null>(null)
+  
   return (
     <div className={styles.content__profileHeader}>
-      <img src={user?.profile?.bgPictureUrl ?? ''} alt="" className={styles.profileHeader__bgPicture}/>
+      <PictureUpload
+        className={styles.profileHeader__bgPicture}
+        contentClassName={styles.bgPicture__content}
+        defaultPictureUrl={user?.profile?.pictureUrl}
+        picture={uploadedPicture}
+        setPicture={setUploadedPicture}
+      />
+      {/*<img src={user?.profile?.bgPictureUrl ?? ''} alt="" className={styles.profileHeader__bgPicture}/>*/}
       <div className={styles.profileHeader__mainUserInfo}>
         <div className={styles.mainUserInfo__wrapper}>
           <h1 className={styles.wrapper__name}>{user?.profile?.fullName}</h1>
@@ -126,6 +136,7 @@ function ProfileBody({user}: ProfileBodyProps) {
 
 function ProfileBodyLeftSide({user, tabsData}: ProfileBodyLeftSideProps) {
   const { mainUrls } = useRecoilValue(settingsAtom)
+  const [ uploadedPicture, setUploadedPicture ] = React.useState<File | null>(null)
   
   const saveChanges = (): void => {
     if (!tabsData) return
@@ -152,7 +163,14 @@ function ProfileBodyLeftSide({user, tabsData}: ProfileBodyLeftSideProps) {
   
   return (
     <div className={styles.profileBody__leftSide}>
-      <img className={styles.leftSide__userPicture} src={user?.profile?.pictureUrl ?? ''} alt='' />
+      <PictureUpload
+        className={styles.leftSide__userPicture}
+        contentClassName={styles.userPicture__content}
+        imageClassName={styles.userPicture__image}
+        defaultPictureUrl={user?.profile?.pictureUrl}
+        picture={uploadedPicture}
+        setPicture={setUploadedPicture}
+      />
       <h4 className={styles.leftSide__userEmail}>{user?.email}</h4>
       <Link href={user?.profileUrl ?? '#'} className={styles.leftSide__btn}>
         Профиль

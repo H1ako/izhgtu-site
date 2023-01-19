@@ -91,6 +91,7 @@
   color: var(--colorText);
   font-size: $fontSize;
   transition: var(--transitionDefault);
+  text-transform: uppercase;
 }
 
 @mixin iconBtn($fontSize: var(--fontSize4)) {
