@@ -28,6 +28,15 @@ interface MethodChooserProps {
   setMethod: React.Dispatch<React.SetStateAction<string | null>>
 }
 
+interface SignInLayoutProps {
+  children: React.ReactNode,
+  setMethod: React.Dispatch<React.SetStateAction<string | null>>,
+}
+
+interface SignInMethodProps {
+  setMethod: React.Dispatch<React.SetStateAction<string | null>>,
+}
+
 const NAV_TABS: NavTab[] = [
   {
     id: 0,
@@ -92,7 +101,7 @@ function SignInTabBody({methods}: TabBodyProps) {
   const Component = SIGN_IN_METHODS_COMPONENTS[chosenSignInMethod]
   if (!Component) return null
   
-  return <Component />
+  return <Component setMethod={setChosenSignInMethod} />
 }
 
 function SignInMethodChooser({methods, setMethod}: MethodChooserProps) {
@@ -117,19 +126,30 @@ function SignInMethodChooser({methods, setMethod}: MethodChooserProps) {
   )
 }
 
-function PasswordSignIn() {
+function SignInLayout({children, setMethod}: SignInLayoutProps) {
+  const backToMethods = () => setMethod(null)
+  
   return (
     <div className={styles.tab__body}>
-      password sign in
+      {children}
+      <button className={styles.body__backToMethods} onClick={backToMethods}>Вернуться к методам входа</button>
     </div>
   )
 }
 
-function PhoneSignIn() {
+function PasswordSignIn({setMethod}: SignInMethodProps) {
   return (
-    <div className={styles.tab__body}>
+    <SignInLayout setMethod={setMethod}>
+      password sign in
+    </SignInLayout>
+  )
+}
+
+function PhoneSignIn({setMethod}: SignInMethodProps) {
+  return (
+    <SignInLayout setMethod={setMethod}>
       phone sign in
-    </div>
+    </SignInLayout>
   )
 }
 
@@ -146,7 +166,6 @@ function SignUpTabBody({methods}: TabBodyProps) {
   
   return (
     <div className={styles.tab__body}>
-      
       <SignUpSocialMethods methods={methods} setMethod={setChosenSignUpSocial} />
     </div>
   )

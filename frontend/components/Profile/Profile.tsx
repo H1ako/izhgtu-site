@@ -101,7 +101,6 @@ function ProfileHeader({user}: ProfileHeaderProps) {
         picture={uploadedPicture}
         setPicture={setUploadedPicture}
       />
-      {/*<img src={user?.profile?.bgPictureUrl ?? ''} alt="" className={styles.profileHeader__bgPicture}/>*/}
       <div className={styles.profileHeader__mainUserInfo}>
         <div className={styles.mainUserInfo__wrapper}>
           <h1 className={styles.wrapper__name}>{user?.profile?.fullName}</h1>
@@ -254,14 +253,28 @@ function InfoTabMainInfoPanel({user}: InfoTabMainInfoPanelProps) {
 }
 
 function InfoTabAboutPanel({about, setTabsData}: InfoTabAboutPanelProps) {
+  const aboutRef = React.useRef<HTMLTextAreaElement>(null)
+  
+  const getAbout = (): null | string => {
+    if (!aboutRef.current) return null
+    
+    return aboutRef.current.value
+  }
+  
+  React.useEffect(() => {
+    setTabsData?.(prev => ({
+      ...prev,
+      getAbout,
+    }))
+  }, [about])
   return (
     <div className={styles.tab__panel}>
       <h1 className={styles.panel__title}>
         Обо мне
       </h1>
-      <p className={styles.panel__text}>
+      <textarea ref={aboutRef} defaultValue={about ?? ''} className={styles.panel__text}>
         {about}
-      </p>
+      </textarea>
     </div>
   )
 }
@@ -338,13 +351,6 @@ function InfoTabContactsPanel({initialContacts, user, setTabsData}: InfoTabConta
     })
   }
   
-  const getAbout = (): string | null => {
-    const aboutElement = document.querySelector(`.${styles.tab_info} .${styles.panel__text}`)
-    if (!aboutElement) return ''
-    
-    return aboutElement.textContent
-  }
-  
   React.useLayoutEffect(() => {
     if (!initialContacts) return
     
@@ -356,7 +362,6 @@ function InfoTabContactsPanel({initialContacts, user, setTabsData}: InfoTabConta
       return {
         ...prevTabsData,
         getContacts: getContacts,
-        getAbout: getAbout
       }
     })
   }, [setTabsData])
@@ -534,7 +539,7 @@ function ProfileUserCard({name, email, phone, picture, profileUrl, roles}: Profi
   return (
     <li className={styles.userList__item}>
       <Link href={profileUrl} className={styles.item__leftSide}>
-        <img className={styles.leftSide__userImg} src={picture ?? ''} alt="user" />
+        <img className={styles.leftSide__userImg} src={picture ?? ''} alt="" />
         <ul className={styles.leftSide__roles}>
           { roles && roles.map(role => (
             <li className={styles.roles__item} key={`role-${role}`}>

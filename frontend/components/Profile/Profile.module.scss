@@ -158,6 +158,7 @@
 
         .rightSide__content {
           .tab__panel {
+            position: relative;
             background: var(--colorBg);
             padding: 1rem var(--paddingInlineMain);
             display: flex;
@@ -171,7 +172,12 @@
             }
 
             .panel__text {
-              font-size: var(--fontSize4);
+              @include clearedInput(var(--fontSize4));
+
+              width: 100%;
+              background: none;
+              resize: vertical;
+              max-height: 600px;
             }
           }
 
