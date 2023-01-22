@@ -1,13 +1,138 @@
 @import "../../styles/main/mixins";
 
 
-.nav {
 
-  &__list {
-    @include contentArea;
+
+.page {
+  position: relative;
+  background: var(--colorBgDark);
+
+  .nav {
+    &__list {
+      @include contentArea;
+    }
   }
-}
 
-.content {
-  @include contentArea;
+  .content {
+    @include contentArea;
+
+    flex-grow: 1;
+    position: relative;
+    display: grid;
+
+
+    .content__tab {
+      align-items: center;
+      justify-content: center;
+
+      .tab__body {
+        $widthMainContent: min(100%, 30rem);
+
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: .5rem;
+
+        .body__methodHeading {
+          color: var(--colorMain);
+          text-transform: uppercase;
+          text-align: center;
+        }
+
+        .body__infoHeading {
+          position: absolute;
+          top: 0;
+          color: var(--colorTextDark);
+          font-size: var(--fontSize3);
+          text-transform: uppercase;
+          text-align: center;
+        }
+
+        .body__error {
+          color: var(--colorAccent);
+          font-size: var(--fontSize3);
+          text-transform: uppercase;
+          text-align: center;
+        }
+
+        .body__btn,
+        .body__btnAccent,
+        .body__btnUnnoticeable {
+          width: $widthMainContent;
+
+          &.btn_marginTop {
+            margin-top: 2rem;
+          }
+        }
+
+        .body__btn {
+          @include btnMain(var(--fontSize4));
+        }
+
+        .body__btnAccent {
+          @include btnAccent(var(--fontSize4));
+        }
+
+        .body__btnUnnoticeable {
+          @include btn($fontSize: var(--fontSize4), $background: var(--colorBg));
+        }
+
+        .body__methodChooser {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          gap: .5rem;
+          width: $widthMainContent;
+
+          .methodChooser__item {
+            position: relative;
+
+            .item__button {
+              @include clearedLink;
+              @include btnMain(var(--fontSize3-4));
+
+              width: 100%;
+            }
+          }
+        }
+
+        .body__input {
+          @include input($background: var(--colorBg));
+
+          width: $widthMainContent;
+        }
+
+        .body__codeInput {
+          display: flex !important;
+          align-items: center;
+          gap: 1rem;
+
+          input {
+            @include clearedInput(var(--fontSize3));
+
+            border-radius: var(--bdrsBtn);
+            width: 3rem;
+            aspect-ratio: 1;
+            background: var(--colorBg);
+            color: var(--colorText);
+            text-align: center;
+
+            &:focus,
+            &:hover {
+              background: var(--colorMain);
+            }
+          }
+        }
+
+        .body__error {
+          text-transform: uppercase;
+          text-align: center;
+        }
+      }
+    }
+  }
 }

@@ -8,6 +8,7 @@
   border: none;
   color: var(--colorText);
   font-size: $fontSize;
+  transition: var(--transitionShort);
 
   &::placeholder {
     color: var(--colorTextDark);

@@ -1,5 +1,3 @@
-from django import forms
-from django.conf import settings
 from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
@@ -73,7 +71,7 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
 
     @property
     def info(self):
-        return f"{self.full_name} - {self.email}"
+        return f"{self.profile.full_name} - {self.email}"
 
     panels = [
         FieldPanel("email"),

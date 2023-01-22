@@ -11,6 +11,7 @@ import {
 } from "../../graphql/generated";
 import {NavTab, NavTabLayout, NavTabLayoutProps, TabNav, TabNavContent} from "../../components/TabNav/TabNav";
 import Link from "next/link";
+import ReactCodeInput from "react-code-input";
 
 type SignMethodsType = Page_page_LoginPage_signInMethods[] | Page_page_LoginPage_signUpSocialMethods[]
 
@@ -31,6 +32,7 @@ interface MethodChooserProps {
 interface SignInLayoutProps {
   children: React.ReactNode,
   setMethod: React.Dispatch<React.SetStateAction<string | null>>,
+  heading?: string,
 }
 
 interface SignInMethodProps {
@@ -126,29 +128,102 @@ function SignInMethodChooser({methods, setMethod}: MethodChooserProps) {
   )
 }
 
-function SignInLayout({children, setMethod}: SignInLayoutProps) {
+function SignInLayout({children, setMethod, heading}: SignInLayoutProps) {
   const backToMethods = () => setMethod(null)
   
   return (
     <div className={styles.tab__body}>
+      <h1 className={styles.body__methodHeading}>{heading}</h1>
       {children}
-      <button className={styles.body__backToMethods} onClick={backToMethods}>Вернуться к методам входа</button>
+      <button className={styles.body__btnUnnoticeable} onClick={backToMethods}>Вернуться к методам входа</button>
     </div>
   )
 }
 
 function PasswordSignIn({setMethod}: SignInMethodProps) {
+  const loginInputRef = React.useRef<HTMLInputElement>(null)
+  const passwordInputRef = React.useRef<HTMLInputElement>(null)
+  const [ error, setError ] = React.useState<string | null>(null)
+  
+  const signIn = () => {
+    return
+  }
+  
   return (
-    <SignInLayout setMethod={setMethod}>
-      password sign in
+    <SignInLayout
+      heading="Войти через логин и пароль"
+      setMethod={setMethod}
+    >
+      <input
+        className={styles.body__input}
+        type="text"
+        ref={loginInputRef}
+        placeholder="Номер телефона \ Почта \ Номер Студенческого"
+      />
+      <input
+        className={styles.body__input}
+        type="tel"
+        ref={passwordInputRef}
+        placeholder="Пароль"
+      />
+      { error &&
+        <p className={styles.body__error}>{error}</p>
+      }
+      <button onClick={signIn} className={`${styles.body__btn} ${styles.btn_marginTop}`}>Войти</button>
     </SignInLayout>
   )
 }
 
 function PhoneSignIn({setMethod}: SignInMethodProps) {
+  const [ codeSent, setCodeSent ] = React.useState<boolean>(false)
+  const [ error, setError ] = React.useState<string | null>(null)
+  const inputRef = React.useRef(null)
+  const phoneInputRef = React.useRef<HTMLInputElement>(null)
+  
+  const sendCode = () => {
+    if (!phoneInputRef.current) return
+    
+    setCodeSent(true)
+  }
+  
   return (
-    <SignInLayout setMethod={setMethod}>
-      phone sign in
+    <SignInLayout
+      heading="Войти через код из СМС"
+      setMethod={setMethod}
+    >
+      { codeSent ?
+        <>
+          <p className={styles.body__infoHeading}>
+            На ваш номер телефона был отправлен код подтверждения. Введите его в поле ниже.
+          </p>
+          <ReactCodeInput
+            className={styles.body__codeInput}
+            ref={inputRef}
+            forceUppercase
+            name='sms-code-field'
+            fields={6}
+            type='text'
+            inputMode="full-width-latin"
+          />
+          { error &&
+            <p className={styles.body__error}>{error}</p>
+          }
+          <button className={`${styles.body__btnAccent} ${styles.btn_marginTop}`}>Отправить повторно</button>
+        </>
+        :
+        <>
+          <input
+            className={styles.body__input}
+            type="tel"
+            ref={phoneInputRef}
+            placeholder="Номер телефона"
+          />
+          { error &&
+            <p className={styles.body__error}>{error}</p>
+          }
+          <button onClick={sendCode} className={`${styles.body__btn} ${styles.btn_marginTop}`}>Отправить код</button>
+        </>
+      }
     </SignInLayout>
   )
 }

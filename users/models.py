@@ -1,5 +1,7 @@
+import requests
 from annoying.fields import AutoOneToOneField
 from django import forms
+from django.core.files.base import ContentFile
 from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.utils.translation import gettext_lazy as _
@@ -21,9 +23,9 @@ from svg.models import SvgTyped
 class Profile(models.Model):
     user = AutoOneToOneField(User, verbose_name=_('User'), on_delete=models.CASCADE, related_name='profile',
                              primary_key=True)
-    first_name = models.CharField(_("Name"), max_length=40)
-    last_name = models.CharField(_("Surname"), max_length=80)
-    patronymic = models.CharField(_("Patronymic"), max_length=80)
+    first_name = models.CharField(_("Name"), max_length=40, null=True, blank=True)
+    last_name = models.CharField(_("Surname"), max_length=80, null=True, blank=True)
+    patronymic = models.CharField(_("Patronymic"), max_length=80, null=True, blank=True)
     picture = models.ImageField(
         _("Profile Picture"), upload_to="userPictures/", blank=True, null=True
     )
@@ -68,9 +70,9 @@ class Profile(models.Model):
             item_required=True,
             required=True
         ),
-        GraphQLString('first_name', required=True),
-        GraphQLString('last_name', required=True),
-        GraphQLString('patronymic', required=True),
+        GraphQLString('first_name'),
+        GraphQLString('last_name'),
+        GraphQLString('patronymic'),
         GraphQLString('full_name', required=True),
         GraphQLString('main_name', required=True),
         GraphQLString('picture'),
@@ -86,6 +88,13 @@ class Profile(models.Model):
             item_required=True
         ),
     ]
+
+    def update_picture_from_url(self, url):
+        response = requests.get(url, params={'type': 'large'})
+        name = f"{self.user.id}_picture.png"
+
+        if response.status_code == 200:
+            self.picture.save(name, ContentFile(response.content))
 
     @property
     def main_name(self):
@@ -110,7 +119,7 @@ class Profile(models.Model):
         return None
 
     def __str__(self):
-        return self.user.full_name
+        return self.full_name
 
     class Meta:
         verbose_name = _('Profile')
