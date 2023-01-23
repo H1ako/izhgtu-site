@@ -29,3 +29,13 @@ def get_avatar(strategy, details, backend, user=None, *args, **kwargs):
     return {
         'user': user,
     }
+
+
+def make_user_active(strategy, details, backend, user=None, *args, **kwargs):
+    if user and not user.is_active:
+        user.is_active = True
+        user.save()
+
+    return {
+        'user': user,
+    }

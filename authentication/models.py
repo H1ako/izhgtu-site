@@ -46,6 +46,7 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
     )
     is_staff = models.BooleanField(_("Is Staff"), default=False)
     is_active = models.BooleanField(_("Is Active"), default=False)
+    signed_up = models.BooleanField(_("Signed Up"), default=False)
     is_superuser = models.BooleanField(_("Is Super User"), default=False)
 
     USERNAME_FIELD = "email"

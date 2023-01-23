@@ -97,7 +97,7 @@ function ProfileHeader({user}: ProfileHeaderProps) {
       <PictureUpload
         className={styles.profileHeader__bgPicture}
         contentClassName={styles.bgPicture__content}
-        defaultPictureUrl={user?.profile?.pictureUrl}
+        defaultPictureUrl={user?.profile?.bgPictureUrl}
         picture={uploadedPicture}
         setPicture={setUploadedPicture}
       />
@@ -226,27 +226,27 @@ function InfoTabMainInfoPanel({user}: InfoTabMainInfoPanelProps) {
     <div className={styles.tab__panel}>
       <h4 className={styles.panel__item}>
         <span className={styles.item__label}>Группа:</span>
-        {user?.student?.group?.name}
+        {user?.student?.group?.name ?? '-'}
       </h4>
       <h4 className={styles.panel__item}>
         <span className={styles.item__label}>Курс:</span>
-        {user?.student?.group?.year}
+        {user?.student?.group?.year ?? '-'}
       </h4>
       <h4 className={styles.panel__item}>
         <span className={styles.item__label}>Специализация:</span>
-        {user?.student?.group?.specialization?.name}
+        {user?.student?.group?.specialization?.name ?? '-'}
       </h4>
       <h4 className={styles.panel__item}>
         <span className={styles.item__label}>Факультет:</span>
-        {user?.student?.group?.specialization?.faculty?.name}
+        {user?.student?.group?.specialization?.faculty?.name ?? '-'}
       </h4>
       <h4 className={styles.panel__item}>
         <span className={styles.item__label}>Квалицикация:</span>
-        {user?.student?.group?.specialization?.faculty?.educationType?.name}
+        {user?.student?.group?.specialization?.faculty?.educationType?.name ?? '-'}
       </h4>
       <h4 className={styles.panel__item}>
         <span className={styles.item__label}>Корпус Обучения:</span>
-        {user?.student?.learningBuilding}
+        {user?.student?.learningBuilding ?? '-'}
       </h4>
     </div>
   )
@@ -272,7 +272,7 @@ function InfoTabAboutPanel({about, setTabsData}: InfoTabAboutPanelProps) {
       <h1 className={styles.panel__title}>
         Обо мне
       </h1>
-      <textarea ref={aboutRef} defaultValue={about ?? ''} className={styles.panel__text}>
+      <textarea placeholder="Напишите что-нибудь о себе" ref={aboutRef} defaultValue={about ?? ''} className={styles.panel__text}>
         {about}
       </textarea>
     </div>
@@ -435,20 +435,22 @@ function ProfileAchievementsTab({user, isActive, setTabsData}: NavTabProps) {
     
   return (
     <NavTabLayout className={styles.tab_achievements} isActive={isActive}>
-      <div className={styles.tab__panel}>
-        <ul ref={achievementListRef} className={styles.panel__achievementList}>
-          { achievements.map(achievement => (
-            <ProfileAchievement
-              key={achievement.id}
-              id={achievement.id}
-              title={achievement.achievement.title}
-              description={achievement.achievement.shortDescription}
-              icon={achievement.achievement.icon?.fullUrl}
-              showInProfile={achievement.showInProfile}
-            />
-          ))}
-        </ul>
-      </div>
+      { achievements.length > 0 &&
+        <div className={styles.tab__panel}>
+          <ul ref={achievementListRef} className={styles.panel__achievementList}>
+            { achievements.map(achievement => (
+              <ProfileAchievement
+                key={achievement.id}
+                id={achievement.id}
+                title={achievement.achievement.title}
+                description={achievement.achievement.shortDescription}
+                icon={achievement.achievement.icon?.fullUrl}
+                showInProfile={achievement.showInProfile}
+              />
+            ))}
+          </ul>
+        </div>
+      }
     </NavTabLayout>
   )
 }
@@ -487,20 +489,22 @@ function ProfileGroupTab({user, isActive}: NavTabProps) {
   
   return (
     <NavTabLayout className={styles.tab_group} isActive={isActive}>
-      <div className={styles.tab__panel}>
-        <ul className={styles.panel__userList}>
-          { students.map(student => (
-            <ProfileUserCard
-              key={student.id}
-              profileUrl={student.user.profileUrl}
-              name={student.user.profile.fullName}
-              picture={student.user.profile.pictureUrl}
-              email={student.user.email}
-              phone={student.user.phone}
-            />
-          ))}
-        </ul>
-      </div>
+      { students.length > 0 &&
+        <div className={styles.tab__panel}>
+          <ul className={styles.panel__userList}>
+            { students.map(student => (
+              <ProfileUserCard
+                key={student.id}
+                profileUrl={student.user.profileUrl}
+                name={student.user.profile.fullName}
+                picture={student.user.profile.pictureUrl}
+                email={student.user.email}
+                phone={student.user.phone}
+              />
+            ))}
+          </ul>
+        </div>
+      }
     </NavTabLayout>
   )
 }
@@ -516,21 +520,23 @@ function ProfileTeachersTab({user, isActive}: NavTabProps) {
   
   return (
     <NavTabLayout className={styles.tab_teachers} isActive={isActive}>
-      <div className={styles.tab__panel}>
-        <ul className={styles.panel__userList}>
-          { groupTeachers.map(groupTeacher => (
-            <ProfileUserCard
-              key={groupTeacher.id}
-              name={groupTeacher.teacher.user.profile.fullName}
-              picture={groupTeacher.teacher.user.profile.pictureUrl}
-              email={groupTeacher.teacher.user.email}
-              phone={groupTeacher.teacher.user.phone}
-              profileUrl={groupTeacher.teacher.user.profileUrl}
-              roles={getRolesFromTeacherSubjects(groupTeacher) ?? null}
-            />
-          ))}
-        </ul>
-      </div>
+      { groupTeachers.length > 0 &&
+        <div className={styles.tab__panel}>
+          <ul className={styles.panel__userList}>
+            { groupTeachers.map(groupTeacher => (
+              <ProfileUserCard
+                key={groupTeacher.id}
+                name={groupTeacher.teacher.user.profile.fullName}
+                picture={groupTeacher.teacher.user.profile.pictureUrl}
+                email={groupTeacher.teacher.user.email}
+                phone={groupTeacher.teacher.user.phone}
+                profileUrl={groupTeacher.teacher.user.profileUrl}
+                roles={getRolesFromTeacherSubjects(groupTeacher) ?? null}
+              />
+            ))}
+          </ul>
+        </div>
+      }
     </NavTabLayout>
   )
 }

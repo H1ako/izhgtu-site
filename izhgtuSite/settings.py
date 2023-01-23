@@ -56,12 +56,11 @@ SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS = [
 
 SOCIAL_AUTH_USER_MODEL = 'authentication.User'
 SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
-
-# SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/api/auth/get-user/'
-SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/api/auth/new-user/'
-LOGIN_REDIRECT_URL = '/as'
-USE_X_FORWARDED_HOST = True
+LOGIN_REDIRECT_URL = '/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
+SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/login/new-user/'
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/api/login-error/'
+USE_X_FORWARDED_HOST = True
 CSRF_COOKIE_SAMESITE = None
 CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = False
@@ -91,6 +90,7 @@ SOCIAL_AUTH_PIPELINE = (
     'authentication.pipeline.get_avatar',
     'social_core.pipeline.social_auth.associate_user',
     'social_core.pipeline.social_auth.load_extra_data',
+    'authentication.pipeline.make_user_active',
 )
 
 AUTHENTICATION_BACKENDS = (
