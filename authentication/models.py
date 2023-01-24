@@ -111,7 +111,9 @@ class LoginPage(HeadlessMixin, Page):
     parent_page_types = [
         'home.HomePage',
     ]
-    subpage_types = []
+    subpage_types = [
+        'authentication.LoginNewUserPage',
+    ]
 
     is_password_enabled = models.BooleanField(
         _("Enable Password Login"), default=True
@@ -193,7 +195,21 @@ class LoginPage(HeadlessMixin, Page):
     ]
 
 
-def SignMethod(name: str, label: str, enabled: bool, url: str or None='urlByName') -> dict:  # noqa
+class LoginNewUserPage(HeadlessMixin, Page):
+    max_count = 1
+    parent_page_types = [
+        'authentication.LoginPage',
+    ]
+    subpage_types = []
+
+    content_panels = Page.content_panels + [
+    ]
+
+    graphql_fields = [
+    ]
+
+
+def SignMethod(name: str, label: str, enabled: bool, url: str | None='urlByName') -> dict:  # noqa
     return {
         "name": name,
         "label": label,

@@ -5,6 +5,7 @@ const LAZY_PAGES = {
   'BlogPostPage': dynamic(() => import('./BlogPostPage/BlogPostPage')),
   'BlogPostIndexPage': dynamic(() => import('./BlogPostIndexPage/BlogPostIndexPage')),
   'LoginPage': dynamic(() => import('./LoginPage/LoginPage')),
+  'LoginNewUserPage': dynamic(() => import('./LoginNewUserPage/LoginNewUserPage')),
 }
 
 export default LAZY_PAGES
