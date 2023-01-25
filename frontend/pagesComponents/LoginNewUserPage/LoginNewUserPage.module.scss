@@ -1,18 +1,137 @@
+@import "../../styles/main/mixins";
+
 .page {
   position: relative;
   background: var(--colorBgDark);
+  display: grid;
+  place-content: center;
 
-  &__body {
+  .body__steps {
+    $stepWindowWidth: min(100%, 35rem);
+    $stepWindowHeight: min(100%, 45rem);
+    position: absolute;
     width: 100%;
     height: 100%;
-    //display: grid;
-    //place-content: center;
 
-    .body__step {
+    :global(.slick-track) {
+      display: flex;
+      align-items: center;
+      left: calc(50% - $stepWindowWidth / 2);
+
+      :global(.slick-slide) {
+        position: relative;
+        width: $stepWindowWidth !important;
+        height: $stepWindowHeight !important;
+        transition: var(--transitionDefault);
+        opacity: 0;
+        user-select: none;
+        pointer-events: none;
+
+        &:global(.slick-active) {
+          opacity: 1;
+          user-select: all;
+          pointer-events: all;
+        }
+      }
+    }
+
+    .steps__step {
+      background: var(--colorBg);
+      width: $stepWindowWidth !important;
+      height: $stepWindowHeight !important;
+      padding: 1rem var(--paddingInlineMain);
+      border-radius: var(--bdrsWindow);
+      transition: var(--transitionDefault);
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: .5rem;
+
+      .step__content {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: .5rem;
+        width: 100%;
+      }
+
+      .step__title {
+        text-transform: uppercase;
+        text-align: center;
+        color: var(--colorMain);
+        text-align: center;
+      }
+
+      .step__btns {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+
+        .btns__btn {
+          @include btnMain;
+
+          width: 100%;
+
+          &:disabled {
+            pointer-events: none;
+            opacity: .5;
+          }
+        }
+      }
+
+      &.step_mainInfo {
+        gap: 1rem;
+
+        .step__input {
+          width: 100%;
+        }
+      }
+
+      &.step_phone {
+        .step__content {
+          justify-content: center;
+        }
+        
+        .step__phoneLogin {
+          width: 100%;
+
+          input {
+            background: var(--colorBgDark);
+          }
+        }
+      }
+
+      &.step_profile {
+        position: relative;
+
+        .step__content {
+          justify-content: center;
+        }
+
+        .step__avatar {
+          $width: min(100%, 20rem);
+
+          border-radius: 50%;
+          width: $width;
+          aspect-ratio: 1;
+
+          .avatar__image {
+            @include roundedImage($background: var(--colorBgDark), $borderColor: var(--colorBg));
+          }
+
+          .avatar__content {
+            border-radius: 50%;
+            aspect-ratio: 1;
+            height: auto;
+            opacity: 1;
+            user-select: all;
+            pointer-events: all;
+            background: var(--colorBgDarkTransparentLight);
+          }
+        }
+      }
     }
   }
 }

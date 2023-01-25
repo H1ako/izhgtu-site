@@ -55,11 +55,18 @@
   &__btn {
     @include btnMain();
 
-    margin-top: 2rem;
     width: 100%;
+
+    &:first-of-type {
+      margin-top: 1.25rem;
+    }
 
     &.btn_accent {
       @include btnAccent();
+    }
+
+    &.btn_dark {
+      @include btn($background: var(--colorBgAccentLight), $color: var(--colorText));
     }
   }
 }

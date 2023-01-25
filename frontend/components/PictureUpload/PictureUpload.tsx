@@ -11,10 +11,12 @@ interface PictureUploadProps {
   imageClassName?: string,
   defaultPictureUrl?: string | null,
   picture: File | null,
-  setPicture: React.Dispatch<React.SetStateAction<File | null>>
+  setPicture: React.Dispatch<React.SetStateAction<File | null>>,
+  title?: string,
 }
 
-function PictureUpload({setPicture, picture, defaultPictureUrl, className, contentClassName, imageClassName}: PictureUploadProps) {
+function PictureUpload(
+  {setPicture, picture, defaultPictureUrl, className, contentClassName, imageClassName, title}: PictureUploadProps) {
   const id = React.useId()
   const [ pictureUrl, setPictureUrl ] = React.useState<string | null>(null)
 
@@ -47,12 +49,15 @@ function PictureUpload({setPicture, picture, defaultPictureUrl, className, conte
           <FontAwesomeIcon icon={faDownload} className={styles.uploadBtn__icon}/>
           <span className={styles.uploadBtn__text}>Загрузить фото</span>
         </label>
-        { picture &&
+        { (picture || pictureUrl) &&
           <button onClick={removePicture} className={styles.innerContent__removeBtn}>Удалить</button>
         }
       </div>
       <input id={`uploadPicture-${id}`} type="file" onChange={handlePictureChange} className={styles.pictureUpload__input} />
       <img className={`${styles.pictureUpload__picture} ${imageClassName}`} src={pictureUrl ?? ''} alt={''} />
+      { title &&
+        <h2 className={styles.pictureUpload__title}>{title}</h2>
+      }
     </div>
   )
 }

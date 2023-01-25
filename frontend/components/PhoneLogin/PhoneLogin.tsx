@@ -44,6 +44,7 @@ function PhoneLogin({className, children, onSend, onCodeSubmit}: PhoneLoginProps
             <p className={styles.phoneLogin__error}>{error}</p>
           }
           <button onClick={sendCode} className={`${styles.phoneLogin__btn} ${styles.btn_accent}`}>Отправить повторно</button>
+          <button onClick={() => setCodeSent(false)} className={`${styles.phoneLogin__btn} ${styles.btn_dark}`}>Изменить номер телефона</button>
         </>
         :
         <>

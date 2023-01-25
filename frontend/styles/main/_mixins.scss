@@ -19,9 +19,10 @@
 @mixin input(
   $background: var(--colorBg),
   $bdrs: var(--bdrsWindow),
-  $padding: .75rem var(--paddingInlineMain)
+  $padding: .75rem var(--paddingInlineMain),
+  $fontSize: var(--fontSize4)
 ) {
-  @include clearedInput;
+  @include clearedInput($fontSize);
 
   background: $background;
   border-radius: $bdrs;
@@ -93,6 +94,7 @@
   font-size: $fontSize;
   transition: var(--transitionDefault);
   text-transform: uppercase;
+  text-align: center;
 }
 
 @mixin iconBtn($fontSize: var(--fontSize4)) {
@@ -147,13 +149,13 @@
   object-position: center;
 }
 
-@mixin roundedImage($borderColor: var(--colorText)) {
+@mixin roundedImage($borderColor: var(--colorText), $background: var(--colorText)) {
   @include image;
 
   border-radius: 50%;
   border: 2px solid $borderColor;
   aspect-ratio: 1;
-  background-color: var(--colorText);
+  background-color: $background;
 }
 
 @mixin separator($gap: 1rem, $color: var(--colorText), $vertical: false) {

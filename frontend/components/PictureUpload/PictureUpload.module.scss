@@ -3,7 +3,10 @@
 .pictureUpload {
   position: relative;
   z-index: 1;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .5rem;
 
   &:hover &__innerContent {
     opacity: 1;
@@ -24,7 +27,6 @@
     background: var(--colorBgDarkTransparent);
     border: 5px solid var(--colorMain);
     transition: var(--transitionDefault);
-
     opacity: 0;
     user-select: none;
     pointer-events: none;
@@ -38,7 +40,7 @@
       user-select: none;
 
       &:hover {
-        color: var(--colorMain);
+        color: var(--colorMainLight);
       }
     }
 
@@ -62,5 +64,11 @@
 
     width: 100%;
     height: 100%;
+  }
+
+  &__title {
+    color: var(--colorMain);
+    text-transform: uppercase;
+    text-align: center;
   }
 }
