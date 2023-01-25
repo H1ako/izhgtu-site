@@ -5,6 +5,8 @@ import {useRecoilValue} from "recoil";
 import {authUserAtom} from "../../recoilAtoms/authUserrAtom";
 // components
 import PageLayout from "../../containers/PageLayout/PageLayout";
+import PictureUpload from "../../components/PictureUpload/PictureUpload";
+import PhoneLogin from "../../components/PhoneLogin/PhoneLogin";
 // styles and icons
 import styles from './LoginNewUserPage.module.scss';
 // types
@@ -18,7 +20,7 @@ interface SettingsStepLayoutProps {
   nextStep: () => void,
   prevStep: () => void,
   canBeSkipped: boolean,
-  canGoNext: boolean,
+  canGoNext?: boolean,
   title?: string
 }
 
@@ -48,8 +50,14 @@ const SETTINGS_STEPS: SettingsStep[] = [
   },
   {
     id: 1,
+    title: 'Номер телефона',
+    canBeSkipped: true,
+    component: PhoneSettingsStep,
+  },
+  {
+    id: 2,
     title: 'Профиль',
-    canBeSkipped: false,
+    canBeSkipped: true,
     component: ProfileSettingsStep,
   },
 ]
@@ -101,22 +109,25 @@ function PageBody() {
   const stepTitle = currentStep.title
   
   return (
-    <SettingsStep
-      user={user}
-      isFirstStep={isFirstStep}
-      isLastStep={isLastStep}
-      nextStep={nextStep}
-      prevStep={prevStep}
-      canBeSkipped={canStepBeSkipped}
-      title={stepTitle}
-    />
+    <div className={styles.page__body}>
+      <SettingsStep
+        user={user}
+        isFirstStep={isFirstStep}
+        isLastStep={isLastStep}
+        nextStep={nextStep}
+        prevStep={prevStep}
+        canBeSkipped={canStepBeSkipped}
+        title={stepTitle}
+      />
+    </div>
   )
 }
 
 function SettingsStepLayout(
-  {isFirstStep, isLastStep, prevStep, nextStep, canGoNext, canBeSkipped, title, children, className=''}: SettingsStepLayoutProps) {
+  {isFirstStep, isLastStep, prevStep, nextStep, canGoNext=true, canBeSkipped, title, children, className=''}: SettingsStepLayoutProps) {
   return (
-    <div className={`${styles.pageBody__step} ${className}`}>
+    <div className={`${styles.body__step} ${className}`}>
+      <h1 className={styles.step__title}>{title}</h1>
       {children}
       <div className={styles.step__buttons}>
         <button
@@ -140,9 +151,25 @@ function SettingsStepLayout(
 
 function MainInfoSettingsStep(
   {user, isFirstStep, isLastStep, prevStep, nextStep, canBeSkipped, title}: SettingsStepProps) {
+  const [ canGoNext, setCanGoNext ] = React.useState<boolean>(false)
+  const firstNameRef = React.useRef<HTMLInputElement>(null)
+  const lastNameRef = React.useRef<HTMLInputElement>(null)
+  const patronymicRef = React.useRef<HTMLInputElement>(null)
+  const birthDateRef = React.useRef<HTMLInputElement>(null)
+  
   const getCanGoNext = (): boolean => {
-    return true
+    const firstNameInput = firstNameRef.current
+    const lastNameInput = lastNameRef.current
+    const patronymicInput = patronymicRef.current
+    const birthDateInput = birthDateRef.current
+    if (!firstNameInput || !lastNameInput || !patronymicInput || !birthDateInput) return false
+    
+    return !!firstNameInput.value && !!lastNameInput.value && !!patronymicInput.value && !!birthDateInput.value
   }
+  
+  React.useEffect(() => {
+    setCanGoNext(getCanGoNext())
+  }, [])
   
   return (
     <SettingsStepLayout
@@ -154,16 +181,74 @@ function MainInfoSettingsStep(
       canBeSkipped={canBeSkipped}
       title={title}
     >
-      main info page
+      <input
+        type="text"
+        placeholder="Имя"
+        defaultValue={user?.profile?.firstName ?? ''}
+        required
+        ref={firstNameRef}
+      />
+      <input
+        type="text"
+        placeholder="Фамилия"
+        required
+        defaultValue={user?.profile?.lastName ?? ''}
+        ref={lastNameRef}
+      />
+      <input
+        type="text"
+        placeholder="Отчество"
+        required
+        defaultValue={user?.profile?.patronymic ?? ''}
+        ref={patronymicRef}
+      />
+      <input
+        type="date"
+        placeholder="Дата рождения"
+        required
+        defaultValue={user?.profile?.birthDate ?? ''}
+        ref={birthDateRef}
+      />
+  
+    </SettingsStepLayout>
+  )
+}
+
+function PhoneSettingsStep(
+  {user, isFirstStep, isLastStep, prevStep, nextStep, canBeSkipped, title}: SettingsStepProps) {
+  const [ result, setResult ] = React.useState<null | any>(null)
+  
+  return (
+    <SettingsStepLayout
+      isFirstStep={isFirstStep}
+      isLastStep={isLastStep}
+      prevStep={prevStep}
+      nextStep={nextStep}
+      canBeSkipped={canBeSkipped}
+      title={title}
+    >
+      { result === null ?
+        <PhoneLogin />
+        :
+        result.status === 'success' ?
+          <>
+            Телефон успешно добавлен
+          </>
+        :
+          <>
+            Ошибка при добавлении телефона
+            <button onClick={() => setResult(null)} className={styles.step__btn}>Попробовать Ещё Раз</button>
+          </>
+      }
+      
     </SettingsStepLayout>
   )
 }
 
 function ProfileSettingsStep(
   {user, isFirstStep, isLastStep, prevStep, nextStep, canBeSkipped, title}: SettingsStepProps) {
-  const getCanGoNext = (): boolean => {
-    return true
-  }
+  const [ avatar, setAvatar ] = React.useState<File | null>(null)
+  const [ bgPicture, setBgPicture ] = React.useState<File | null>(null)
   
   return (
     <SettingsStepLayout
@@ -171,11 +256,22 @@ function ProfileSettingsStep(
       isLastStep={isLastStep}
       prevStep={prevStep}
       nextStep={nextStep}
-      canGoNext={getCanGoNext()}
       canBeSkipped={canBeSkipped}
       title={title}
+      className={styles.step__profile}
     >
-      profile page
+      <PictureUpload
+        className={styles.step__avatar}
+        picture={avatar}
+        setPicture={setAvatar}
+        defaultPictureUrl={user?.profile?.pictureUrl}
+      />
+      <PictureUpload
+        className={styles.step__bgPicture}
+        picture={bgPicture}
+        setPicture={setBgPicture}
+        defaultPictureUrl={user?.profile?.bgPictureUrl}
+      />
     </SettingsStepLayout>
   )
 }

@@ -17,6 +17,10 @@ export const AUTH_USER_GETTER_QUERY = gql`
           name
           description
         }
+        firstName
+        lastName
+        patronymic
+        birthDate
         fullName
         pictureUrl
         bgPictureUrl

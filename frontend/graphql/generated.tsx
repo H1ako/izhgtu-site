@@ -8,7 +8,7 @@
 // ====================================================
 
 export interface Page_page_Page {
-  __typename: "Page";
+  __typename: "Page" | "LoginNewUserPage";
   id: string | null;
   url: string | null;
   pageType: string | null;
@@ -44,7 +44,7 @@ export interface Page_page_LoginPage {
 }
 
 export interface Page_page_HomePage_lastNews_post {
-  __typename: "Page" | "LoginPage" | "HomePage" | "BlogPostIndexPage" | "BlogPostPage";
+  __typename: "Page" | "LoginPage" | "LoginNewUserPage" | "HomePage" | "BlogPostIndexPage" | "BlogPostPage";
   url: string | null;
 }
 
@@ -310,17 +310,17 @@ export interface Settings_settings_MainContentSettings_logo {
 }
 
 export interface Settings_settings_MainContentSettings_header_menu_linksGroups_page {
-  __typename: "Page" | "LoginPage" | "HomePage" | "BlogPostIndexPage" | "BlogPostPage";
+  __typename: "Page" | "LoginPage" | "LoginNewUserPage" | "HomePage" | "BlogPostIndexPage" | "BlogPostPage";
   url: string | null;
 }
 
 export interface Settings_settings_MainContentSettings_header_menu_linksGroups_linksGroups_page {
-  __typename: "Page" | "LoginPage" | "HomePage" | "BlogPostIndexPage" | "BlogPostPage";
+  __typename: "Page" | "LoginPage" | "LoginNewUserPage" | "HomePage" | "BlogPostIndexPage" | "BlogPostPage";
   url: string | null;
 }
 
 export interface Settings_settings_MainContentSettings_header_menu_linksGroups_linksGroups_linksGroups_page {
-  __typename: "Page" | "LoginPage" | "HomePage" | "BlogPostIndexPage" | "BlogPostPage";
+  __typename: "Page" | "LoginPage" | "LoginNewUserPage" | "HomePage" | "BlogPostIndexPage" | "BlogPostPage";
   url: string | null;
 }
 
@@ -428,7 +428,7 @@ export interface Settings_settings_MainContentSettings_footer_menu_FooterMenuLin
 }
 
 export interface Settings_settings_MainContentSettings_footer_menu_FooterMenuLinkPage_page {
-  __typename: "Page" | "LoginPage" | "HomePage" | "BlogPostIndexPage" | "BlogPostPage";
+  __typename: "Page" | "LoginPage" | "LoginNewUserPage" | "HomePage" | "BlogPostIndexPage" | "BlogPostPage";
   url: string | null;
 }
 
@@ -514,6 +514,10 @@ export interface AuthUser_authUser_profile_contacts {
 export interface AuthUser_authUser_profile {
   __typename: "Profile";
   tags: AuthUser_authUser_profile_tags[];
+  firstName: string | null;
+  lastName: string | null;
+  patronymic: string | null;
+  birthDate: string | null;
   fullName: string;
   pictureUrl: string | null;
   bgPictureUrl: string | null;

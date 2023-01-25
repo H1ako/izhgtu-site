@@ -12,6 +12,7 @@ import {
 import {NavTab, NavTabLayout, NavTabLayoutProps, TabNav, TabNavContent} from "../../components/TabNav/TabNav";
 import Link from "next/link";
 import ReactCodeInput from "react-code-input";
+import PhoneLogin from "../../components/PhoneLogin/PhoneLogin";
 
 type SignMethodsType = Page_page_LoginPage_signInMethods[] | Page_page_LoginPage_signUpSocialMethods[]
 
@@ -175,55 +176,15 @@ function PasswordSignIn({setMethod}: SignInMethodProps) {
 }
 
 function PhoneSignIn({setMethod}: SignInMethodProps) {
-  const [ codeSent, setCodeSent ] = React.useState<boolean>(false)
-  const [ error, setError ] = React.useState<string | null>(null)
-  const inputRef = React.useRef(null)
-  const phoneInputRef = React.useRef<HTMLInputElement>(null)
-  
-  const sendCode = () => {
-    if (!phoneInputRef.current) return
-    
-    setCodeSent(true)
-  }
-  
   return (
     <SignInLayout
       heading="Войти через код из СМС"
       setMethod={setMethod}
     >
-      { codeSent ?
-        <>
-          <p className={styles.body__infoHeading}>
-            На ваш номер телефона был отправлен код подтверждения. Введите его в поле ниже.
-          </p>
-          <ReactCodeInput
-            className={styles.body__codeInput}
-            ref={inputRef}
-            forceUppercase
-            name='sms-code-field'
-            fields={6}
-            type='text'
-            inputMode="full-width-latin"
-          />
-          { error &&
-            <p className={styles.body__error}>{error}</p>
-          }
-          <button className={`${styles.body__btnAccent} ${styles.btn_marginTop}`}>Отправить повторно</button>
-        </>
-        :
-        <>
-          <input
-            className={styles.body__input}
-            type="tel"
-            ref={phoneInputRef}
-            placeholder="Номер телефона"
-          />
-          { error &&
-            <p className={styles.body__error}>{error}</p>
-          }
-          <button onClick={sendCode} className={`${styles.body__btn} ${styles.btn_marginTop}`}>Отправить код</button>
-        </>
-      }
+      <PhoneLogin
+        className={styles.body__phoneSignIn}
+        // onCodeSubmit={signIn}
+      />
     </SignInLayout>
   )
 }

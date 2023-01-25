@@ -26,6 +26,7 @@ class Profile(models.Model):
     first_name = models.CharField(_("Name"), max_length=40, null=True, blank=True)
     last_name = models.CharField(_("Surname"), max_length=80, null=True, blank=True)
     patronymic = models.CharField(_("Patronymic"), max_length=80, null=True, blank=True)
+    birth_date = models.DateField(_("Birth Date"), null=True, blank=True)
     picture = models.ImageField(
         _("Profile Picture"), upload_to="userPictures/", blank=True, null=True
     )
@@ -47,6 +48,8 @@ class Profile(models.Model):
         FieldPanel('about_me'),
         FieldPanel("first_name"),
         FieldPanel("last_name"),
+        FieldPanel("patronymic"),
+        FieldPanel("birth_date"),
         FieldPanel("picture"),
         FieldPanel("bg_picture"),
         FieldPanel("tags", widget=forms.CheckboxSelectMultiple),
@@ -73,6 +76,7 @@ class Profile(models.Model):
         GraphQLString('first_name'),
         GraphQLString('last_name'),
         GraphQLString('patronymic'),
+        GraphQLString('birth_date'),
         GraphQLString('full_name', required=True),
         GraphQLString('main_name', required=True),
         GraphQLString('picture'),
