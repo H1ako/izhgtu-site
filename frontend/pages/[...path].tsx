@@ -24,14 +24,12 @@ import type {
   Settings_settings_MainContentSettings, Settings_settings_MainUrlsSettings
 } from "../graphql/generated";
 
-
 interface CurrentPageProps {
   componentName: string | null,
   componentProps: Page_page | null,
   settings: Settings_settings[] | null,
   authUser: AuthUser_authUser | null,
 }
-
 
 export default function CurrentPage({componentName, componentProps, settings, authUser}: CurrentPageProps) {
   const setSettings = useSetRecoilState(settingsAtom)
