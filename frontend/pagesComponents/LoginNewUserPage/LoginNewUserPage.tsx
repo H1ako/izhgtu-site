@@ -1,12 +1,12 @@
 // global
-import React from "react";
+import React, {useEffect} from "react";
 import Slider from "react-slick";
 import {useRecoilValue} from "recoil";
 // recoil
 import {authUserAtom} from "../../recoilAtoms/authUserrAtom";
 // components
 import PageLayout from "../../containers/PageLayout/PageLayout";
-import PictureUpload from "../../components/PictureUpload/PictureUpload";
+import PictureUpload, {UploadPictureType} from "../../components/PictureUpload/PictureUpload";
 import PhoneLogin from "../../components/PhoneLogin/PhoneLogin";
 import InputWithHeading from "../../components/InputWithHeading/InputWithHeading";
 // styles and icons
@@ -36,6 +36,7 @@ interface SettingsStepProps {
   user: AuthUser_authUser | null,
   canBeSkipped: boolean,
   title: string,
+  updateData: (data: any) => void,
 }
 
 interface StepsNavProps {
@@ -107,6 +108,14 @@ function StepsNav({step, setStep}: StepsNavProps) {
 function PageSteps({step, setStep}: PageStepsProps) {
   const user = useRecoilValue(authUserAtom)
   const [ sliderRef, setSliderRef ] = React.useState<Slider | null>(null)
+  const [ data, setData ] = React.useState<any>({})
+  
+  const updateData = (newData: any) => {
+    setData((prevData: any) => ({
+      ...prevData,
+      ...newData
+    }))
+  }
   
   const isLastStep = (): boolean => {
     return step === SETTINGS_STEPS.length - 1
@@ -114,6 +123,16 @@ function PageSteps({step, setStep}: PageStepsProps) {
   
   const isFirstStep = (): boolean => {
     return step === 0
+  }
+  
+  const goToNextStep = () => {
+    if (sliderRef) {
+      sliderRef.slickNext()
+    }
+    
+    if (!isLastStep()) return
+    
+    console.log('data', data)
   }
   
   return (
@@ -137,12 +156,14 @@ function PageSteps({step, setStep}: PageStepsProps) {
           user: user,
           isFirstStep: isFirstStep,
           isLastStep: isLastStep,
-          nextStep: sliderRef?.slickNext ?? undefined,
+          nextStep: goToNextStep,
           prevStep: sliderRef?.slickPrev ?? undefined,
           canBeSkipped: stepItem.canBeSkipped,
           title: stepItem.title,
+          updateData: updateData
         })
       ))}
+      <FinalSettingsStep />
     </Slider>
   )
 }
@@ -179,7 +200,7 @@ function SettingsStepLayout({
         <button
           className={styles.btns__btn}
           onClick={nextStep}
-          disabled={isLastStep() || (!canBeSkipped && !canGoNext)}
+          disabled={(!canBeSkipped && !canGoNext)}
         >
           {getNextBtnText()}
         </button>
@@ -189,28 +210,88 @@ function SettingsStepLayout({
 }
 
 function MainInfoSettingsStep(
-  {user, isFirstStep, isLastStep, prevStep, nextStep, canBeSkipped, title}: SettingsStepProps) {
+  {user, isFirstStep, isLastStep, prevStep, nextStep, canBeSkipped, title, updateData}: SettingsStepProps) {
   const [ canGoNext, setCanGoNext ] = React.useState<boolean>(false)
   const [ firstName, setFirstName ] = React.useState<string | null>(null)
   const [ lastName, setLastName ] = React.useState<string | null>(null)
   const [ patronymic, setPatronymic ] = React.useState<string | null>(null)
   const [ birthDate, setBirthDate ] = React.useState<string | null>(null)
   
+  const updateFirstName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value
+    
+    updateData({
+      firstName: newValue
+    })
+    
+    setFirstName(newValue)
+  }
+  
+  const updateLastName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value
+    
+    updateData({
+      lastName
+    })
+    
+    setLastName(newValue)
+  }
+  
+  const updatePatronymic = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value
+    
+    updateData({
+      patronymic
+    })
+    
+    setPatronymic(newValue)
+  }
+  
+  const updateBirthDate = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value
+    
+    updateData({
+      birthDate
+    })
+    
+    setBirthDate(newValue)
+  }
+  
+  const updateCanGoNext = () => {
+    setCanGoNext(getCanGoNext())
+  }
+  
   const getCanGoNext = (): boolean => {
     return !!firstName && !!lastName && !!patronymic && !!birthDate
   }
   
+  const updateDataFromUser = () => {
+    if (!user || !user.profile) return
+    
+    const firstName = user.profile.firstName
+    const lastName = user.profile.lastName
+    const patronymic = user.profile.patronymic
+    const birthDate = user.profile.birthDate
+    
+    setFirstName(firstName)
+    setLastName(lastName)
+    setPatronymic(patronymic)
+    setBirthDate(birthDate)
+    
+    updateData({
+      firstName,
+      lastName,
+      patronymic,
+      birthDate
+    })
+  }
+  
   React.useEffect(() => {
-    setCanGoNext(getCanGoNext())
+    updateCanGoNext()
   }, [firstName, lastName, patronymic, birthDate])
   
   React.useEffect(() => {
-    if (!user?.profile) return
-    
-    setFirstName(user.profile.firstName)
-    setLastName(user.profile.lastName)
-    setPatronymic(user.profile.patronymic)
-    setBirthDate(user.profile.birthDate)
+    updateDataFromUser()
   }, [user])
   
   return (
@@ -229,8 +310,8 @@ function MainInfoSettingsStep(
         heading="Имя"
         placeholder="Введите имя"
         required={true}
+        onChange={updateFirstName}
         value={firstName}
-        onChange={e => setFirstName(e.target.value)}
         type="text"
       />
       <InputWithHeading
@@ -238,8 +319,8 @@ function MainInfoSettingsStep(
         heading="Фамилия"
         placeholder="Введите фамилию"
         required={true}
+        onChange={updateLastName}
         value={lastName}
-        onChange={e => setLastName(e.target.value)}
         type="text"
       />
       <InputWithHeading
@@ -247,8 +328,8 @@ function MainInfoSettingsStep(
         heading="Отчество"
         placeholder="Введите отчество"
         required={true}
+        onChange={updatePatronymic}
         value={patronymic}
-        onChange={e => setPatronymic(e.target.value)}
         type="text"
       />
       <InputWithHeading
@@ -256,8 +337,8 @@ function MainInfoSettingsStep(
         heading="Дата рождения"
         placeholder="Введите дату рождения"
         required={true}
+        onChange={updateBirthDate}
         value={birthDate}
-        onChange={e => setBirthDate(e.target.value)}
         type="date"
       />
     </SettingsStepLayout>
@@ -265,7 +346,7 @@ function MainInfoSettingsStep(
 }
 
 function PhoneSettingsStep(
-  {user, isFirstStep, isLastStep, prevStep, nextStep, canBeSkipped, title}: SettingsStepProps) {
+  {user, isFirstStep, isLastStep, prevStep, nextStep, canBeSkipped, title, updateData}: SettingsStepProps) {
   const [ result, setResult ] = React.useState<null | any>(null)
   
   return (
@@ -299,9 +380,18 @@ function PhoneSettingsStep(
 }
 
 function ProfileSettingsStep(
-  {user, isFirstStep, isLastStep, prevStep, nextStep, canBeSkipped, title}: SettingsStepProps) {
-  const [ avatar, setAvatar ] = React.useState<File | null>(null)
-  const [ bgPicture, setBgPicture ] = React.useState<File | null>(null)
+  {user, isFirstStep, isLastStep, prevStep, nextStep, canBeSkipped, title, updateData}: SettingsStepProps) {
+  const [ avatar, setAvatar ] = React.useState<UploadPictureType>(null)
+  
+  const updateAvatar = () => {
+    updateData({
+      picture: avatar,
+    })
+  }
+  
+  React.useEffect(() => {
+    updateAvatar()
+  }, [avatar])
   
   return (
     <SettingsStepLayout
@@ -323,6 +413,15 @@ function ProfileSettingsStep(
         title="Аватарка"
       />
     </SettingsStepLayout>
+  )
+}
+
+function FinalSettingsStep() {
+  return (
+    <div className={`${styles.steps__step} ${styles.step_final}`}>
+      <h1 className={styles.step__done}>ВСЕ ГОТОВО</h1>
+      <h2 className={styles.step__redirecting}>ПЕРЕНАПРАВЛЯЕМ ТЕБЯ НА ГЛАВНУЮ СТРАНИЦУ</h2>
+    </div>
   )
 }
 

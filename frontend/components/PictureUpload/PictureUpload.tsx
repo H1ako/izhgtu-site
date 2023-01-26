@@ -10,10 +10,12 @@ interface PictureUploadProps {
   contentClassName?: string,
   imageClassName?: string,
   defaultPictureUrl?: string | null,
-  picture: File | null,
-  setPicture: React.Dispatch<React.SetStateAction<File | null>>,
+  picture: UploadPictureType,
+  setPicture: React.Dispatch<React.SetStateAction<UploadPictureType>>,
   title?: string,
 }
+
+export type UploadPictureType = File | null | 'DELETED'
 
 function PictureUpload(
   {setPicture, picture, defaultPictureUrl, className, contentClassName, imageClassName, title}: PictureUploadProps) {
@@ -32,7 +34,7 @@ function PictureUpload(
   }
   
   const removePicture = () => {
-    setPicture(null)
+    setPicture('DELETED')
     setPictureUrl(null)
   }
   

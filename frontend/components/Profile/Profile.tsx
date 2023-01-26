@@ -2,15 +2,16 @@
 import React from 'react'
 import Link from "next/link";
 import {useRecoilState, useRecoilValue} from "recoil";
+// recoil
+import {authUserAtom} from "../../recoilAtoms/authUserrAtom";
+import {settingsAtom} from "../../recoilAtoms/settingsAtom";
 // components
 import WindowWithHeaderLayout, {
   WindowWithHeaderLayoutExportedDataType
 } from "../../containers/WindowWithHeaderLayout/WindowWithHeaderLayout";
 import CheckboxWithText from "../CheckboxWithText/CheckboxWithText";
 import UrlSvg from "../UrlSvg/UrlSvg";
-// recoil
-import {authUserAtom} from "../../recoilAtoms/authUserrAtom";
-import {settingsAtom} from "../../recoilAtoms/settingsAtom";
+import PictureUpload, {UploadPictureType} from "../PictureUpload/PictureUpload";
 // styles and icons
 import styles from './Profile.module.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -42,7 +43,6 @@ import {
   ToggleButtonProps
 } from './types';
 import {NavTab, NavTabLayout, TabNav, TabNavContent} from "../TabNav/TabNav";
-import PictureUpload from "../PictureUpload/PictureUpload";
 
 const NAV_TABS: NavTab[] = [
   {id: 0, title: 'Информация', component: ProfileInfoTab},
@@ -90,7 +90,7 @@ function ToggleButton({user, toggle}: ToggleButtonProps) {
 }
 
 function ProfileHeader({user}: ProfileHeaderProps) {
-  const [ uploadedPicture, setUploadedPicture ] = React.useState<File | null>(null)
+  const [ uploadedPicture, setUploadedPicture ] = React.useState<UploadPictureType>(null)
   
   return (
     <div className={styles.content__profileHeader}>
@@ -135,7 +135,7 @@ function ProfileBody({user}: ProfileBodyProps) {
 
 function ProfileBodyLeftSide({user, tabsData}: ProfileBodyLeftSideProps) {
   const { mainUrls } = useRecoilValue(settingsAtom)
-  const [ uploadedPicture, setUploadedPicture ] = React.useState<File | null>(null)
+  const [ uploadedPicture, setUploadedPicture ] = React.useState<UploadPictureType>(null)
   
   const saveChanges = (): void => {
     if (!tabsData) return
