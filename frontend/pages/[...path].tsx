@@ -72,11 +72,13 @@ export default function CurrentPage({componentName, componentProps, settings, au
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const pageData = await getPageData(context.resolvedUrl)
+  const url = getUrlWithoutQuery(context.resolvedUrl)
+  const pageData = await getPageData(url)
   const page = pageData.page
   const componentName = page?.pageType ?? null
   const settings = await getSettings()
   const authUser = await getAuthUser(context.req.headers.cookie)
+  const redirectUrl = authUser?.authUser?.isSignedUp ? null : '/login/new-user'
   
   const propsForCurrentPage: CurrentPageProps = {
     componentName,
@@ -85,14 +87,21 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     authUser: authUser.authUser
   }
   
-  return {
-    props: propsForCurrentPage
+  const returnObj = {
+    props: propsForCurrentPage,
   }
+  
+  if (url !== "/login/new-user" && redirectUrl) {
+    returnObj.redirect = {
+      destination: redirectUrl,
+      permanent: true
+    }
+  }
+  
+  return returnObj
 }
 
-const getPageData = async (resolvedUrl: string) => {
-  const url = getUrlWithoutQuery(resolvedUrl)
-  
+const getPageData = async (url: string) => {
   const {data, errors} = await client.query<Page, PageVariables>({
     query: PAGE_GETTER_QUERY,
     variables: {url},

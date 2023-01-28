@@ -46,7 +46,7 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
     )
     is_staff = models.BooleanField(_("Is Staff"), default=False)
     is_active = models.BooleanField(_("Is Active"), default=False)
-    signed_up = models.BooleanField(_("Signed Up"), default=False)
+    is_signed_up = models.BooleanField(_("Signed Up"), default=False)
     is_superuser = models.BooleanField(_("Is Super User"), default=False)
 
     USERNAME_FIELD = "email"
@@ -79,6 +79,8 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
         FieldPanel("phone"),
         FieldPanel("is_staff"),
         FieldPanel("is_superuser"),
+        FieldPanel("is_active"),
+        FieldPanel("is_signed_up"),
     ]
 
     graphql_fields = [
@@ -91,6 +93,7 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
         GraphQLBoolean('is_student', required=True),
         GraphQLBoolean('is_teacher', required=True),
         GraphQLString('profile_url', required=True),
+        GraphQLBoolean('is_signed_up', required=True),
         GraphQLForeignKey(
             'profile',
             'users.Profile',

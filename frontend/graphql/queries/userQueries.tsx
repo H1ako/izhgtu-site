@@ -5,6 +5,7 @@ export const AUTH_USER_GETTER_QUERY = gql`
   query AuthUser {
     authUser {
       id
+      isSignedUp
       email
       phone
       isEntrant

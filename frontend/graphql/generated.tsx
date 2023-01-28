@@ -682,6 +682,7 @@ export interface AuthUser_authUser_entrant {
 export interface AuthUser_authUser {
   __typename: "UserType";
   id: string;
+  isSignedUp: boolean;
   email: string;
   phone: string | null;
   isEntrant: boolean;
