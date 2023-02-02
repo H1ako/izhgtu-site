@@ -42,7 +42,7 @@ def newUser(request):
     user.is_signed_up = True
     user.profile.save()
     user.save()
-    print(HttpResponseRedirect('/').)
+    print(HttpResponseRedirect('/'))
     return HttpResponseRedirect('/')
 
 
