@@ -9,6 +9,7 @@ from wagtail.contrib.settings.registry import register_setting
 from wagtail.images.models import Image
 from wagtailsvg.edit_handlers import SvgChooserPanel
 
+from authentication.models import LoginPage, LoginNewUserPage
 from core.snippets import Header, Footer
 from svg.models import SvgTyped
 
@@ -67,6 +68,16 @@ class MainUrlsSettings(BaseSetting):
     def logout_url(self):
         return reverse('logout')
 
+    @property
+    def login_page_url(self):
+        return LoginPage.objects.live().public().first().url
+
+    @property
+    def login_new_user_page_url(self):
+        return LoginNewUserPage.objects.live().public().first().url
+
     graphql_fields = [
         GraphQLString('logout_url'),
+        GraphQLString('login_page_url'),
+        GraphQLString('login_new_user_page_url'),
     ]

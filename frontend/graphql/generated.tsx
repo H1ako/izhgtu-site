@@ -8,7 +8,7 @@
 // ====================================================
 
 export interface Page_page_Page {
-  __typename: "Page" | "LoginNewUserPage";
+  __typename: "Page";
   id: string | null;
   url: string | null;
   pageType: string | null;
@@ -41,6 +41,14 @@ export interface Page_page_LoginPage {
   isVkontakteEnabled: boolean;
   signInMethods: Page_page_LoginPage_signInMethods[];
   signUpSocialMethods: Page_page_LoginPage_signUpSocialMethods[];
+}
+
+export interface Page_page_LoginNewUserPage {
+  __typename: "LoginNewUserPage";
+  id: string | null;
+  url: string | null;
+  pageType: string | null;
+  newUserUrl: string;
 }
 
 export interface Page_page_HomePage_lastNews_post {
@@ -210,7 +218,7 @@ export interface Page_page_BlogPostIndexPage {
   filters: Page_page_BlogPostIndexPage_filters[];
 }
 
-export type Page_page = Page_page_Page | Page_page_LoginPage | Page_page_HomePage | Page_page_BlogPostPage | Page_page_BlogPostIndexPage;
+export type Page_page = Page_page_Page | Page_page_LoginPage | Page_page_LoginNewUserPage | Page_page_HomePage | Page_page_BlogPostPage | Page_page_BlogPostIndexPage;
 
 export interface Page {
   page: Page_page | null;
@@ -300,6 +308,8 @@ export interface BlogPostsVariables {
 export interface Settings_settings_MainUrlsSettings {
   __typename: "MainUrlsSettings";
   logoutUrl: string | null;
+  loginPageUrl: string | null;
+  loginNewUserPageUrl: string | null;
 }
 
 export interface Settings_settings_MainContentSettings_logo {

@@ -25,6 +25,9 @@ query Page($url: String!) {
         url
       }
     }
+    ... on LoginNewUserPage {
+      newUserUrl
+    }
     ... on HomePage {
       lastNews {
         id

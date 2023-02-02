@@ -12,7 +12,8 @@ import InputWithHeading from "../../components/InputWithHeading/InputWithHeading
 // styles and icons
 import styles from './LoginNewUserPage.module.scss';
 // types
-import {AuthUser_authUser} from "../../graphql/generated";
+import {AuthUser_authUser, Page_page_LoginNewUserPage} from "../../graphql/generated";
+import Cookies from "js-cookie";
 
 type MoveStepType = (() => void) | undefined
 
@@ -45,6 +46,7 @@ interface StepsNavProps {
 }
 
 interface PageStepsProps {
+  newUserUrl: string,
   step: number,
   setStep: React.Dispatch<React.SetStateAction<number>>,
 }
@@ -77,13 +79,17 @@ const SETTINGS_STEPS: SettingsStep[] = [
   },
 ]
 
-function LoginNewUserPage() {
+function LoginNewUserPage({newUserUrl}: Page_page_LoginNewUserPage) {
   const [ step, setStep ] = React.useState<number>(0)
   
   return (
     <PageLayout className={styles.page}>
-      <StepsNav step={step} setStep={setStep} />
-      <PageSteps step={step} setStep={setStep} />
+      {/*<StepsNav step={step} setStep={setStep} />*/}
+      <PageSteps
+        newUserUrl={newUserUrl}
+        step={step}
+        setStep={setStep}
+      />
     </PageLayout>
   )
 }
@@ -105,7 +111,7 @@ function StepsNav({step, setStep}: StepsNavProps) {
   )
 }
 
-function PageSteps({step, setStep}: PageStepsProps) {
+function PageSteps({step, setStep, newUserUrl}: PageStepsProps) {
   const user = useRecoilValue(authUserAtom)
   const [ sliderRef, setSliderRef ] = React.useState<Slider | null>(null)
   const [ data, setData ] = React.useState<any>({})
@@ -125,6 +131,16 @@ function PageSteps({step, setStep}: PageStepsProps) {
     return step === 0
   }
   
+  const getFormattedFormData = () => {
+    const formattedData = new FormData()
+    
+    Object.keys(data).forEach(key => {
+      formattedData.append(key, data[key])
+    })
+    
+    return formattedData
+  }
+  
   const goToNextStep = () => {
     if (sliderRef) {
       sliderRef.slickNext()
@@ -133,6 +149,19 @@ function PageSteps({step, setStep}: PageStepsProps) {
     if (!isLastStep()) return
     
     console.log('data', data)
+    fetch(newUserUrl, {
+      method: 'POST',
+      body: getFormattedFormData(),
+      headers: {
+        // 'Content-Type': 'application/json',
+        mode: 'cors',
+        credentials: 'include',
+        'X-CSRFToken': Cookies.get('csrftoken') ?? '',
+      }
+    })
+      .then(res => res.json())
+      .then(res => console.log('res', res))
+      .catch(err => console.log('err', err))
   }
   
   return (
@@ -231,7 +260,7 @@ function MainInfoSettingsStep(
     const newValue = e.target.value
     
     updateData({
-      lastName
+      lastName: newValue
     })
     
     setLastName(newValue)
@@ -241,7 +270,7 @@ function MainInfoSettingsStep(
     const newValue = e.target.value
     
     updateData({
-      patronymic
+      patronymic: newValue
     })
     
     setPatronymic(newValue)
@@ -251,7 +280,7 @@ function MainInfoSettingsStep(
     const newValue = e.target.value
     
     updateData({
-      birthDate
+      birthDate: newValue
     })
     
     setBirthDate(newValue)

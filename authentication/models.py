@@ -205,10 +205,15 @@ class LoginNewUserPage(HeadlessMixin, Page):
     ]
     subpage_types = []
 
+    @property
+    def new_user_url(self):
+        return reverse('new-user')
+
     content_panels = Page.content_panels + [
     ]
 
     graphql_fields = [
+        GraphQLString('new_user_url', required=True),
     ]
 
 

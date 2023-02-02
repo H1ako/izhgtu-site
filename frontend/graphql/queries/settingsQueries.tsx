@@ -5,6 +5,8 @@ query Settings {
   settings {
     ... on MainUrlsSettings {
       logoutUrl
+      loginPageUrl
+      loginNewUserPageUrl
     }
     ... on MainContentSettings {
       yandexMapUrl

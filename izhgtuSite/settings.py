@@ -60,9 +60,10 @@ LOGIN_REDIRECT_URL = '/'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/login/new-user/'
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/api/login-error/'
+
 USE_X_FORWARDED_HOST = True
-CSRF_COOKIE_SAMESITE = None
-SESSION_COOKIE_SAMESITE = None
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'None'
 CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = False
 
@@ -225,6 +226,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.contrib.sites.middleware.CurrentSiteMiddleware",
     # cms wagtail
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
     "social_django.middleware.SocialAuthExceptionMiddleware",

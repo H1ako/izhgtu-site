@@ -12,7 +12,7 @@ import {SETTINGS_GETTER_QUERY} from "../graphql/queries/settingsQueries";
 import {PAGE_GETTER_QUERY} from "../graphql/queries/pageQueries";
 import {AUTH_USER_GETTER_QUERY} from "../graphql/queries/userQueries";
 // types
-import type {GetServerSidePropsContext} from "next";
+import type {GetServerSidePropsContext, GetServerSidePropsResult} from "next";
 import type {
   AuthUser,
   AuthUser_authUser,
@@ -77,8 +77,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const page = pageData.page
   const componentName = page?.pageType ?? null
   const settings = await getSettings()
+  const mainUrlsSettings = getSettingByType(settings, 'MainUrlsSettings') as Settings_settings_MainUrlsSettings
   const authUser = await getAuthUser(context.req.headers.cookie)
-  const redirectUrl = authUser?.authUser?.isSignedUp ? null : '/login/new-user'
+  const redirectUrl = authUser?.authUser?.isSignedUp ? null : mainUrlsSettings?.loginNewUserPageUrl
   
   const propsForCurrentPage: CurrentPageProps = {
     componentName,
@@ -87,18 +88,18 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     authUser: authUser.authUser
   }
   
-  const returnObj = {
-    props: propsForCurrentPage,
-  }
-  
-  if (url !== "/login/new-user" && redirectUrl) {
-    returnObj.redirect = {
-      destination: redirectUrl,
-      permanent: true
+  if (mainUrlsSettings && url !== mainUrlsSettings.loginNewUserPageUrl && redirectUrl) {
+    return {
+      redirect: {
+        destination: redirectUrl,
+        permanent: true
+      }
     }
   }
   
-  return returnObj
+  return {
+    props: propsForCurrentPage,
+  }
 }
 
 const getPageData = async (url: string) => {
@@ -113,7 +114,7 @@ const getPageData = async (url: string) => {
 const getUrlWithoutQuery = (url: string) => {
   const urlWithoutQuery = url.split('?')[0]
   
-  return urlWithoutQuery
+  return `${urlWithoutQuery}/`
 }
 
 const getSettings = async () => {
