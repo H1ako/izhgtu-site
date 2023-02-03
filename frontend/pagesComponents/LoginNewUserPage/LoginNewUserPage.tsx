@@ -152,15 +152,22 @@ function PageSteps({step, setStep, newUserUrl}: PageStepsProps) {
     fetch(newUserUrl, {
       method: 'POST',
       body: getFormattedFormData(),
+      redirect: 'follow',
       headers: {
-        // 'Content-Type': 'application/json',
         mode: 'cors',
         credentials: 'include',
         'X-CSRFToken': Cookies.get('csrftoken') ?? '',
       }
     })
-      .then(res => res.json())
-      .then(res => console.log('res', res))
+      .then(console.log)
+      // .then(res => res.json())
+      // .then(res => {
+        // nextjs redirect to res.redirect
+        // if (res.ok) {
+        //
+        // }
+        
+      // })
       .catch(err => console.log('err', err))
   }
   

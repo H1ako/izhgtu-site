@@ -1,5 +1,7 @@
+from http import HTTPStatus
+
 from django.contrib.auth import logout, authenticate, login
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from django.shortcuts import redirect
 
 from authentication.models import User
@@ -15,11 +17,27 @@ def logout_and_back(request):
     return back(request)
 
 
+class HttpResponseFieldMissing(HttpResponse):
+    status_code = HTTPStatus.BAD_REQUEST
+
+
+class HttpResponseAlreadySignedUp(HttpResponseRedirect):
+    status_code = HTTPStatus.OK
+
+
+class HttpUnauthorized(HttpResponseRedirect):
+    status_code = HTTPStatus.UNAUTHORIZED
+
+
 def newUser(request):
     user: User = request.user
 
-    if not user.is_authenticated or user.is_signed_up:
-        return back(request)
+    if not user.is_authenticated:
+        return HttpUnauthorized('/login/')
+
+    if user.is_signed_up:
+        # return HttpResponseRedirect('/', status=HTTPStatus.FOUND)
+        return HttpResponseAlreadySignedUp('/')
 
     firstName = request.POST.get('firstName')
     lastName = request.POST.get('lastName')
@@ -28,7 +46,7 @@ def newUser(request):
     birthDate = request.POST.get('birthDate')
 
     if None in [firstName, lastName, patronymic, birthDate] or 'null' in [firstName, lastName, patronymic, birthDate]:
-        return JsonResponse({'status': 'error', 'message': 'Не все поля заполнены'}, safe=False)
+        return HttpResponseFieldMissing()
 
     user.profile.first_name = firstName
     user.profile.last_name = lastName
@@ -42,7 +60,7 @@ def newUser(request):
     user.is_signed_up = True
     user.profile.save()
     user.save()
-    print(HttpResponseRedirect('/'))
+
     return HttpResponseRedirect('/')
 
 
