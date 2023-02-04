@@ -29,9 +29,10 @@ interface CurrentPageProps {
   componentProps: Page_page | null,
   settings: Settings_settings[] | null,
   authUser: AuthUser_authUser | null,
+  url: string
 }
 
-export default function CurrentPage({componentName, componentProps, settings, authUser}: CurrentPageProps) {
+export default function CurrentPage({componentName, componentProps, settings, authUser, url}: CurrentPageProps) {
   const setSettings = useSetRecoilState(settingsAtom)
   const setIsLoading = useSetRecoilState(loadingScreenAtom)
   const setAuthUser = useSetRecoilState(authUserAtom)
@@ -85,14 +86,22 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     componentName,
     componentProps: page,
     settings,
-    authUser: authUser.authUser
+    authUser: authUser.authUser,
+    url: url,
   }
-  
   if (mainUrlsSettings && url !== mainUrlsSettings.loginNewUserPageUrl && redirectUrl) {
     return {
       redirect: {
         destination: redirectUrl,
-        permanent: true
+        permanent: false
+      }
+    }
+  }
+  else if (!redirectUrl && mainUrlsSettings && url === mainUrlsSettings.loginNewUserPageUrl) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
       }
     }
   }
@@ -114,7 +123,7 @@ const getPageData = async (url: string) => {
 const getUrlWithoutQuery = (url: string) => {
   const urlWithoutQuery = url.split('?')[0]
   
-  return `${urlWithoutQuery}/`
+  return urlWithoutQuery === '/' ? '/' : `${urlWithoutQuery}/`
 }
 
 const getSettings = async () => {

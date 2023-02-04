@@ -14,6 +14,7 @@ import styles from './LoginNewUserPage.module.scss';
 // types
 import {AuthUser_authUser, Page_page_LoginNewUserPage} from "../../graphql/generated";
 import Cookies from "js-cookie";
+import {useRouter} from "next/router";
 
 type MoveStepType = (() => void) | undefined
 
@@ -112,6 +113,7 @@ function StepsNav({step, setStep}: StepsNavProps) {
 }
 
 function PageSteps({step, setStep, newUserUrl}: PageStepsProps) {
+  const router = useRouter()
   const user = useRecoilValue(authUserAtom)
   const [ sliderRef, setSliderRef ] = React.useState<Slider | null>(null)
   const [ data, setData ] = React.useState<any>({})
@@ -159,16 +161,17 @@ function PageSteps({step, setStep, newUserUrl}: PageStepsProps) {
         'X-CSRFToken': Cookies.get('csrftoken') ?? '',
       }
     })
-      .then(console.log)
-      // .then(res => res.json())
-      // .then(res => {
-        // nextjs redirect to res.redirect
-        // if (res.ok) {
-        //
-        // }
-        
-      // })
-      .catch(err => console.log('err', err))
+      .then(res => {
+        if (res.status === 200) {
+          router.push(res.url)
+        }
+        else if (res.status === 409) {
+          router.push('/')
+        }
+        else {
+          router.push('/login')
+        }
+      })
   }
   
   return (

@@ -21,11 +21,11 @@ class HttpResponseFieldMissing(HttpResponse):
     status_code = HTTPStatus.BAD_REQUEST
 
 
-class HttpResponseAlreadySignedUp(HttpResponseRedirect):
-    status_code = HTTPStatus.OK
+class HttpResponseAlreadySignedUp(HttpResponse):
+    status_code = HTTPStatus.CONFLICT
 
 
-class HttpUnauthorized(HttpResponseRedirect):
+class HttpUnauthorized(HttpResponse):
     status_code = HTTPStatus.UNAUTHORIZED
 
 
@@ -33,11 +33,10 @@ def newUser(request):
     user: User = request.user
 
     if not user.is_authenticated:
-        return HttpUnauthorized('/login/')
+        return HttpUnauthorized()
 
     if user.is_signed_up:
-        # return HttpResponseRedirect('/', status=HTTPStatus.FOUND)
-        return HttpResponseAlreadySignedUp('/')
+        return HttpResponseAlreadySignedUp()
 
     firstName = request.POST.get('firstName')
     lastName = request.POST.get('lastName')
