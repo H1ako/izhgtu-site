@@ -150,7 +150,10 @@ function PageSteps({step, setStep, newUserUrl}: PageStepsProps) {
     
     if (!isLastStep()) return
     
-    console.log('data', data)
+    uploadNewData()
+  }
+  
+  const uploadNewData = () => {
     fetch(newUserUrl, {
       method: 'POST',
       body: getFormattedFormData(),
