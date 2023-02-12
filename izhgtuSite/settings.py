@@ -3,6 +3,7 @@ from pathlib import Path
 
 from corsheaders.defaults import default_headers
 from django.utils.translation import gettext_lazy as _
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -68,8 +69,8 @@ CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = False
 
 # VKontakte
-SOCIAL_AUTH_VK_OAUTH2_KEY = "51527667"
-SOCIAL_AUTH_VK_OAUTH2_SECRET = "2yX2kQDCsoDzsP0UOCsP"
+SOCIAL_AUTH_VK_OAUTH2_KEY = config('VK_APP_KEY')
+SOCIAL_AUTH_VK_OAUTH2_SECRET = config('VK_APP_SECRET')
 SOCIAL_AUTH_VK_APP_USER_MODE = 2
 SOCIAL_AUTH_VK_OAUTH2_SCOPE = [
     'email',
@@ -126,6 +127,11 @@ WAGTAILADMIN_BASE_URL = "cms"
 WAGTAILSVG_UPLOAD_FOLDER = "svg"
 TAGGIT_CASE_INSENSITIVE = True
 
+EMAIL_HOST = 'smtp-relay.sendinblue.com'
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_PORT = 587
+
 WAGTAILSEARCH_BACKENDS = {
     'default': {
         'BACKEND': 'wagtail.search.backends.database',
@@ -142,17 +148,24 @@ WAGTAIL_HEADLESS_PREVIEW = {
 # rest framework
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
     ),
 }
 
 # passwordless authentication
+TWILIO_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID')
+TWILIO_AUTH_TOKEN = config('TWILIO_AUTH_TOKEN')
+
 PASSWORDLESS_AUTH = {
-    "PASSWORDLESS_AUTH_TYPES": ["MOBILE"],  # 'MOBILE'
+    "PASSWORDLESS_AUTH_TYPES": ["MOBILE"],
     "PASSWORDLESS_EMAIL_NOREPLY_ADDRESS": "noreply@istu.com",
-    # 'PASSWORDLESS_MOBILE_NOREPLY_NUMBER': '+79123456789'
+    'PASSWORDLESS_MOBILE_NOREPLY_NUMBER': '+79123456789',
+    'PASSWORDLESS_USER_MOBILE_FIELD_NAME': 'phone',
+    "PASSWORDLESS_AUTH_PREFIX": 'passwordless/',
+    'PASSWORDLESS_VERIFY_PREFIX': 'passwordless/verify/',
+
     # 'PASSWORDLESS_EMAIL_TOKEN_HTML_TEMPLATE_NAME': "mytemplate.html"
 }
 

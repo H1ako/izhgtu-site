@@ -23,6 +23,7 @@ import type {
   Settings_settings,
   Settings_settings_MainContentSettings, Settings_settings_MainUrlsSettings
 } from "../graphql/generated";
+import {redirect} from "next/navigation";
 
 interface CurrentPageProps {
   componentName: string | null,
@@ -80,7 +81,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const settings = await getSettings()
   const mainUrlsSettings = getSettingByType(settings, 'MainUrlsSettings') as Settings_settings_MainUrlsSettings
   const authUser = await getAuthUser(context.req.headers.cookie)
-  const redirectUrl = authUser?.authUser?.isSignedUp ? null : mainUrlsSettings?.loginNewUserPageUrl
   
   const propsForCurrentPage: CurrentPageProps = {
     componentName,
@@ -89,15 +89,19 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     authUser: authUser.authUser,
     url: url,
   }
-  if (mainUrlsSettings && url !== mainUrlsSettings.loginNewUserPageUrl && redirectUrl) {
+  if (authUser.authUser && !authUser.authUser.isSignedUp && mainUrlsSettings && url !== mainUrlsSettings.loginNewUserPageUrl) {
     return {
       redirect: {
-        destination: redirectUrl,
+        destination: mainUrlsSettings.loginNewUserPageUrl,
         permanent: false
       }
     }
   }
-  else if (!redirectUrl && mainUrlsSettings && url === mainUrlsSettings.loginNewUserPageUrl) {
+  else if (
+    url === mainUrlsSettings.loginNewUserPageUrl &&
+    ((authUser.authUser && authUser.authUser.isSignedUp)
+    || !authUser.authUser)
+  ) {
     return {
       redirect: {
         destination: '/',

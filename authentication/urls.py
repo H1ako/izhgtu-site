@@ -9,4 +9,5 @@ urlpatterns = [
     path('new-user/', views.newUser, name='new-user'),
     path('get-user/', views.getUser, name='get-user'),
     path('social-auth', include('social_django.urls')),
+    path("", include("drfpasswordless.urls")),
 ]

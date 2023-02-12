@@ -5,6 +5,8 @@ PROFILE_FIELDS = ['first_name', 'last_name', 'patronymic']
 
 
 def get_profile(strategy, details, backend, user=None, *args, **kwargs):
+    if user.profile:
+        return
     profile_fields = dict((name, kwargs.get(name, details.get(name)))
                           for name in backend.setting('PROFILE_FIELDS', PROFILE_FIELDS))
     if not profile_fields:
