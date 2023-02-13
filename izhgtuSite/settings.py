@@ -162,11 +162,8 @@ PASSWORDLESS_AUTH = {
     "PASSWORDLESS_AUTH_TYPES": ["MOBILE"],
     "PASSWORDLESS_EMAIL_NOREPLY_ADDRESS": "noreply@istu.com",
     'PASSWORDLESS_MOBILE_NOREPLY_NUMBER': '+79123456789',
-    'PASSWORDLESS_USER_MOBILE_FIELD_NAME': 'phone',
     "PASSWORDLESS_AUTH_PREFIX": 'passwordless/',
     'PASSWORDLESS_VERIFY_PREFIX': 'passwordless/verify/',
-
-    # 'PASSWORDLESS_EMAIL_TOKEN_HTML_TEMPLATE_NAME': "mytemplate.html"
 }
 
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

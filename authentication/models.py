@@ -41,7 +41,7 @@ SignMethodListType = graphene.List(graphene.NonNull(SignMethodType))
 @register_query_field("user", 'users', plural_item_required=True, query_params=user_params)
 class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_("Email"), unique=True)
-    phone = models.CharField(
+    mobile = models.CharField(
         _("Phone Number"), max_length=17, unique=True, null=True, blank=True
     )
     is_staff = models.BooleanField(_("Is Staff"), default=False)

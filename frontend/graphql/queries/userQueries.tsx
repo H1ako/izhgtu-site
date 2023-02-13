@@ -7,7 +7,7 @@ export const AUTH_USER_GETTER_QUERY = gql`
       id
       isSignedUp
       email
-      phone
+      mobile
       isEntrant
       isStudent
       isTeacher
@@ -69,7 +69,7 @@ export const AUTH_USER_GETTER_QUERY = gql`
                   pictureUrl
                 }
                 email
-                phone
+                mobile
               }
               subjects {
                 id
@@ -86,7 +86,7 @@ export const AUTH_USER_GETTER_QUERY = gql`
                 pictureUrl
               }
               email
-              phone
+              mobile
             }
           }
           educationForm {
