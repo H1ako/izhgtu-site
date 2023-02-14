@@ -8,6 +8,11 @@
   justify-content: center;
   gap: .5rem;
 
+  &__statusMessage {
+    text-transform: uppercase;
+    text-align: center;
+  }
+
   &__infoHeading {
     //position: absolute;
     //top: 0;
