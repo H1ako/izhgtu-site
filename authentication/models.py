@@ -76,7 +76,7 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
 
     panels = [
         FieldPanel("email"),
-        FieldPanel("phone"),
+        FieldPanel("mobile"),
         FieldPanel("is_staff"),
         FieldPanel("is_superuser"),
         FieldPanel("is_active"),
@@ -86,7 +86,7 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
     graphql_fields = [
         GraphQLInt('id', required=True),
         GraphQLString('email', required=True),
-        GraphQLString('phone'),
+        GraphQLString('mobile'),
         GraphQLBoolean('is_superuser', required=True),
         GraphQLBoolean('is_staff', required=True),
         GraphQLBoolean('is_entrant', required=True),

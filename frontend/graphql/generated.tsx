@@ -558,7 +558,7 @@ export interface AuthUser_authUser_student_group_teachers_teacher_user {
   profileUrl: string;
   profile: AuthUser_authUser_student_group_teachers_teacher_user_profile;
   email: string;
-  phone: string | null;
+  mobile: string | null;
 }
 
 export interface AuthUser_authUser_student_group_teachers_teacher_subjects {
@@ -591,7 +591,7 @@ export interface AuthUser_authUser_student_group_students_user {
   profileUrl: string;
   profile: AuthUser_authUser_student_group_students_user_profile;
   email: string;
-  phone: string | null;
+  mobile: string | null;
 }
 
 export interface AuthUser_authUser_student_group_students {
@@ -694,7 +694,7 @@ export interface AuthUser_authUser {
   id: string;
   isSignedUp: boolean;
   email: string;
-  phone: string | null;
+  mobile: string | null;
   isEntrant: boolean;
   isStudent: boolean;
   isTeacher: boolean;

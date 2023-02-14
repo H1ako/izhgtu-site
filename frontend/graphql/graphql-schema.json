@@ -1375,7 +1375,7 @@
             "deprecationReason": null
           },
           {
-            "name": "phone",
+            "name": "mobile",
             "description": "",
             "args": [],
             "type": {
@@ -2248,7 +2248,7 @@
             "deprecationReason": null
           },
           {
-            "name": "phone",
+            "name": "mobile",
             "description": null,
             "args": [],
             "type": {

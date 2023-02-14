@@ -499,7 +499,7 @@ function ProfileGroupTab({user, isActive}: NavTabProps) {
                 name={student.user.profile.fullName}
                 picture={student.user.profile.pictureUrl}
                 email={student.user.email}
-                phone={student.user.phone}
+                phone={student.user.mobile}
               />
             ))}
           </ul>
@@ -529,7 +529,7 @@ function ProfileTeachersTab({user, isActive}: NavTabProps) {
                 name={groupTeacher.teacher.user.profile.fullName}
                 picture={groupTeacher.teacher.user.profile.pictureUrl}
                 email={groupTeacher.teacher.user.email}
-                phone={groupTeacher.teacher.user.phone}
+                phone={groupTeacher.teacher.user.mobile}
                 profileUrl={groupTeacher.teacher.user.profileUrl}
                 roles={getRolesFromTeacherSubjects(groupTeacher) ?? null}
               />

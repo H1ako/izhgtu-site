@@ -3,7 +3,9 @@ from pathlib import Path
 
 from corsheaders.defaults import default_headers
 from django.utils.translation import gettext_lazy as _
-from decouple import config
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -69,8 +71,8 @@ CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = False
 
 # VKontakte
-SOCIAL_AUTH_VK_OAUTH2_KEY = config('VK_APP_KEY')
-SOCIAL_AUTH_VK_OAUTH2_SECRET = config('VK_APP_SECRET')
+SOCIAL_AUTH_VK_OAUTH2_KEY = os.environ.get('VK_APP_KEY')
+SOCIAL_AUTH_VK_OAUTH2_SECRET = os.environ.get('VK_APP_SECRET')
 SOCIAL_AUTH_VK_APP_USER_MODE = 2
 SOCIAL_AUTH_VK_OAUTH2_SCOPE = [
     'email',
@@ -128,8 +130,8 @@ WAGTAILSVG_UPLOAD_FOLDER = "svg"
 TAGGIT_CASE_INSENSITIVE = True
 
 EMAIL_HOST = 'smtp-relay.sendinblue.com'
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_PORT = 587
 
 WAGTAILSEARCH_BACKENDS = {
@@ -155,13 +157,10 @@ REST_FRAMEWORK = {
 }
 
 # passwordless authentication
-TWILIO_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID')
-TWILIO_AUTH_TOKEN = config('TWILIO_AUTH_TOKEN')
-
 PASSWORDLESS_AUTH = {
     "PASSWORDLESS_AUTH_TYPES": ["MOBILE"],
     "PASSWORDLESS_EMAIL_NOREPLY_ADDRESS": "noreply@istu.com",
-    'PASSWORDLESS_MOBILE_NOREPLY_NUMBER': '+79123456789',
+    'PASSWORDLESS_MOBILE_NOREPLY_NUMBER': '+12405121883',
     "PASSWORDLESS_AUTH_PREFIX": 'passwordless/',
     'PASSWORDLESS_VERIFY_PREFIX': 'passwordless/verify/',
 }

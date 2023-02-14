@@ -235,7 +235,7 @@ def get_author_values():
     valuesEntries = User.objects.all()
 
     return [{
-        'name': author.full_name,
+        'name': author.profile.full_name,
         'value': author.id,
     } for author in valuesEntries]
 
