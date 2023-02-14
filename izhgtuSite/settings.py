@@ -151,7 +151,6 @@ WAGTAIL_HEADLESS_PREVIEW = {
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         'rest_framework.authentication.TokenAuthentication',
-        # 'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
 }
@@ -163,6 +162,7 @@ PASSWORDLESS_AUTH = {
     'PASSWORDLESS_MOBILE_NOREPLY_NUMBER': '+12405121883',
     "PASSWORDLESS_AUTH_PREFIX": 'passwordless/',
     'PASSWORDLESS_VERIFY_PREFIX': 'passwordless/verify/',
+    'PASSWORDLESS_REGISTER_NEW_USERS': False,
 }
 
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
