@@ -58,7 +58,6 @@ SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS = [
 ]
 
 SOCIAL_AUTH_USER_MODEL = 'authentication.User'
-SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
 LOGIN_REDIRECT_URL = '/'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/login/new-user/'
@@ -99,7 +98,7 @@ SOCIAL_AUTH_PIPELINE = (
 
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.vk.VKOAuth2',
-    "authentication.backends.StudentCardIdOrEmailBackend",
+    "authentication.backends.StudentCardIdOrEmailOrUsernameBackend",
     "django.contrib.auth.backends.ModelBackend",  # fallback to default authentication backend if first fails
 )
 
@@ -150,12 +149,27 @@ WAGTAIL_HEADLESS_PREVIEW = {
 # rest framework
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
 }
 
 # passwordless authentication
+PHONE_VERIFICATION = {
+    'BACKEND': 'phone_verify.backends.twilio.TwilioBackend',
+    'OPTIONS': {
+        'SID': os.environ.get('TWILIO_ACCOUNT_SID'),
+        'SECRET': os.environ.get('TWILIO_AUTH_TOKEN'),
+        'FROM': '+12405121883',
+        'SANDBOX_TOKEN': '123456',
+    },
+    'TOKEN_LENGTH': 6,
+    'MESSAGE': 'Welcome to {app}! Please use security code {security_code} to proceed.',
+    'APP_NAME': 'ИжГТУ',
+    'SECURITY_CODE_EXPIRATION_TIME': 3600,  # In seconds only
+    'VERIFY_SECURITY_CODE_ONLY_ONCE': False,
+}
+
 PASSWORDLESS_AUTH = {
     "PASSWORDLESS_AUTH_TYPES": ["MOBILE"],
     "PASSWORDLESS_EMAIL_NOREPLY_ADDRESS": "noreply@istu.com",
@@ -176,7 +190,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "rest_framework.authtoken",
+    # "rest_framework.authtoken",
     "corsheaders",
     # cms wagtail
     "wagtail.contrib.modeladmin",
@@ -208,6 +222,7 @@ INSTALLED_APPS = [
     "generic_chooser",
     "wagtailsvg",
     # libraries
+    'phone_verify',
     "drfpasswordless",
     'social_django',
     "annoying",

@@ -40,23 +40,24 @@ SignMethodListType = graphene.List(graphene.NonNull(SignMethodType))
 
 @register_query_field("user", 'users', plural_item_required=True, query_params=user_params)
 class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
+    username = models.CharField(_("Username"), max_length=150, unique=True)
     email = models.EmailField(_("Email"), unique=True)
     mobile = models.CharField(
-        _("Phone Number"), max_length=17, unique=True, null=True, blank=True
+        _("Phone Number"), max_length=17, null=True, blank=True
     )
     is_staff = models.BooleanField(_("Is Staff"), default=False)
     is_active = models.BooleanField(_("Is Active"), default=False)
     is_signed_up = models.BooleanField(_("Signed Up"), default=False)
     is_superuser = models.BooleanField(_("Is Super User"), default=False)
 
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
+    USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = ["email"]
 
     objects = CustomUserManager()
 
     @property
     def profile_url(self):
-        return f"/profile/{self.id}"
+        return f"/profile/{self.username}"
 
     @property
     def is_entrant(self):
@@ -85,6 +86,7 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
 
     graphql_fields = [
         GraphQLInt('id', required=True),
+        GraphQLString('username', required=True),
         GraphQLString('email', required=True),
         GraphQLString('mobile'),
         GraphQLBoolean('is_superuser', required=True),
@@ -107,6 +109,7 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = _("User")
         verbose_name_plural = _("Users")
+        unique_together = ("username", "email", "mobile")
 
 
 class LoginPage(HeadlessMixin, Page):

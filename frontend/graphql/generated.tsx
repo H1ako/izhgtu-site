@@ -699,6 +699,7 @@ export interface AuthUser_authUser {
   isStudent: boolean;
   isTeacher: boolean;
   profileUrl: string;
+  username: string;
   profile: AuthUser_authUser_profile | null;
   student: AuthUser_authUser_student | null;
   teacher: AuthUser_authUser_teacher | null;

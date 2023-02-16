@@ -37,6 +37,7 @@ function BlogPostIndexPage({faceTitle, facePicture, filters}: Page_page_BlogPost
       perPage: PER_PAGE,
     },
   })
+  
   const onFilterChange = (chosenFilters: ChosenFiltersType) => {
     setPage(1)
  

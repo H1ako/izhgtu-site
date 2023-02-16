@@ -53,6 +53,33 @@ function PhoneLogin({className, children, onSend, onCodeSubmit, onCheckSuccess}:
     return `+${phone}`
   }
   
+  const test = () => {
+    console.log(Cookies.get('csrftoken'))
+    fetch('http://127.0.0.1:8000/api/auth/phone_verify/test/', {
+      method: 'POST',
+      body: JSON.stringify({
+        // mobile: getMobile(),
+        // token: codeInputValue
+      }),
+      credentials: 'include',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': Cookies.get('csrftoken') || '',
+      }
+    })
+    fetch('http://127.0.0.1:8000/api/auth/phone_verify/user/', {
+      method: 'POST',
+      credentials: 'include',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': Cookies.get('csrftoken') || '',
+      }
+    })
+    console.log('test')
+  }
+  
   const sendCodeForCheck = (code: string) => {
     fetch('/api/auth/passwordless/token/', {
       method: 'POST',
@@ -126,6 +153,7 @@ function PhoneLogin({className, children, onSend, onCodeSubmit, onCheckSuccess}:
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />
+          <button onClick={test}>csrf</button>
           { error &&
             <p className={styles.phoneLogin__error}>{error}</p>
           }

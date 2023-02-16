@@ -1,8 +1,12 @@
 from http import HTTPStatus
 
-from django.contrib.auth import logout, authenticate, login
+from django.contrib.auth import logout, authenticate
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
-from django.shortcuts import redirect
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.authtoken.models import Token
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
 
 from authentication.models import User
 
@@ -29,7 +33,7 @@ class HttpUnauthorized(HttpResponse):
     status_code = HTTPStatus.UNAUTHORIZED
 
 
-def newUser(request):
+def new_user(request):
     user: User = request.user
 
     if not user.is_authenticated:
@@ -63,46 +67,22 @@ def newUser(request):
     return HttpResponseRedirect('/')
 
 
-def loginAuth(request):
-    user = User.objects.get(profile__last_name="Соболев")
-    user = authenticate(request, username=user.email, password="25256789")
+@api_view(['POST'])
+@csrf_exempt
+@permission_classes([AllowAny])
+def login(request):
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+
+    if None in [username, password]:
+        return HttpResponseFieldMissing()
+
+    user = authenticate(request, username=username, password=password)
+    if not user:
+        return Response({
+            'error': 'Invalid username or password',
+        }, status=HTTPStatus.NOT_FOUND)
+
     login(request, user)
-    user: User = request.user
 
-    # fix Object of type User is not JSON serializable
-    userData = {
-        "id": user.id,
-        "email": user.email,
-        "first_name": user.profile.first_name,
-        "last_name": user.profile.last_name,
-        "is_active": user.is_active,
-        "is_student": user.is_student,
-        "is_teacher": user.is_teacher,
-        "is_entrant": user.is_entrant,
-        "is_superuser": user.is_superuser,
-        "is_staff": user.is_staff
-    }
-
-    return JsonResponse(userData, safe=False)
-
-
-def getUser(request):
-    user: User = request.user
-
-    if user.is_authenticated:
-        userData = {
-            "id": user.id,
-            "email": user.email,
-            "first_name": user.profile.first_name,
-            "last_name": user.profile.last_name,
-            "is_active": user.is_active,
-            "is_student": user.is_student,
-            "is_teacher": user.is_teacher,
-            "is_entrant": user.is_entrant,
-            "is_superuser": user.is_superuser,
-            "is_staff": user.is_staff
-        }
-
-        return JsonResponse(userData, safe=False)
-
-    return JsonResponse({'status': 'not authenticated'}, safe=False)
+    return Response(status=HTTPStatus.OK)

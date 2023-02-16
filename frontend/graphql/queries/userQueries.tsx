@@ -12,6 +12,7 @@ export const AUTH_USER_GETTER_QUERY = gql`
       isStudent
       isTeacher
       profileUrl
+      username
       profile {
         tags {
           id
