@@ -10,7 +10,7 @@ interface PhoneLoginProps {
   children?: React.ReactNode,
   onSend?: (phone: string) => void,
   onCodeSubmit?: (code: string) => void,
-  onCheckSuccess?: (token: string) => void,
+  onCheckSuccess?: () => void,
 }
 
 interface CodeCheckSuccessScreenProps {
@@ -18,74 +18,61 @@ interface CodeCheckSuccessScreenProps {
 }
 
 function PhoneLogin({className, children, onSend, onCodeSubmit, onCheckSuccess}: PhoneLoginProps) {
+  const [ phone, setPhone ] = React.useState<string>('')
+  const [ sessionToken, setSessionToken ] = React.useState<string | null>(null)
+  const [ codeInputValue, setCodeInputValue ] = React.useState<string>('')
   const [ codeSent, setCodeSent ] = React.useState<boolean>(false)
   const [ codeCheckSent, setCodeCheckSent ] = React.useState<boolean>(false)
-  const [ error, setError ] = React.useState<string | null>(null)
-  const inputRef = React.useRef<any>(null)
-  const [ phone, setPhone ] = React.useState<string>('')
-  const [ codeInputValue, setCodeInputValue ] = React.useState<string>('')
   const [ codeCheckSuccess, setCodeCheckSuccess ] = React.useState<boolean>(false)
+  const [ error, setError ] = React.useState<string | null>(null)
+  const codeInputRef = React.useRef<any>(null)
   
   const sendCode = () => {
-    fetch('/api/auth/passwordless/mobile', {
+    fetch('/api/auth/passwordless/send-code/', {
       method: 'POST',
+      mode: 'cors',
+      credentials: 'include',
       body: JSON.stringify({
-        mobile: getMobile()
+        phone_number: getPhoneNumber()
       }),
       headers: {
-        mode: 'cors',
         'Content-Type': 'application/json',
         'X-CSRFToken': Cookies.get('csrftoken') || ''
       }
     })
+      .then(res => {
+        if (res.status === 200) {
+          res.json()
+            .then(data => {
+              setSessionToken(data.session_token ?? null)
+            })
+        }
+      })
     
     onSend && onSend(phone)
     setCodeSent(true)
   }
   
-  const sendCodeAgain = () => {
-    if (codeCheckSent || codeCheckSuccess) return
-    
-    sendCode()
-  }
-  
-  const getMobile = () => {
+  const getPhoneNumber = () => {
     return `+${phone}`
   }
   
-  const test = () => {
-    console.log(Cookies.get('csrftoken'))
-    fetch('http://127.0.0.1:8000/api/auth/phone_verify/test/', {
-      method: 'POST',
-      body: JSON.stringify({
-        // mobile: getMobile(),
-        // token: codeInputValue
-      }),
-      credentials: 'include',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': Cookies.get('csrftoken') || '',
-      }
-    })
-    fetch('http://127.0.0.1:8000/api/auth/phone_verify/user/', {
-      method: 'POST',
-      credentials: 'include',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': Cookies.get('csrftoken') || '',
-      }
-    })
-    console.log('test')
+  const sendCodeAgain = () => {
+    if (codeCheckSent || codeCheckSuccess) return
+    
+    setSessionToken(null)
+    sendCode()
   }
-  
+
   const sendCodeForCheck = (code: string) => {
-    fetch('/api/auth/passwordless/token/', {
+    fetch('/api/auth/passwordless/verify/', {
       method: 'POST',
+      mode: 'cors',
+      credentials: 'include',
       body: JSON.stringify({
-        mobile: getMobile(),
-        token: code
+        phone_number: getPhoneNumber(),
+        security_code: code,
+        session_token: sessionToken
       }),
       headers: {
         mode: 'cors',
@@ -95,13 +82,8 @@ function PhoneLogin({className, children, onSend, onCodeSubmit, onCheckSuccess}:
     })
       .then(res => {
         if (res.status === 200) {
-          const data = res.json()
-            .then(data => {
-              const token = data.token
-          
-              setCodeCheckSuccess(true)
-              onCheckSuccess && onCheckSuccess(token)
-            })
+          setCodeCheckSuccess(true)
+          onCheckSuccess && onCheckSuccess()
         } else {
           setError(res.statusText)
           setCodeCheckSent(false)
@@ -109,8 +91,16 @@ function PhoneLogin({className, children, onSend, onCodeSubmit, onCheckSuccess}:
       })
   }
   
+  const changeMobile = () => {
+    setSessionToken(null)
+    setError(null)
+    setCodeCheckSent(false)
+    setCodeSent(false)
+    setCodeInputValue('')
+  }
+  
   React.useEffect(() => {
-    if (codeInputValue.length !== 6 || codeCheckSent || codeCheckSuccess) return
+    if (codeInputValue.length !== 6 || codeCheckSent || codeCheckSuccess || !sessionToken) return
     
     sendCodeForCheck(codeInputValue)
     setCodeCheckSent(true)
@@ -129,7 +119,7 @@ function PhoneLogin({className, children, onSend, onCodeSubmit, onCheckSuccess}:
           </p>
           <ReactCodeInput
             className={styles.phoneLogin__codeInput}
-            ref={inputRef}
+            ref={codeInputRef}
             forceUppercase
             name='sms-code-field'
             fields={6}
@@ -142,7 +132,7 @@ function PhoneLogin({className, children, onSend, onCodeSubmit, onCheckSuccess}:
             <p className={styles.phoneLogin__error}>{error}</p>
           }
           <button onClick={sendCode} className={`${styles.phoneLogin__btn} ${styles.btn_accent}`}>Отправить повторно</button>
-          <button onClick={() => setCodeSent(false)} className={`${styles.phoneLogin__btn} ${styles.btn_dark}`}>Изменить номер телефона</button>
+          <button onClick={changeMobile} className={`${styles.phoneLogin__btn} ${styles.btn_dark}`}>Изменить номер телефона</button>
         </>
         :
         <>
@@ -153,7 +143,6 @@ function PhoneLogin({className, children, onSend, onCodeSubmit, onCheckSuccess}:
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />
-          <button onClick={test}>csrf</button>
           { error &&
             <p className={styles.phoneLogin__error}>{error}</p>
           }

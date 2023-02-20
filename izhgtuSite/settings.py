@@ -150,7 +150,6 @@ WAGTAIL_HEADLESS_PREVIEW = {
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
     ),
 }
 
@@ -169,17 +168,6 @@ PHONE_VERIFICATION = {
     'SECURITY_CODE_EXPIRATION_TIME': 3600,  # In seconds only
     'VERIFY_SECURITY_CODE_ONLY_ONCE': False,
 }
-
-PASSWORDLESS_AUTH = {
-    "PASSWORDLESS_AUTH_TYPES": ["MOBILE"],
-    "PASSWORDLESS_EMAIL_NOREPLY_ADDRESS": "noreply@istu.com",
-    'PASSWORDLESS_MOBILE_NOREPLY_NUMBER': '+12405121883',
-    "PASSWORDLESS_AUTH_PREFIX": 'passwordless/',
-    'PASSWORDLESS_VERIFY_PREFIX': 'passwordless/verify/',
-    'PASSWORDLESS_REGISTER_NEW_USERS': False,
-}
-
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Application definition
 INSTALLED_APPS = [
@@ -223,7 +211,6 @@ INSTALLED_APPS = [
     "wagtailsvg",
     # libraries
     'phone_verify',
-    "drfpasswordless",
     'social_django',
     "annoying",
     # apps
@@ -242,14 +229,14 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
-    "django.middleware.locale.LocaleMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.contrib.sites.middleware.CurrentSiteMiddleware",
     # cms wagtail
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",

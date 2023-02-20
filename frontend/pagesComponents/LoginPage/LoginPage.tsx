@@ -13,6 +13,7 @@ import {NavTab, NavTabLayout, NavTabLayoutProps, TabNav, TabNavContent} from "..
 import Link from "next/link";
 import ReactCodeInput from "react-code-input";
 import PhoneLogin from "../../components/PhoneLogin/PhoneLogin";
+import Cookies from "js-cookie";
 
 type SignMethodsType = Page_page_LoginPage_signInMethods[] | Page_page_LoginPage_signUpSocialMethods[]
 
@@ -142,12 +143,44 @@ function SignInLayout({children, setMethod, heading}: SignInLayoutProps) {
 }
 
 function PasswordSignIn({setMethod}: SignInMethodProps) {
-  const loginInputRef = React.useRef<HTMLInputElement>(null)
+  const usernameInputRef = React.useRef<HTMLInputElement>(null)
   const passwordInputRef = React.useRef<HTMLInputElement>(null)
   const [ error, setError ] = React.useState<string | null>(null)
   
   const signIn = () => {
-    return
+    const username = getUsername()
+    const password = getPassword()
+    if (!username || !password) return
+    
+    const data = new FormData()
+    data.append('username', username)
+    data.append('password', password)
+    
+    fetch('/api/auth/password/login/', {
+      method: 'POST',
+      body: data,
+      credentials: 'include',
+      mode: 'cors',
+      headers: {
+        'X-CSRFToken': Cookies.get('csrftoken') || ''
+      }
+    })
+  }
+  
+  const getUsername = () => {
+    const input = usernameInputRef.current
+    
+    if (!input || !input.value) return null
+    
+    return input.value
+  }
+  
+  const getPassword = () => {
+    const input = passwordInputRef.current
+    
+    if (!input || !input.value) return null
+    
+    return input.value
   }
   
   return (
@@ -158,7 +191,7 @@ function PasswordSignIn({setMethod}: SignInMethodProps) {
       <input
         className={styles.body__input}
         type="text"
-        ref={loginInputRef}
+        ref={usernameInputRef}
         placeholder="Номер телефона \ Почта \ Номер Студенческого"
       />
       <input

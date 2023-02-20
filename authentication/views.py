@@ -1,9 +1,7 @@
 from http import HTTPStatus
-
-from django.contrib.auth import logout, authenticate
-from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
+from django.contrib.auth import logout, authenticate, login
+from django.http import HttpResponseRedirect, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -70,7 +68,7 @@ def new_user(request):
 @api_view(['POST'])
 @csrf_exempt
 @permission_classes([AllowAny])
-def login(request):
+def password_login(request):
     username = request.POST.get('username')
     password = request.POST.get('password')
 
