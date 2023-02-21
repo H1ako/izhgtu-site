@@ -11,13 +11,19 @@ interface PhoneLoginProps {
   onSend?: (phone: string) => void,
   onCodeSubmit?: (code: string) => void,
   onCheckSuccess?: () => void,
+  type?: 'update' | 'login'
 }
 
 interface CodeCheckSuccessScreenProps {
   className?: string,
 }
 
-function PhoneLogin({className, children, onSend, onCodeSubmit, onCheckSuccess}: PhoneLoginProps) {
+const URLS_FOR_CODE_VERIFY_BY_TYPE = {
+  'update': '/api/auth/passwordless/update-mobile/',
+  'login': '/api/auth/passwordless/login/',
+}
+
+function PhoneLogin({className, children, onSend, onCodeSubmit, onCheckSuccess, type='login'}: PhoneLoginProps) {
   const [ phone, setPhone ] = React.useState<string>('')
   const [ sessionToken, setSessionToken ] = React.useState<string | null>(null)
   const [ codeInputValue, setCodeInputValue ] = React.useState<string>('')
@@ -28,6 +34,8 @@ function PhoneLogin({className, children, onSend, onCodeSubmit, onCheckSuccess}:
   const codeInputRef = React.useRef<any>(null)
   
   const sendCode = () => {
+    if (!phone) return
+    
     fetch('/api/auth/passwordless/send-code/', {
       method: 'POST',
       mode: 'cors',
@@ -64,8 +72,10 @@ function PhoneLogin({className, children, onSend, onCodeSubmit, onCheckSuccess}:
     sendCode()
   }
 
-  const sendCodeForCheck = (code: string) => {
-    fetch('/api/auth/passwordless/verify/', {
+  const sendCodeToVerify = (code: string) => {
+    const url = URLS_FOR_CODE_VERIFY_BY_TYPE[type]
+    
+    fetch(url, {
       method: 'POST',
       mode: 'cors',
       credentials: 'include',
@@ -89,6 +99,9 @@ function PhoneLogin({className, children, onSend, onCodeSubmit, onCheckSuccess}:
           setCodeCheckSent(false)
         }
       })
+      .catch(error => {
+        setCodeCheckSent(false)
+      })
   }
   
   const changeMobile = () => {
@@ -100,9 +113,10 @@ function PhoneLogin({className, children, onSend, onCodeSubmit, onCheckSuccess}:
   }
   
   React.useEffect(() => {
+    console.log(codeInputValue.length !== 6 || codeCheckSent || codeCheckSuccess || !sessionToken)
     if (codeInputValue.length !== 6 || codeCheckSent || codeCheckSuccess || !sessionToken) return
     
-    sendCodeForCheck(codeInputValue)
+    sendCodeToVerify(codeInputValue)
     setCodeCheckSent(true)
   }, [codeInputValue])
   

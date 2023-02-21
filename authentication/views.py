@@ -1,10 +1,15 @@
 from http import HTTPStatus
+
 from django.contrib.auth import logout, authenticate, login
-from django.http import HttpResponseRedirect, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
+from django.http import HttpResponse, HttpResponseRedirect
+from rest_framework.decorators import api_view, permission_classes, action
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated, AllowAny
+
+from phone_verify.api import VerificationViewSet
+from phone_verify.serializers import SMSVerificationSerializer
+from phone_verify import serializers as phone_serializers
 
 from authentication.models import User
 
@@ -29,6 +34,52 @@ class HttpResponseAlreadySignedUp(HttpResponse):
 
 class HttpUnauthorized(HttpResponse):
     status_code = HTTPStatus.UNAUTHORIZED
+
+
+class SMSAuthenticationViewSet(VerificationViewSet):
+    @action(
+        detail=False,
+        methods=['POST'],
+        permission_classes=[AllowAny],
+        serializer_class=SMSVerificationSerializer,
+    )
+    def login(self, request):
+        serializer = phone_serializers.SMSVerificationSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        mobile = serializer.validated_data.get('phone_number')
+
+        try:
+            user = User.objects.get(mobile=mobile)
+
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+        except User.DoesNotExist:
+            return HttpResponse(status=HTTPStatus.NOT_FOUND)
+
+        return HttpResponse(status=HTTPStatus.OK)
+
+    @action(
+        detail=False,
+        methods=['POST'],
+        permission_classes=[IsAuthenticated],
+        serializer_class=SMSVerificationSerializer
+    )
+    def update_user_mobile(self, request):
+        serializer = phone_serializers.SMSVerificationSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        user = request.user
+        mobile = serializer.validated_data.get('phone_number')
+
+        try:
+            user_with_mobile = User.objects.get(mobile=mobile)
+
+            return HttpResponse(status=HTTPStatus.CONFLICT)
+        except User.DoesNotExist:
+            user.mobile = mobile
+            user.save()
+
+        return HttpResponse(status=HTTPStatus.OK)
 
 
 def new_user(request):

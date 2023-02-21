@@ -404,6 +404,7 @@ function PhoneSettingsStep(
       { result === null ?
         <PhoneLogin
           className={styles.step__phoneLogin}
+          type="update"
         />
         :
         result.status === 'success' ?

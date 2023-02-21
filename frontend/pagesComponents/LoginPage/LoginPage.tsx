@@ -216,7 +216,6 @@ function PhoneSignIn({setMethod}: SignInMethodProps) {
     >
       <PhoneLogin
         className={styles.body__phoneSignIn}
-        // onCodeSubmit={signIn}
       />
     </SignInLayout>
   )
