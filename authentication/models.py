@@ -50,8 +50,8 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
     is_signed_up = models.BooleanField(_("Signed Up"), default=False)
     is_superuser = models.BooleanField(_("Is Super User"), default=False)
 
-    USERNAME_FIELD = "username"
-    REQUIRED_FIELDS = ["email"]
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username"]
 
     objects = CustomUserManager()
 

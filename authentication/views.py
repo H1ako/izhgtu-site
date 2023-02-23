@@ -1,9 +1,8 @@
 from http import HTTPStatus
 
 from django.contrib.auth import logout, authenticate, login
-from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseRedirect
-from rest_framework.decorators import api_view, permission_classes, action
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
@@ -12,6 +11,7 @@ from phone_verify.serializers import SMSVerificationSerializer
 from phone_verify import serializers as phone_serializers
 
 from authentication.models import User
+from authentication.serializers import PasswordSignUpSerializer, UserSerializer, PasswordLoginSerializer
 
 
 def back(request):
@@ -82,6 +82,51 @@ class SMSAuthenticationViewSet(VerificationViewSet):
         return HttpResponse(status=HTTPStatus.OK)
 
 
+class PasswordAuthentication(VerificationViewSet):
+    @action(
+        detail=False,
+        methods=['POST'],
+        permission_classes=[AllowAny],
+        serializer_class=PasswordSignUpSerializer,
+    )
+    def sign_up(self, request):
+        serializer = PasswordSignUpSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        user_serializer = UserSerializer(data=serializer.validated_data)
+        user_serializer.is_valid(raise_exception=True)
+        user_serializer.save()
+
+        return HttpResponse(status=HTTPStatus.CREATED)
+
+    @action(
+        detail=False,
+        methods=['POST'],
+        permission_classes=[AllowAny],
+        serializer_class=PasswordLoginSerializer,
+    )
+    def login(self, request):
+        serializer = PasswordLoginSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        username = serializer.validated_data.get('username', None)
+        password = serializer.validated_data.get('password', None)
+
+        if None in [username, password]:
+            return HttpResponseFieldMissing()
+
+        user = authenticate(request, username=username, password=password)
+        if not user:
+            return Response({
+                'error': 'Invalid username or password',
+            }, status=HTTPStatus.NOT_FOUND)
+
+        login(request, user)
+
+        return Response(status=HTTPStatus.OK)
+
+
+
 def new_user(request):
     user: User = request.user
 
@@ -114,24 +159,3 @@ def new_user(request):
     user.save()
 
     return HttpResponseRedirect('/')
-
-
-@api_view(['POST'])
-@csrf_exempt
-@permission_classes([AllowAny])
-def password_login(request):
-    username = request.POST.get('username')
-    password = request.POST.get('password')
-
-    if None in [username, password]:
-        return HttpResponseFieldMissing()
-
-    user = authenticate(request, username=username, password=password)
-    if not user:
-        return Response({
-            'error': 'Invalid username or password',
-        }, status=HTTPStatus.NOT_FOUND)
-
-    login(request, user)
-
-    return Response(status=HTTPStatus.OK)
